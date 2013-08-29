@@ -1,0 +1,65 @@
+Dragonfly Changelog
+
+v2.4 - Made all "protected" attributes "private".
+       Modified LogManger.writeLog() to error check all fprintf() calls.
+       Added error check for Sprite creation.
+       Modified Clock to support timing on MacOS.
+       Updated WorldManager's isValid() to reject other engine events.
+       Changed Object sprite attributes to private and fixed Splash objects
+         accordingly.
+       Refactored Object to absorb GameObject, removing GameObject.
+       Refactored ViewObject to inherit from Object.  Reduced code in 
+         SceneGraph and WorldManager accordingly.
+       Removed extra buffer in GraphicsManager and refactored code.
+       Cleaned up and fixed comments in header files.
+v2.3 - Removed id from Objects (and WorldManager) since they were proving 
+         to be useless.
+       Made ObjectLists dynamic in that they still use arrays, 
+         but resize themselves larger automatically (on demand).
+       Added "__" pre and post for event type strings.
+       Added "__undefined__" as type for base Event class.
+       Moved setType() in Event.h to public.
+       Changed "using namespace std" to using "std::string" for all.
+       Moved step event from WorldManager to GameManager.
+       Added registerInterest() and unregisterInterest() to Object.  Removes
+         need to unregister for events in game object destructors.
+v2.2 - Added "levels" to WorldManager (via SceneGraph).
+       Added "persistent" attribute for objects across levels.
+       Exposed SceneGraph from WorldManager for Object updates.
+       Updated Fraps object to be persistent.
+       Removed obsolete markForUpdate() functionality from WorldManager.
+v2.1 - Fixed bug in WorldManager that updated deleted objects.
+v2.0 - Updated some comments for Doxygen documentation.
+       Fixed counts of objects removed from SceneGraph's removeGameObject()
+         and removeViewObject().
+v1.9 - Added getAllViewObjects method to WorldManager.
+       Allow curs_set() failing not to halt engine startup.
+       Added Fraps object so display frame rate and record screen.
+       Moved getTimeString() from LogManager to utilities.
+       Updated ViewObject.h to reflect actual defaults.
+       Moved solidness, altitude to private to protect it in GameObject
+       Moved visible to private to protect it in Object.
+v1.8 - Removed append option for LogfileManager.
+       Added ViewObject and EventView for creating HUD displays.
+       Added geometry classes (Line, Circle).
+       Added WorldManager methods for various queries for game objects.
+       Modified so collisions to all objects hit, not just first.
+       Moved GameObject velocity attributes to private.
+       Added Splash screen objects and utility function.
+       Added utility functions.
+       Added 3 levels of solidness: hard, soft, spectral.
+v1.7 - Renamed some function calls to be less terse.
+       Added visibility as an object property (non-visible objects
+       don't get drawn).
+       Fixed bug in Sprite deletion.
+v1.6 - Added velocity functionality.
+       Rewrote Sprite parsing to be cleaner.
+       Added additional view control (centering and following) to WorldManager.
+v1.5 - Added isStarted() functionality to Manager and derived Managers.
+v1.4 - Added support for color in GraphicsManager and Sprite.
+       Fixed to handle sprite files with \r\n in addition to just \n.
+v1.3 - Fixed bug that caused segfault in Manager.
+v1.2 - Fixed bug in ResourceManager allowing sprites of width < 3 to load.
+v1.1 - Removed obsolete InputObject class.
+     - Created base (parent) Manager class for all Managers.
+v1.0 - Initial release.
