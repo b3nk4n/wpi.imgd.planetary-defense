@@ -15,7 +15,6 @@ Saucer::Saucer()
 	// required dragonfly managers
 	LogManager &logManager = LogManager::getInstance();
 	ResourceManager &resourceManager = ResourceManager::getInstance();
-	WorldManager &worldManager = WorldManager::getInstance();
 	
 	// setup saucer sprite
 	Sprite *p_temp_sprite = resourceManager.getSprite("saucer");
