@@ -2,10 +2,12 @@
 
 #include <stdlib.h> // for exit()
 #include "GameManager.h"
+#include "GraphicsManager.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
 #include "Saucer.h"
 #include "Hero.h"
+#include "Points.h"
 
 /* Prototypes */
 void loadResources(void);
@@ -57,6 +59,15 @@ void populateWorld(void)
 {
 	new Saucer();
 	new Hero();
+
+	// setup HUD
+	new Points();
+	ViewObject *p_nukes = new ViewObject();
+	p_nukes->setLocation(TOP_LEFT);
+	p_nukes->setViewString("Nukes");
+	p_nukes->setValue(1);
+	p_nukes->setColor(COLOR_YELLOW);
+
 }
 
 

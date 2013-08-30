@@ -8,7 +8,9 @@
 #include "EventOut.h"
 #include "EventCollision.h"
 #include "EventNuke.h"
+#include "EventView.h"
 #include "Explosion.h"
+#include "Points.h"
 
 /**
  * Creates a new saucer instance.
@@ -45,6 +47,18 @@ Saucer::Saucer(void)
 
 	// set starting location
 	moveToStart();
+}
+
+/**
+ * Destructs the saucer.
+ */
+Saucer::~Saucer(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	// send "view" event with points interested ViewObjects
+	EventView eventView(POINTS_STRING, 10, true);
+	worldManager.onEvent(&eventView);
 }
 
 /**

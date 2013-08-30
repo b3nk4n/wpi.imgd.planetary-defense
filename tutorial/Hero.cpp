@@ -10,6 +10,7 @@
 #include "EventKeyboard.h"
 #include "EventStep.h"
 #include "EventNuke.h"
+#include "EventView.h"
 #include "Position.h"
 #include "Bullet.h"
 
@@ -168,4 +169,8 @@ void Hero::nuke(void)
 	WorldManager &worldManager = WorldManager::getInstance();
 	EventNuke nuke;
 	worldManager.onEvent(&nuke);
+
+	// send "view" event with nukes
+	EventView eventView("Nukes", -1, true);
+	worldManager.onEvent(&eventView);
 }

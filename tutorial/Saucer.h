@@ -16,6 +16,7 @@ protected:
 
 public:
 	Saucer(void);
+	~Saucer(void);
 };
 
 #endif
