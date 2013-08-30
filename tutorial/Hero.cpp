@@ -2,6 +2,7 @@
 
 #include "Hero.h"
 #include "ResourceManager.h"
+#include "GameManager.h"
 #include "WorldManager.h"
 #include "LogManager.h"
 #include "GraphicsManager.h"
@@ -45,6 +46,15 @@ Hero::Hero(void)
 	// init fire counters
 	fireSlowdown = 15;
 	fireCountdown = fireSlowdown;
+}
+
+/**
+ * End game when hero is destroyed.
+ */
+Hero::~Hero()
+{
+	GameManager &gameManager = GameManager::getInstance();
+	gameManager.setGameOver();
 }
 
 /**

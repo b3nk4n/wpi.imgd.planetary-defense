@@ -75,6 +75,9 @@ void Saucer::out()
 		return;
 
 	moveToStart();
+
+	// spawn a new saucer when one has passed by to make the game harder
+	new Saucer();
 }
 
 /**
@@ -91,6 +94,14 @@ void Saucer::moveToStart()
 	setPosition(tempPos);
 
 	worldManager.moveObject(this, tempPos);
+
+	// move slightly to the right until there is no collision
+	ObjectList collisionList = worldManager.isCollision(this, tempPos);
+	while (!collisionList.isEmpty())
+	{
+		tempPos.setX(tempPos.getX() + 1);
+		collisionList = worldManager.isCollision(this, tempPos);
+	}
 }
 
 /**
@@ -103,10 +114,9 @@ void Saucer::hit(EventCollision *p_collisionEvent)
 		(p_collisionEvent->getObject2()->getType() == "Saucer"))
 		return;
 
-	if ((p_collisionEvent->getObject1()->getType() == "Saucer") &&
-		(p_collisionEvent->getObject2()->getType() == "Bullet") || 
-		(p_collisionEvent->getObject1()->getType() == "Bullet") &&
-		(p_collisionEvent->getObject2()->getType() == "Saucer"))
+	// saucer hits bullet
+	if ((p_collisionEvent->getObject1()->getType() == "Bullet") ||
+		(p_collisionEvent->getObject2()->getType() == "Bullet"))
 	{
 		// create explosion
 		Explosion *p_explosion = new Explosion();
@@ -114,5 +124,14 @@ void Saucer::hit(EventCollision *p_collisionEvent)
 
 		// saucers appear stay around perpetually
 		new Saucer();
+	}
+
+	// saucer hits hero
+	if ((p_collisionEvent->getObject1()->getType() == "Hero") ||
+		(p_collisionEvent->getObject2()->getType() == "Hero"))
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(p_collisionEvent->getObject1());
+		worldManager.markForDelete(p_collisionEvent->getObject2());
 	}
 }

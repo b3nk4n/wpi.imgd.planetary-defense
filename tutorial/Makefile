@@ -11,7 +11,7 @@ GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(GAMESRC:.cpp=.o)
 
-.PHONE: all clean depend
+.PHONE: all clean depend start
 
 all: $(GAMESRC) $(EXECUTABLE) Makefile
 
@@ -26,6 +26,9 @@ clean:
 
 depend: 
 	makedepend *.cpp 2> /dev/null
+
+start:
+	./game.exe
 # DO NOT DELETE
 
 Bullet.o: Bullet.h

@@ -20,6 +20,7 @@ protected:
 
 public:
 	Hero();
+	~Hero();
 	int eventHandler(Event *p_e);
 };
 

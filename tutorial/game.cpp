@@ -55,8 +55,8 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
-	new Saucer;
-	new Hero;
+	new Saucer();
+	new Hero();
 }
 
 
