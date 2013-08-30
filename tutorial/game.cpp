@@ -47,6 +47,7 @@ void loadResources(void)
 	resourceManager.loadSprite("sprites/saucer-spr.txt", "saucer");
 	resourceManager.loadSprite("sprites/ship-spr.txt", "ship");
 	resourceManager.loadSprite("sprites/bullet-spr.txt", "bullet");
+	resourceManager.loadSprite("sprites/explosion-spr.txt", "explosion");
 }
 
 /**

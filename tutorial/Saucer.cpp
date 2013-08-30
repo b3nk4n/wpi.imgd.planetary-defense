@@ -6,6 +6,8 @@
 #include "WorldManager.h"
 #include "ResourceManager.h"
 #include "EventOut.h"
+#include "EventCollision.h"
+#include "Explosion.h"
 
 /**
  * Creates a new saucer instance.
@@ -17,8 +19,8 @@ Saucer::Saucer()
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 	
 	// setup saucer sprite
-	Sprite *p_temp_sprite = resourceManager.getSprite("saucer");
-	if (!p_temp_sprite)
+	Sprite *p_tempSprite = resourceManager.getSprite("saucer");
+	if (!p_tempSprite)
 	{
 		logManager.writeLog(
 			"Saucer::Saucer(): Sprite %s not found",
@@ -26,9 +28,12 @@ Saucer::Saucer()
 	}
 	else
 	{
-		setSprite(p_temp_sprite);
+		setSprite(p_tempSprite);
 		setSpriteSlowdown(4);
 	}
+
+	// register event handlers
+	registerInterest(COLLISION_EVENT);
 
 	// set object type
 	setType("Saucer");
@@ -41,21 +46,20 @@ Saucer::Saucer()
 }
 
 /**
- * Moves the saucer.
- */
-void Saucer::move(void)
-{
-
-}
-
-/**
  * Handles the events.
  */
-int Saucer::eventHandler(Event *p_e)
+int Saucer::eventHandler(Event *p_event)
 {
-	if (p_e->getType() == OUT_EVENT)
+	if (p_event->getType() == OUT_EVENT)
 	{
 		out();
+		return 1;
+	}
+
+	if (p_event->getType() == COLLISION_EVENT)
+	{
+		EventCollision *p_eventCollision = static_cast<EventCollision *>(p_event);
+		hit(p_eventCollision);
 		return 1;
 	}
 
@@ -87,4 +91,28 @@ void Saucer::moveToStart()
 	setPosition(tempPos);
 
 	worldManager.moveObject(this, tempPos);
+}
+
+/**
+ * Is called when a collision has happened.
+ */
+void Saucer::hit(EventCollision *p_collisionEvent)
+{
+	// ignore saucer to saucer collision
+	if ((p_collisionEvent->getObject1()->getType() == "Saucer") &&
+		(p_collisionEvent->getObject2()->getType() == "Saucer"))
+		return;
+
+	if ((p_collisionEvent->getObject1()->getType() == "Saucer") &&
+		(p_collisionEvent->getObject2()->getType() == "Bullet") || 
+		(p_collisionEvent->getObject1()->getType() == "Bullet") &&
+		(p_collisionEvent->getObject2()->getType() == "Saucer"))
+	{
+		// create explosion
+		Explosion *p_explosion = new Explosion();
+		p_explosion->setPosition(this->getPosition());
+
+		// saucers appear stay around perpetually
+		new Saucer();
+	}
 }

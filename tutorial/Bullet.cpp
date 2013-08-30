@@ -11,15 +11,15 @@
 /**
  * Creates a new bullet instance.
  */
-Bullet::Bullet(Position hero_pos)
+Bullet::Bullet(Position heroPos)
 {
 	// required dragonfly managers
 	LogManager &logManager = LogManager::getInstance();
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 	
 	// setup bullet sprite
-	Sprite *p_temp_sprite = resourceManager.getSprite("bullet");
-	if (!p_temp_sprite)
+	Sprite *p_tempSprite = resourceManager.getSprite("bullet");
+	if (!p_tempSprite)
 	{
 		logManager.writeLog(
 			"Bullet::Bullet(): Sprite %s not found",
@@ -27,7 +27,7 @@ Bullet::Bullet(Position hero_pos)
 	}
 	else
 	{
-		setSprite(p_temp_sprite);
+		setSprite(p_tempSprite);
 		setSpriteSlowdown(5);
 	}
 
@@ -38,25 +38,25 @@ Bullet::Bullet(Position hero_pos)
 	setXVelocity(1);
 
 	// set starting location, based on hero position
-	Position tempPos(hero_pos.getX() + 3, hero_pos.getY());
+	Position tempPos(heroPos.getX() + 3, heroPos.getY());
 	setPosition(tempPos);
 }
 
 /**
  * Handles the bullet events.
  */
-int Bullet::eventHandler(Event *p_e)
+int Bullet::eventHandler(Event *p_event)
 {
-	if (p_e->getType() == OUT_EVENT)
+	if (p_event->getType() == OUT_EVENT)
 	{
 		out();
 		return 1;
 	}
 
-	if (p_e->getType() == COLLISION_EVENT)
+	if (p_event->getType() == COLLISION_EVENT)
 	{
-		EventCollision *p_collision_event = static_cast<EventCollision *>(p_e);
-		hit(p_collision_event);
+		EventCollision *p_collisionEvent = static_cast<EventCollision *>(p_event);
+		hit(p_collisionEvent);
 		return 1;
 	}
 
@@ -75,9 +75,9 @@ void Bullet::out()
 /**
  * Is called when the bullet is hitting something.
  */
- void Bullet::hit(EventCollision *p_collision_event)
+ void Bullet::hit(EventCollision *p_collisionEvent)
  {
  	WorldManager &worldManager = WorldManager::getInstance();
- 	worldManager.markForDelete(p_collision_event->getObject1());
- 	worldManager.markForDelete(p_collision_event->getObject2());
+ 	worldManager.markForDelete(p_collisionEvent->getObject1());
+ 	worldManager.markForDelete(p_collisionEvent->getObject2());
  }

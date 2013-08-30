@@ -10,10 +10,10 @@ class Bullet : public Object
 {
 protected:
 	void out();
-	void hit(EventCollision * p_c);
+	void hit(EventCollision * p_collisionEvent);
 public:
-	Bullet(Position hero_pos);
-	int eventHandler(Event *p_e);
+	Bullet(Position heroPos);
+	int eventHandler(Event *p_event);
 };
 
 #endif

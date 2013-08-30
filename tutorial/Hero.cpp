@@ -17,11 +17,10 @@ Hero::Hero(void)
 	// required dragonfly managers
 	LogManager &logManager = LogManager::getInstance();
 	ResourceManager &resourceManager = ResourceManager::getInstance();
-	WorldManager &worldManager = WorldManager::getInstance();
 	
 	// setup hero sprite
-	Sprite *p_temp_sprite = resourceManager.getSprite("ship");
-	if (!p_temp_sprite)
+	Sprite *p_tempSprite = resourceManager.getSprite("ship");
+	if (!p_tempSprite)
 	{
 		logManager.writeLog(
 			"Hero::Hero(): Sprite %s not found",
@@ -29,7 +28,7 @@ Hero::Hero(void)
 	}
 	else
 	{
-		setSprite(p_temp_sprite);
+		setSprite(p_tempSprite);
 		setSpriteSlowdown(3);
 	}
 
@@ -51,16 +50,16 @@ Hero::Hero(void)
 /**
  * Handles all events.
  */
-int Hero::eventHandler(Event *p_e)
+int Hero::eventHandler(Event *p_event)
 {
-	if (p_e->getType() == KEYBOARD_EVENT)
+	if (p_event->getType() == KEYBOARD_EVENT)
 	{
-		EventKeyboard *p_keyboard_event = static_cast<EventKeyboard *>(p_e);
+		EventKeyboard *p_keyboard_event = static_cast<EventKeyboard *>(p_event);
 		keyboard(p_keyboard_event);
 		return 1; 
 	}
 
-	if (p_e->getType() == STEP_EVENT)
+	if (p_event->getType() == STEP_EVENT)
 	{
 		step();
 		return 1; 
@@ -72,9 +71,9 @@ int Hero::eventHandler(Event *p_e)
 /**
  * Handles keyboard events.
  */
-void Hero::keyboard(EventKeyboard *p_keyboard_event)
+void Hero::keyboard(EventKeyboard *p_keyboardEvent)
 {
-	switch (p_keyboard_event->getKey())
+	switch (p_keyboardEvent->getKey())
 	{
 	case KEY_UP:
 		move(-1);
