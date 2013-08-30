@@ -8,10 +8,14 @@
 #include "Saucer.h"
 #include "Hero.h"
 #include "Points.h"
+#include "Star.h"
+
+#define STARS_COUNT 16
 
 /* Prototypes */
 void loadResources(void);
 void populateWorld(void);
+void spawnStars(void);
 
 /**
  * Games main function
@@ -68,6 +72,18 @@ void populateWorld(void)
 	p_nukes->setValue(1);
 	p_nukes->setColor(COLOR_YELLOW);
 
+	spawnStars();
+}
+
+/**
+ * Spawns the configured amount of stars.
+ */
+void spawnStars(void)
+{
+	for (int i = 0; i < STARS_COUNT; ++i)
+	{
+		new Star();
+	}
 }
 
 
