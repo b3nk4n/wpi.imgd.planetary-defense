@@ -15,7 +15,7 @@ protected:
 	void hit(EventCollision *p_collisionEvent);
 
 public:
-	Saucer();
+	Saucer(void);
 };
 
 #endif

@@ -7,12 +7,13 @@
 #include "ResourceManager.h"
 #include "EventOut.h"
 #include "EventCollision.h"
+#include "EventNuke.h"
 #include "Explosion.h"
 
 /**
  * Creates a new saucer instance.
  */
-Saucer::Saucer()
+Saucer::Saucer(void)
 {
 	// required dragonfly managers
 	LogManager &logManager = LogManager::getInstance();
@@ -34,6 +35,7 @@ Saucer::Saucer()
 
 	// register event handlers
 	registerInterest(COLLISION_EVENT);
+	registerInterest(NUKE_EVENT);
 
 	// set object type
 	setType("Saucer");
@@ -63,13 +65,24 @@ int Saucer::eventHandler(Event *p_event)
 		return 1;
 	}
 
+	if (p_event->getType() == NUKE_EVENT)
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
+
+		Explosion *explosion = new Explosion();
+		explosion->setPosition(this->getPosition());
+
+		new Saucer();
+	}
+
 	return 0;
 }
 
 /**
  * Checks and handles if the saucer is out of the left side of screen.
  */
-void Saucer::out()
+void Saucer::out(void)
 {
 	if (getPosition().getX() >= 0)
 		return;
@@ -83,7 +96,7 @@ void Saucer::out()
 /**
  * Moves the saucer back to the start position.
  */
-void Saucer::moveToStart()
+void Saucer::moveToStart(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
 

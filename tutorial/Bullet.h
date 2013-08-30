@@ -9,7 +9,7 @@
 class Bullet : public Object
 {
 protected:
-	void out();
+	void out(void);
 	void hit(EventCollision * p_collisionEvent);
 public:
 	Bullet(Position heroPos);

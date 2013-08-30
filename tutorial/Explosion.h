@@ -9,10 +9,10 @@ class Explosion : public Object
 {
 protected:
 	int timeToLive;
-	void step();
+	void step(void);
 
 public:
-	Explosion();
+	Explosion(void);
 	int eventHandler(Event *p_event);
 };
 

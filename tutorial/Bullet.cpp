@@ -66,7 +66,7 @@ int Bullet::eventHandler(Event *p_event)
 /**
  * Is called when bullet has moved outside the world.
  */
-void Bullet::out()
+void Bullet::out(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
 	worldManager.markForDelete(this);

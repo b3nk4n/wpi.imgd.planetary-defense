@@ -9,9 +9,12 @@
 #include "InputManager.h"
 #include "EventKeyboard.h"
 #include "EventStep.h"
+#include "EventNuke.h"
 #include "Position.h"
 #include "Bullet.h"
 
+#define CUSTOM_KEY_SPACE ' '
+#define CUSTOM_KEY_ENTER 13
 
 Hero::Hero(void)
 {
@@ -43,15 +46,16 @@ Hero::Hero(void)
 	// set starting location
 	moveToStart();
 
-	// init fire counters
+	// init members counters
 	fireSlowdown = 15;
 	fireCountdown = fireSlowdown;
+	nukeCount = 1;
 }
 
 /**
  * End game when hero is destroyed.
  */
-Hero::~Hero()
+Hero::~Hero(void)
 {
 	GameManager &gameManager = GameManager::getInstance();
 	gameManager.setGameOver();
@@ -91,8 +95,11 @@ void Hero::keyboard(EventKeyboard *p_keyboardEvent)
 	case KEY_DOWN:
 		move(1);
 		break;
-	case ' ':
+	case CUSTOM_KEY_SPACE:
 		fire();
+		break;
+	case CUSTOM_KEY_ENTER:
+		nuke();
 		break;
 	}
 }
@@ -115,7 +122,7 @@ void Hero::move(int dy)
 /**
  * Moves the hero back to the start position.
  */
-void Hero::moveToStart()
+void Hero::moveToStart(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
 
@@ -129,21 +136,36 @@ void Hero::moveToStart()
 /**
  * Fires a bullet.
  */
- void Hero::fire()
- {
- 	if (fireCountdown > 0)
- 		return;
+void Hero::fire(void)
+{
+	if (fireCountdown > 0)
+		return;
 
- 	fireCountdown = fireSlowdown;
- 	new Bullet(getPosition());
- }
+	fireCountdown = fireSlowdown;
+	new Bullet(getPosition());
+}
 
- /**
-  * Updates the hero every frame.
-  */
- void Hero::step()
- {
- 	--fireCountdown;
- 	if (fireCountdown < 0)
- 		fireCountdown = 0;
- }
+/**
+ * Updates the hero every frame.
+ */
+void Hero::step(void)
+{
+	--fireCountdown;
+	if (fireCountdown < 0)
+		fireCountdown = 0;
+}
+
+/**
+ * Hero releases a nuke to destory all enemies.
+ */
+void Hero::nuke(void)
+{
+	if (!nukeCount)
+		return;
+
+	--nukeCount;
+
+	WorldManager &worldManager = WorldManager::getInstance();
+	EventNuke nuke;
+	worldManager.onEvent(&nuke);
+}
