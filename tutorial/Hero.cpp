@@ -13,6 +13,8 @@
 #include "EventView.h"
 #include "Position.h"
 #include "Bullet.h"
+#include "GameOver.h"
+#include "Explosion.h"
 
 #define CUSTOM_KEY_SPACE ' '
 #define CUSTOM_KEY_ENTER 13
@@ -58,8 +60,9 @@ Hero::Hero(void)
  */
 Hero::~Hero(void)
 {
-	GameManager &gameManager = GameManager::getInstance();
-	gameManager.setGameOver();
+	GameOver *p_gameOver = new GameOver();
+
+	releaseBigHeroExplosion();
 }
 
 /**
@@ -173,4 +176,22 @@ void Hero::nuke(void)
 	// send "view" event with nukes
 	EventView eventView("Nukes", -1, true);
 	worldManager.onEvent(&eventView);
+}
+
+/**
+ * Releases a huge explosion at the players position.
+ */
+void Hero::releaseBigHeroExplosion(void)
+{
+	for (int i = -8; i <= 8; i += 5)
+	{
+		for (int j = -5; j <= 5; j += 3)
+		{
+			Position tempPos = this->getPosition();
+			tempPos.setX(this->getPosition().getX() + i);
+			tempPos.setY(this->getPosition().getY() + j);
+			Explosion *p_explosion = new Explosion();
+			p_explosion->setPosition(tempPos);
+		}
+	}
 }

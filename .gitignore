@@ -4,3 +4,4 @@
 *.o
 *.cpp.o
 *.log
+*.stackdump

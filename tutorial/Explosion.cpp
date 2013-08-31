@@ -20,7 +20,7 @@ Explosion::Explosion(void)
 	if (!p_tempSprite)
 	{
 		logManager.writeLog(
-			"Hero::Hero(): Sprite %s not found",
+			"Explosion::Explosion(): Sprite %s not found",
 			"explosion");
 	}
 	else

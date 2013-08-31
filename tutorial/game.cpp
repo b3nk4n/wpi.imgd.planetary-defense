@@ -5,10 +5,8 @@
 #include "GraphicsManager.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
-#include "Saucer.h"
-#include "Hero.h"
-#include "Points.h"
 #include "Star.h"
+#include "GameStart.h"
 
 #define STARS_COUNT 16
 
@@ -54,6 +52,8 @@ void loadResources(void)
 	resourceManager.loadSprite("sprites/ship-spr.txt", "ship");
 	resourceManager.loadSprite("sprites/bullet-spr.txt", "bullet");
 	resourceManager.loadSprite("sprites/explosion-spr.txt", "explosion");
+	resourceManager.loadSprite("sprites/gameover-spr.txt", "gameover");
+	resourceManager.loadSprite("sprites/gamestart-spr.txt", "gamestart");
 }
 
 /**
@@ -61,18 +61,9 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
-	new Saucer();
-	new Hero();
-
-	// setup HUD
-	new Points();
-	ViewObject *p_nukes = new ViewObject();
-	p_nukes->setLocation(TOP_LEFT);
-	p_nukes->setViewString("Nukes");
-	p_nukes->setValue(1);
-	p_nukes->setColor(COLOR_YELLOW);
-
 	spawnStars();
+
+	new GameStart();
 }
 
 /**

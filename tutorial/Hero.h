@@ -8,6 +8,9 @@
 
 class Hero : public Object
 {
+private:
+	void releaseBigHeroExplosion(void);
+	
 protected:
 	int fireSlowdown;
 	int fireCountdown;
