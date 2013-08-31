@@ -91,6 +91,8 @@ int Hero::eventHandler(Event *p_event)
  */
 void Hero::keyboard(EventKeyboard *p_keyboardEvent)
 {
+	WorldManager &worldManager = WorldManager::getInstance();
+
 	switch (p_keyboardEvent->getKey())
 	{
 	case KEY_UP:
@@ -105,6 +107,9 @@ void Hero::keyboard(EventKeyboard *p_keyboardEvent)
 	case CUSTOM_KEY_ENTER:
 		nuke();
 		break;
+	case 'q':
+		worldManager.markForDelete(this);
+		break;
 	}
 }
 
@@ -116,7 +121,7 @@ void Hero::move(int dy)
 	WorldManager &worldManager = WorldManager::getInstance();
 	Position newPos(getPosition().getX(), getPosition().getY() + dy);
 
-	if ((newPos.getY() > 0) && 
+	if ((newPos.getY() > 3) && 
 		(newPos.getY() < worldManager.getBoundary().getVertical()))
 	{
 		worldManager.moveObject(this, newPos);

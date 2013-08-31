@@ -80,6 +80,15 @@ GameOver::~GameOver(void)
 		}
 	}
 
+	/*// alternative implementation of both loops above
+	ObjectList object_list = world_manager.getAllObjects();
+  	ObjectListIterator i(&object_list);
+  	for (i.first(); !i.isDone(); i.next()) {
+    	Object *p_o = i.currentObject();
+    	if (p_o -> getType() == "Saucer" || p_o -> getType() == "ViewObject")
+      		world_manager.markForDelete(p_o);
+  	}*/
+
 	// back to menu
 	worldManager.setLevel(MENU_LEVEL);
 }

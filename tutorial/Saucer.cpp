@@ -81,11 +81,11 @@ int Saucer::eventHandler(Event *p_event)
 
 	if (p_event->getType() == NUKE_EVENT)
 	{
-		WorldManager &worldManager = WorldManager::getInstance();
-		worldManager.markForDelete(this);
-
 		Explosion *explosion = new Explosion();
 		explosion->setPosition(this->getPosition());
+
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
 
 		new Saucer();
 	}
@@ -117,10 +117,8 @@ void Saucer::moveToStart(void)
 	int worldHorizontal = worldManager.getBoundary().getHorizontal();
 	int worldVertical = worldManager.getBoundary().getVertical();
 	Position tempPos(worldHorizontal + random() % worldHorizontal + 3,
-		random() % (worldVertical - 1) + 1);
+		random() % (worldVertical - 4) + 4);
 	setPosition(tempPos);
-
-	worldManager.moveObject(this, tempPos);
 
 	// move slightly to the right until there is no collision
 	ObjectList collisionList = worldManager.isCollision(this, tempPos);
@@ -129,6 +127,8 @@ void Saucer::moveToStart(void)
 		tempPos.setX(tempPos.getX() + 1);
 		collisionList = worldManager.isCollision(this, tempPos);
 	}
+
+	worldManager.moveObject(this, tempPos);
 }
 
 /**

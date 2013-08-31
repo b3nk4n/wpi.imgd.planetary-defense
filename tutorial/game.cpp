@@ -7,6 +7,7 @@
 #include "ResourceManager.h"
 #include "Star.h"
 #include "GameStart.h"
+#include "utility.h"
 
 #define STARS_COUNT 16
 
@@ -31,6 +32,8 @@ int main(int argc, char *argv[])
 		gameManager.shutDown();
 		exit(1);
 	}
+
+	splash();
 
 	loadResources();
 	populateWorld();
