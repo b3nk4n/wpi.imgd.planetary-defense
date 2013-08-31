@@ -51,6 +51,12 @@ GameStart::GameStart(void)
  */
 void GameStart::start(void)
 {
+	WorldManager &worldManager = WorldManager::getInstance();
+	SceneGraph &screneGraph = worldManager.getSceneGraph();
+
+	// will populate play world with objects
+	screneGraph.setLevel(PLAY_LEVEL);
+
 	new Hero();
 
 	for (int i = 0; i < INIT_SAUCER_COUNT; ++i)
@@ -68,8 +74,9 @@ void GameStart::start(void)
 	p_nukes->setValue(1);
 	p_nukes->setColor(COLOR_YELLOW);
 
-	WorldManager &worldManager = WorldManager::getInstance();
-	worldManager.markForDelete(this);
+	// revert back to menu
+	screneGraph.setLevel(MENU_LEVEL);
+	worldManager.setLevel(PLAY_LEVEL);
 }
 
 /**

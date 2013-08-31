@@ -7,6 +7,9 @@
 #include "ResourceManager.h"
 #include "LogManager.h"
 #include "EventStep.h"
+#include "GameStart.h"
+#include "ObjectList.h"
+#include "ObjectListIterator.h"
 
 /**
  * Creates a new game over instance.
@@ -48,8 +51,37 @@ GameOver::GameOver(void)
  */
 GameOver::~GameOver(void)
 {
-	GameManager &gameManager = GameManager::getInstance();
-	gameManager.setGameOver();
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	// cleanup HUD objects
+	ObjectList viewObjectList = worldManager.getAllObjects();
+	ObjectListIterator voit(&viewObjectList);
+	for (voit.first(); !voit.isDone(); voit.next())
+	{
+		ViewObject *p_vo = dynamic_cast<ViewObject *>(voit.currentObject());
+		if (p_vo != NULL &&
+			(p_vo->getViewString() == "Nukes" ||
+			p_vo->getViewString() == "Points"))
+		{
+			worldManager.markForDelete(p_vo);
+		}
+	}
+
+	// clean up objects
+	ObjectList objectList = worldManager.getAllObjects();
+	ObjectListIterator oit(&objectList);
+	for (oit.first(); !oit.isDone(); oit.next())
+	{
+		//Object *p_o = static_cast<ViewObject *>(oit.currentObject());
+		Object *p_o = oit.currentObject();
+		if (p_o->getType() == "Saucer")
+		{
+			worldManager.markForDelete(p_o);
+		}
+	}
+
+	// back to menu
+	worldManager.setLevel(MENU_LEVEL);
 }
 
 /**

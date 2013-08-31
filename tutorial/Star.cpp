@@ -19,6 +19,9 @@ Star::Star(void)
 	// set stars in the background
 	setAltitude(0);
 
+	// set starts persistent to stay alive after changing level
+	setPersistence(true);
+
 	// set random position
 	WorldManager &worldManager = WorldManager::getInstance();
 	Position tempPos(random() % worldManager.getBoundary().getHorizontal(),

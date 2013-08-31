@@ -7,6 +7,8 @@
 #include "EventKeyboard.h"
 
 #define INIT_SAUCER_COUNT 16
+#define MENU_LEVEL 1
+#define PLAY_LEVEL 2
 
 class GameStart : public ViewObject
 {

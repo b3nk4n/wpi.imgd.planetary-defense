@@ -34,14 +34,7 @@ depend:
 Bullet.o: Bullet.h
 EventNuke.o: EventNuke.h
 Explosion.o: Explosion.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Star.h
-game.o: GameStart.h
-GameOver.o: GameOver.h
+GameOver.o: GameOver.h GameStart.h
 GameStart.o: GameStart.h Hero.h Saucer.h Points.h
 Hero.o: Hero.h EventNuke.h Bullet.h GameOver.h Explosion.h
 Points.o: Points.h
@@ -58,3 +51,10 @@ Star.o: /usr/include/sys/features.h /usr/include/sys/reent.h
 Star.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 Star.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 Star.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Star.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Star.h
+game.o: GameStart.h
