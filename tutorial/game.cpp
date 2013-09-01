@@ -54,7 +54,8 @@ void loadResources(void)
 	resourceManager.loadSprite("sprites/saucer-spr.txt", "saucer");
 	resourceManager.loadSprite("sprites/ship-spr.txt", "ship");
 	resourceManager.loadSprite("sprites/bullet-spr.txt", "bullet");
-	resourceManager.loadSprite("sprites/explosion-spr.txt", "explosion");
+	resourceManager.loadSprite("sprites/explosion-spr.txt", "explosion_small");
+	resourceManager.loadSprite("sprites/explosionbig-spr.txt", "explosion_large");
 	resourceManager.loadSprite("sprites/gameover-spr.txt", "gameover");
 	resourceManager.loadSprite("sprites/gamestart-spr.txt", "gamestart");
 }

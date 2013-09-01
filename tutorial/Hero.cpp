@@ -1,5 +1,6 @@
 /* Hero.cpp */
 
+#include <iostream>
 #include "Hero.h"
 #include "ResourceManager.h"
 #include "GameManager.h"
@@ -62,7 +63,10 @@ Hero::~Hero(void)
 {
 	GameOver *p_gameOver = new GameOver();
 
-	releaseBigHeroExplosion();
+	Explosion *explosion = new Explosion(EXPLOSION_LARGE);
+	explosion->setPosition(getPosition());
+
+	//releaseBigHeroExplosion();
 }
 
 /**
@@ -150,6 +154,7 @@ void Hero::fire(void)
 	if (fireCountdown > 0)
 		return;
 
+	std::cout << "\a";
 	fireCountdown = fireSlowdown;
 	new Bullet(getPosition());
 }
@@ -195,7 +200,7 @@ void Hero::releaseBigHeroExplosion(void)
 			Position tempPos = this->getPosition();
 			tempPos.setX(this->getPosition().getX() + i);
 			tempPos.setY(this->getPosition().getY() + j);
-			Explosion *p_explosion = new Explosion();
+			Explosion *p_explosion = new Explosion(EXPLOSION_SMALL);
 			p_explosion->setPosition(tempPos);
 		}
 	}

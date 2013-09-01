@@ -40,7 +40,7 @@ GameOver::GameOver(void)
 	// set object type
 	setType("GameOver");
 
-	timeToLive = getSprite()->getFrameCount() * 15;
+	timeToLive = getSprite()->getFrameCount() * getSpriteSlowdown();
 
 	// disable collision detection
 	setSolidness(SPECTRAL);

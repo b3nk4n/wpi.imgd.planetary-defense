@@ -9,23 +9,38 @@
 /**
  * Creates a new explosion instance.
  */
-Explosion::Explosion(void)
+Explosion::Explosion(int type)
 {
 	// required dragonfly managers
 	LogManager &logManager = LogManager::getInstance();
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 	
 	// setup hero sprite
-	Sprite *p_tempSprite = resourceManager.getSprite("explosion");
+	Sprite *p_tempSprite;
+	if (type == EXPLOSION_LARGE)
+	{
+	 	p_tempSprite = resourceManager.getSprite("explosion_large");
+	}
+	else if (type == EXPLOSION_SMALL)
+	{
+		p_tempSprite = resourceManager.getSprite("explosion_small");
+	}
+
 	if (!p_tempSprite)
 	{
 		logManager.writeLog(
-			"Explosion::Explosion(): Sprite %s not found",
-			"explosion");
+			"Explosion::Explosion(): Sprite %s with type %d not found",
+			"explosion",
+			type);
 	}
 	else
 	{
 		setSprite(p_tempSprite);
+
+		if (type == EXPLOSION_LARGE)
+		{
+			setSpriteSlowdown(3);
+		}
 	}
 
 	// register for events
@@ -34,7 +49,7 @@ Explosion::Explosion(void)
 	// set object type
 	setType("Explosion");
 
-	timeToLive = getSprite()->getFrameCount();
+	timeToLive = getSprite()->getFrameCount() * getSpriteSlowdown();
 
 	// disable collision detection
 	setSolidness(SPECTRAL);

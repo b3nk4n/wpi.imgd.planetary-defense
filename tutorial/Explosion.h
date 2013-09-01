@@ -5,6 +5,9 @@
 
 #include "Object.h"
 
+#define EXPLOSION_SMALL 0
+#define EXPLOSION_LARGE 1
+
 class Explosion : public Object
 {
 protected:
@@ -12,7 +15,7 @@ protected:
 	void step(void);
 
 public:
-	Explosion(void);
+	Explosion(int type);
 	int eventHandler(Event *p_event);
 };
 

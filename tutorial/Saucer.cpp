@@ -81,7 +81,7 @@ int Saucer::eventHandler(Event *p_event)
 
 	if (p_event->getType() == NUKE_EVENT)
 	{
-		Explosion *explosion = new Explosion();
+		Explosion *explosion = new Explosion(EXPLOSION_SMALL);
 		explosion->setPosition(this->getPosition());
 
 		WorldManager &worldManager = WorldManager::getInstance();
@@ -146,7 +146,7 @@ void Saucer::hit(EventCollision *p_collisionEvent)
 		(p_collisionEvent->getObject2()->getType() == "Bullet"))
 	{
 		// create explosion
-		Explosion *p_explosion = new Explosion();
+		Explosion *p_explosion = new Explosion(EXPLOSION_SMALL);
 		p_explosion->setPosition(this->getPosition());
 
 		// saucers appear stay around perpetually
