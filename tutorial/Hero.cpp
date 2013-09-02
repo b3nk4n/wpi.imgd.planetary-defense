@@ -1,6 +1,5 @@
 /* Hero.cpp */
 
-#include <iostream>
 #include "Hero.h"
 #include "ResourceManager.h"
 #include "GameManager.h"
@@ -65,8 +64,6 @@ Hero::~Hero(void)
 
 	Explosion *explosion = new Explosion(EXPLOSION_LARGE);
 	explosion->setPosition(getPosition());
-
-	//releaseBigHeroExplosion();
 }
 
 /**
@@ -154,7 +151,6 @@ void Hero::fire(void)
 	if (fireCountdown > 0)
 		return;
 
-	std::cout << "\a";
 	fireCountdown = fireSlowdown;
 	new Bullet(getPosition());
 }
@@ -188,20 +184,3 @@ void Hero::nuke(void)
 	worldManager.onEvent(&eventView);
 }
 
-/**
- * Releases a huge explosion at the players position.
- */
-void Hero::releaseBigHeroExplosion(void)
-{
-	for (int i = -8; i <= 8; i += 5)
-	{
-		for (int j = -5; j <= 5; j += 3)
-		{
-			Position tempPos = this->getPosition();
-			tempPos.setX(this->getPosition().getX() + i);
-			tempPos.setY(this->getPosition().getY() + j);
-			Explosion *p_explosion = new Explosion(EXPLOSION_SMALL);
-			p_explosion->setPosition(tempPos);
-		}
-	}
-}

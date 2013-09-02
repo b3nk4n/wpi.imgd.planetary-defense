@@ -2,8 +2,17 @@ CC = g++
 RM = rm -rf
 INCPATH = ../include
 ENG = ../lib/libdragonfly.a
+ifeq ($(system),windows)
 PLATFORM = -DCYGWIN
-#PLATFORM = -DMACOS
+ENG = ../lib/libdragonfly.a
+else
+  ifeq ($(system),macos)
+PLATFORM = -DMACOS
+ENG = ../lib/libdragonfly-macos64.a
+  else
+ENG = ../lib/libdragonfly-linux32.a
+  endif
+endif
 LDFLAGS = -lncurses -lrt # for linux/cygwin
 #LDFLAGS = -lncurses      # for macos
 GAMESRC = Saucer.cpp Hero.cpp Bullet.cpp Explosion.cpp \
@@ -38,23 +47,9 @@ GameOver.o: GameOver.h GameStart.h
 GameStart.o: GameStart.h Hero.h Saucer.h Points.h
 Hero.o: Hero.h EventNuke.h Bullet.h GameOver.h Explosion.h
 Points.o: Points.h
-Saucer.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-Saucer.o: /usr/include/_ansi.h /usr/include/newlib.h
-Saucer.o: /usr/include/sys/config.h /usr/include/sys/features.h
-Saucer.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-Saucer.o: /usr/include/machine/_types.h /usr/include/machine/_default_types.h
-Saucer.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
-Saucer.o: /usr/include/alloca.h Saucer.h EventNuke.h Explosion.h Points.h
-Star.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-Star.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-Star.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-Star.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-Star.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-Star.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Star.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Star.h
-game.o: GameStart.h
+Saucer.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h
+Saucer.o: Saucer.h EventNuke.h Explosion.h Points.h
+Star.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h
+Star.o: Star.h
+game.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h
+game.o: Star.h GameStart.h
