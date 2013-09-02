@@ -11,12 +11,17 @@
 #include "EventStep.h"
 #include "EventNuke.h"
 #include "EventView.h"
+#include "EventPowerup.h"
+#include "PowerupScore.h"
+#include "PowerupLaser.h"
+#include "PowerupRocket.h"
 #include "Position.h"
 #include "Bullet.h"
 #include "Laser.h"
 #include "Rocket.h"
 #include "GameOver.h"
 #include "Explosion.h"
+#include "Points.h"
 
 #define CUSTOM_KEY_SPACE ' '
 #define CUSTOM_KEY_ENTER 13
@@ -44,6 +49,7 @@ Hero::Hero(void)
 	// register for events
 	registerInterest(KEYBOARD_EVENT);
 	registerInterest(STEP_EVENT);
+	registerInterest(POWERUP_EVENT);
 
 	// set object type
 	setType("Hero");
@@ -55,6 +61,9 @@ Hero::Hero(void)
 	fireSlowdown = 15;
 	fireCountdown = fireSlowdown;
 	nukeCount = 1;
+	
+	weaponType = DEFAULT;
+	upgradedWeaponCounter = 0;
 }
 
 /**
@@ -85,6 +94,13 @@ int Hero::eventHandler(Event *p_event)
 		step();
 		return 1; 
 	}
+	
+	if (p_event->getType() == POWERUP_EVENT)
+	{
+		EventPowerup *p_powerup_event = static_cast<EventPowerup *>(p_event);
+		powerupCollected(p_powerup_event);
+		return 1; 
+	}
 
 	return 0;
 }
@@ -113,6 +129,32 @@ void Hero::keyboard(EventKeyboard *p_keyboardEvent)
 	case 'q':
 		worldManager.markForDelete(this);
 		break;
+	}
+}
+
+/**
+ * Is called when a powerup was collected.
+ */
+void Hero::powerupCollected(EventPowerup *p_powerup_event)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	string powerupId = p_powerup_event->getPowerupId();
+	
+	if (powerupId == POWERUP_SCORE)
+	{
+		// send "view" event with points to interested ViewObjects
+		EventView eventView(POINTS_STRING, 5, true);
+		worldManager.onEvent(&eventView);
+	}
+	else if (powerupId == POWERUP_LASER)
+	{
+		weaponType = LASER;
+		upgradedWeaponCounter = UPGRADED_WEAPON_STEPS;
+	}
+	else if (powerupId == POWERUP_ROCKET)
+	{
+		weaponType = ROCKET;
+		upgradedWeaponCounter = UPGRADED_WEAPON_STEPS;
 	}
 }
 
@@ -154,9 +196,13 @@ void Hero::fire(void)
 		return;
 
 	fireCountdown = fireSlowdown;
-	//new Bullet(getPosition());
-	//new Laser(getPosition());
-	new Rocket(getPosition());
+	
+	if (weaponType == DEFAULT)
+		new Bullet(getPosition());
+	else if (weaponType == LASER)
+		new Laser(getPosition());
+	else if (weaponType == ROCKET)
+		new Rocket(getPosition());
 }
 
 /**
@@ -167,6 +213,13 @@ void Hero::step(void)
 	--fireCountdown;
 	if (fireCountdown < 0)
 		fireCountdown = 0;
+	
+	--upgradedWeaponCounter;
+	if (upgradedWeaponCounter < 0)
+	{
+		upgradedWeaponCounter = 0;
+		weaponType = DEFAULT;
+	}
 }
 
 /**

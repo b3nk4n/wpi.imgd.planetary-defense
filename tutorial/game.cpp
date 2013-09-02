@@ -60,6 +60,9 @@ void loadResources(void)
 	resourceManager.loadSprite("sprites/explosionbig-spr.txt", "explosion_large");
 	resourceManager.loadSprite("sprites/gameover-spr.txt", "gameover");
 	resourceManager.loadSprite("sprites/gamestart-spr.txt", "gamestart");
+	resourceManager.loadSprite("sprites/poweruplaser-spr.txt", "poweruplaser");
+	resourceManager.loadSprite("sprites/poweruprocket-spr.txt", "poweruprocket");
+	resourceManager.loadSprite("sprites/powerupscore-spr.txt", "powerupscore");
 }
 
 /**

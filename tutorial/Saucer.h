@@ -14,6 +14,7 @@ protected:
 	void moveToStart(void);
 	void hit(EventCollision *p_collisionEvent);
 	void kill(void);
+	void probablySpawnPowerup(Position position, float chance);
 
 public:
 	Saucer(void);

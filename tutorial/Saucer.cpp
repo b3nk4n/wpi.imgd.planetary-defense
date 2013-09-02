@@ -14,6 +14,9 @@
 #include "Points.h"
 #include "utility.h"
 #include "Circle.h"
+#include "PowerupScore.h"
+#include "PowerupLaser.h"
+#include "PowerupRocket.h"
 
 /**
  * Creates a new saucer instance.
@@ -113,6 +116,8 @@ void Saucer::kill(void)
 {
 	Explosion *explosion = new Explosion(EXPLOSION_SMALL);
 	explosion->setPosition(this->getPosition());
+	
+	probablySpawnPowerup(this->getPosition(), 0.1f);
 
 	WorldManager &worldManager = WorldManager::getInstance();
 	worldManager.markForDelete(this);
@@ -186,5 +191,27 @@ void Saucer::hit(EventCollision *p_collisionEvent)
 	{
 		worldManager.markForDelete(p_collisionEvent->getObject1());
 		worldManager.markForDelete(p_collisionEvent->getObject2());
+	}
+}
+
+/**
+ * Probably spawns a power up with given spawn chance.
+ */
+void Saucer::probablySpawnPowerup(Position position, float chance)
+{
+	if ((random() % 100) + 1 > chance * 100)
+	{
+		switch(random() % 3)
+		{
+		case 0:
+			new PowerupScore(position);
+			break;
+		case 1:
+			new PowerupLaser(position);
+			break;
+		case 2:
+			new PowerupRocket(position);
+			break;
+		}
 	}
 }

@@ -18,7 +18,8 @@ LDFLAGS = -lncurses -lrt # for linux/cygwin
 GAMESRC = Saucer.cpp Hero.cpp Bullet.cpp Explosion.cpp \
           EventNuke.cpp Points.cpp Star.cpp GameOver.cpp \
           GameStart.cpp Projectile.cpp Laser.cpp Rocket.cpp \
-          EventDetonation.cpp
+          EventDetonation.cpp Powerup.cpp PowerupScore.cpp \
+          EventPowerup.cpp PowerupLaser.cpp PowerupRocket.cpp
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -44,17 +45,24 @@ depend:
 Bullet.o: Bullet.h Projectile.h
 EventDetonation.o: EventDetonation.h
 EventNuke.o: EventNuke.h
+EventPowerup.o: EventPowerup.h
 Explosion.o: Explosion.h
 GameOver.o: GameOver.h GameStart.h
-GameStart.o: GameStart.h Hero.h Saucer.h Points.h
-Hero.o: Hero.h EventNuke.h Bullet.h Projectile.h Laser.h GameOver.h
-Hero.o: Explosion.h
+GameStart.o: GameStart.h Hero.h EventPowerup.h Saucer.h Points.h
+Hero.o: Hero.h EventPowerup.h EventNuke.h PowerupScore.h Powerup.h
+Hero.o: PowerupLaser.h PowerupRocket.h Bullet.h Projectile.h Laser.h Rocket.h
+Hero.o: GameOver.h Explosion.h Points.h
 Laser.o: Laser.h Projectile.h
 Points.o: Points.h
+Powerup.o: Powerup.h Hero.h EventPowerup.h
+PowerupLaser.o: PowerupLaser.h Powerup.h Points.h EventPowerup.h
+PowerupRocket.o: PowerupRocket.h Powerup.h Points.h EventPowerup.h
+PowerupScore.o: PowerupScore.h Powerup.h Points.h EventPowerup.h
 Projectile.o: Projectile.h
-Rocket.o: Rocket.h Projectile.h EventDetonation.h
+Rocket.o: Rocket.h Projectile.h EventDetonation.h Explosion.h
 Saucer.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h
 Saucer.o: Saucer.h EventNuke.h EventDetonation.h Explosion.h Points.h
+Saucer.o: PowerupScore.h Powerup.h
 Star.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h
 Star.o: Star.h
 game.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h

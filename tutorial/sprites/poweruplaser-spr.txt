@@ -1,0 +1,17 @@
+frames 6
+width 5
+height 1
+color yellow
+( L )
+end
+ (L) 
+end
+ ( ) 
+end
+  |  
+end
+ ( ) 
+end
+ (L) 
+end
+eof
