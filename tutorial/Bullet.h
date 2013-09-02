@@ -3,17 +3,14 @@
 #ifndef BULLET_H
 #define BULLET_H
 
-#include "Object.h"
-#include "EventCollision.h"
+#include "Projectile.h"
 
-class Bullet : public Object
+class Bullet : public Projectile
 {
 protected:
-	void out(void);
 	void hit(EventCollision * p_collisionEvent);
 public:
 	Bullet(Position heroPos);
-	int eventHandler(Event *p_event);
 };
 
 #endif

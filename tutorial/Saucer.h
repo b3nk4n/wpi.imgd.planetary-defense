@@ -13,6 +13,7 @@ protected:
 	void out(void);
 	void moveToStart(void);
 	void hit(EventCollision *p_collisionEvent);
+	void kill(void);
 
 public:
 	Saucer(void);

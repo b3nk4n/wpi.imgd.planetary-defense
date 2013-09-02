@@ -17,7 +17,8 @@ LDFLAGS = -lncurses -lrt # for linux/cygwin
 #LDFLAGS = -lncurses      # for macos
 GAMESRC = Saucer.cpp Hero.cpp Bullet.cpp Explosion.cpp \
           EventNuke.cpp Points.cpp Star.cpp GameOver.cpp \
-          GameStart.cpp
+          GameStart.cpp Projectile.cpp Laser.cpp Rocket.cpp \
+          EventDetonation.cpp
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -40,15 +41,20 @@ depend:
 
 # DO NOT DELETE
 
-Bullet.o: Bullet.h
+Bullet.o: Bullet.h Projectile.h
+EventDetonation.o: EventDetonation.h
 EventNuke.o: EventNuke.h
 Explosion.o: Explosion.h
 GameOver.o: GameOver.h GameStart.h
 GameStart.o: GameStart.h Hero.h Saucer.h Points.h
-Hero.o: Hero.h EventNuke.h Bullet.h GameOver.h Explosion.h
+Hero.o: Hero.h EventNuke.h Bullet.h Projectile.h Laser.h GameOver.h
+Hero.o: Explosion.h
+Laser.o: Laser.h Projectile.h
 Points.o: Points.h
+Projectile.o: Projectile.h
+Rocket.o: Rocket.h Projectile.h EventDetonation.h
 Saucer.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h
-Saucer.o: Saucer.h EventNuke.h Explosion.h Points.h
+Saucer.o: Saucer.h EventNuke.h EventDetonation.h Explosion.h Points.h
 Star.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h
 Star.o: Star.h
 game.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h

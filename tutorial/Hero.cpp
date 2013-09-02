@@ -13,6 +13,8 @@
 #include "EventView.h"
 #include "Position.h"
 #include "Bullet.h"
+#include "Laser.h"
+#include "Rocket.h"
 #include "GameOver.h"
 #include "Explosion.h"
 
@@ -152,7 +154,9 @@ void Hero::fire(void)
 		return;
 
 	fireCountdown = fireSlowdown;
-	new Bullet(getPosition());
+	//new Bullet(getPosition());
+	//new Laser(getPosition());
+	new Rocket(getPosition());
 }
 
 /**
