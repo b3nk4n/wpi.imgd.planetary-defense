@@ -145,11 +145,17 @@ void Hero::keyboard(EventKeyboard *p_keyboardEvent)
 
 	switch (p_keyboardEvent->getKey())
 	{
+	case KEY_LEFT:
+		move(-1, 0);
+		break;
+	case KEY_RIGHT:
+		move(1, 0);
+		break;
 	case KEY_UP:
-		move(-1);
+		move(0, -1);
 		break;
 	case KEY_DOWN:
-		move(1);
+		move(0, 1);
 		break;
 	case CUSTOM_KEY_SPACE:
 		fire();
@@ -199,13 +205,15 @@ void Hero::powerupCollected(EventPowerup *p_powerup_event)
 /**
  * Moves the hero vertically.
  */
-void Hero::move(int dy)
+void Hero::move(int dx, int dy)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	Position newPos(getPosition().getX(), getPosition().getY() + dy);
+	Position newPos(getPosition().getX() + dx, getPosition().getY() + dy);
 
 	if ((newPos.getY() > 3) && 
-		(newPos.getY() < worldManager.getBoundary().getVertical()))
+		(newPos.getY() < worldManager.getBoundary().getVertical()) &&
+		(newPos.getX() > 1) && 
+		(newPos.getX() < worldManager.getBoundary().getHorizontal() / 2))
 	{
 		worldManager.moveObject(this, newPos);
 	}

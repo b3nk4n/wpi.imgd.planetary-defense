@@ -35,7 +35,7 @@ protected:
 
 	void keyboard(EventKeyboard *p_keyboard_event);
 	void powerupCollected(EventPowerup *p_powerup_event);
-	void move(int dy);
+	void move(int dx, int dy);
 	void moveToStart(void);
 	void step(void);
 	void fire(void);
