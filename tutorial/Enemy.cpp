@@ -62,6 +62,7 @@ Enemy::Enemy(string spriteName, int hitpoints, int killscore, float powerupSpawn
 
 	WorldManager &worldManager = WorldManager::getInstance();
 
+	// set maximum out of bounds spawn distance from right side of screen
 	if (maxOutOfBoundsOffset == AUTO_OUT_OF_BOUNDS)
 		this->maxOutOfBoundsOffset = worldManager.getBoundary().getHorizontal();
 	else
@@ -108,6 +109,7 @@ int Enemy::eventHandler(Event *p_event)
 		EventDetonation *p_eventDetonation = static_cast<EventDetonation *>(p_event);
 		Circle detonationCircle = p_eventDetonation->getCircle();
 		
+		// check if enemy is in detonation circle
 		if (distance(detonationCircle.getCenter(), this->getPosition()) <= detonationCircle.getRadius())
 		{
 			decreaseHitpoints(1);

@@ -82,12 +82,14 @@ int Boss::eventHandler(Event *p_event)
 			this->setYVelocity(-0.2);
 		}
 
+		// if boss time is over, get faster
 		if (this->finished)
 		{
 			this->setXVelocity(-2.5);
 		}
 		else
 		{
+			// if boss time is not over, verify that boss never goes more left than the screen center
 			if (this->getPosition().getX() < worldManager.getBoundary().getHorizontal() / 2)
 			{
 				this->setXVelocity(0);
