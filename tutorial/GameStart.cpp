@@ -176,7 +176,7 @@ void GameStart::draw(void)
 
 	// draw difficulty
 	WorldManager &worldManager = WorldManager::getInstance();
-	int startX = worldManager.getBoundary().getHorizontal() / 2 - 7;
+	int startX = worldManager.getBoundary().getHorizontal() / 2 - 8;
 	int startY = worldManager.getBoundary().getVertical() / 2 + 9;
 
 	string diffString;
@@ -188,8 +188,8 @@ void GameStart::draw(void)
 	else
 		diffString = HARD_STRING;
 
-	string left = "<--  ";
-	string right = "  -->";
+	string left = "<==  ";
+	string right = "  ==>";
 
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 

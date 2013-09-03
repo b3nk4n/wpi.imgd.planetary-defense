@@ -72,6 +72,9 @@ Enemy::~Enemy(void)
 	// send "view" event with points interested ViewObjects
 	EventView eventView(POINTS_STRING, this->killscore, true);
 	worldManager.onEvent(&eventView);
+
+	Explosion *explosion = new Explosion(EXPLOSION_SMALL);
+	explosion->setPosition(getPosition());
 }
 
 /**
