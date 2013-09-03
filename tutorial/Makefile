@@ -2,15 +2,19 @@ CC = g++
 RM = rm -rf
 INCPATH = ../include
 ENG = ../lib/libdragonfly.a
-ifeq ($(system),windows)
+ifeq ($(system),linux32)
 PLATFORM = -DCYGWIN
-ENG = ../lib/libdragonfly.a
+ENG = ../lib/libdragonfly-linux32.a
 else
   ifeq ($(system),macos)
 PLATFORM = -DMACOS
 ENG = ../lib/libdragonfly-macos64.a
   else
-ENG = ../lib/libdragonfly-linux32.a
+  	ifeq ($(system),linux64)
+ENG = ../lib/libdragonfly-linux64.a
+    else
+ENG = ../lib/libdragonfly.a
+	endif
   endif
 endif
 LDFLAGS = -lncurses -lrt # for linux/cygwin

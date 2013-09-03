@@ -28,6 +28,9 @@
 #define CUSTOM_KEY_SPACE ' '
 #define CUSTOM_KEY_ENTER 13
 
+/**
+ * Creates a new hero instance.
+ */
 Hero::Hero(void)
 {
 	// required dragonfly managers
@@ -133,6 +136,16 @@ void Hero::hit(EventCollision *p_collisionEvent)
 		// Update view
 		EventView eventView(HITPOINTS_STRING, hitpoints, false);
 		worldManager.onEvent(&eventView);
+
+		Position tempPos;
+
+		if ((p_collisionEvent->getObject1()->getType() == "Enemy"))
+			tempPos = p_collisionEvent->getObject1()->getPosition();
+		else
+			tempPos = p_collisionEvent->getObject2()->getPosition();
+
+		Explosion *explosion = new Explosion(EXPLOSION_SMALL);
+		explosion->setPosition(tempPos);
 	}
 }
 
@@ -234,7 +247,7 @@ void Hero::moveToStart(void)
 }
 
 /**
- * Fires a bullet.
+ * Fires the current weapon.
  */
 void Hero::fire(void)
 {

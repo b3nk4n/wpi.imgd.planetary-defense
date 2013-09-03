@@ -12,6 +12,9 @@
 
 using std::string;
 
+/**
+ * Creates a new powerup instance.
+ */
 Powerup::Powerup(string spriteName, string powerupId, Position spawnPosition)
 {
 	// required dragonfly managers

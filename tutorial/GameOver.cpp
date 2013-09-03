@@ -79,7 +79,8 @@ GameOver::~GameOver(void)
 			p_o->getType() == "Powerup" ||
 			p_o->getType() == "Laser" ||
 			p_o->getType() == "Buller" ||
-			p_o->getType() == "Rocket")
+			p_o->getType() == "Rocket" ||
+			p_o->getType() == "Explosion")
 		{
 			worldManager.markForDelete(p_o);
 		}
