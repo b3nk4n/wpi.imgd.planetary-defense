@@ -37,3 +37,4 @@ Bullet::Bullet(Position heroPos)
 	WorldManager &worldManager = WorldManager::getInstance();
 	worldManager.markForDelete(this);
  }
+ 

@@ -365,4 +365,3 @@ void Hero::setHitpoints(int hp)
 	EventView eventView(HITPOINTS_STRING, hitpoints, false);
 	worldManager.onEvent(&eventView);
 }
-

@@ -32,3 +32,4 @@ Laser::Laser(Position heroPos)
  {
     // nothing happens ... just continue flying...
  }
+ 

@@ -39,3 +39,4 @@ BossBullet::BossBullet(Position bossPos)
 		worldManager.markForDelete(this);
 	}
  }
+ 

@@ -51,3 +51,4 @@ Rocket::Rocket(Position heroPos)
 	
  	worldManager.markForDelete(this);
  }
+ 

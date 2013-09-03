@@ -117,3 +117,4 @@ int Boss::eventHandler(Event *p_event)
  		fireTimer = FIRE_TICKS_MIN + (random() % (FIRE_TICKS_MAX - FIRE_TICKS_MIN));
  	}
  }
+ 

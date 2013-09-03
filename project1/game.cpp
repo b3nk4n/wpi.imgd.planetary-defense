@@ -90,11 +90,3 @@ void spawnStars(void)
 		new Star();
 	}
 }
-
-
-
-
-
-
-
-
