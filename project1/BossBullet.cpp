@@ -30,13 +30,13 @@ BossBullet::BossBullet(Position bossPos)
 /**
  * Is called when the bullet is hitting something.
  */
- void BossBullet::hit(EventCollision *p_collisionEvent)
- {
- 	if (p_collisionEvent->getObject1()->getType() == "Hero" ||
- 		p_collisionEvent->getObject2()->getType() == "Hero")
- 	{
+void BossBullet::hit(EventCollision *p_collisionEvent)
+{
+	if (p_collisionEvent->getObject1()->getType() == "Hero" ||
+		p_collisionEvent->getObject2()->getType() == "Hero")
+	{
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
 	}
- }
- 
+}
+

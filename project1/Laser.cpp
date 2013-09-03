@@ -28,8 +28,8 @@ Laser::Laser(Position heroPos)
 /**
  * Is called when the laser is hitting something.
  */
- void Laser::hit(EventCollision *p_collisionEvent)
- {
-    // nothing happens ... just continue flying...
- }
- 
+void Laser::hit(EventCollision *p_collisionEvent)
+{
+   // nothing happens ... just continue flying...
+}
+

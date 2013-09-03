@@ -107,14 +107,14 @@ int Boss::eventHandler(Event *p_event)
 /**
  * Fires a bullet.
  */
- void Boss::tryFire(void)
- {
- 	--fireTimer;
- 	if (fireTimer <= 0)
- 	{
- 		new BossBullet(this->getPosition());
+void Boss::tryFire(void)
+{
+	--fireTimer;
+	if (fireTimer <= 0)
+	{
+		new BossBullet(this->getPosition());
 
- 		fireTimer = FIRE_TICKS_MIN + (random() % (FIRE_TICKS_MAX - FIRE_TICKS_MIN));
- 	}
- }
- 
+		fireTimer = FIRE_TICKS_MIN + (random() % (FIRE_TICKS_MAX - FIRE_TICKS_MIN));
+	}
+}
+
