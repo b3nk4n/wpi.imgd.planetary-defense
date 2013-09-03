@@ -14,14 +14,144 @@
 2. Features
 2.1. Additional weapons
 2.2. Different enemies
-2.2.1 Bosses
-2.2.2 GameLevelUpdater
-2.3. PowerUps
+2.2.1. Bosses
+2.2.2. GameLevelUpdater
+2.3. Power-Ups
 2.4. Configurable difficulty
 2.5. Health Display
-2.6. Minor adjustments
-4. Bibliography
+3. Bibliography
 
 ################################################################################
 1. Introduction
 ################################################################################
+
+The given tutorial [TUT, Page 13 - 43] was implemented step by step using the 
+book and the Dragonfly website.
+To extend the functionality, new enemis, more weapons, some power ups, boss 
+levels, configurable difficulty and some other minor features was added.
+
+
+################################################################################
+2. Features
+################################################################################
+
+### 2.1 Additional weapons
+
+In the first step, new weapon types were added. These weapons can be activated
+by collecting power ups (see 2.3). Avaiable weapon types are:
+
+	Bullet:          The default bullet
+	Laser:           Fast laser, which strikes through a line of enemies
+	Rocket:          Releases a huge detonation
+	DoubleBullet:    Fires two default bullets.
+
+The last weapon called BossBullet is a special weapon exclusivly for the boss
+enemy.
+
+To implement this, new sprite sheets were created and a base Projectile class
+was created which generalizes a bullets base functionality. Implementations like
+Laser or Rocket extend this base class and override for example the abstract
+hit() function to add the specific funtionality.
+A Laser for example does not disappear after it collides with the enemy and
+Rockets fire a DETONATION_EVENT, where other objects can listen to using the
+Observer design pattern.
+
+
+### 2.2. Different enemies
+
+To make the game more rich in variety, new enemy types were added. There are now
+three kinds of enemies:
+
+	Saucer:    The default enemy (1 HP)
+	Ufo:       A bigger enemy (2 HP)
+	Boss:      Appears after each enemy wave (15 HP)
+
+These enemies have also different hitpoints, score when they got killed and
+size.
+
+To implement this, a new Enemy base class was implemented, which generalizes the
+base functionality. Spezialized classes like Ufo or Saucer extend this
+functionality by overriding methods like createEnemy() or adding additional
+event listeners. The method create create enemy is needed bacause the base class
+Enemy itself creates new types of itself when is is out of the screen or got
+killed.
+
+
+### 2.2.1. Bosses
+
+Bosses are a special kind of enemies, which just occure between waves. The waves
+management is managed by the GameLevelUpdater (see 2.2.2.). Bosses do not just
+fly from the right to the left, they also go up and down and the most left
+position will be the horizontal center of the screen. The boss level ends after
+boss was killed or after an COMMAND_STOP_BOSS command by the GameLevelUpdater.
+
+
+### 2.2.2. GameLevelUpdater
+
+The changing between waves and bosses is done by the GameLevelUpdater, which is
+started by the GameStart-Class. This class also creates all initial enemies and
+bosses of a wave.
+
+To communicate between Enemies, Bosses and GameLevelUpdater, a new Event called
+"EventLevelCommand" was created, which notifies the enemies whether they should
+stop new enemy spawing or whether the boss thould fly away.
+Vise verca, EventLevelCommand is used by the boss to notify the GameLevelUpater
+that the boss was killed or has left the game field. This information is
+necessary that the GameLevelUpdater is able to go to the next state.
+
+
+### 2.3. Power-Ups
+
+To have the ability to get more nukes, other weapons or extra credits, power-ups
+were added to the game. These power-ups will be dropped by some enemies with a
+chance of about 10% - 15% depending on the enemies type. After the player hits
+this little yellow power-up, it gets collected and/or activated.
+
+The following power-ups were implemented:
+
+	DoubleBullet     # Activates double bullet weapon
+	Laser            # Activates laser weapon
+	Nuke             # Adds an extra nuke super weapon
+	Rocket           # Activates rocket weapon
+	Score            # Addes 5 credits
+
+The weapon power-ups are just activated for exactly 20 second. After this time,
+the DEFAULT weapon (bullet) will be activated.
+
+To implement this, a base Powerup class was created, where the others inherit
+from. Specialized classes have just to call the base classes consturctor to set
+the power-up ID and the sprites name. The base class does all the other work,
+for example fireing a EventPowerup event which is listened by the Hero class.
+
+
+### 2.4. Configurable difficulty
+
+The difficulty can be configured at the menu screen using the arrow keys. There
+are three different difficulties (EASY, MEDIUM, HARD), which affects the inital
+saucers and ufos.
+
+This was easily implemented by rendering some additional text onto the GameStart
+screen. To change the difficulty, GameScreen now also listens to the
+KEYBOARD_EVENT's LEFT_KEY and RIGHT_KEY. To have an effect to in instatiated
+Enemies, the stored value is passed to the in start() created GameLevelUpdater
+instance, which is responsible for the initial Enemy creation.
+
+
+### 2.5. Health Display
+
+The player has some hitpoints (5 HP), but just one life. So for any hit to an
+enemy, the player decreases its hitpoints by one. For an hit to a boss, the
+player dies immediately. The current HP are viewable in the HUDs top left
+corner as a progress-bar.
+
+To implement this health display called Hitpoints.cpp, a class exteding
+ViewObject was implemented. To give this special look and feel, the draw() 
+method was overwritten to render a custom progress bar. The workflow of the
+display corresponds to the workflow of Points.cpp.
+
+
+################################################################################
+3. Bibliography
+################################################################################
+
+[TUT] Prof. Mark Claypool, Dragonfly - Program a Game Engine from Stratch, 2013
