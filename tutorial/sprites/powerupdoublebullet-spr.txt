@@ -2,9 +2,9 @@ frames 3
 width 3
 height 1
 color yellow
-(L)
+(D)
 end
-(L)
+(D)
 end
  | 
 end

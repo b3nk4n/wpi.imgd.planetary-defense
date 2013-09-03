@@ -7,7 +7,7 @@
  * Creates a new saucer instance.
  */
 Saucer::Saucer(void)
-	: Enemy("saucer", 1, 10, 0.075f, EXPLOSION_SMALL)
+	: Enemy("saucer", 1, 10, 0.01f, EXPLOSION_SMALL)
 {
 }
 

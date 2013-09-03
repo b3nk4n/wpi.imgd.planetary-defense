@@ -18,6 +18,7 @@
 #include "PowerupLaser.h"
 #include "PowerupRocket.h"
 #include "PowerupNuke.h"
+#include "PowerupDoubleBullet.h"
 
 /**
  * Creates a new enemy instance.
@@ -214,20 +215,24 @@ void Enemy::probablySpawnPowerup()
 {
 	if ((random() % 1000) + 1 <= this->powerupSpawnChance * 1000)
 	{
-		switch(random() % 5)
+		switch(random() % 7)
 		{
 		case 0:
 		case 1:
+		case 2:
 			new PowerupScore(this->getPosition());
 			break;
-		case 2:
+		case 3:
 			new PowerupNuke(this->getPosition());
 			break;
-		case 3:
+		case 4:
 			new PowerupLaser(this->getPosition());
 			break;
-		case 4:
+		case 5:
 			new PowerupRocket(this->getPosition());
+			break;
+		case 6:
+			new PowerupDoubleBullet(this->getPosition());
 			break;
 		}
 	}

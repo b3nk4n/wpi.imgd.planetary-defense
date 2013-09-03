@@ -24,7 +24,8 @@ GAMESRC = Saucer.cpp Hero.cpp Bullet.cpp Explosion.cpp \
           GameStart.cpp Projectile.cpp Laser.cpp Rocket.cpp \
           EventDetonation.cpp Powerup.cpp PowerupScore.cpp \
           EventPowerup.cpp PowerupLaser.cpp PowerupRocket.cpp \
-          Enemy.cpp Ufo.cpp Hitpoints.cpp PowerupNuke.cpp
+          Enemy.cpp Ufo.cpp Hitpoints.cpp PowerupNuke.cpp \
+          PowerupDoubleBullet.cpp
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -55,7 +56,8 @@ Enemy.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 Enemy.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 Enemy.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Enemy.h
 Enemy.o: Explosion.h EventNuke.h EventDetonation.h Points.h PowerupScore.h
-Enemy.o: Powerup.h PowerupLaser.h PowerupRocket.h
+Enemy.o: Powerup.h PowerupLaser.h PowerupRocket.h PowerupNuke.h
+Enemy.o: PowerupDoubleBullet.h
 EventDetonation.o: EventDetonation.h
 EventNuke.o: EventNuke.h
 EventPowerup.o: EventPowerup.h
@@ -71,13 +73,24 @@ GameOver.o: GameOver.h GameStart.h
 GameStart.o: GameStart.h Hero.h EventPowerup.h Saucer.h Enemy.h Explosion.h
 GameStart.o: Ufo.h Points.h Hitpoints.h
 Hero.o: Hero.h EventPowerup.h EventNuke.h PowerupScore.h Powerup.h
-Hero.o: PowerupLaser.h PowerupRocket.h Bullet.h Projectile.h Laser.h Rocket.h
-Hero.o: GameOver.h Explosion.h Points.h
+Hero.o: PowerupLaser.h PowerupRocket.h PowerupNuke.h PowerupDoubleBullet.h
+Hero.o: Bullet.h Projectile.h Laser.h Rocket.h GameOver.h Explosion.h
+Hero.o: Points.h Hitpoints.h
 Hitpoints.o: Hitpoints.h Hero.h EventPowerup.h
 Laser.o: Laser.h Projectile.h
-Points.o: Points.h
+Points.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
+Points.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
+Points.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+Points.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+Points.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+Points.o: /usr/include/sys/types.h /usr/include/machine/types.h
+Points.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+Points.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Points.h
 Powerup.o: Powerup.h Hero.h EventPowerup.h
+PowerupDoubleBullet.o: PowerupDoubleBullet.h Powerup.h Points.h
+PowerupDoubleBullet.o: EventPowerup.h
 PowerupLaser.o: PowerupLaser.h Powerup.h Points.h EventPowerup.h
+PowerupNuke.o: PowerupNuke.h Powerup.h Points.h EventPowerup.h
 PowerupRocket.o: PowerupRocket.h Powerup.h Points.h EventPowerup.h
 PowerupScore.o: PowerupScore.h Powerup.h Points.h EventPowerup.h
 Projectile.o: Projectile.h

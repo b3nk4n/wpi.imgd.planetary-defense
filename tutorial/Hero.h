@@ -12,7 +12,8 @@ enum WeaponType
 {
 	DEFAULT,
 	LASER,
-	ROCKET
+	ROCKET,
+	DOUBLE
 };
 
 #define MAX_HITPOINTS 5

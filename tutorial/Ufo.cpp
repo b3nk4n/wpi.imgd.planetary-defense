@@ -6,7 +6,7 @@
  * Creates a new Ufo instance.
  */
 Ufo::Ufo(void)
-	: Enemy("ufo", 2, 50, 0.15f, EXPLOSION_LARGE)
+	: Enemy("ufo", 2, 50, 0.175f, EXPLOSION_LARGE)
 {
 }
 
