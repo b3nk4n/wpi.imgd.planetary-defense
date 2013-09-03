@@ -6,11 +6,11 @@
 #include "ViewObject.h"
 #include "EventKeyboard.h"
 
-#define INIT_SAUCER_COUNT_EASY 10
+#define INIT_SAUCER_COUNT_EASY 12
 #define INIT_UFO_COUNT_EASY 2
-#define INIT_SAUCER_COUNT_MED 15
+#define INIT_SAUCER_COUNT_MED 18
 #define INIT_UFO_COUNT_MED 3
-#define INIT_SAUCER_COUNT_HARD 20
+#define INIT_SAUCER_COUNT_HARD 24
 #define INIT_UFO_COUNT_HARD 4
 
 #define MENU_LEVEL 1

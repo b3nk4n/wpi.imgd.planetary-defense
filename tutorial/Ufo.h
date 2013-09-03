@@ -17,6 +17,10 @@ public:
 	 * Creates a new Ufo instance.
 	 */
 	Ufo(void);
+	/**
+	 * Handles the events.
+	 */
+	virtual int eventHandler(Event *p_event);
 };
 
 #endif

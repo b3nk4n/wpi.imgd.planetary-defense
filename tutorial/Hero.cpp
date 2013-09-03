@@ -128,9 +128,10 @@ void Hero::hit(EventCollision *p_collisionEvent)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
 	
-	// ignore enemy to enemy collision
-	if ((p_collisionEvent->getObject1()->getType() == "Enemy") ||
-		(p_collisionEvent->getObject2()->getType() == "Enemy"))
+	if ((p_collisionEvent->getObject1()->getType() == "Saucer") ||
+		(p_collisionEvent->getObject2()->getType() == "Saucer") ||
+		(p_collisionEvent->getObject1()->getType() == "Ufo") ||
+		(p_collisionEvent->getObject2()->getType() == "Ufo"))
 	{
 		setHitpoints(hitpoints - 1);
 
@@ -140,13 +141,44 @@ void Hero::hit(EventCollision *p_collisionEvent)
 
 		Position tempPos;
 
-		if ((p_collisionEvent->getObject1()->getType() == "Enemy"))
+		if (p_collisionEvent->getObject1()->getType() == "Saucer" ||
+			p_collisionEvent->getObject1()->getType() == "Ufo")
 			tempPos = p_collisionEvent->getObject1()->getPosition();
 		else
 			tempPos = p_collisionEvent->getObject2()->getPosition();
 
 		Explosion *explosion = new Explosion(EXPLOSION_SMALL);
 		explosion->setPosition(tempPos);
+	}
+
+	if ((p_collisionEvent->getObject1()->getType() == "Boss") ||
+		(p_collisionEvent->getObject2()->getType() == "Boss"))
+	{
+		setHitpoints(0);
+
+		// Update view
+		EventView eventView(HITPOINTS_STRING, hitpoints, false);
+		worldManager.onEvent(&eventView);
+
+		Position tempPos;
+
+		if ((p_collisionEvent->getObject1()->getType() == "Boss"))
+			tempPos = p_collisionEvent->getObject1()->getPosition();
+		else
+			tempPos = p_collisionEvent->getObject2()->getPosition();
+
+		Explosion *explosion = new Explosion(EXPLOSION_LARGE);
+		explosion->setPosition(tempPos);
+	}
+
+	if ((p_collisionEvent->getObject1()->getType() == "BossBullet") ||
+		(p_collisionEvent->getObject2()->getType() == "BossBullet"))
+	{
+		setHitpoints(hitpoints - 1);
+
+		// Update view
+		EventView eventView(HITPOINTS_STRING, hitpoints, false);
+		worldManager.onEvent(&eventView);
 	}
 }
 

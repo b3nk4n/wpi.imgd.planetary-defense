@@ -10,6 +10,7 @@
 #include "EventNuke.h"
 #include "EventView.h"
 #include "EventDetonation.h"
+#include "EventLevelCommand.h"
 #include "Explosion.h"
 #include "Points.h"
 #include "utility.h"
@@ -22,8 +23,9 @@
 
 /**
  * Creates a new enemy instance.
+ * Note: maxOutOfBoundsOffset == -1 --> auto
  */
-Enemy::Enemy(string spriteName, int hitpoints, int killscore, float powerupSpawnChance, int explosionType)
+Enemy::Enemy(string spriteName, int hitpoints, int killscore, float powerupSpawnChance, int explosionType, int maxOutOfBoundsOffset)
 {
 	// required dragonfly managers
 	LogManager &logManager = LogManager::getInstance();
@@ -48,19 +50,25 @@ Enemy::Enemy(string spriteName, int hitpoints, int killscore, float powerupSpawn
 	registerInterest(NUKE_EVENT);
 	registerInterest(DETONATION_EVENT);
 
-	// set object type
-	setType("Enemy");
-
 	// set vertical speed
 	setXVelocity(-0.25); // 1/4 space per frames
-
-	// set starting location
-	moveToStart();
 
 	this->hitpoints = hitpoints;
 	this->killscore = killscore;
 	this->powerupSpawnChance = powerupSpawnChance;
 	this->explosionType = explosionType;
+
+	this->canCreateEnemy = true;
+
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	if (maxOutOfBoundsOffset == AUTO_OUT_OF_BOUNDS)
+		this->maxOutOfBoundsOffset = worldManager.getBoundary().getHorizontal();
+	else
+		this->maxOutOfBoundsOffset = maxOutOfBoundsOffset;
+
+	// set starting location
+	moveToStart();
 }
 
 /**
@@ -68,11 +76,7 @@ Enemy::Enemy(string spriteName, int hitpoints, int killscore, float powerupSpawn
  */
 Enemy::~Enemy(void)
 {
-	WorldManager &worldManager = WorldManager::getInstance();
-
-	// send "view" event with points interested ViewObjects
-	EventView eventView(POINTS_STRING, this->killscore, true);
-	worldManager.onEvent(&eventView);
+	// all work is done by kill()
 }
 
 /**
@@ -96,6 +100,7 @@ int Enemy::eventHandler(Event *p_event)
 	if (p_event->getType() == NUKE_EVENT)
 	{
 		decreaseHitpoints(1);
+		return 1;
 	}
 	
 	if (p_event->getType() == DETONATION_EVENT)
@@ -107,6 +112,7 @@ int Enemy::eventHandler(Event *p_event)
 		{
 			decreaseHitpoints(1);
 		}
+		return 1;
 	}
 
 	return 0;
@@ -126,7 +132,14 @@ void Enemy::kill(bool powerup)
 	WorldManager &worldManager = WorldManager::getInstance();
 	worldManager.markForDelete(this);
 
-	createEnemy();
+	// send "view" event with points interested ViewObjects
+	EventView eventView(POINTS_STRING, this->killscore, true);
+	worldManager.onEvent(&eventView);
+
+	if (canCreateEnemy)
+	{
+		createEnemy();
+	}
 }
 
 /**
@@ -137,11 +150,19 @@ void Enemy::out(void)
 	if (getPosition().getX() >= 0)
 		return;
 
-	moveToStart();
-
 	// spawn a new enemy when one has passed by to make the game harder
-	if (random() % 10 == 0)
+	if (canCreateEnemy)
+	{
+		moveToStart();
+
+		if (random() % 10 == 0)
 		createEnemy();
+	}
+	else
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
+	}
 }
 
 /**
@@ -153,7 +174,7 @@ void Enemy::moveToStart(void)
 
 	int worldHorizontal = worldManager.getBoundary().getHorizontal();
 	int worldVertical = worldManager.getBoundary().getVertical();
-	Position tempPos(worldHorizontal + random() % worldHorizontal + 3,
+	Position tempPos(worldHorizontal + random() % maxOutOfBoundsOffset + 15,
 		random() % (worldVertical - 4) + 4);
 	setPosition(tempPos);
 
@@ -176,9 +197,13 @@ void Enemy::hit(EventCollision *p_collisionEvent)
 	WorldManager &worldManager = WorldManager::getInstance();
 	
 	// ignore enemy to enemy collision
-	if ((p_collisionEvent->getObject1()->getType() == "Enemy") &&
-		(p_collisionEvent->getObject2()->getType() == "Enemy"))
+	if (p_collisionEvent->getObject1()->getType() == p_collisionEvent->getObject2()->getType())
+	{
+		if (p_collisionEvent->getObject1()->getType() == "Saucer" ||
+			p_collisionEvent->getObject1()->getType() == "Ufo" ||
+			p_collisionEvent->getObject1()->getType() == "Boss")
 		return;
+	}
 
 	// enemy hits bullet
 	if ((p_collisionEvent->getObject1()->getType() == "Bullet") ||

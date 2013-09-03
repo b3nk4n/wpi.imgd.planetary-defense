@@ -25,7 +25,8 @@ GAMESRC = Saucer.cpp Hero.cpp Bullet.cpp Explosion.cpp \
           EventDetonation.cpp Powerup.cpp PowerupScore.cpp \
           EventPowerup.cpp PowerupLaser.cpp PowerupRocket.cpp \
           Enemy.cpp Ufo.cpp Hitpoints.cpp PowerupNuke.cpp \
-          PowerupDoubleBullet.cpp
+          PowerupDoubleBullet.cpp EventLevelCommand.cpp \
+          GameLevelUpdater.cpp Boss.cpp BossBullet.cpp
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -59,6 +60,7 @@ Enemy.o: Explosion.h EventNuke.h EventDetonation.h Points.h PowerupScore.h
 Enemy.o: Powerup.h PowerupLaser.h PowerupRocket.h PowerupNuke.h
 Enemy.o: PowerupDoubleBullet.h
 EventDetonation.o: EventDetonation.h
+EventLevelCommand.o: EventLevelCommand.h
 EventNuke.o: EventNuke.h
 EventPowerup.o: EventPowerup.h
 Explosion.o: Explosion.h
@@ -69,9 +71,10 @@ game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Star.h
 game.o: GameStart.h
+GameLevelUpdater.o: GameStart.h
 GameOver.o: GameOver.h GameStart.h
 GameStart.o: GameStart.h Hero.h EventPowerup.h Saucer.h Enemy.h Explosion.h
-GameStart.o: Ufo.h Points.h Hitpoints.h
+GameStart.o: Ufo.h Points.h Hitpoints.h GameLevelUpdater.h
 Hero.o: Hero.h EventPowerup.h EventNuke.h PowerupScore.h Powerup.h
 Hero.o: PowerupLaser.h PowerupRocket.h PowerupNuke.h PowerupDoubleBullet.h
 Hero.o: Bullet.h Projectile.h Laser.h Rocket.h GameOver.h Explosion.h

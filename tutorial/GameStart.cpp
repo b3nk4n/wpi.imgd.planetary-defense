@@ -14,6 +14,7 @@
 #include "Points.h"
 #include "Hitpoints.h"
 #include "ViewObject.h"
+#include "GameLevelUpdater.h"
 
 /**
  * Creates a new game over instance.
@@ -61,7 +62,7 @@ void GameStart::start(void)
 	// will populate play world with objects
 	screneGraph.setLevel(PLAY_LEVEL);
 
-	int saucerCount;
+	/*int saucerCount;
 	int ufoCount;
 
 	if (difficulty == EASY_DIFF)
@@ -88,7 +89,7 @@ void GameStart::start(void)
 	for (int i = 0; i < ufoCount; ++i)
 	{
 		new Ufo();
-	}
+	}*/
 
 	// score HUD
 	new Points();
@@ -103,6 +104,8 @@ void GameStart::start(void)
 	p_nukes->setColor(COLOR_YELLOW);
 
 	new Hero();
+
+	new GameLevelUpdater(difficulty);
 
 	// revert back to menu
 	screneGraph.setLevel(MENU_LEVEL);

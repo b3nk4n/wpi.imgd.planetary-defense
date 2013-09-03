@@ -8,6 +8,8 @@
 #include "EventCollision.h"
 #include "Explosion.h"
 
+#define AUTO_OUT_OF_BOUNDS -1
+
 using std::string;
 
 class Enemy : public Object
@@ -17,12 +19,14 @@ private:
 	int killscore;
 	float powerupSpawnChance;
 	int explosionType;
+	int maxOutOfBoundsOffset;
 
 protected:
+	bool canCreateEnemy;
 	/**
 	 * Handles the events.
 	 */
-	int eventHandler(Event *p_event);
+	virtual int eventHandler(Event *p_event);
 	/**
 	 * Checks and handles if the enemy is out of the left side of screen.
 	 */
@@ -57,7 +61,7 @@ public:
 	/**
 	 * Creates a new enemy instance.
 	 */
-	Enemy(string spriteName, int hitpoints, int killscore, float powerupSpawnChance, int explosionType);
+	Enemy(string spriteName, int hitpoints, int killscore, float powerupSpawnChance, int explosionType, int maxOutOfBoundsOffset);
 	/**
 	 * Destructs the enemy.
 	 */

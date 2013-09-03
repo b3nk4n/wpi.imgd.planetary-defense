@@ -1,0 +1,13 @@
+frames 4
+width 3
+height 1
+color red
+<<<
+end
+<-<
+end
+<--
+end
+<-<
+end
+eof
