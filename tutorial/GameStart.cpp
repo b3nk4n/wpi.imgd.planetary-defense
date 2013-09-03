@@ -46,6 +46,8 @@ GameStart::GameStart(void)
 
 	// disable collision detection
 	setSolidness(SPECTRAL);
+
+	difficulty = MEDIUM_DIFF;
 }
 
 /**
@@ -59,12 +61,31 @@ void GameStart::start(void)
 	// will populate play world with objects
 	screneGraph.setLevel(PLAY_LEVEL);
 
-	for (int i = 0; i < INIT_SAUCER_COUNT; ++i)
+	int saucerCount;
+	int ufoCount;
+
+	if (difficulty == EASY_DIFF)
+	{
+		saucerCount = INIT_SAUCER_COUNT_EASY;
+		ufoCount = INIT_UFO_COUNT_EASY;
+	}
+	else if (difficulty == MEDIUM_DIFF)
+	{
+		saucerCount = INIT_SAUCER_COUNT_MED;
+		ufoCount = INIT_UFO_COUNT_MED;
+	}
+	else
+	{
+		saucerCount = INIT_SAUCER_COUNT_HARD;
+		ufoCount = INIT_UFO_COUNT_HARD;
+	}
+
+	for (int i = 0; i < saucerCount; ++i)
 	{
 		new Saucer();
 	}
 
-	for (int i = 0; i < INIT_UFO_COUNT; ++i)
+	for (int i = 0; i < ufoCount; ++i)
 	{
 		new Ufo();
 	}
@@ -131,6 +152,18 @@ void GameStart::keyboard(EventKeyboard *p_keyboardEvent)
 	case 'q':
 		gameManager.setGameOver();
 		break;
+	case KEY_LEFT:
+		difficulty = difficulty - 1;
+
+		if (difficulty < EASY_DIFF)
+			difficulty = HARD_DIFF;
+		break;
+	case KEY_RIGHT:
+		difficulty = difficulty + 1;
+
+		if (difficulty > HARD_DIFF)
+			difficulty = EASY_DIFF;
+		break;
 	}
 }
 
@@ -140,4 +173,33 @@ void GameStart::keyboard(EventKeyboard *p_keyboardEvent)
 void GameStart::draw(void)
 {
 	Object::draw();
+
+	// draw difficulty
+	WorldManager &worldManager = WorldManager::getInstance();
+	int startX = worldManager.getBoundary().getHorizontal() / 2 - 7;
+	int startY = worldManager.getBoundary().getVertical() / 2 + 9;
+
+	string diffString;
+
+	if (difficulty == EASY_DIFF)
+		diffString = EASY_STRING;
+	else if (difficulty == MEDIUM_DIFF)
+		diffString = MEDIUM_STRING;
+	else
+		diffString = HARD_STRING;
+
+	string left = "<--  ";
+	string right = "  -->";
+
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+
+	for (int i = 0; i < left.length(); ++i)
+		graphicsManager.drawCh(Position(startX++, startY), left.at(i), COLOR_RED);
+
+	// diff
+	for (int i = 0; i < diffString.length(); ++i)
+		graphicsManager.drawCh(Position(startX++, startY), diffString.at(i), COLOR_RED);
+
+	for (int i = 0; i < right.length(); ++i)
+		graphicsManager.drawCh(Position(startX++, startY), right.at(i), COLOR_RED);
 }

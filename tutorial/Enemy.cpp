@@ -139,7 +139,8 @@ void Enemy::out(void)
 	moveToStart();
 
 	// spawn a new enemy when one has passed by to make the game harder
-	createEnemy();
+	if (random() % 10 == 0)
+		createEnemy();
 }
 
 /**
