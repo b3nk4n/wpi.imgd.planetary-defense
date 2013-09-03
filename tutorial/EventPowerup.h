@@ -15,7 +15,13 @@ class EventPowerup : public Event
 protected:
 	string powerupId;
 public:
+	/**
+	 * Creates a new powerup event.
+	 */
 	EventPowerup(string powerupId);
+	/**
+	 * Gets the powerup id.
+	 */
 	string getPowerupId();
 };
 

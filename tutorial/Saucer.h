@@ -8,8 +8,14 @@
 class Saucer : public Enemy
 {
 protected:
+	/**
+	 * Creates a new Saucer.
+	 */
 	void createEnemy(void);
 public:
+	/**
+	 * Creates a new saucer instance.
+	 */
 	Saucer(void);
 };
 

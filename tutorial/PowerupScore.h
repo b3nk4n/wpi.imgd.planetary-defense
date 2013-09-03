@@ -13,6 +13,9 @@ using std::string;
 class PowerupScore : public Powerup
 {
 public:
+	/**
+	 * Creates a new powerup score instance.
+	 */
 	PowerupScore(Position spawnPosition);
 };
 

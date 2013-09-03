@@ -19,17 +19,48 @@ private:
 	int explosionType;
 
 protected:
+	/**
+	 * Handles the events.
+	 */
 	int eventHandler(Event *p_event);
+	/**
+	 * Checks and handles if the enemy is out of the left side of screen.
+	 */
 	void out(void);
+	/**
+	 * Moves the enemy back to the start position.
+	 */
 	void moveToStart(void);
+	/**
+	 * Is called when a collision has happened.
+	 */
 	void hit(EventCollision *p_collisionEvent);
+	/**
+	 * Kills this object and releases an explosion.
+	 */
 	void kill(bool powerup);
+	/**
+	 * Probably spawns a power up with given spawn chance.
+	 */
 	void probablySpawnPowerup(void);
+	/**
+	 * Decreases the hit points and kills the enemy, if neccessary.
+	 */
 	void decreaseHitpoints(int value);
+
+	/**
+	 * Creates an enemy of this type.
+	 */
 	virtual void createEnemy(void)=0;
 
 public:
+	/**
+	 * Creates a new enemy instance.
+	 */
 	Enemy(string spriteName, int hitpoints, int killscore, float powerupSpawnChance, int explosionType);
+	/**
+	 * Destructs the enemy.
+	 */
 	virtual ~Enemy(void);
 };
 

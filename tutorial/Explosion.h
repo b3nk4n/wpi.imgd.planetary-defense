@@ -15,7 +15,13 @@ protected:
 	void step(void);
 
 public:
+	/**
+	 * Creates a new explosion instance.
+	 */
 	Explosion(int type);
+	/**
+	 * Handles the explosions events.
+	 */
 	int eventHandler(Event *p_event);
 };
 

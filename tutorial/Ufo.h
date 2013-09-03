@@ -8,8 +8,14 @@
 class Ufo : public Enemy
 {
 protected:
+	/**
+	 * Creates a new Ufo.
+	 */
 	void createEnemy(void);
 public:
+	/**
+	 * Creates a new Ufo instance.
+	 */
 	Ufo(void);
 };
 

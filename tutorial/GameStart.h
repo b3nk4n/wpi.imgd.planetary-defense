@@ -30,15 +30,34 @@ class GameStart : public ViewObject
 {
 private:
 	int difficulty;
+
+	/**
+	 * Moves the game over text to the center of the screen.
+	 */
 	void toCenterOfScreen(void);
 	
 protected:
+	/**
+	 * Starts the game.
+	 */
 	void start(void);
+	/**
+	 * Handles keyboard input.
+	 */
 	void keyboard(EventKeyboard *p_keyboardEvent);
 
 public:
+	/**
+	 * Creates a new game over instance.
+	 */
 	GameStart(void);
+	/**
+	 * Renders the game over object.
+	 */
 	void draw(void);
+	/**
+	 * Handles the events.
+	 */
 	int eventHandler(Event *p_event);
 };
 

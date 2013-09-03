@@ -10,7 +10,13 @@
 class Hitpoints : public ViewObject
 {
 public:
+	/**
+	 * Creates a new hitpoints instance.
+	 */
 	Hitpoints(void);
+	/**
+	 * Render the hp bar.
+	 */
 	void draw(void);
 };
 

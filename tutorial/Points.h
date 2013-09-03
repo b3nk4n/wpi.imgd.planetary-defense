@@ -14,8 +14,17 @@ protected:
 	int stepCount;
 	
 public:
+	/**
+	 * Creates a new points instance.
+	 */
 	Points(void);
+	/**
+	 * Handles the occured events.
+	 */
 	int eventHandler(Event *p_event);
+	/**
+	 * Render the score bar.
+	 */
 	void draw(void);
 };
 

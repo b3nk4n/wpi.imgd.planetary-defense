@@ -10,6 +10,9 @@
 class EventNuke : public Event
 {
 public:
+	/**
+	 * Creates a new nuke event.
+	 */
 	EventNuke(void);
 };
 

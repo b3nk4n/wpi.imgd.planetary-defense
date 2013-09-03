@@ -8,8 +8,14 @@
 class Bullet : public Projectile
 {
 protected:
+	/**
+	 * Is called when the bullet is hitting something.
+	 */
 	void hit(EventCollision * p_collisionEvent);
 public:
+	/**
+	 * Creates a new bullet instance.
+	 */
 	Bullet(Position heroPos);
 };
 

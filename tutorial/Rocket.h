@@ -8,9 +8,15 @@
 class Rocket : public Projectile
 {
 protected:
+	/**
+	 * Is called when the rocket is hitting something.
+	 */
 	void hit(EventCollision * p_collisionEvent);
 	
 public:
+	/**
+	 * Creates a new rocket instance.
+	 */
 	Rocket(Position heroPos);
 };
 

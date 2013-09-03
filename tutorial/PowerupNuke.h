@@ -13,6 +13,9 @@ using std::string;
 class PowerupNuke : public Powerup
 {
 public:
+	/**
+	 * Creates a new powerup nuke instance.
+	 */
 	PowerupNuke(Position spawnPosition);
 };
 
