@@ -15,6 +15,7 @@
 #include "PowerupScore.h"
 #include "PowerupLaser.h"
 #include "PowerupRocket.h"
+#include "PowerupNuke.h"
 #include "Position.h"
 #include "Bullet.h"
 #include "Laser.h"
@@ -185,6 +186,13 @@ void Hero::powerupCollected(EventPowerup *p_powerup_event)
 	{
 		weaponType = ROCKET;
 		upgradedWeaponCounter = UPGRADED_WEAPON_STEPS;
+	}
+	else if (powerupId == POWERUP_NUKE)
+	{
+		nukeCount++;
+
+		EventView eventView("Nukes", nukeCount, false);
+		worldManager.onEvent(&eventView);
 	}
 }
 

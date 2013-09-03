@@ -35,7 +35,7 @@ Star::Star(void)
 void Star::draw(void)
 {
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
-	if (getXVelocity() < 0.5)
+	if (getXVelocity() > -0.5)
 		graphicsManager.drawCh(getPosition(), SLOW_STAR_CHAR);
 	else
 		graphicsManager.drawCh(getPosition(), FAST_STAR_CHAR);

@@ -64,6 +64,7 @@ void loadResources(void)
 	resourceManager.loadSprite("sprites/poweruplaser-spr.txt", "poweruplaser");
 	resourceManager.loadSprite("sprites/poweruprocket-spr.txt", "poweruprocket");
 	resourceManager.loadSprite("sprites/powerupscore-spr.txt", "powerupscore");
+	resourceManager.loadSprite("sprites/powerupnuke-spr.txt", "powerupnuke");
 }
 
 /**

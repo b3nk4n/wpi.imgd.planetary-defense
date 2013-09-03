@@ -20,7 +20,7 @@ GAMESRC = Saucer.cpp Hero.cpp Bullet.cpp Explosion.cpp \
           GameStart.cpp Projectile.cpp Laser.cpp Rocket.cpp \
           EventDetonation.cpp Powerup.cpp PowerupScore.cpp \
           EventPowerup.cpp PowerupLaser.cpp PowerupRocket.cpp \
-          Enemy.cpp Ufo.cpp Hitpoints.cpp
+          Enemy.cpp Ufo.cpp Hitpoints.cpp PowerupNuke.cpp
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(GAMESRC:.cpp=.o)
