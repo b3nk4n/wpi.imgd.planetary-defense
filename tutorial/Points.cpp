@@ -4,6 +4,7 @@
 #include "Points.h"
 #include "EventStep.h"
 #include "GraphicsManager.h"
+#include "WorldManager.h"
 
 #define STEPS_FOR_ONE_SEC 30
 
@@ -56,9 +57,13 @@ int Points::eventHandler(Event *p_event)
  */
 void Points::draw(void)
 {
+	WorldManager &worldManager = WorldManager::getInstance();
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 	int startX = getPosition().getX();
 	int startY = getPosition().getY();
+
+	if (startX > worldManager.getBoundary().getHorizontal() - 17)
+		startX = worldManager.getBoundary().getHorizontal() - 17;
 
 	for (int i = 0; i < getViewString().length(); ++i)
 	{

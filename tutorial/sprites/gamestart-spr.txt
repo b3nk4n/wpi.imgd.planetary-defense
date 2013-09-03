@@ -1,6 +1,6 @@
 frames 2
 width 70
-height 11
+height 12
 color red
   _________                                .______  _______  ___      
  /   _____/__________    ____  ____ ______ |__\   \/  /\   \/  /      
@@ -8,6 +8,7 @@ color red
  /        \  |_> > __ \\  \__\  ___/|  |_> >  |/     \  /     \       
 /_______  /   __(____  /\___  >___  >   __/|__/___/\  \/___/\  \      
         \/|__|       \/     \/    \/|__|            \_/      \_/      
+                                       by Benjamin Sautermeister      
                                                                       
      Controls: Arrows move, Space fires, Enter nukes, 'q' quits       
                                                                       
@@ -20,6 +21,7 @@ end
  /        \  |_> > __ \\  \__\  ___/|  |_> >  |/     \  /     \       
 /_______  /   __(____  /\___  >___  >   __/|__/___/\  \/___/\  \      
         \/|__|       \/     \/    \/|__|            \_/      \_/      
+                                       by Benjamin Sautermeister      
                                                                       
      Controls: Arrows move, Space fires, Enter nukes, 'q' quits       
                                                                       

@@ -22,6 +22,10 @@ void Hitpoints::draw(void)
 {
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 	int startX = getPosition().getX() - 15;
+
+	if (startX < 0)
+		startX = 0;
+
 	int startY = getPosition().getY();
 
 	for (int i = 0; i < getViewString().length(); ++i)
