@@ -6,6 +6,7 @@
 #include "Object.h"
 #include "EventKeyboard.h"
 #include "EventPowerup.h"
+#include "EventCollision.h"
 
 enum WeaponType
 {
@@ -14,6 +15,7 @@ enum WeaponType
 	ROCKET
 };
 
+#define MAX_HITPOINTS 5
 #define UPGRADED_WEAPON_STEPS 450
 
 class Hero : public Object
@@ -25,6 +27,8 @@ protected:
 	int fireSlowdown;
 	int fireCountdown;
 	int nukeCount;
+
+	int hitpoints;
 	
 	WeaponType weaponType;
 	int upgradedWeaponCounter;
@@ -36,6 +40,8 @@ protected:
 	void step(void);
 	void fire(void);
 	void nuke(void);
+	void hit(EventCollision *p_collisionEvent);
+	void setHitpoints(int hp);
 
 public:
 	Hero(void);

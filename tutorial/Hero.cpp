@@ -22,6 +22,7 @@
 #include "GameOver.h"
 #include "Explosion.h"
 #include "Points.h"
+#include "Hitpoints.h"
 
 #define CUSTOM_KEY_SPACE ' '
 #define CUSTOM_KEY_ENTER 13
@@ -50,6 +51,7 @@ Hero::Hero(void)
 	registerInterest(KEYBOARD_EVENT);
 	registerInterest(STEP_EVENT);
 	registerInterest(POWERUP_EVENT);
+	registerInterest(COLLISION_EVENT);
 
 	// set object type
 	setType("Hero");
@@ -64,6 +66,8 @@ Hero::Hero(void)
 	
 	weaponType = DEFAULT;
 	upgradedWeaponCounter = 0;
+
+	setHitpoints(MAX_HITPOINTS);
 }
 
 /**
@@ -102,7 +106,33 @@ int Hero::eventHandler(Event *p_event)
 		return 1; 
 	}
 
+	if (p_event->getType() == COLLISION_EVENT)
+	{
+		EventCollision *p_eventCollision = static_cast<EventCollision *>(p_event);
+		hit(p_eventCollision);
+		return 1;
+	}
+
 	return 0;
+}
+
+/**
+ * Is called when a collision has happened.
+ */
+void Hero::hit(EventCollision *p_collisionEvent)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	
+	// ignore enemy to enemy collision
+	if ((p_collisionEvent->getObject1()->getType() == "Enemy") ||
+		(p_collisionEvent->getObject2()->getType() == "Enemy"))
+	{
+		setHitpoints(hitpoints - 1);
+
+		// Update view
+		EventView eventView(HITPOINTS_STRING, hitpoints, false);
+		worldManager.onEvent(&eventView);
+	}
 }
 
 /**
@@ -238,6 +268,29 @@ void Hero::nuke(void)
 
 	// send "view" event with nukes
 	EventView eventView("Nukes", -1, true);
+	worldManager.onEvent(&eventView);
+}
+
+/**
+ * Sets the hitpoints and updates the display view.
+ */
+void Hero::setHitpoints(int hp)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	if (hp > MAX_HITPOINTS)
+		hp = MAX_HITPOINTS;
+
+	this->hitpoints = hp;
+
+	if (hitpoints <= 0)
+	{
+		hitpoints = 0;
+		worldManager.markForDelete(this);
+	}
+
+	// Update view
+	EventView eventView(HITPOINTS_STRING, hitpoints, false);
 	worldManager.onEvent(&eventView);
 }
 

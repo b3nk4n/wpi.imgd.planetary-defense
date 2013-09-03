@@ -52,6 +52,7 @@ void loadResources(void)
 	// load saucer sprite
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 	resourceManager.loadSprite("sprites/saucer-spr.txt", "saucer");
+	resourceManager.loadSprite("sprites/ufo-spr.txt", "ufo");
 	resourceManager.loadSprite("sprites/ship-spr.txt", "ship");
 	resourceManager.loadSprite("sprites/bullet-spr.txt", "bullet");
 	resourceManager.loadSprite("sprites/laser-spr.txt", "laser");

@@ -6,7 +6,8 @@
 #include "ViewObject.h"
 #include "EventKeyboard.h"
 
-#define INIT_SAUCER_COUNT 16
+#define INIT_SAUCER_COUNT 12
+#define INIT_UFO_COUNT 2
 #define MENU_LEVEL 1
 #define PLAY_LEVEL 2
 

@@ -30,6 +30,10 @@ Bullet::Bullet(Position heroPos)
  */
  void Bullet::hit(EventCollision *p_collisionEvent)
  {
+ 	if (p_collisionEvent->getObject1()->getType() == "Powerup" ||
+ 		p_collisionEvent->getObject2()->getType() == "Powerup")
+ 		return;
+ 	
 	WorldManager &worldManager = WorldManager::getInstance();
 	worldManager.markForDelete(this);
  }

@@ -61,7 +61,8 @@ GameOver::~GameOver(void)
 		ViewObject *p_vo = dynamic_cast<ViewObject *>(voit.currentObject());
 		if (p_vo != NULL &&
 			(p_vo->getViewString() == "Nukes" ||
-			p_vo->getViewString() == "Points"))
+			p_vo->getViewString() == "Points" ||
+			p_vo->getViewString() == "HP"))
 		{
 			worldManager.markForDelete(p_vo);
 		}
@@ -74,7 +75,11 @@ GameOver::~GameOver(void)
 	{
 		//Object *p_o = static_cast<ViewObject *>(oit.currentObject());
 		Object *p_o = oit.currentObject();
-		if (p_o->getType() == "Saucer")
+		if (p_o->getType() == "Enemy" ||
+			p_o->getType() == "Powerup" ||
+			p_o->getType() == "Laser" ||
+			p_o->getType() == "Buller" ||
+			p_o->getType() == "Rocket")
 		{
 			worldManager.markForDelete(p_o);
 		}
@@ -85,7 +90,7 @@ GameOver::~GameOver(void)
   	ObjectListIterator i(&object_list);
   	for (i.first(); !i.isDone(); i.next()) {
     	Object *p_o = i.currentObject();
-    	if (p_o -> getType() == "Saucer" || p_o -> getType() == "ViewObject")
+    	if (p_o -> getType() == "Enemy" || p_o -> getType() == "ViewObject")
       		world_manager.markForDelete(p_o);
   	}*/
 

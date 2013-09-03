@@ -10,7 +10,9 @@
 #include "EventKeyboard.h"
 #include "Hero.h"
 #include "Saucer.h"
+#include "Ufo.h"
 #include "Points.h"
+#include "Hitpoints.h"
 #include "ViewObject.h"
 
 /**
@@ -57,22 +59,29 @@ void GameStart::start(void)
 	// will populate play world with objects
 	screneGraph.setLevel(PLAY_LEVEL);
 
-	new Hero();
-
 	for (int i = 0; i < INIT_SAUCER_COUNT; ++i)
 	{
 		new Saucer();
 	}
 
+	for (int i = 0; i < INIT_UFO_COUNT; ++i)
+	{
+		new Ufo();
+	}
+
 	// score HUD
 	new Points();
 
+	new Hitpoints();
+
 	// nuke HUD
 	ViewObject *p_nukes = new ViewObject();
-	p_nukes->setLocation(TOP_LEFT);
+	p_nukes->setLocation(TOP_CENTER);
 	p_nukes->setViewString("Nukes");
 	p_nukes->setValue(1);
 	p_nukes->setColor(COLOR_YELLOW);
+
+	new Hero();
 
 	// revert back to menu
 	screneGraph.setLevel(MENU_LEVEL);

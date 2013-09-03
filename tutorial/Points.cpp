@@ -1,5 +1,6 @@
 /* Points.cpp */
 
+#include <stdio.h>
 #include "Points.h"
 #include "EventStep.h"
 #include "GraphicsManager.h"
@@ -48,4 +49,32 @@ int Points::eventHandler(Event *p_event)
 	}
 
 	return 0;
+}
+
+/**
+ * Render the score bar.
+ */
+void Points::draw(void)
+{
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+	int startX = getPosition().getX();
+	int startY = getPosition().getY();
+
+	for (int i = 0; i < getViewString().length(); ++i)
+	{
+		graphicsManager.drawCh(Position(startX++, startY), getViewString().at(i), getColor());
+	}
+
+	graphicsManager.drawCh(Position(startX++, startY), ' ', getColor());
+	graphicsManager.drawCh(Position(startX++, startY), ':', getColor());
+	graphicsManager.drawCh(Position(startX++, startY), ' ', getColor());
+
+	char buf[10];
+	sprintf(buf, "%09d", getValue());
+	string score = buf;
+
+	for (int i = 0; i < score.length(); ++i)
+	{
+		graphicsManager.drawCh(Position(startX++, startY), score.at(i), getColor());
+	}
 }

@@ -31,6 +31,8 @@ Powerup::Powerup(string spriteName, string powerupId, Position spawnPosition)
         setSprite(p_tempSprite);
         setSpriteSlowdown(5);
     }
+
+    setType("Powerup");
     
     this->powerupId = powerupId;
     

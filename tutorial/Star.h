@@ -5,7 +5,8 @@
 
 #include "Object.h"
 
-#define STAR_CHAR '.'
+#define SLOW_STAR_CHAR '.'
+#define FAST_STAR_CHAR '-'
 
 class Star : public Object
 {

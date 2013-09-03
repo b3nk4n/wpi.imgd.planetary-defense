@@ -35,6 +35,10 @@ Rocket::Rocket(Position heroPos)
  */
  void Rocket::hit(EventCollision *p_collisionEvent)
  {
+	if (p_collisionEvent->getObject1()->getType() == "Powerup" ||
+ 		p_collisionEvent->getObject2()->getType() == "Powerup")
+ 		return;
+
 	WorldManager &worldManager = WorldManager::getInstance();
 	Position tempPos(getPosition().getX() + 2, getPosition().getY());
 	
@@ -44,7 +48,6 @@ Rocket::Rocket(Position heroPos)
 	
 	Explosion *explosion = new Explosion(EXPLOSION_LARGE);
 	explosion->setPosition(this->getPosition());
-
 	
  	worldManager.markForDelete(this);
  }

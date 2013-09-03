@@ -16,6 +16,7 @@ protected:
 public:
 	Points(void);
 	int eventHandler(Event *p_event);
+	void draw(void);
 };
 
 #endif
