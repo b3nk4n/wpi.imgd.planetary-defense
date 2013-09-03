@@ -1,3 +1,7 @@
+## Benjamin Sautermeister
+## bsautermeister
+## 08/29/2013
+
 CC = g++
 RM = rm -rf
 INCPATH = ../include
@@ -42,7 +46,7 @@ $(EXECUTABLE): $(ENG) $(OBJECTS) $(GAME)
 	$(CC) -c $(DEBUG) -I$(INCPATH) $(PLATFORM) $< -o $@
 
 clean:
-	$(RM) $(OBJECTS) $(EXECUTABLE) core dragonfly.log Makefile.bak *~
+	$(RM) $(OBJECTS) $(EXECUTABLE) core dragonfly.log Makefile.bak *~ *.stackdump
 
 depend: 
 	makedepend *.cpp 2> /dev/null
