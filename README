@@ -1,0 +1,61 @@
+################################################################################
+### Name: Benjamin Sautermeister                                             ###
+### Login: bsautermeister                                                    ###
+### Date: 09/03/2013                                                         ###
+################################################################################
+###                          IMGD 3000 - PROJECT 1                           ###
+################################################################################
+
+################################################################################
+0. Index
+################################################################################
+
+1. Platform
+2. Build/Compile
+3. File and code structure
+4. Bibliography
+
+################################################################################
+1. Platform
+################################################################################
+
+Tha game for project 1 (called SpacepiXX, a minimalistic ported version of my
+space shooter for Windows Phone and Windows 8 [SPX]) was developed using Cygwin 
+on Windows 8, Debian KDE 12.04 Linux and GIT.
+
+
+################################################################################
+2. Build/Compile
+################################################################################
+
+Because Cygwin on Windows 8 was the main development platform, the default
+MAKEFILE runs without configuration on this platform:
+
+	$ make
+
+To use the MAKEFILE on other platforms, simply add your preferred system as an
+additional parameter:
+
+	$ make system=linux32
+	$ make system=linux64
+	$ make system=macos
+
+To get the MAKEFILE working, plase check that your Project or correctly
+structured. Please see (3. File and code structure) for more details.
+
+
+################################################################################
+3. File and code structure
+################################################################################
+
+The project folder should be look like the following:
+
+	<TBD>
+
+
+################################################################################
+3. Bibliography
+################################################################################
+
+[SPX] Benjamin Sautermeister, SpacepiXX, 2011
+      Weblink: http://bsautermeister.de/spacepixx/
