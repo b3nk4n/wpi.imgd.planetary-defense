@@ -19,17 +19,15 @@ LogManager::LogManager(void)
 
 /**
  * Hides copy constructor.
- * @param logManager The log manager to copy.
  */
-LogManager::LogManager(LogManager const &logManager)
+LogManager::LogManager(LogManager const &lm)
 {
 }
 
 /**
  * Hides equals operator.
- * @param logManager The log manager to copy.
  */
-void LogManager::operator=(LogManager const &logManager)
+void LogManager::operator=(LogManager const &lm)
 {
 }
 

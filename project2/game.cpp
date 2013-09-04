@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "LogManager.h"
 #include "Clock.h"
+#include "GameManager.h"
 
 /**
  * The games main function.
@@ -18,9 +19,16 @@ int main(int argc, char *argv[])
 {
 	LogManager &logManager = LogManager::getInstance();
 	logManager.setVerbosity(LOG_DEBUG);
-	if (logManager.startUp())
+
+	// start up game manager
+	GameManager &gameManager = GameManager::getInstance();
+
+	if (gameManager.startUp(true))
 	{
-		// error occured
+		logManager.writeLog(LOG_ERROR,
+			"main()",
+			"Game startup error");
+		gameManager.shutDown();
 		exit(1);
 	}
 
@@ -46,6 +54,17 @@ int main(int argc, char *argv[])
 		"main()",
 		"sleep(1) took exactly: %ldusec\n",
 		diff);
+
+	// GAME START
+	long int loops = gameManager.run();
+
+	logManager.writeLog(LOG_DEBUG,
+		"main()",
+		"Loops done by the game manager: %ld\n",
+		loops);
+
+	// shutdown everything
+	gameManager.shutDown();
 
 	return 0;
 }

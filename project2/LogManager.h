@@ -49,15 +49,13 @@ private:
 
 	/**
 	 * Hides copy constructor.
-	 * @param logManager The log manager to copy.
 	 */
-	LogManager(LogManager const &logManager);
+	LogManager(LogManager const&);
 
 	/**
 	 * Hides equals operator.
-	 * @param logManager The log manager to copy.
 	 */
-	void operator=(LogManager const &logManager);
+	void operator=(LogManager const&);
 
 public:
 	/**

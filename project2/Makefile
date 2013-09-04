@@ -21,10 +21,11 @@ LDFLAGS = -lncurses -lrt
     endif
   endif
 endif
-ENGSRC = Manager.cpp \
+ENGSRC = Clock.cpp \
+		 GameManager.cpp \
 		 LogManager.cpp \
-		 utility.cpp \
-		 Clock.cpp
+		 Manager.cpp \
+		 utility.cpp	 
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(ENGSRC:.cpp=.o)
@@ -47,6 +48,28 @@ depend:
 
 # DO NOT DELETE
 
+Clock.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
+Clock.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
+Clock.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+Clock.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+Clock.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+Clock.o: /usr/include/sys/types.h /usr/include/machine/types.h
+Clock.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+Clock.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Clock.h
+Clock.o: /usr/include/time.h /usr/include/machine/time.h
+Clock.o: /usr/include/unistd.h /usr/include/sys/unistd.h
+GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
+GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
+GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
+GameManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+GameManager.o: /usr/include/machine/_types.h
+GameManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+GameManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
+GameManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+GameManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
+GameManager.o: GameManager.h /usr/include/time.h /usr/include/machine/time.h
+GameManager.o: Manager.h LogManager.h utility.h Clock.h /usr/include/unistd.h
+GameManager.o: /usr/include/sys/unistd.h
 LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/_ansi.h
 LogManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 LogManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -67,7 +90,9 @@ game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h LogManager.h
 game.o: /usr/include/stdio.h /usr/include/sys/types.h
 game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-game.o: /usr/include/bits/wordsize.h Manager.h utility.h
+game.o: /usr/include/bits/wordsize.h Manager.h utility.h Clock.h
+game.o: /usr/include/time.h /usr/include/machine/time.h /usr/include/unistd.h
+game.o: /usr/include/sys/unistd.h GameManager.h
 utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
 utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
 utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
