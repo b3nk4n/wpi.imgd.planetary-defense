@@ -19,7 +19,8 @@ LDFLAGS = -lncurses -lrt
     endif
   endif
 endif
-ENGSRC = Manager.cpp
+ENGSRC = Manager.cpp \
+		 LogManager.cpp
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -42,4 +43,13 @@ depend:
 
 # DO NOT DELETE
 
+LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/_ansi.h
+LogManager.o: /usr/include/newlib.h /usr/include/sys/config.h
+LogManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
+LogManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+LogManager.o: /usr/include/machine/_types.h
+LogManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+LogManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
+LogManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+LogManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Manager.h
 Manager.o: Manager.h

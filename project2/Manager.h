@@ -3,6 +3,9 @@
 #ifndef __MANAGER_H__
 #define __MANAGER_H__
 
+/**
+ * The manager base class.
+ */
 class Manager
 {
 protected:
