@@ -1,4 +1,8 @@
-/* utility.cpp */
+/*******************************************************************************
+ * @file        utility.cpp
+ * @author      bsautermeister
+ * @description Utility function modul used in different classes of the engine.
+ ******************************************************************************/
 
 #include <time.h>
 #include <stdio.h>

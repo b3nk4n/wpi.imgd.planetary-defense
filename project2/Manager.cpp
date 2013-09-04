@@ -1,4 +1,9 @@
-/* Manager.cpp */
+/*******************************************************************************
+ * @file        Manager.cpp
+ * @author      bsautermeister
+ * @description The game engines manger base class which defines the basic
+ *              structure of all manager classes.
+ ******************************************************************************/
 
 #include "Manager.h"
 
@@ -7,31 +12,12 @@
  */
 Manager::Manager(void)
 {
-
 }
 /**
  * Cleans up the manager.
  */
 Manager::~Manager(void)
 {
-
-}
-
-/**
- * Starts up the manager.
- * @return Returns 0 if start up was successfull, else negative.
- */
-int Manager::startUp(void)
-{
-	return -1;
-}
-
-/**
- * Shuts down the manager.
- */
-void Manager::shutDown(void)
-{
-
 }
 
 /**

@@ -1,4 +1,9 @@
-/* Manager.h */
+/*******************************************************************************
+ * @file        Manager.h
+ * @author      bsautermeister
+ * @description The game engines manger base class which defines the basic
+ *              structure of all manager classes.
+ ******************************************************************************/
 
 #ifndef __MANAGER_H__
 #define __MANAGER_H__
@@ -28,12 +33,12 @@ public:
 	 * Starts up the manager.
 	 * @return Returns 0 if start up was successfull, else negative.
 	 */
-	virtual int startUp(void);
+	virtual int startUp(void) = 0;
 
 	/**
 	 * Shuts down the manager.
 	 */
-	virtual void shutDown(void);
+	virtual void shutDown(void) = 0;
 
 	/**
 	 * Gets whether the manager is started.
