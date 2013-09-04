@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include "LogManager.h"
+#include "Clock.h"
 
 /**
  * The games main function.
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	// LOGGER TEST
 	int written = logManager.writeLog(LOG_DEBUG,
 		"main()",
 		"Test nummer: %d, string: %s\n",
@@ -32,6 +34,18 @@ int main(int argc, char *argv[])
 		"main()",
 		"Written: %d bytes\n",
 		written);
+
+	// CLOCK TEST
+	Clock clock;
+
+	clock.delta();
+	sleep(1);
+	long int diff = clock.split();
+
+	logManager.writeLog(LOG_DEBUG,
+		"main()",
+		"sleep(1) took exactly: %ldusec\n",
+		diff);
 
 	return 0;
 }

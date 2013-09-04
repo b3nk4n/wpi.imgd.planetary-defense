@@ -23,7 +23,8 @@ LDFLAGS = -lncurses -lrt
 endif
 ENGSRC = Manager.cpp \
 		 LogManager.cpp \
-		 utility.cpp
+		 utility.cpp \
+		 Clock.cpp
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(ENGSRC:.cpp=.o)
