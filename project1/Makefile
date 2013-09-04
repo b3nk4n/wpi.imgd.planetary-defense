@@ -8,21 +8,23 @@ INCPATH = ../include
 ENG = ../lib/libdragonfly.a
 ifeq ($(system),linux32)
 ENG = ../lib/libdragonfly-linux32.a
+LDFLAGS = -lncurses -lrt
 else
   ifeq ($(system),macos)
 PLATFORM = -DMACOS
 ENG = ../lib/libdragonfly-macos64.a
 LDFLAGS = -lncurses
   else
-    ifeq ($(system),linux64)
-ENG = ../lib/libdragonfly-linux64.a
-    else
-PLATFORM = -DCYGWIN
+    ifeq ($(system),cygwin)
 ENG = ../lib/libdragonfly.a
+PLATFORM = -DCYGWIN
+LDFLAGS = -lncurses -lrt
+    else
+ENG = ../lib/libdragonfly-linux64.a
+LDFLAGS = -lncurses -lrt
     endif
   endif
 endif
-LDFLAGS = -lncurses -lrt # for linux/cygwin
 GAMESRC = Saucer.cpp Hero.cpp Bullet.cpp Explosion.cpp \
           EventNuke.cpp Points.cpp Star.cpp GameOver.cpp \
           GameStart.cpp Projectile.cpp Laser.cpp Rocket.cpp \
