@@ -73,17 +73,29 @@ void LogManager::shutDown(void)
  */
 int LogManager::writeLog(const char *format, ...)
 {
-	fprintf(stderr, "Message: ");
+	int bytesWritten = 0;
+	bytesWritten += fprintf(stderr, "[%s] : ", getTimeString());
+
+	if (ferror(stderr))
+	{
+		return -1;
+	}
+
 	va_list args;
 
 	// setup argmument stack
 	va_start(args, format);
 
 	// write format string and including arguments
-	vfprintf(stderr, format, args);
+	bytesWritten += vfprintf(stderr, format, args);
+
+	if (ferror(stderr))
+	{
+		return -1;
+	}
 
 	// cleanup argument stack
 	va_end(args);
 
-	return -1;
+	return bytesWritten;
 }

@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 #include "Manager.h"
-//#include "utility.h"
+#include "utility.h"
 
 #define LOGFILE_NAME "GameEngine.log"
 
@@ -43,7 +43,7 @@ public:
 	 * Gets the singleton log manager instance.
 	 * @return The singleton log manager instance.
 	 */
-	static LogManager& getInstance();
+	static LogManager& getInstance(void);
 
 	/**
 	 * Starts up the log manager.

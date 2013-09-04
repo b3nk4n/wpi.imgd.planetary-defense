@@ -20,7 +20,8 @@ LDFLAGS = -lncurses -lrt
   endif
 endif
 ENGSRC = Manager.cpp \
-		 LogManager.cpp
+		 LogManager.cpp \
+		 utility.cpp
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(ENGSRC:.cpp=.o)
@@ -52,6 +53,7 @@ LogManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 LogManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
 LogManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 LogManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Manager.h
+LogManager.o: utility.h
 Manager.o: Manager.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
@@ -62,4 +64,5 @@ game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h LogManager.h
 game.o: /usr/include/stdio.h /usr/include/sys/types.h
 game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-game.o: /usr/include/bits/wordsize.h Manager.h
+game.o: /usr/include/bits/wordsize.h Manager.h utility.h
+utility.o: utility.h

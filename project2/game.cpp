@@ -12,7 +12,8 @@
 int main(int argc, char *argv[])
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog("Test %d,%s\n", 123, "hallo");
+	int written = logManager.writeLog("Test nummer: %d, string: %s\n", 123, "hallo");
+	logManager.writeLog("Written: %d bytes\n", written);
 
 	return 0;
 }
