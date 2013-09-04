@@ -1,5 +1,6 @@
 /* LogManager.cpp */
 
+#include <stdarg.h>
 #include "LogManager.h"
 
 /**
@@ -40,7 +41,7 @@ LogManager::~LogManager(void)
  * Gets the singleton log manager instance.
  * @return The singleton log manager instance.
  */
-static LogManager LogManager::getInstance(void)
+LogManager& LogManager::getInstance(void)
 {
 	static LogManager logManager;
 	return logManager;
@@ -51,7 +52,7 @@ static LogManager LogManager::getInstance(void)
  * @param flush Optional activates flusing. Default is FALSE.
  * @return Returns 0 if start up was successfull, else negative.
  */
-int LogManager::startUp(bool flush = false)
+int LogManager::startUp(bool flush)
 {
 	return -1;
 }
@@ -72,5 +73,17 @@ void LogManager::shutDown(void)
  */
 int LogManager::writeLog(const char *format, ...)
 {
+	fprintf(stderr, "Message: ");
+	va_list args;
+
+	// setup argmument stack
+	va_start(args, format);
+
+	// write format string and including arguments
+	vfprintf(stderr, format, args);
+
+	// cleanup argument stack
+	va_end(args);
+
 	return -1;
 }

@@ -12,7 +12,7 @@ protected:
 	/**
 	 * Indicates whether starting was successful.
 	 */
-	bool isStarted;
+	bool _isStarted;
 
 public:
 	/**

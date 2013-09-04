@@ -23,7 +23,7 @@ Manager::~Manager(void)
  */
 int Manager::startUp(void)
 {
-
+	return -1;
 }
 
 /**
@@ -38,7 +38,7 @@ void Manager::shutDown(void)
  * Gets whether the manager is started.
  * @return Returns TRUE if start up was successfull.
  */
-bool isStarted(void)
+bool Manager::isStarted(void)
 {
-	return this->isStarted;
+	return this->_isStarted;
 }

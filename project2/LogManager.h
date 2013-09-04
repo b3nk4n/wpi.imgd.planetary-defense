@@ -4,7 +4,9 @@
 #define __LOG_MANAGER_H__
 
 #include <stdio.h>
+
 #include "Manager.h"
+//#include "utility.h"
 
 #define LOGFILE_NAME "GameEngine.log"
 
@@ -41,14 +43,14 @@ public:
 	 * Gets the singleton log manager instance.
 	 * @return The singleton log manager instance.
 	 */
-	static LogManager getInstance(void);
+	static LogManager& getInstance();
 
 	/**
 	 * Starts up the log manager.
 	 * @param flush Optional activates flusing. Default is FALSE.
 	 * @return Returns 0 if start up was successfull, else negative.
 	 */
-	int startUp(bool flush = false);
+	int startUp(bool flush=false);
 
 	/**
 	 * Shuts down the log manager.
