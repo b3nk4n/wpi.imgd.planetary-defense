@@ -26,6 +26,7 @@ ENGSRC = Clock.cpp \
 		 LogManager.cpp \
 		 Manager.cpp \
 		 Object.cpp \
+		 ObjectList.cpp \
 		 Position.cpp \
 		 utility.cpp	 
 GAME = game.cpp
@@ -96,6 +97,7 @@ LogManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Manager.h
 LogManager.o: utility.h
 Manager.o: Manager.h
 Object.o: Object.h Position.h
+ObjectList.o: ObjectList.h Object.h Position.h
 Position.o: Position.h
 utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
 utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
