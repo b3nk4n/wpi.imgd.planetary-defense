@@ -26,10 +26,10 @@ ObjectList::~ObjectList(void)
 /**
  * Creates a game object interator instance.
  */
-/*ObjectListIterator ObjectList::createIterator() const
+ObjectListIterator ObjectList::createIterator() const
 {
-
-}*/
+	return ObjectListIterator(this);
+}
 
 /**
  * Inserts a new object to the list.

@@ -9,12 +9,12 @@
 #define __OBJECT_LIST_H__
 
 #include "Object.h"
-//#include "ObjectListIterator.h"
+#include "ObjectListIterator.h"
 
 // forward referencing
 class ObjectListIterator;
 
-#define MAX_OBJECTS 4096
+#define MAX_OBJECTS 32 // TODO: 4096
 
 /**
  * Class representing a iterable and efficient list of game objects.
@@ -47,12 +47,12 @@ public:
 	/**
 	 * The friend iterator class.
 	 */
-	//friend class ObjectListIterator;
+	friend class ObjectListIterator;
 
 	/**
 	 * Creates a game object interator instance.
 	 */
-	//ObjectListIterator createIterator() const;
+	ObjectListIterator createIterator() const;
 
 	/**
 	 * Inserts a new object to the list.
