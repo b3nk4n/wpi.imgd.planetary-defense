@@ -1,7 +1,7 @@
 /*******************************************************************************
  * @file        Clock.h
  * @author      bsautermeister
- * @description Supports stopwatch like functionality.
+ * @description Supports stopwatch like functionality in microseconds (usec).
  ******************************************************************************/
 #ifndef __CLOCK_H__
 #define __CLOCK_H__
@@ -9,6 +9,9 @@
 #include <time.h>
 #include <unistd.h>
 
+/**
+ * Represents a stopwatch for time mesurement.
+ */
 class Clock
 {
 private:

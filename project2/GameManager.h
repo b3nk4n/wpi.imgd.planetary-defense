@@ -12,6 +12,9 @@
 
 #define DEFAULT_FRAME_TIME 33333 // in usec
 
+/**
+ * Class which manages the games workflow.
+ */
 class GameManager : public Manager
 {
 private:
