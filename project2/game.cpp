@@ -5,6 +5,7 @@
  ******************************************************************************/
 
 #include <stdlib.h>
+#include <string.h>
 #include "LogManager.h"
 #include "Clock.h"
 #include "GameManager.h"
@@ -40,18 +41,24 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	// RUN TESTS
-	logManagerTest();
-	clockTest();
-	objectListTest();
+	if (argc > 1 &&
+		strcmp(argv[1], "test") == 0)
+	{
+		// RUN TESTS
+		logManagerTest();
+		clockTest();
+		objectListTest();
+	}
+	else
+	{
+		// RUN GAME
+		long int loops = gameManager.run();
 
-	// RUN GAME
-	/*long int loops = gameManager.run();
-
-	logManager.writeLog(LOG_DEBUG,
-		"main()",
-		"Loops done by the game manager: %ld\n",
-		loops);*/
+		logManager.writeLog(LOG_DEBUG,
+			"main()",
+			"Loops done by the game manager: %ld\n",
+			loops);
+	}
 
 	// shutdown everything
 	gameManager.shutDown();
@@ -109,7 +116,7 @@ void objectListTest(void)
 	// insert tests
 	objectListFillWithObject(&list_singleObject, 1);
 	objectListFillWithObject(&list_threeObjects, 3);
-	objectListFillWithObject(&list_full, MAX_OBJECTS);
+	objectListFillWithObject(&list_full, INIT_LIST_SIZE);
 
 	objectList2Log(&list_empty);
 	objectList2Log(&list_singleObject);
@@ -148,21 +155,21 @@ void objectListTest(void)
 	// test for full list
 	logManager.writeLog(LOG_DEBUG,
 			"objectListTest()",
-			"Empty list with size %d is not full (%s), but empty (%s)\n",
+			"Empty list with size %d has not readhed capacity (%s), but empty (%s)\n",
 			list_empty.getCount(),
-			list_empty.isFull() == false ? "true" : "false",
+			list_empty.reachedCapacity() == false ? "true" : "false",
 			list_empty.isEmpty() == true ? "true" : "false");
 	logManager.writeLog(LOG_DEBUG,
 			"objectListTest()",
-			"Full list with size %d is full (%s), but not empty (%s)\n",
+			"Full list with size %d has readhed capacity (%s), but not empty (%s)\n",
 			list_full.getCount(),
-			list_full.isFull() == true ? "true" : "false",
+			list_full.reachedCapacity() == true ? "true" : "false",
 			list_full.isEmpty() == false ? "true" : "false");
 
 	logManager.writeLog(LOG_DEBUG,
 			"objectListTest()",
-			"Inserting to full list returns error (%s)\n",
-			list_full.insert(&obj) == -1 ? "true" : "false");
+			"Inserting to full list returns no error because of auto realloc (%s)\n",
+			list_full.insert(&obj) == 0 ? "true" : "false");
 }
 
 /**

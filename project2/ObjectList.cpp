@@ -5,6 +5,9 @@
  *              game objects efficiently.
  ******************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "ObjectList.h"
 
 /**
@@ -13,6 +16,43 @@
 ObjectList::ObjectList(void)
 {
 	_count = 0;
+	_capacity = 0;
+
+	// allocate memory dynamically
+	_pp_data = (Object **)malloc(sizeof(Object*) * INIT_LIST_SIZE);
+	
+	// verify memory allocation was successful
+	if (_pp_data == NULL)
+	{
+		perror("Memory allocation of object list failed.");
+		return;
+	}
+
+	_capacity = INIT_LIST_SIZE;
+}
+
+/**
+ * Deep copy constructor to create a copy of another list.
+ * @param otherList The other list to copy over.
+ */
+ObjectList::ObjectList(const ObjectList &otherList)
+{
+	// allocate memory dynamically
+	_pp_data = (Object **)malloc(sizeof(Object*) * otherList._capacity);
+
+	// verify memory allocation was successful
+	if (_pp_data == NULL)
+	{
+		perror("Memory allocation of object list failed.");
+		return;
+	}
+
+	// copy over the data
+	memcpy(_pp_data, otherList._pp_data, sizeof(Object *) * otherList._count);
+
+	// adjust size and capacity
+	_capacity = otherList._capacity;
+	_count = otherList._count;
 }
 
 /**
@@ -21,6 +61,7 @@ ObjectList::ObjectList(void)
 ObjectList::~ObjectList(void)
 {
 	clear();
+	free(_pp_data);
 }
 
 /**
@@ -38,11 +79,26 @@ ObjectListIterator ObjectList::createIterator() const
  */
 int ObjectList::insert(Object *p_object)
 {
-	// verify list is not full
-	if (isFull())
-		return -1;
+	// verify reallocation of memory required
+	if (reachedCapacity())
+	{
+		Object **_pp_newData;
+		_pp_newData = (Object **)realloc(_pp_data, 2 * sizeof(Object *) * _capacity);
+		
+		// verify memory allocation was successful
+		if (_pp_newData == NULL)
+		{
+			perror("Memory reallocation of object list failed.");
+			free(_pp_newData);
+			return -1;
+		}
 
-	_list[_count++] = p_object;
+		// use the new array and 
+		_pp_data = _pp_newData;
+		_capacity *= 2;
+	}
+
+	_pp_data[_count++] = p_object;
 	return 0;
 }
 
@@ -57,12 +113,12 @@ int ObjectList::remove(Object *p_object)
 	for (int i = 0; i < _count; ++i)
 	{
 		// check if referenced object was found
-		if (_list[i] == p_object)
+		if (_pp_data[i] == p_object)
 		{
 			// keep the list order and gapless
 			for (int j = i; j < _count; ++j)
 			{
-				_list[j] = _list[j + 1];
+				_pp_data[j] = _pp_data[j + 1];
 			}
 
 			--_count;
@@ -102,10 +158,81 @@ bool ObjectList::isEmpty(void)
 }
 
 /**
- * Gets whether the object list is full.
- * @return Returns TRUE when the list is full, else FALSE.
+ * Gets whether the object list is full and needs a reallocation.
+ * @return Returns TRUE when the list is full and needs to be reallocated, else FALSE.
  */
-bool ObjectList::isFull(void)
+bool ObjectList::reachedCapacity(void)
 {
-	return _count == MAX_OBJECTS;
+	return _count == _capacity;
+}
+
+/**
+ * Appends the second list to the first list. It appends as much as it can.
+ * @param otherList The list to append.
+ * @return The concatenated list.
+ */
+ObjectList ObjectList::operator+(ObjectList otherList)
+{
+	Object **_pp_newData;
+	int resizeFacor = 2;
+
+	// find best power-of-two resize factor
+	while (resizeFacor * _capacity < _count + otherList._count)
+		resizeFacor *= 2;
+
+	// reallocate the memory
+	_pp_newData = (Object **)realloc(_pp_data, resizeFacor * sizeof(Object *) * _capacity);
+	
+	// verify memory allocation was successful
+	if (_pp_newData == NULL)
+	{
+		perror("Memory reallocation of object list failed.");
+		free(_pp_newData);
+		return *this;
+	}
+
+	// use the new array and adjust the new capacity
+	_pp_data = _pp_newData;
+	_capacity *= 2;
+
+	// append the other lists objects
+	memcpy(_pp_data + _count, otherList._pp_data, sizeof(Object *) * otherList._count);
+
+	return *this;
+}
+
+/**
+ * Assigns an other lists values to this object list by deep copy.
+ * @param otherList The other object list to assign from.
+ */
+ObjectList& ObjectList::operator=(const ObjectList &otherList)
+{
+	// verify not to assign the same instance
+	if (&otherList == this)
+		return *this;
+
+	// free previous allocated memory
+	if (_pp_data != NULL)
+	{
+		free(_pp_data);
+	}
+
+	// allocate new memory dynamically
+	_pp_data = (Object **)malloc(sizeof(Object*) * otherList._capacity);
+
+	// verify memory allocation was successful
+	if (_pp_data == NULL)
+	{
+		perror("Memory allocation of object list failed.");
+		return *this;
+	}
+
+	// copy over the data
+	memcpy(_pp_data, otherList._pp_data, sizeof(Object *) * otherList._capacity);
+
+	// adjust size and capacity
+	_capacity = otherList._capacity;
+	_count = otherList._count;
+
+	return *this;
 }

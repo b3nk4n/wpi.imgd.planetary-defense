@@ -62,5 +62,5 @@ bool ObjectListIterator::isDone(void)
  */
 Object *ObjectListIterator::currentObject(void)
 {
-	return _p_list->_list[_index];
+	return _p_list->_pp_data[_index];
 }

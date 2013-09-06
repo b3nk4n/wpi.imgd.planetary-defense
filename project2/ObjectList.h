@@ -14,7 +14,7 @@
 // forward referencing
 class ObjectListIterator;
 
-#define MAX_OBJECTS 32 // TODO: 4096
+#define INIT_LIST_SIZE 128
 
 /**
  * Class representing a iterable and efficient list of game objects.
@@ -28,16 +28,27 @@ private:
 	int _count;
 
 	/**
-	 * The fixed/static array of pointers to game objects
-	 * with default size of MAX_OBJECTS.
+	 * The current object capacity of the list.
 	 */
-	Object *_list[MAX_OBJECTS];
+	int _capacity;
+
+	/**
+	 * The fixed/static array of pointers to game objects
+	 * with initial size of INIT_LIST_SIZE.
+	 */
+	Object **_pp_data;
 
 public:
 	/**
 	 * Creates a new game object list instance.
 	 */
 	ObjectList(void);
+
+	/**
+	 * Deep copy constructor to create a copy of another list.
+	 * @param otherList The other list to copy over.
+	 */
+	ObjectList(const ObjectList &otherList);
 
 	/**
 	 * Cleans up the game object list.
@@ -86,10 +97,23 @@ public:
 	bool isEmpty(void);
 
 	/**
-	 * Gets whether the object list is full.
-	 * @return Returns TRUE when the list is full, else FALSE.
+	 * Gets whether the object list is full and needs a reallocation.
+	 * @return Returns TRUE when the list is full and needs to be reallocated, else FALSE.
 	 */
-	bool isFull(void);
+	bool reachedCapacity(void);
+
+	/**
+	 * Appends the second list to the first list. It appends as much as it can.
+	 * @param otherList The list to append.
+	 * @return The concatenated list.
+	 */
+	ObjectList operator+(ObjectList otherList);
+
+	/**
+	 * Assigns an other lists values to this object list by deep copy.
+	 * @param otherList The other object list to assign from.
+	 */
+	ObjectList &operator=(const ObjectList &otherList);
 };
 
 #endif
