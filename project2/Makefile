@@ -24,6 +24,7 @@ endif
 ENGSRC = Clock.cpp \
 		 GameManager.cpp \
 		 Event.cpp \
+		 EventStep.cpp \
 		 LogManager.cpp \
 		 Manager.cpp \
 		 Object.cpp \
@@ -63,6 +64,7 @@ Clock.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Clock.h
 Clock.o: /usr/include/time.h /usr/include/machine/time.h
 Clock.o: /usr/include/unistd.h /usr/include/sys/unistd.h
 Event.o: Event.h
+EventStep.o: EventStep.h Event.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
 GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
