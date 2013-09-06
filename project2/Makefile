@@ -76,8 +76,10 @@ GameManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
 GameManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 GameManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
 GameManager.o: GameManager.h /usr/include/time.h /usr/include/machine/time.h
-GameManager.o: Manager.h LogManager.h utility.h Clock.h /usr/include/unistd.h
-GameManager.o: /usr/include/sys/unistd.h
+GameManager.o: Manager.h ObjectList.h Object.h Position.h Event.h
+GameManager.o: ObjectListIterator.h LogManager.h utility.h Clock.h
+GameManager.o: /usr/include/unistd.h /usr/include/sys/unistd.h WorldManager.h
+GameManager.o: EventStep.h
 LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/_ansi.h
 LogManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 LogManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -89,7 +91,8 @@ LogManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 LogManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Manager.h
 LogManager.o: utility.h
 Manager.o: Manager.h
-Object.o: Object.h Position.h
+Object.o: Object.h Position.h Event.h WorldManager.h Manager.h ObjectList.h
+Object.o: ObjectListIterator.h
 ObjectList.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 ObjectList.o: /usr/include/_ansi.h /usr/include/newlib.h
 ObjectList.o: /usr/include/sys/config.h /usr/include/sys/features.h
@@ -102,9 +105,21 @@ ObjectList.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 ObjectList.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 ObjectList.o: /usr/include/bits/wordsize.h /usr/include/string.h
 ObjectList.o: /usr/include/sys/string.h ObjectList.h Object.h Position.h
-ObjectList.o: ObjectListIterator.h
+ObjectList.o: Event.h ObjectListIterator.h LogManager.h Manager.h utility.h
 ObjectListIterator.o: ObjectListIterator.h ObjectList.h Object.h Position.h
+ObjectListIterator.o: Event.h
 Position.o: Position.h
+WorldManager.o: WorldManager.h Manager.h ObjectList.h Object.h Position.h
+WorldManager.o: Event.h ObjectListIterator.h LogManager.h
+WorldManager.o: /usr/include/stdio.h /usr/include/_ansi.h
+WorldManager.o: /usr/include/newlib.h /usr/include/sys/config.h
+WorldManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
+WorldManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+WorldManager.o: /usr/include/machine/_types.h
+WorldManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+WorldManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
+WorldManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+WorldManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h utility.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
 game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
@@ -117,7 +132,7 @@ game.o: /usr/include/stdio.h /usr/include/sys/types.h
 game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h Manager.h
 game.o: utility.h Clock.h /usr/include/time.h /usr/include/machine/time.h
 game.o: /usr/include/unistd.h /usr/include/sys/unistd.h GameManager.h
-game.o: ObjectList.h Object.h Position.h ObjectListIterator.h
+game.o: ObjectList.h Object.h Position.h Event.h ObjectListIterator.h
 utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
 utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
 utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h

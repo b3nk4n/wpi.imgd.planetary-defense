@@ -6,15 +6,19 @@
 
 #include <stdio.h>
 #include "GameManager.h"
+#include "ObjectList.h"
 #include "LogManager.h"
 #include "Clock.h"
+#include "WorldManager.h"
+#include "EventStep.h"
 
 /**
  * Creates a game manager instance.
  */
 GameManager::GameManager(void)
 {
-
+	_frameTime = DEFAULT_FRAME_TIME;
+	_gameOver = false;
 }
 
 /**
@@ -66,12 +70,39 @@ int GameManager::startUp(void)
 int GameManager::startUp(bool flush)
 {
 	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
 
 	if (logManager.startUp(flush))
 	{
-		perror("Could not start the log manager");
+		perror("LogManager could not be started");
 		return -1;
 	}
+	else
+	{
+		logManager.writeLog(LOG_ERROR,
+			"GameManager::startUp()",
+			"LogManager started\n");
+	}
+
+	if (worldManager.startUp())
+	{
+		logManager.writeLog(LOG_ERROR,
+			"GameManager::startUp()",
+			"WorldManager could not be started\n");
+		return -1;
+	}
+	else
+	{
+		logManager.writeLog(LOG_ERROR,
+			"GameManager::startUp()",
+			"WorldManager started\n");
+	}
+
+	_isStarted = true;
+
+	logManager.writeLog(LOG_INFO,
+			"GameManager::startUp()",
+			"GameManager start up process completed\n");
 
 	return 0;
 }
@@ -82,8 +113,16 @@ int GameManager::startUp(bool flush)
 void GameManager::shutDown(void)
 {
 	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
 
+	logManager.writeLog(LOG_INFO,
+			"GameManager::shutDown()",
+			"GameManager shut down process started\n");
+
+	worldManager.shutDown();
 	logManager.shutDown();
+
+	_isStarted = false;
 }
 
 /**
@@ -96,6 +135,7 @@ long int GameManager::run(int frameTime)
 	Clock clock;
 	long int loopTime;
 	long int loopCounter = 0;
+	WorldManager &worldManager = WorldManager::getInstance();
 
 	// set custom frame time
 	_frameTime = frameTime;
@@ -105,19 +145,31 @@ long int GameManager::run(int frameTime)
 		clock.delta();
 		++loopCounter;
 
-		// get input
+		// 1 - GET INPUT
 
 
-		// update game scene
+		// 2 - UPDATE GAME SCENE
+		ObjectList allObjects = worldManager.getAllObjects();
+		EventStep eventStep;
+
+		// fire events
+		ObjectListIterator it(&allObjects);
+		for (it.first(); !it.isDone(); it.next())
+		{
+			Object *p_object = it.currentObject();
+			p_object->eventHandler(&eventStep);
+		}
+
+		// update the game world
+		worldManager.update();
+
+		// 3 - RENDER GAME SCENE TO BACK BUFFER
 
 
-		// render game scene to back buffer
+		// 4 - SWAP BACK BUFFER TO CURRENT BUFFER
 
 
-		// swap back buffer to current buffer
-
-
-		// measure current loop time and sleep to hit target time
+		// 5 - MEASURE CURRENT LOOP TIME AND SLEEP TO HIT THE TARGET TIME
 		loopTime = clock.split();
 		usleep(_frameTime - loopTime);
 	}

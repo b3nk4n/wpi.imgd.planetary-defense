@@ -59,7 +59,7 @@ public:
 	 * Starts up all game manager services.
 	 * @return Returns 0 if start up was successfull, else negative.
 	 */
-	virtual int startUp(void);
+	int startUp(void);
 
 	/**
 	 * Starts up all game manager services.

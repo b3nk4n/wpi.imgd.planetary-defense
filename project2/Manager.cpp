@@ -12,6 +12,7 @@
  */
 Manager::Manager(void)
 {
+	_isStarted = false;
 }
 /**
  * Cleans up the manager.

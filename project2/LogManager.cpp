@@ -102,7 +102,7 @@ void LogManager::shutDown(void)
 int LogManager::writeLog(int verbosity, const char *source, const char *format, ...)
 {
 	// verify log level
-	if (verbosity > this->_verbosity)
+	if (verbosity > _verbosity)
 		return 0;
 
 	int bytesWritten = 0;
@@ -152,5 +152,5 @@ int LogManager::writeLog(int verbosity, const char *source, const char *format, 
  */
 void LogManager::setVerbosity(int verbosity)
 {
-	this->_verbosity = verbosity;
+	_verbosity = verbosity;
 }

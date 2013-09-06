@@ -27,19 +27,20 @@ void objectList2Log(ObjectList *p_objectList);
 int main(int argc, char *argv[])
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.setVerbosity(LOG_DEBUG);
-
-	// start up game manager
 	GameManager &gameManager = GameManager::getInstance();
-
+	
+	// startup the game manager
 	if (gameManager.startUp(true))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"main()",
-			"Game startup error");
+			"Game startup error\n");
 		gameManager.shutDown();
 		exit(1);
 	}
+
+	// configure the log manager
+	logManager.setVerbosity(LOG_DEBUG);
 
 	if (argc > 1 &&
 		strcmp(argv[1], "test") == 0)

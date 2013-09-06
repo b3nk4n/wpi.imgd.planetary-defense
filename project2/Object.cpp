@@ -6,6 +6,7 @@
  ******************************************************************************/
 
 #include "Object.h"
+#include "WorldManager.h"
 
 /**
  * Creates a game object instance.
@@ -13,6 +14,10 @@
 Object::Object(void)
 {
 	setType(TYPE_OBJECT);
+
+	// add itself to the world manager
+	WorldManager &worldManager = WorldManager::getInstance();
+	worldManager.insertObject(this);
 }
 
 /**
@@ -20,6 +25,9 @@ Object::Object(void)
  */
 Object::~Object(void)
 {
+	// remove itself from the world manager
+	WorldManager &worldManager = WorldManager::getInstance();
+	worldManager.removeObject(this);
 }
 
 /**
@@ -29,6 +37,7 @@ Object::~Object(void)
  */
 int Object::eventHandler(Event *p_event)
 {
+	// event was not handled
 	return 0;
 }
 

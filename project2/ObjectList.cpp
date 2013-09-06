@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "ObjectList.h"
+#include "LogManager.h"
 
 /**
  * Creates a new game object list instance.
@@ -79,6 +80,10 @@ ObjectListIterator ObjectList::createIterator() const
  */
 int ObjectList::insert(Object *p_object)
 {
+	// verify object
+	if (p_object == NULL)
+		return -1;
+
 	// verify reallocation of memory required
 	if (isFull())
 	{
@@ -110,6 +115,10 @@ int ObjectList::insert(Object *p_object)
  */
 int ObjectList::remove(Object *p_object)
 {
+	// verify object
+	if (p_object == NULL)
+		return -1;
+
 	for (int i = 0; i < _count; ++i)
 	{
 		// check if referenced object was found

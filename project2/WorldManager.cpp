@@ -6,6 +6,7 @@
  ******************************************************************************/
 
 #include "WorldManager.h"
+#include "LogManager.h"
 
 /**
  * Creates a world manager instance.
@@ -35,7 +36,8 @@ void WorldManager::operator=(WorldManager const&)
  */
 WorldManager& WorldManager::getInstance(void)
 {
-
+	static WorldManager worldManager;
+	return worldManager;
 }
 
 /**
@@ -44,7 +46,10 @@ WorldManager& WorldManager::getInstance(void)
  */
 int WorldManager::startUp(void)
 {
-
+	//_updates = new ObjectList();
+	//_deletions = new ObjectList();
+	_isStarted = true;
+	return 0;
 }
 
 /**
@@ -52,7 +57,7 @@ int WorldManager::startUp(void)
  */
 void WorldManager::shutDown(void)
 {
-
+	_isStarted = false;
 }
 
 /**
@@ -62,7 +67,17 @@ void WorldManager::shutDown(void)
  */
 int WorldManager::insertObject(Object *p_object)
 {
+	LogManager &logManager = LogManager::getInstance();
 
+	/*if (_updates != NULL)
+	{
+		logManager.writeLog(LOG_DEBUG,
+		"WorldManager::insertObject()",
+		"_updates is not NULL and count: %d",
+		_updates->getCount());
+	}*/
+
+	return _updates.insert(p_object);
 }
 
 /**
@@ -72,7 +87,7 @@ int WorldManager::insertObject(Object *p_object)
  */
 int WorldManager::removeObject(Object *p_object)
 {
-
+	return _updates.remove(p_object);
 }
 
 /**
@@ -81,7 +96,7 @@ int WorldManager::removeObject(Object *p_object)
  */
 ObjectList WorldManager::getAllObjects(void)
 {
-
+	return _updates;
 }
 
 /**
@@ -89,7 +104,15 @@ ObjectList WorldManager::getAllObjects(void)
  */
 void WorldManager::update(void)
 {
+	// delete all marked objects
+	ObjectListIterator it(&_deletions);
+	for (it.first(); !it.isDone(); it.next())
+	{
+		delete it.currentObject();
+	}
 
+	// clear deletion list for next update
+	_deletions.clear();
 }
 
 /**
@@ -99,5 +122,18 @@ void WorldManager::update(void)
  */
 int WorldManager::markForDelete(Object *p_object)
 {
+	// verify object
+	if (p_object == NULL)
+		return -1;
 
+	// verify game object not no mark twice
+	ObjectListIterator it(&_deletions);
+	for (it.first(); !it.isDone(); it.next())
+	{
+		if (p_object == it.currentObject())
+			return 0;
+	}
+
+	_deletions.insert(p_object);
+	return 0;
 }

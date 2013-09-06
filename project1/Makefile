@@ -52,50 +52,31 @@ clean:
 
 depend: 
 	makedepend *.cpp 2> /dev/null
-
 # DO NOT DELETE
 
+Boss.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+Boss.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+Boss.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+Boss.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+Boss.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+Boss.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Boss.h Enemy.h
+Boss.o: Explosion.h EventLevelCommand.h BossBullet.h Projectile.h
 BossBullet.o: BossBullet.h Projectile.h
-Boss.o: /usr/include/stdlib.h /usr/include/features.h
-Boss.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
-Boss.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
-Boss.o: /usr/include/sys/types.h /usr/include/bits/types.h
-Boss.o: /usr/include/bits/typesizes.h /usr/include/time.h
-Boss.o: /usr/include/endian.h /usr/include/bits/endian.h
-Boss.o: /usr/include/sys/select.h /usr/include/bits/select.h
-Boss.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
-Boss.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
-Boss.o: /usr/include/alloca.h Boss.h Enemy.h Explosion.h EventLevelCommand.h
-Boss.o: BossBullet.h Projectile.h
 Bullet.o: Bullet.h Projectile.h
-Enemy.o: /usr/include/stdlib.h /usr/include/features.h
-Enemy.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
-Enemy.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
-Enemy.o: /usr/include/sys/types.h /usr/include/bits/types.h
-Enemy.o: /usr/include/bits/typesizes.h /usr/include/time.h
-Enemy.o: /usr/include/endian.h /usr/include/bits/endian.h
-Enemy.o: /usr/include/sys/select.h /usr/include/bits/select.h
-Enemy.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
-Enemy.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
-Enemy.o: /usr/include/alloca.h Enemy.h Explosion.h EventNuke.h
-Enemy.o: EventDetonation.h EventLevelCommand.h Points.h PowerupScore.h
-Enemy.o: Powerup.h PowerupLaser.h PowerupRocket.h PowerupNuke.h
-Enemy.o: PowerupDoubleBullet.h
+Enemy.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+Enemy.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+Enemy.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+Enemy.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+Enemy.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+Enemy.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Enemy.h
+Enemy.o: Explosion.h EventNuke.h EventDetonation.h EventLevelCommand.h
+Enemy.o: Points.h PowerupScore.h Powerup.h PowerupLaser.h PowerupRocket.h
+Enemy.o: PowerupNuke.h PowerupDoubleBullet.h
 EventDetonation.o: EventDetonation.h
 EventLevelCommand.o: EventLevelCommand.h
 EventNuke.o: EventNuke.h
 EventPowerup.o: EventPowerup.h
 Explosion.o: Explosion.h
-game.o: /usr/include/stdlib.h /usr/include/features.h
-game.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
-game.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
-game.o: /usr/include/sys/types.h /usr/include/bits/types.h
-game.o: /usr/include/bits/typesizes.h /usr/include/time.h
-game.o: /usr/include/endian.h /usr/include/bits/endian.h
-game.o: /usr/include/sys/select.h /usr/include/bits/select.h
-game.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
-game.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
-game.o: /usr/include/alloca.h Star.h GameStart.h
 GameLevelUpdater.o: GameLevelUpdater.h EventLevelCommand.h GameStart.h
 GameLevelUpdater.o: Saucer.h Enemy.h Explosion.h Ufo.h Boss.h
 GameOver.o: GameOver.h GameStart.h
@@ -107,14 +88,14 @@ Hero.o: Bullet.h Projectile.h Laser.h Rocket.h GameOver.h Explosion.h
 Hero.o: Points.h Hitpoints.h
 Hitpoints.o: Hitpoints.h Hero.h EventPowerup.h
 Laser.o: Laser.h Projectile.h
-Points.o: /usr/include/stdio.h /usr/include/features.h
-Points.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
-Points.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
-Points.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
-Points.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
-Points.o: /usr/include/bits/wchar.h /usr/include/gconv.h
-Points.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
-Points.o: Points.h
+Points.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
+Points.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
+Points.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+Points.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+Points.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+Points.o: /usr/include/sys/types.h /usr/include/machine/types.h
+Points.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+Points.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Points.h
 Powerup.o: Powerup.h Hero.h EventPowerup.h
 PowerupDoubleBullet.o: PowerupDoubleBullet.h Powerup.h Points.h
 PowerupDoubleBullet.o: EventPowerup.h
@@ -125,14 +106,17 @@ PowerupScore.o: PowerupScore.h Powerup.h Points.h EventPowerup.h
 Projectile.o: Projectile.h
 Rocket.o: Rocket.h Projectile.h EventDetonation.h Explosion.h
 Saucer.o: Saucer.h Enemy.h Explosion.h EventLevelCommand.h
-Star.o: /usr/include/stdlib.h /usr/include/features.h
-Star.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
-Star.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
-Star.o: /usr/include/sys/types.h /usr/include/bits/types.h
-Star.o: /usr/include/bits/typesizes.h /usr/include/time.h
-Star.o: /usr/include/endian.h /usr/include/bits/endian.h
-Star.o: /usr/include/sys/select.h /usr/include/bits/select.h
-Star.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
-Star.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
-Star.o: /usr/include/alloca.h Star.h
+Star.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+Star.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+Star.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+Star.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+Star.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+Star.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Star.h
 Ufo.o: Ufo.h Enemy.h Explosion.h EventLevelCommand.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Star.h
+game.o: GameStart.h
