@@ -23,6 +23,16 @@ Object::~Object(void)
 }
 
 /**
+ * Handles events, while default is to ignore all events.
+ * @param p_event Points to the current event to handle.
+ * @return Return 0 if ignored, else 1 if event was handled.
+ */
+int Object::eventHandler(Event *p_event)
+{
+	return 0;
+}
+
+/**
  * Gets the game objects type.
  * @return The game object type.
  */

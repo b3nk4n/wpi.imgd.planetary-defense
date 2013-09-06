@@ -10,6 +10,7 @@
 
 #include <string>
 #include "Position.h"
+#include "Event.h"
 
 using std::string;
 
@@ -41,6 +42,13 @@ public:
 	 * Cleans up the game object.
 	 */
 	virtual ~Object(void);
+
+	/**
+	 * Handles events, while default is to ignore all events.
+	 * @param p_event Points to the current event to handle.
+	 * @return Return 0 if ignored, else 1 if event was handled.
+	 */
+	virtual int eventHandler(Event *p_event);
 
 	/**
 	 * Gets the game objects type.

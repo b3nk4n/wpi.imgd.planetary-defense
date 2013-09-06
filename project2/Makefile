@@ -31,7 +31,8 @@ ENGSRC = Clock.cpp \
 		 ObjectList.cpp \
 		 ObjectListIterator.cpp \
 		 Position.cpp \
-		 utility.cpp	 
+		 utility.cpp \
+		 WorldManager.cpp 
 GAME = game.cpp
 EXECUTABLE = game
 OBJECTS = $(ENGSRC:.cpp=.o)
