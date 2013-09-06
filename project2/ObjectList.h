@@ -100,7 +100,7 @@ public:
 	 * Gets whether the object list is full and needs a reallocation.
 	 * @return Returns TRUE when the list is full and needs to be reallocated, else FALSE.
 	 */
-	bool reachedCapacity(void);
+	bool isFull(void);
 
 	/**
 	 * Appends the second list to the first list. It appends as much as it can.

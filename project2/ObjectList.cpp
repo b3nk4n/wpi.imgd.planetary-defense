@@ -80,7 +80,7 @@ ObjectListIterator ObjectList::createIterator() const
 int ObjectList::insert(Object *p_object)
 {
 	// verify reallocation of memory required
-	if (reachedCapacity())
+	if (isFull())
 	{
 		Object **_pp_newData;
 		_pp_newData = (Object **)realloc(_pp_data, 2 * sizeof(Object *) * _capacity);
@@ -161,7 +161,7 @@ bool ObjectList::isEmpty(void)
  * Gets whether the object list is full and needs a reallocation.
  * @return Returns TRUE when the list is full and needs to be reallocated, else FALSE.
  */
-bool ObjectList::reachedCapacity(void)
+bool ObjectList::isFull(void)
 {
 	return _count == _capacity;
 }
@@ -173,15 +173,19 @@ bool ObjectList::reachedCapacity(void)
  */
 ObjectList ObjectList::operator+(ObjectList otherList)
 {
+	// verify other list is not empty
+	if (otherList.isEmpty())
+		return *this;
+	
 	Object **_pp_newData;
-	int resizeFacor = 2;
+	int resizeFactor = 2;
 
 	// find best power-of-two resize factor
-	while (resizeFacor * _capacity < _count + otherList._count)
-		resizeFacor *= 2;
+	while (resizeFactor * _capacity < _count + otherList._count)
+		resizeFactor *= 2;
 
 	// reallocate the memory
-	_pp_newData = (Object **)realloc(_pp_data, resizeFacor * sizeof(Object *) * _capacity);
+	_pp_newData = (Object **)realloc(_pp_data, resizeFactor * sizeof(Object *) * _capacity);
 	
 	// verify memory allocation was successful
 	if (_pp_newData == NULL)
@@ -191,12 +195,15 @@ ObjectList ObjectList::operator+(ObjectList otherList)
 		return *this;
 	}
 
-	// use the new array and adjust the new capacity
+	// use the new reallocated memory
 	_pp_data = _pp_newData;
-	_capacity *= 2;
 
 	// append the other lists objects
 	memcpy(_pp_data + _count, otherList._pp_data, sizeof(Object *) * otherList._count);
+
+	// adjust capacity and count
+	_capacity *= resizeFactor;
+	_count += otherList._count;
 
 	return *this;
 }

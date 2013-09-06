@@ -152,24 +152,66 @@ void objectListTest(void)
 
 	objectList2Log(&list_threeObjects);
 
-	// test for full list
+	// full/resize tests
 	logManager.writeLog(LOG_DEBUG,
 			"objectListTest()",
-			"Empty list with size %d has not readhed capacity (%s), but empty (%s)\n",
+			"Empty list with size %d has not reached capacity (%s), but empty (%s)\n",
 			list_empty.getCount(),
-			list_empty.reachedCapacity() == false ? "true" : "false",
+			list_empty.isFull() == false ? "true" : "false",
 			list_empty.isEmpty() == true ? "true" : "false");
 	logManager.writeLog(LOG_DEBUG,
 			"objectListTest()",
-			"Full list with size %d has readhed capacity (%s), but not empty (%s)\n",
+			"Full list with size %d has reached capacity (%s), but not empty (%s)\n",
 			list_full.getCount(),
-			list_full.reachedCapacity() == true ? "true" : "false",
+			list_full.isFull() == true ? "true" : "false",
 			list_full.isEmpty() == false ? "true" : "false");
 
 	logManager.writeLog(LOG_DEBUG,
 			"objectListTest()",
 			"Inserting to full list returns no error because of auto realloc (%s)\n",
 			list_full.insert(&obj) == 0 ? "true" : "false");
+
+	logManager.writeLog(LOG_DEBUG,
+			"objectListTest()",
+			"After insert into full list, the list size is now %d is is not full (%s)\n",
+			list_full.getCount(),
+			list_full.isFull() == false ? "true" : "false");
+
+	// operator+/operator= tests
+	ObjectList firstList;
+	ObjectList secondList;
+
+	firstList.insert(new Object());
+	secondList.insert(new Object());
+
+	logManager.writeLog(LOG_DEBUG,
+			"objectListTest()",
+			"Sizes: firstList=%d; secondList=%d\n",
+			firstList.getCount(),
+			secondList.getCount());
+
+	ObjectList addedList = firstList + secondList;
+
+	logManager.writeLog(LOG_DEBUG,
+			"objectListTest()",
+			"Size of addedList=firstList+secondList=%d\n",
+			addedList.getCount());
+
+	ObjectList newEmptyList;
+	addedList = addedList + newEmptyList;
+
+	logManager.writeLog(LOG_DEBUG,
+			"objectListTest()",
+			"Size of addedList=addedList+newEmptyList=%d\n",
+			addedList.getCount());
+
+	addedList = addedList + addedList;
+
+	logManager.writeLog(LOG_DEBUG,
+			"objectListTest()",
+			"Size of addedList=addedList+addedList=%d\n",
+			addedList.getCount());
+
 }
 
 /**

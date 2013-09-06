@@ -51,74 +51,33 @@ depend:
 	makedepend *.cpp 2> /dev/null
 # DO NOT DELETE
 
-Clock.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
-Clock.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-Clock.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-Clock.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-Clock.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-Clock.o: /usr/include/sys/types.h /usr/include/machine/types.h
-Clock.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-Clock.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Clock.h
-Clock.o: /usr/include/time.h /usr/include/machine/time.h
-Clock.o: /usr/include/unistd.h /usr/include/sys/unistd.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-game.o: /usr/include/string.h /usr/include/sys/cdefs.h /usr/include/stdint.h
-game.o: /usr/include/bits/wordsize.h /usr/include/sys/string.h LogManager.h
-game.o: /usr/include/stdio.h /usr/include/sys/types.h
-game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h Manager.h
-game.o: utility.h Clock.h /usr/include/time.h /usr/include/machine/time.h
-game.o: /usr/include/unistd.h /usr/include/sys/unistd.h GameManager.h
-game.o: ObjectList.h Object.h Position.h ObjectListIterator.h
-GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
-GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
-GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-GameManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-GameManager.o: /usr/include/machine/_types.h
-GameManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-GameManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-GameManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-GameManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-GameManager.o: GameManager.h /usr/include/time.h /usr/include/machine/time.h
-GameManager.o: Manager.h LogManager.h utility.h Clock.h /usr/include/unistd.h
-GameManager.o: /usr/include/sys/unistd.h
-LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/_ansi.h
-LogManager.o: /usr/include/newlib.h /usr/include/sys/config.h
-LogManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-LogManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-LogManager.o: /usr/include/machine/_types.h
-LogManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-LogManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-LogManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-LogManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Manager.h
-LogManager.o: utility.h
+Clock.o: /usr/include/stdio.h /usr/include/features.h /usr/include/libio.h
+Clock.o: /usr/include/_G_config.h /usr/include/wchar.h /usr/include/xlocale.h
+Clock.o: Clock.h /usr/include/time.h /usr/include/unistd.h
+Clock.o: /usr/include/getopt.h
+GameManager.o: /usr/include/stdio.h /usr/include/features.h
+GameManager.o: /usr/include/libio.h /usr/include/_G_config.h
+GameManager.o: /usr/include/wchar.h /usr/include/xlocale.h GameManager.h
+GameManager.o: /usr/include/time.h Manager.h LogManager.h utility.h Clock.h
+GameManager.o: /usr/include/unistd.h /usr/include/getopt.h
+LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/features.h
+LogManager.o: /usr/include/libio.h /usr/include/_G_config.h
+LogManager.o: /usr/include/wchar.h /usr/include/xlocale.h Manager.h utility.h
 Manager.o: Manager.h
 Object.o: Object.h Position.h
-ObjectList.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-ObjectList.o: /usr/include/_ansi.h /usr/include/newlib.h
-ObjectList.o: /usr/include/sys/config.h /usr/include/sys/features.h
-ObjectList.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-ObjectList.o: /usr/include/machine/_types.h
-ObjectList.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-ObjectList.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-ObjectList.o: /usr/include/stdio.h /usr/include/sys/types.h
-ObjectList.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-ObjectList.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-ObjectList.o: /usr/include/bits/wordsize.h /usr/include/string.h
-ObjectList.o: /usr/include/sys/string.h ObjectList.h Object.h Position.h
-ObjectList.o: ObjectListIterator.h
+ObjectList.o: /usr/include/stdlib.h /usr/include/features.h
+ObjectList.o: /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h
+ObjectList.o: /usr/include/_G_config.h /usr/include/wchar.h
+ObjectList.o: /usr/include/xlocale.h /usr/include/string.h ObjectList.h
+ObjectList.o: Object.h Position.h ObjectListIterator.h
 ObjectListIterator.o: ObjectListIterator.h ObjectList.h Object.h Position.h
 Position.o: Position.h
-utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
-utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-utility.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-utility.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-utility.o: /usr/include/machine/time.h /usr/include/sys/types.h
-utility.o: /usr/include/machine/types.h /usr/include/stdio.h
-utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h utility.h
+game.o: /usr/include/stdlib.h /usr/include/features.h /usr/include/alloca.h
+game.o: /usr/include/string.h /usr/include/xlocale.h LogManager.h
+game.o: /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h
+game.o: /usr/include/wchar.h Manager.h utility.h Clock.h /usr/include/time.h
+game.o: /usr/include/unistd.h /usr/include/getopt.h GameManager.h
+game.o: ObjectList.h Object.h Position.h ObjectListIterator.h
+utility.o: /usr/include/time.h /usr/include/features.h /usr/include/xlocale.h
+utility.o: /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h
+utility.o: /usr/include/wchar.h utility.h
