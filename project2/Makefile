@@ -23,6 +23,7 @@ LDFLAGS = -lncurses -lrt
 endif
 ENGSRC = Clock.cpp \
 		 GameManager.cpp \
+		 Event.cpp \
 		 LogManager.cpp \
 		 Manager.cpp \
 		 Object.cpp \
@@ -61,19 +62,7 @@ Clock.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 Clock.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Clock.h
 Clock.o: /usr/include/time.h /usr/include/machine/time.h
 Clock.o: /usr/include/unistd.h /usr/include/sys/unistd.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-game.o: /usr/include/string.h /usr/include/sys/cdefs.h /usr/include/stdint.h
-game.o: /usr/include/bits/wordsize.h /usr/include/sys/string.h LogManager.h
-game.o: /usr/include/stdio.h /usr/include/sys/types.h
-game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h Manager.h
-game.o: utility.h Clock.h /usr/include/time.h /usr/include/machine/time.h
-game.o: /usr/include/unistd.h /usr/include/sys/unistd.h GameManager.h
-game.o: ObjectList.h Object.h Position.h ObjectListIterator.h
+Event.o: Event.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
 GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -113,6 +102,19 @@ ObjectList.o: /usr/include/sys/string.h ObjectList.h Object.h Position.h
 ObjectList.o: ObjectListIterator.h
 ObjectListIterator.o: ObjectListIterator.h ObjectList.h Object.h Position.h
 Position.o: Position.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
+game.o: /usr/include/string.h /usr/include/sys/cdefs.h /usr/include/stdint.h
+game.o: /usr/include/bits/wordsize.h /usr/include/sys/string.h LogManager.h
+game.o: /usr/include/stdio.h /usr/include/sys/types.h
+game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h Manager.h
+game.o: utility.h Clock.h /usr/include/time.h /usr/include/machine/time.h
+game.o: /usr/include/unistd.h /usr/include/sys/unistd.h GameManager.h
+game.o: ObjectList.h Object.h Position.h ObjectListIterator.h
 utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
 utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
 utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
