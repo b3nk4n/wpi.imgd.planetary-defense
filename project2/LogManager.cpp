@@ -63,6 +63,8 @@ int LogManager::startUp(void)
 	if (p_file == NULL)
 		return -1;
 
+	_isStarted = true;
+
 	return 0;
 }
 

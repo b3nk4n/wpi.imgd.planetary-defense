@@ -7,6 +7,13 @@
 #include <stdlib.h>
 #include "LogManager.h"
 #include "GameManager.h"
+#include "TestObject.h"
+
+#define TEST_OBJECTS_COUNT 4
+
+// prototypes
+void loadResources(void);
+void populateWorld(void);
 
 /**
  * The games main function.
@@ -32,6 +39,9 @@ int main(int argc, char *argv[])
 	// configure the log manager
 	logManager.setVerbosity(LOG_DEBUG);
 
+	loadResources();
+	populateWorld();
+
 	// RUN GAME
 	long int loops = gameManager.run();
 
@@ -44,4 +54,27 @@ int main(int argc, char *argv[])
 	gameManager.shutDown();
 
 	return 0;
+}
+
+/**
+ * Loads the game resources.
+ */
+void loadResources(void)
+{
+	// load games txt sprite sheets
+}
+
+/**
+ * Populates the game world.
+ */
+void populateWorld(void)
+{
+	TestObject *o1 = new TestObject();
+	o1->setSTL(30);
+	o1->setPosition(Position(10, 10));
+	TestObject *o2 = new TestObject();
+	o2->setStepsToGameOver(100);
+	o2->setPosition(Position(5, 5));
+	new TestObject();
+	new TestObject();
 }

@@ -46,8 +46,6 @@ WorldManager& WorldManager::getInstance(void)
  */
 int WorldManager::startUp(void)
 {
-	//_updates = new ObjectList();
-	//_deletions = new ObjectList();
 	_isStarted = true;
 	return 0;
 }
@@ -67,16 +65,6 @@ void WorldManager::shutDown(void)
  */
 int WorldManager::insertObject(Object *p_object)
 {
-	LogManager &logManager = LogManager::getInstance();
-
-	/*if (_updates != NULL)
-	{
-		logManager.writeLog(LOG_DEBUG,
-		"WorldManager::insertObject()",
-		"_updates is not NULL and count: %d",
-		_updates->getCount());
-	}*/
-
 	return _updates.insert(p_object);
 }
 
@@ -134,6 +122,7 @@ int WorldManager::markForDelete(Object *p_object)
 			return 0;
 	}
 
+	// insert to delitions/marked list
 	_deletions.insert(p_object);
 	return 0;
 }

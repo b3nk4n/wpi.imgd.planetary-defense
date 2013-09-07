@@ -31,13 +31,16 @@ ENGSRC = Clock.cpp \
 		 ObjectList.cpp \
 		 ObjectListIterator.cpp \
 		 Position.cpp \
+		 TestObject.cpp \
 		 utility.cpp \
 		 WorldManager.cpp 
 GAMESRC = game.cpp
 TESTSRC = test.cpp
+UNITTESTSRC =  UnitTestManager.cpp
 GAMEBIN = $(GAMESRC:.cpp=)
 TESTBIN = $(TESTSRC:.cpp=)
 OBJECTS = $(ENGSRC:.cpp=.o)
+TESTOBJ = $(ENGSRC:.cpp=.o) $(UNITTESTSRC:.cpp=.o)
 
 .PHONE: all clean depend start
 
@@ -46,14 +49,14 @@ all: $(GAMESRC) $(GAMEBIN) $(TESTBIN) Makefile
 $(GAMEBIN): $(ENG) $(OBJECTS) $(GAMESRC)
 	$(CC) $(GAMESRC) $(OBJECTS) $(ENG) $(PLATFORM) -o $@ $(LDFLAGS)
 
-$(TESTBIN): $(ENG) $(OBJECTS) $(TESTSRC)
-	$(CC) $(TESTSRC) $(OBJECTS) $(ENG) $(PLATFORM) -o $@ $(LDFLAGS)
+$(TESTBIN): $(ENG) $(TESTOBJ) $(TESTSRC)
+	$(CC) $(TESTSRC) $(TESTOBJ) $(ENG) $(PLATFORM) -o $@ $(LDFLAGS)
 
 .cpp.o:
 	$(CC) -c $(DEBUG) $(PLATFORM) $< -o $@
 
 clean:
-	$(RM) $(OBJECTS) $(EXECUTABLE) core engine.log Makefile.bak *~ *.stackdump
+	$(RM) $(OBJECTS) $(TESTOBJ) $(GAMEBIN) $(TESTBIN) core engine.log Makefile.bak *~ *.stackdump
 
 depend: 
 	makedepend *.cpp 2> /dev/null
@@ -81,7 +84,8 @@ game.o: /usr/include/stdio.h /usr/include/sys/types.h
 game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 game.o: /usr/include/bits/wordsize.h Manager.h utility.h GameManager.h
-game.o: /usr/include/time.h /usr/include/machine/time.h
+game.o: /usr/include/time.h /usr/include/machine/time.h TestObject.h Object.h
+game.o: Position.h Event.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
 GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -134,11 +138,35 @@ test.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
 test.o: /usr/include/stdio.h /usr/include/sys/types.h
 test.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-test.o: /usr/include/bits/wordsize.h /usr/include/string.h
-test.o: /usr/include/sys/string.h LogManager.h Manager.h utility.h Clock.h
+test.o: /usr/include/bits/wordsize.h LogManager.h Manager.h utility.h Clock.h
 test.o: /usr/include/time.h /usr/include/machine/time.h /usr/include/unistd.h
-test.o: /usr/include/sys/unistd.h GameManager.h ObjectList.h Object.h
-test.o: Position.h Event.h ObjectListIterator.h
+test.o: /usr/include/sys/unistd.h GameManager.h WorldManager.h ObjectList.h
+test.o: Object.h Position.h Event.h ObjectListIterator.h TestObject.h
+TestObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+TestObject.o: /usr/include/_ansi.h /usr/include/newlib.h
+TestObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
+TestObject.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+TestObject.o: /usr/include/machine/_types.h
+TestObject.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+TestObject.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
+TestObject.o: TestObject.h Object.h Position.h Event.h GameManager.h
+TestObject.o: /usr/include/time.h /usr/include/machine/time.h
+TestObject.o: /usr/include/sys/types.h /usr/include/machine/types.h Manager.h
+TestObject.o: WorldManager.h ObjectList.h ObjectListIterator.h EventStep.h
+TestObject.o: LogManager.h /usr/include/stdio.h /usr/include/sys/stdio.h
+TestObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+TestObject.o: /usr/include/bits/wordsize.h utility.h
+UnitTestManager.o: UnitTestManager.h /usr/include/stdlib.h
+UnitTestManager.o: /usr/include/machine/ieeefp.h /usr/include/_ansi.h
+UnitTestManager.o: /usr/include/newlib.h /usr/include/sys/config.h
+UnitTestManager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+UnitTestManager.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+UnitTestManager.o: /usr/include/machine/_default_types.h
+UnitTestManager.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
+UnitTestManager.o: /usr/include/alloca.h /usr/include/stdio.h
+UnitTestManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
+UnitTestManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+UnitTestManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
 utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
 utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
 utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h

@@ -6,30 +6,37 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include "LogManager.h"
 #include "Clock.h"
 #include "GameManager.h"
+#include "WorldManager.h"
 #include "ObjectList.h"
+#include "TestObject.h"
+#include "UnitTestManager.h"
 
 using std::string;
 
-#define MAX_TEST_CASES 128
-
 // prototypes
-void testMain(int argc, char *argv[]);
 void testSetup(void);
 void testCleanup(void);
-void testRunAll(void);
-bool testRun(int testIndex);
-void registerTestFunction(string name, bool (*function)(void));
+void testBefore(void);
+void testAfter(void);
 
+bool testGameManager_verifyIsStarted(void);
+bool testGameManager_runAndGameOverNoHang(void);
+bool testGameManager_changedFrameTimeHasEffect(void);
+bool testWorldmanager_markOneObjectForDelete(void);
+bool testWorldManager_verifyIsStarted(void);
+bool testWorldManager_insertAndRemoveObject(void);
+bool testLogManager_verifyIsStarted(void);
 bool testLogManager_writeLogNoParam(void);
 bool testLogManager_writeLogMixedParam(void);
 bool testClock_1SecSleep(void);
 bool testClock_deltaRestsTime(void);
 bool testClock_splitNotRestsTime(void);
-
+bool testObject_setAndGetPosition(void);
+bool testObject_setAndGetType(void);
 bool testObjectList_emptyListIsEmpty(void);
 bool testObjectList_emptyListNotFull(void);
 bool testObjectList_emptyListCountZero(void);
@@ -50,25 +57,69 @@ void objectListFillWithObject(ObjectList *p_objectList, int count);
 void objectList2Log(ObjectList *p_objectList);
 
 /**
- * A test case.
- */
-struct testCase
-{
-	string name;
-	bool (* function)(void);
-};
-
-// global variables
-struct testCase g_testCases[MAX_TEST_CASES];
-int g_casesCount = 0;
-
-/**
  * The games main function.
  * @param argc The arguments count.
  * @param argv The argument vector.
  * @return The succes code.
  */
 int main(int argc, char *argv[])
+{
+	UnitTestManager &unitTestManager = UnitTestManager::getInstance();
+
+	// CONFIGURE UNIT TEST MANAGER
+	unitTestManager.configureSetupFunc(&testSetup);
+	unitTestManager.configureCleanupFunc(&testCleanup);
+	unitTestManager.configureBeforeFunc(&testBefore);
+	unitTestManager.configureAfterFunc(&testAfter);
+
+	// REGISTER UNIT TEST FUNCTION
+	unitTestManager.registerTestFunction("testGameManager_verifyIsStarted", &testGameManager_verifyIsStarted);
+	unitTestManager.registerTestFunction("testGameManager_runAndGameOverNoHang", &testGameManager_runAndGameOverNoHang);
+	unitTestManager.registerTestFunction("testGameManager_changedFrameTimeHasEffect", &testGameManager_changedFrameTimeHasEffect);
+
+	unitTestManager.registerTestFunction("testWorldManager_verifyIsStarted", &testWorldManager_verifyIsStarted);
+	unitTestManager.registerTestFunction("testWorldManager_insertAndRemoveObject", &testWorldManager_insertAndRemoveObject);
+	unitTestManager.registerTestFunction("testWorldmanager_markOneObjectForDelete", &testWorldmanager_markOneObjectForDelete);
+
+	unitTestManager.registerTestFunction("testLogManager_verifyIsStarted", &testLogManager_verifyIsStarted);
+	unitTestManager.registerTestFunction("testLogManager_writeLogNoParam", &testLogManager_writeLogNoParam);
+	unitTestManager.registerTestFunction("testLogManager_writeLogMixedParam", &testLogManager_writeLogMixedParam);
+	
+	unitTestManager.registerTestFunction("testClock_1SecSleep", &testClock_1SecSleep);
+	unitTestManager.registerTestFunction("testClock_deltaRestsTime", &testClock_deltaRestsTime);
+	unitTestManager.registerTestFunction("testClock_splitNotRestsTime", &testClock_splitNotRestsTime);
+
+	unitTestManager.registerTestFunction("testObject_setAndGetPosition", &testObject_setAndGetPosition);
+	unitTestManager.registerTestFunction("testObject_setAndGetType", &testObject_setAndGetType);
+
+	unitTestManager.registerTestFunction("testObjectList_emptyListIsEmpty", &testObjectList_emptyListIsEmpty);
+	unitTestManager.registerTestFunction("testObjectList_emptyListNotFull", &testObjectList_emptyListNotFull);
+	unitTestManager.registerTestFunction("testObjectList_emptyListCountZero", &testObjectList_emptyListCountZero);
+	unitTestManager.registerTestFunction("testObjectList_singleListCountOne", &testObjectList_singleListCountOne);
+	unitTestManager.registerTestFunction("testObjectList_singleListNotEmpty", &testObjectList_singleListNotEmpty);
+	unitTestManager.registerTestFunction("testObjectList_singleListNotFull", &testObjectList_singleListNotFull);
+	unitTestManager.registerTestFunction("testObjectList_fullListIsFull", &testObjectList_fullListIsFull);
+	unitTestManager.registerTestFunction("testObjectList_removeInsertedObject", &testObjectList_removeInsertedObject);
+	unitTestManager.registerTestFunction("testObjectList_removeNotInsertedObject", &testObjectList_removeNotInsertedObject);
+	unitTestManager.registerTestFunction("testObjectList_realloc", &testObjectList_realloc);
+	unitTestManager.registerTestFunction("testObjectList_countZeroAfterClear", &testObjectList_countZeroAfterClear);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusEmptyListIsZero", &testObjectList_operatorPlusEmptyListPlusEmptyListIsZero);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusFilledListIsFilled", &testObjectList_operatorPlusEmptyListPlusFilledListIsFilled);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList", &testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusFullListPlusFullListIsDoubledListWithRealloc", &testObjectList_operatorPlusFullListPlusFullListIsDoubledListWithRealloc);
+
+	// RUN UNIT TEST MANAGER
+	return unitTestManager.run(argc, argv);
+}
+
+/****************************************************************************
+ *  UNIT TEST FRAMEWORK SETUP FUNCTIONS.
+ ***************************************************************************/
+
+/**
+ * Primitives test framework setup.
+ */
+void testSetup(void)
 {
 	LogManager &logManager = LogManager::getInstance();
 	GameManager &gameManager = GameManager::getInstance();
@@ -82,105 +133,6 @@ int main(int argc, char *argv[])
 		gameManager.shutDown();
 		exit(1);
 	}
-
-	// configure the log manager
-	logManager.setVerbosity(LOG_DEBUG);
-
-	testMain(argc, argv);
-
-	// shutdown everything
-	gameManager.shutDown();
-
-	return 0;
-}
-
-/****************************************************************************
- *  PRIMITIVES UNIT TEST FRAMEWORK FUNCTIONS.
- ***************************************************************************/
-
-/**
- * Primitives test framework main.
- */
-void testMain(int argc, char *argv[])
-{
-	// show help
-	if (argc != 2)
-	{
-		// help:
-		printf("##############################################\n");
-		printf("GAME ENGINE TEST TOOL >>> HELP\n");
-		printf("##############################################\n\n");
-		printf("Call:\n");
-		printf("\t>./test [option]\n\n");
-		printf("Example calls:\n");
-		printf("\t>./test all\n");
-		printf("\t>./test 0\n");
-		printf("\t>./test 10\n\n");
-		printf("Options:\n");
-		printf("\tall: Run all test\n");
-		printf("\t%%d: Run test with given index\n\n");
-		printf("##############################################\n");
-		return;
-	}
-
-	testSetup();
-
-	if (strcmp(argv[1], "all") == 0)
-	{
-		printf("##############################################\n");
-		printf("GAME ENGINE TEST TOOL >>> RUN ALL TESTS\n");
-		printf("##############################################\n\n");
-		testRunAll();
-	}
-	else
-	{
-		int index = atoi(argv[1]);
-
-		if (index >= 0 && index < g_casesCount)
-		{
-			printf("##############################################\n");
-			printf("GAME ENGINE TEST TOOL >>> RUN TEST INDEX %d\n", index);
-			printf("##############################################\n\n");
-			testRun(index);
-		}
-		else
-		{
-			printf("Test function index out of range. Valid range is [%d - %d]\n",
-				0,
-				g_casesCount - 1);
-		}
-	}
-	testCleanup();
-}
-
-/**
- * Primitives test framework setup.
- */
-void testSetup(void)
-{
-	// register functions
-	registerTestFunction("testLogManager_writeLogNoParam", &testLogManager_writeLogNoParam);
-	registerTestFunction("testLogManager_writeLogMixedParam", &testLogManager_writeLogMixedParam);
-	
-	registerTestFunction("testClock_1SecSleep", &testClock_1SecSleep);
-	registerTestFunction("testClock_deltaRestsTime", &testClock_deltaRestsTime);
-	registerTestFunction("testClock_splitNotRestsTime", &testClock_splitNotRestsTime);
-
-	registerTestFunction("testObjectList_emptyListIsEmpty", &testObjectList_emptyListIsEmpty);
-	registerTestFunction("testObjectList_emptyListNotFull", &testObjectList_emptyListNotFull);
-	registerTestFunction("testObjectList_emptyListCountZero", &testObjectList_emptyListCountZero);
-	registerTestFunction("testObjectList_singleListCountOne", &testObjectList_singleListCountOne);
-	registerTestFunction("testObjectList_singleListNotEmpty", &testObjectList_singleListNotEmpty);
-	registerTestFunction("testObjectList_singleListNotFull", &testObjectList_singleListNotFull);
-	registerTestFunction("testObjectList_fullListIsFull", &testObjectList_fullListIsFull);
-	registerTestFunction("testObjectList_removeInsertedObject", &testObjectList_removeInsertedObject);
-	registerTestFunction("testObjectList_removeNotInsertedObject", &testObjectList_removeNotInsertedObject);
-	registerTestFunction("testObjectList_realloc", &testObjectList_realloc);
-	registerTestFunction("testObjectList_countZeroAfterClear", &testObjectList_countZeroAfterClear);
-	registerTestFunction("testObjectList_operatorPlusEmptyListPlusEmptyListIsZero", &testObjectList_operatorPlusEmptyListPlusEmptyListIsZero);
-	registerTestFunction("testObjectList_operatorPlusEmptyListPlusFilledListIsFilled", &testObjectList_operatorPlusEmptyListPlusFilledListIsFilled);
-	registerTestFunction("testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList", &testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList);
-	registerTestFunction("testObjectList_operatorPlusFullListPlusFullListIsDoubledListWithRealloc", &testObjectList_operatorPlusFullListPlusFullListIsDoubledListWithRealloc);
 }
 
 /**
@@ -188,78 +140,145 @@ void testSetup(void)
  */
 void testCleanup(void)
 {
+	GameManager &gameManager = GameManager::getInstance();
 
+	// shutdown everything
+	gameManager.shutDown();
 }
 
 /**
- * Primitives test framework run all tests.
+ * Primitives test framework function which is called before each test.
  */
-void testRunAll(void)
+void testBefore(void)
 {
-	int successCounter = 0;
-
-	for (int i = 0; i < g_casesCount; ++i)
-	{
-		// run test
-		bool result = testRun(i);
-		
-		// test for success or fail
-		if (result)
-		{
-			++successCounter;
-		}
-	}
-
-	// prints summary
-	printf("\n##############################################\n\n");
-	printf("############### TEST SUMMARY: ################\n");
-	printf(">>> SUCCEEDED: %2d\n",
-		successCounter);
-	printf(">>> FAILED:    %2d\n",
-		g_casesCount - successCounter);
-
-	// foot note
-	printf("\n################## NOTE: #####################\n");
-	printf("Note: More details can be found in '%s'.\n\n", LOGFILE_NAME);
-}
-
-/**
- * Primitives test framework run single test.
- */
-bool testRun(int testIndex)
-{
-	// print title
-	printf("\n############# RUNNING TEST [%2d] ##############\n",
-		testIndex);
-	printf("########## TEST NAME:   %s\n",
-		g_testCases[testIndex].name.c_str());
-
-	// run test
-	bool result = g_testCases[testIndex].function();
+	LogManager &logManager = LogManager::getInstance();
+	GameManager &gameManager = GameManager::getInstance();
 	
-	printf("########## TEST RESULT: ");
-	printf("%s\n", result == true ? "SUCCESS" : "FAIL");
-
-	return result;
+	logManager.setVerbosity(LOG_DEBUG);
+	gameManager.setGameOver(false);
 }
 
 /**
- * Primitives test framework test registration function.
+ * Primitives test framework function which is called before each test.
  */
-void registerTestFunction(string name, bool (*function)(void))
+void testAfter(void)
 {
-	if (g_casesCount < MAX_TEST_CASES)
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	// clear world objects
+	ObjectList allObjects = worldManager.getAllObjects();
+	ObjectListIterator it(&allObjects);
+	for (it.first(); !it.isDone(); it.next())
 	{
-		struct testCase newTestCase;
-		newTestCase.name = name;
-		newTestCase.function = function;
-		g_testCases[g_casesCount++] = newTestCase;
+		worldManager.removeObject(it.currentObject());
 	}
 }
 
 /****************************************************************************
  *  UNIT TEST FUNCTIONS.
  ***************************************************************************/
+
+bool testGameManager_verifyIsStarted(void)
+{
+	GameManager &gameManager = GameManager::getInstance();
+
+	return gameManager.isStarted();
+}
+
+bool testGameManager_runAndGameOverNoHang(void)
+{
+	GameManager &gameManager = GameManager::getInstance();
+
+	TestObject *object = new TestObject();
+	object->setStepsToGameOver(30);
+	gameManager.run();
+
+	// if unit test does not hang here, test was successful
+	return true;
+}
+
+bool testGameManager_changedFrameTimeHasEffect(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+	GameManager &gameManager = GameManager::getInstance();
+	Clock clock;
+	int frameTime = 99999;
+	int loops = 10;
+	TestObject *object = new TestObject();
+	object->setStepsToGameOver(loops);
+
+	clock.delta();
+	int gameLoops = gameManager.run(frameTime);
+	long int gameTime = clock.split();
+
+	logManager.writeLog(LOG_DEBUG,
+		"testGameManager_changedFrameTimeHasEffect()",
+		"Game has done (%d/%d) loops and took %ldusec\n",
+		gameLoops,
+		loops,
+		gameTime);
+
+	// if unit test does not hang here, test was successful
+	return gameLoops == loops && frameTime * loops - 15000 < gameTime && gameTime <  frameTime * loops + 15000;
+}
+
+bool testWorldManager_verifyIsStarted(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	return worldManager.isStarted();
+}
+
+bool testWorldManager_insertAndRemoveObject(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *testObject = new TestObject();
+
+	int countBeforeInsert = worldManager.getAllObjects().getCount();
+	worldManager.insertObject(testObject);
+	int countAfterInsert = worldManager.getAllObjects().getCount();
+	worldManager.removeObject(testObject);
+	int countAfterRemove = worldManager.getAllObjects().getCount();
+
+	logManager.writeLog(LOG_DEBUG,
+		"testWorldManager_insertAndRemoveObject()",
+		"Count: %d --insert--> %d --remove--> %d\n",
+		countBeforeInsert,
+		countAfterInsert,
+		countAfterRemove);
+
+	// manual delete because it was removed and not marked.
+	delete testObject;
+
+	return countBeforeInsert == countAfterRemove && countAfterInsert == countBeforeInsert + 1;
+}
+
+bool testWorldmanager_markOneObjectForDelete(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *testObjectToMark = new TestObject();
+
+	worldManager.insertObject(new TestObject());
+	worldManager.insertObject(testObjectToMark);
+	worldManager.insertObject(new TestObject());
+
+	int countBeforeMark = worldManager.getAllObjects().getCount();
+	worldManager.markForDelete(testObjectToMark);
+	int countAfterMark = worldManager.getAllObjects().getCount();
+	worldManager.update();
+	int countAfterUpdate = worldManager.getAllObjects().getCount();
+
+	return countBeforeMark == countAfterMark && countBeforeMark - 1 == countAfterUpdate;
+}
+
+bool testLogManager_verifyIsStarted(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+
+	return logManager.isStarted();
+}
 
 bool testLogManager_writeLogNoParam(void)
 {
@@ -295,10 +314,11 @@ bool testLogManager_writeLogMixedParam(void)
 bool testClock_1SecSleep(void)
 {
 	LogManager &logManager = LogManager::getInstance();
+	int sleepTime = 1000000; // 1 sec
 	Clock clock;
 
 	clock.delta();
-	sleep(1);
+	usleep(sleepTime);
 	long int diff = clock.split();
 
 	logManager.writeLog(LOG_DEBUG,
@@ -306,7 +326,7 @@ bool testClock_1SecSleep(void)
 		"sleep(1) took exactly: %ldusec\n",
 		diff);
 
-	return diff > 985000 && diff < 1015000;
+	return sleepTime - 15000 < diff && diff < sleepTime + 15000;
 }
 
 bool testClock_deltaRestsTime(void)
@@ -333,6 +353,26 @@ bool testClock_splitNotRestsTime(void)
 	long int secondSplit = clock.split();
 
 	return secondSplit > 990000;
+}
+
+bool testObject_setAndGetPosition(void)
+{
+	Object o;
+
+	o.setPosition(Position(3, 4));
+	Position p = o.getPosition();
+
+	return p.getX() == 3 && p.getY() == 4;
+}
+
+bool testObject_setAndGetType(void)
+{
+	Object o;
+	string type = "test_type";
+
+	o.setType(type);
+
+	return o.getType() == type;
 }
 
 bool testObjectList_emptyListIsEmpty(void)

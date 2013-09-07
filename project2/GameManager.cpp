@@ -119,7 +119,14 @@ void GameManager::shutDown(void)
 			"GameManager::shutDown()",
 			"GameManager shut down process started\n");
 
+	logManager.writeLog(LOG_ERROR,
+			"GameManager::shutDown()",
+			"WorldManager shutting down\n");
 	worldManager.shutDown();
+
+	logManager.writeLog(LOG_ERROR,
+			"GameManager::shutDown()",
+			"LogManager shutting down\n");
 	logManager.shutDown();
 
 	_isStarted = false;
