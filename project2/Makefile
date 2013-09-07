@@ -33,16 +33,21 @@ ENGSRC = Clock.cpp \
 		 Position.cpp \
 		 utility.cpp \
 		 WorldManager.cpp 
-GAME = game.cpp
-EXECUTABLE = game
+GAMESRC = game.cpp
+TESTSRC = test.cpp
+GAMEBIN = $(GAMESRC:.cpp=)
+TESTBIN = $(TESTSRC:.cpp=)
 OBJECTS = $(ENGSRC:.cpp=.o)
 
 .PHONE: all clean depend start
 
-all: $(GAMESRC) $(EXECUTABLE) Makefile
+all: $(GAMESRC) $(GAMEBIN) $(TESTBIN) Makefile
 
-$(EXECUTABLE): $(ENG) $(OBJECTS) $(GAME)
-	$(CC) $(GAME) $(OBJECTS) $(ENG) $(PLATFORM) -o $@ $(LDFLAGS)
+$(GAMEBIN): $(ENG) $(OBJECTS) $(GAMESRC)
+	$(CC) $(GAMESRC) $(OBJECTS) $(ENG) $(PLATFORM) -o $@ $(LDFLAGS)
+
+$(TESTBIN): $(ENG) $(OBJECTS) $(TESTSRC)
+	$(CC) $(TESTSRC) $(OBJECTS) $(ENG) $(PLATFORM) -o $@ $(LDFLAGS)
 
 .cpp.o:
 	$(CC) -c $(DEBUG) $(PLATFORM) $< -o $@
@@ -66,6 +71,17 @@ Clock.o: /usr/include/time.h /usr/include/machine/time.h
 Clock.o: /usr/include/unistd.h /usr/include/sys/unistd.h
 Event.o: Event.h
 EventStep.o: EventStep.h Event.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h LogManager.h
+game.o: /usr/include/stdio.h /usr/include/sys/types.h
+game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
+game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+game.o: /usr/include/bits/wordsize.h Manager.h utility.h GameManager.h
+game.o: /usr/include/time.h /usr/include/machine/time.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
 GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -109,6 +125,29 @@ ObjectList.o: Event.h ObjectListIterator.h LogManager.h Manager.h utility.h
 ObjectListIterator.o: ObjectListIterator.h ObjectList.h Object.h Position.h
 ObjectListIterator.o: Event.h
 Position.o: Position.h
+test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+test.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+test.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
+test.o: /usr/include/stdio.h /usr/include/sys/types.h
+test.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
+test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+test.o: /usr/include/bits/wordsize.h /usr/include/string.h
+test.o: /usr/include/sys/string.h LogManager.h Manager.h utility.h Clock.h
+test.o: /usr/include/time.h /usr/include/machine/time.h /usr/include/unistd.h
+test.o: /usr/include/sys/unistd.h GameManager.h ObjectList.h Object.h
+test.o: Position.h Event.h ObjectListIterator.h
+utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
+utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
+utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+utility.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+utility.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+utility.o: /usr/include/machine/time.h /usr/include/sys/types.h
+utility.o: /usr/include/machine/types.h /usr/include/stdio.h
+utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h utility.h
 WorldManager.o: WorldManager.h Manager.h ObjectList.h Object.h Position.h
 WorldManager.o: Event.h ObjectListIterator.h LogManager.h
 WorldManager.o: /usr/include/stdio.h /usr/include/_ansi.h
@@ -120,25 +159,3 @@ WorldManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 WorldManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
 WorldManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 WorldManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h utility.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-game.o: /usr/include/string.h /usr/include/sys/cdefs.h /usr/include/stdint.h
-game.o: /usr/include/bits/wordsize.h /usr/include/sys/string.h LogManager.h
-game.o: /usr/include/stdio.h /usr/include/sys/types.h
-game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h Manager.h
-game.o: utility.h Clock.h /usr/include/time.h /usr/include/machine/time.h
-game.o: /usr/include/unistd.h /usr/include/sys/unistd.h GameManager.h
-game.o: ObjectList.h Object.h Position.h Event.h ObjectListIterator.h
-utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
-utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-utility.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-utility.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-utility.o: /usr/include/machine/time.h /usr/include/sys/types.h
-utility.o: /usr/include/machine/types.h /usr/include/stdio.h
-utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h utility.h
