@@ -81,6 +81,11 @@ public:
 	ObjectList getAllObjects(void);
 
 	/**
+	 * Clears all game objects in the world.
+	 */
+	void clearAllObjects(void);
+
+	/**
 	 * Updates game world and deleted all marked objects.
 	 */
 	void update(void);

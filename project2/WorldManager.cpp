@@ -55,6 +55,9 @@ int WorldManager::startUp(void)
  */
 void WorldManager::shutDown(void)
 {
+	// cleanup world objects
+	clearAllObjects();
+
 	_isStarted = false;
 }
 
@@ -88,6 +91,27 @@ ObjectList WorldManager::getAllObjects(void)
 }
 
 /**
+ * Clears all game objects in the world.
+ */
+void WorldManager::clearAllObjects(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"WorldManager::clearAllObjects()",
+		"_updates list count: %d\n",
+		_updates.getCount());
+
+	ObjectListIterator it(&_updates);
+	for (it.first(); !it.isDone(); it.next())
+	{
+		//delete it.currentObject(); // TODO: ask TA/Prof. why this does not work!?
+	}
+
+	_updates.clear();
+	_deletions.clear();
+}
+
+/**
  * Updates game world and deleted all marked objects.
  */
 void WorldManager::update(void)
@@ -96,7 +120,9 @@ void WorldManager::update(void)
 	ObjectListIterator it(&_deletions);
 	for (it.first(); !it.isDone(); it.next())
 	{
-		delete it.currentObject();
+		Object *p_object = it.currentObject();
+		_updates.remove(p_object);
+		delete p_object;
 	}
 
 	// clear deletion list for next update

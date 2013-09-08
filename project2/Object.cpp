@@ -7,17 +7,25 @@
 
 #include "Object.h"
 #include "WorldManager.h"
+#include "LogManager.h"
 
 /**
  * Creates a game object instance.
  */
 Object::Object(void)
 {
+	WorldManager &worldManager = WorldManager::getInstance();
+	LogManager &logManager = LogManager::getInstance();
+
 	setType(TYPE_OBJECT);
 
 	// add itself to the world manager
-	WorldManager &worldManager = WorldManager::getInstance();
-	worldManager.insertObject(this);
+	if (worldManager.insertObject(this))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"Object::Object()",
+			"Objects could not be registered to the world\n");
+	}
 }
 
 /**

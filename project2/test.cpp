@@ -26,7 +26,8 @@ void testAfter(void);
 bool testGameManager_verifyIsStarted(void);
 bool testGameManager_runAndGameOverNoHang(void);
 bool testGameManager_changedFrameTimeHasEffect(void);
-bool testWorldmanager_markOneObjectForDelete(void);
+bool testWorldManager_markOneObjectForDelete(void);
+bool testWorldManager_clearAllObjects(void);
 bool testWorldManager_verifyIsStarted(void);
 bool testWorldManager_insertAndRemoveObject(void);
 bool testLogManager_verifyIsStarted(void);
@@ -79,7 +80,8 @@ int main(int argc, char *argv[])
 
 	unitTestManager.registerTestFunction("testWorldManager_verifyIsStarted", &testWorldManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testWorldManager_insertAndRemoveObject", &testWorldManager_insertAndRemoveObject);
-	unitTestManager.registerTestFunction("testWorldmanager_markOneObjectForDelete", &testWorldmanager_markOneObjectForDelete);
+	unitTestManager.registerTestFunction("testWorldManager_markOneObjectForDelete", &testWorldManager_markOneObjectForDelete);
+	unitTestManager.registerTestFunction("testWorldManager_clearAllObjects", &testWorldManager_clearAllObjects);
 
 	unitTestManager.registerTestFunction("testLogManager_verifyIsStarted", &testLogManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testLogManager_writeLogNoParam", &testLogManager_writeLogNoParam);
@@ -163,15 +165,16 @@ void testBefore(void)
  */
 void testAfter(void)
 {
+	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
 
 	// clear world objects
-	ObjectList allObjects = worldManager.getAllObjects();
-	ObjectListIterator it(&allObjects);
-	for (it.first(); !it.isDone(); it.next())
-	{
-		worldManager.removeObject(it.currentObject());
-	}
+	worldManager.clearAllObjects();
+
+	logManager.writeLog(LOG_DEBUG,
+		"testAfter()",
+		"World objects count after cleaning: %d\n",
+		worldManager.getAllObjects().getCount());
 }
 
 /****************************************************************************
@@ -254,15 +257,14 @@ bool testWorldManager_insertAndRemoveObject(void)
 	return countBeforeInsert == countAfterRemove && countAfterInsert == countBeforeInsert + 1;
 }
 
-bool testWorldmanager_markOneObjectForDelete(void)
+bool testWorldManager_markOneObjectForDelete(void)
 {
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
-	TestObject *testObjectToMark = new TestObject();
 
-	worldManager.insertObject(new TestObject());
-	worldManager.insertObject(testObjectToMark);
-	worldManager.insertObject(new TestObject());
+	new TestObject();
+	TestObject *testObjectToMark = new TestObject();
+	new TestObject();
 
 	int countBeforeMark = worldManager.getAllObjects().getCount();
 	worldManager.markForDelete(testObjectToMark);
@@ -270,7 +272,29 @@ bool testWorldmanager_markOneObjectForDelete(void)
 	worldManager.update();
 	int countAfterUpdate = worldManager.getAllObjects().getCount();
 
+	logManager.writeLog(LOG_DEBUG,
+		"testWorldmanager_markOneObjectForDelete()",
+		"Counts: %d --mark--> %d --update--> %d\n",
+		countBeforeMark,
+		countAfterMark,
+		countAfterUpdate);
+
 	return countBeforeMark == countAfterMark && countBeforeMark - 1 == countAfterUpdate;
+}
+
+bool testWorldManager_clearAllObjects(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	new TestObject();
+	new TestObject();
+	new TestObject();
+
+	int countBefore = worldManager.getAllObjects().getCount();
+	worldManager.clearAllObjects();
+	int countAfter = worldManager.getAllObjects().getCount();
+
+	return countBefore == 3 && countAfter == 0;
 }
 
 bool testLogManager_verifyIsStarted(void)

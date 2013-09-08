@@ -33,40 +33,27 @@ void UnitTestManager::operator=(UnitTestManager const&)
 
 /**
  * Runs all unit tests.
+ * @return The number of succeeded tests.
  */
-void UnitTestManager::testRunAll(void)
+int UnitTestManager::testRunAll(void)
 {
 	int successCounter = 0;
 
 	for (int i = 0; i < _casesCount; ++i)
 	{
 		// run test
-		bool result = testRun(i);
-		
-		// test for success or fail
-		if (result)
-		{
-			++successCounter;
-		}
+		successCounter += testRun(i);
 	}
 
-	// prints summary
-	printf("\n");
-	printLine('=', UI_WIDTH);
-	printf("\n");
-	printTitle("TEST SUMMARY");
-	printf(" >>> SUCCEEDED: %4d\n",
-		successCounter);
-	printf(" >>> FAILED:    %4d\n",
-		_casesCount - successCounter);
+	return successCounter;
 }
 
 /**
  * Runs the specified unit test.
  * @param testIndex The index of the test to run.
- * @return TRUE if test was successful, else FALSE 
+ * @return The number of succeeded tests.
  */
-bool UnitTestManager::testRun(int testIndex)
+int UnitTestManager::testRun(int testIndex)
 {
 	// print title
 	printf("\n");
@@ -89,7 +76,7 @@ bool UnitTestManager::testRun(int testIndex)
 	printf(" > TEST RESULT: ");
 	printf("%s\n", result == true ? "SUCCESS" : "FAIL");
 
-	return result;
+	return result ? 1 : 0;
 }
 
 /**
@@ -164,6 +151,26 @@ void UnitTestManager::printTitle(const char *format, ...)
 		printf("#");
 
 	printf("\n");
+}
+
+/**
+ * Prints an ASCII summary.
+ * @param total The number of tests.
+ * @param succeeded The number of succeeded tests.
+ */
+void UnitTestManager::printSummary(int total, int succeeded)
+{
+	printf("\n");
+	printLine('=', UI_WIDTH);
+	printf("\n");
+	printTitle("TEST SUMMARY");
+	printTitle(" >>> SUCCEEDED: %4d",
+		succeeded);
+	printTitle(" >>> FAILED:    %4d",
+		total - succeeded);
+	printTitle(" -------------------");
+	printTitle(" >>> TOTAL:     %4d",
+		total);
 }
 
 /**
@@ -266,7 +273,9 @@ int UnitTestManager::run(int argc, char *argv[])
 		printLine('#', UI_WIDTH);
 		printTitle("UNIT TESTING TOOL >>> RUN ALL TESTS");
 		printLine('#', UI_WIDTH);
-		testRunAll();
+		int successed = testRunAll();
+
+		printSummary(_casesCount, successed);
 	}
 	else
 	{
@@ -277,7 +286,9 @@ int UnitTestManager::run(int argc, char *argv[])
 			printLine('#', UI_WIDTH);
 			printTitle("UNIT TESTING TOOL >>> RUN TEST INDEX %d", index);
 			printLine('#', UI_WIDTH);
-			testRun(index);
+			int successed = testRun(index);
+
+			printSummary(1, successed);
 		}
 		else
 		{
@@ -290,7 +301,7 @@ int UnitTestManager::run(int argc, char *argv[])
 	// foot note
 	printf("\n");
 	printLine('-', UI_WIDTH);
-	printf("\tNote: More details can be found in the log file.\n");
+	printf("              Note: More details can be found in the log file.\n");
 
 	if (_funcCleanup != NULL)
 	_funcCleanup();

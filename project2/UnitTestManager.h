@@ -78,15 +78,16 @@ private:
 
 	/**
 	 * Runs all unit tests.
+	 * @return The number of succeeded tests.
 	 */
-	void testRunAll(void);
+	int testRunAll(void);
 
 	/**
 	 * Runs the specified unit test.
 	 * @param testIndex The index of the test to run.
-	 * @return TRUE if test was successful, else FALSE 
+	 * @return The number of succeeded tests.
 	 */
-	bool testRun(int testIndex);
+	int testRun(int testIndex);
 
 	/**
 	 * Prints the frameworks ASCII logo.
@@ -106,6 +107,13 @@ private:
  	 * @param ... Additional parameters.
 	 */
 	void printTitle(const char *format, ...);
+
+	/**
+	 * Prints an ASCII summary.
+	 * @param total The number of tests.
+	 * @param succeeded The number of succeeded tests.
+	 */
+	void printSummary(int total, int succeeded);
 
 public:
 	/**
