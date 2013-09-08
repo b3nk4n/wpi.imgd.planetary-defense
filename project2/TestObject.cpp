@@ -48,6 +48,8 @@ void TestObject::step(void)
 			_id);
 		GameManager &gameManager = GameManager::getInstance();
 		gameManager.setGameOver(true);
+		//WorldManager &worldManager = WorldManager::getInstance();
+		//worldManager.markForDelete(this);
 	}
 
 	--_stl;

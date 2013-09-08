@@ -104,7 +104,7 @@ void WorldManager::clearAllObjects(void)
 	ObjectListIterator it(&_updates);
 	for (it.first(); !it.isDone(); it.next())
 	{
-		//delete it.currentObject(); // TODO: ask TA/Prof. why this does not work!?
+		delete it.currentObject(); // TODO: ask TA/Prof. why this does not work!?
 	}
 
 	_updates.clear();

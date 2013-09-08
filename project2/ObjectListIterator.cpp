@@ -64,3 +64,4 @@ Object *ObjectListIterator::currentObject(void)
 {
 	return _p_list->_pp_data[_index];
 }
+

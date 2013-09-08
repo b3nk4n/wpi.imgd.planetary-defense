@@ -34,8 +34,8 @@ Object::Object(void)
 Object::~Object(void)
 {
 	// remove itself from the world manager
-	WorldManager &worldManager = WorldManager::getInstance();
-	worldManager.removeObject(this);
+	//WorldManager &worldManager = WorldManager::getInstance();
+	//worldManager.removeObject(this);
 }
 
 /**

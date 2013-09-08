@@ -94,7 +94,6 @@ int ObjectList::insert(Object *p_object)
 		if (_pp_newData == NULL)
 		{
 			perror("Memory reallocation of object list failed.");
-			free(_pp_newData);
 			return -1;
 		}
 
@@ -125,7 +124,7 @@ int ObjectList::remove(Object *p_object)
 		if (_pp_data[i] == p_object)
 		{
 			// keep the list order and gapless
-			for (int j = i; j < _count; ++j)
+			for (int j = i; j < _count + 1; ++j)
 			{
 				_pp_data[j] = _pp_data[j + 1];
 			}
@@ -200,7 +199,6 @@ ObjectList ObjectList::operator+(ObjectList otherList)
 	if (_pp_newData == NULL)
 	{
 		perror("Memory reallocation of object list failed.");
-		free(_pp_newData);
 		return *this;
 	}
 
