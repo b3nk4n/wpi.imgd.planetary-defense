@@ -87,8 +87,9 @@ public:
 
 	/**
 	 * Updates game world and deleted all marked objects.
+	 * @param delta The elapsed game time is seconds.
 	 */
-	void update(void);
+	void update(float delta);
 
 	/**
 	 * Marks a game object to be deleted at the end of the current game update loop.

@@ -124,7 +124,7 @@ int ObjectList::remove(Object *p_object)
 		if (_pp_data[i] == p_object)
 		{
 			// keep the list order and gapless
-			for (int j = i; j < _count + 1; ++j)
+			for (int j = i; j < _count - 1; ++j)
 			{
 				_pp_data[j] = _pp_data[j + 1];
 			}

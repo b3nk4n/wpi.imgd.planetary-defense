@@ -140,8 +140,9 @@ void GameManager::shutDown(void)
 long int GameManager::run(int frameTime)
 {
 	Clock clock;
-	long int loopTime;
+	long int loopTime = frameTime;
 	long int loopCounter = 0;
+	long int targetTimeDiff;
 	WorldManager &worldManager = WorldManager::getInstance();
 
 	// set custom frame time
@@ -149,6 +150,7 @@ long int GameManager::run(int frameTime)
 
 	while (!_gameOver)
 	{
+		float lastDelta = loopTime / 1000000.0f;
 		clock.delta();
 		++loopCounter;
 
@@ -157,7 +159,7 @@ long int GameManager::run(int frameTime)
 
 		// 2 - UPDATE GAME SCENE
 		ObjectList allObjects = worldManager.getAllObjects();
-		EventStep eventStep;
+		EventStep eventStep(lastDelta);
 
 		// fire events
 		ObjectListIterator it(&allObjects);
@@ -168,7 +170,7 @@ long int GameManager::run(int frameTime)
 		}
 
 		// update the game world
-		worldManager.update();
+		worldManager.update(lastDelta);
 
 		// 3 - RENDER GAME SCENE TO BACK BUFFER
 
@@ -178,7 +180,10 @@ long int GameManager::run(int frameTime)
 
 		// 5 - MEASURE CURRENT LOOP TIME AND SLEEP TO HIT THE TARGET TIME
 		loopTime = clock.split();
-		usleep(_frameTime - loopTime);
+		targetTimeDiff = _frameTime - loopTime;
+		// just sleep if target is not already expired
+		if (targetTimeDiff > 0)
+			usleep(targetTimeDiff);
 	}
 
 	return loopCounter;

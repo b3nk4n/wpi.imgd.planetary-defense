@@ -95,16 +95,15 @@ ObjectList WorldManager::getAllObjects(void)
  */
 void WorldManager::clearAllObjects(void)
 {
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_DEBUG,
-		"WorldManager::clearAllObjects()",
-		"_updates list count: %d\n",
-		_updates.getCount());
-
-	ObjectListIterator it(&_updates);
+	// NOTE: create a copy of the _updates list here, because each time 'delete obj'
+	//       is called in the game objects desctructor the original _updates list 
+	//       will be manipulated (causes iterator problems)
+	ObjectList updatesListCopy = _updates;
+	
+	ObjectListIterator it(&updatesListCopy);
 	for (it.first(); !it.isDone(); it.next())
 	{
-		delete it.currentObject(); // TODO: ask TA/Prof. why this does not work!?
+		delete it.currentObject();
 	}
 
 	_updates.clear();
@@ -113,16 +112,17 @@ void WorldManager::clearAllObjects(void)
 
 /**
  * Updates game world and deleted all marked objects.
+ * @param delta The elapsed game time in seconds.
  */
-void WorldManager::update(void)
+void WorldManager::update(float delta)
 {
 	// delete all marked objects
 	ObjectListIterator it(&_deletions);
 	for (it.first(); !it.isDone(); it.next())
 	{
-		Object *p_object = it.currentObject();
-		_updates.remove(p_object);
-		delete p_object;
+		// NOTE: game object removes itself from the _updates list
+		//       via removeObject() in its desctructor
+		delete it.currentObject();
 	}
 
 	// clear deletion list for next update

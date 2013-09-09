@@ -59,7 +59,8 @@ int UnitTestManager::testRun(int testIndex)
 	printf("\n");
 	printTitle("RUNNING TEST [%2d]",
 		testIndex);
-	printf(" > TEST NAME:   %s\n",
+	printTitle("TEST NAME:");
+	printTitle("%s",
 		_testCases[testIndex].name.c_str());
 
 	// run before function
@@ -73,8 +74,8 @@ int UnitTestManager::testRun(int testIndex)
 	if (_funcAfter != NULL)
 		_funcAfter();
 	
-	printf(" > TEST RESULT: ");
-	printf("%s\n", result == true ? "SUCCESS" : "FAIL");
+	printTitle("TEST RESULT:");
+	printTitle("%s", result == true ? "SUCCESS" : "FAIL");
 
 	return result ? 1 : 0;
 }

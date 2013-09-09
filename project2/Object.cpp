@@ -11,6 +11,8 @@
 
 /**
  * Creates a game object instance.
+ * NOTE: Game objects MUST be created on heap via 'new' because they will be 
+ *       deleted via 'delete' in the world manager.
  */
 Object::Object(void)
 {
@@ -34,8 +36,8 @@ Object::Object(void)
 Object::~Object(void)
 {
 	// remove itself from the world manager
-	//WorldManager &worldManager = WorldManager::getInstance();
-	//worldManager.removeObject(this);
+	WorldManager &worldManager = WorldManager::getInstance();
+	worldManager.removeObject(this);
 }
 
 /**

@@ -17,11 +17,23 @@
  */
 class EventStep : public Event
 {
+private:
+	/**
+	 * The time delta of the last step in seconds.
+	 */
+	float _delta;
 public:
 	/**
 	 * Creates a new step event instance.
+	 * @param delta the time delta of the last step in seconds.
 	 */
-	EventStep(void);
+	EventStep(float delta);
+
+	/**
+	 * Gets the time delta of the last frame in seconds.
+	 * @return The time delta in seconds.
+	 */
+	float getDelta(void);
 };
 
 #endif

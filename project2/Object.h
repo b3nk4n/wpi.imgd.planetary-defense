@@ -34,8 +34,10 @@ private:
 
 public:
 	/**
-	 * Creates a game object instance.
-	 */
+	* Creates a game object instance.
+	* NOTE: Game objects MUST be created on heap via 'new' because they will be 
+	*       deleted via 'delete' in the world manager.
+	*/
 	Object(void);
 
 	/**

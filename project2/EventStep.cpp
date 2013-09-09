@@ -9,8 +9,20 @@
 
 /**
  * Creates a new step event instance.
+ * @param delta the time delta of the last frame step in seconds.
  */
-EventStep::EventStep(void)
+EventStep::EventStep(float delta)
 {
 	setType(STEP_EVENT);
+	_delta = delta;
+}
+
+/**
+ * Gets the delta of the last frame step in seconds.
+ * @return Returns the last step delta in seconds.
+ */
+
+float EventStep::getDelta(void)
+{
+	return _delta;
 }

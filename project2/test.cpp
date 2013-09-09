@@ -17,12 +17,13 @@
 
 using std::string;
 
-// prototypes
+// prototypes for setup
 void testSetup(void);
 void testCleanup(void);
 void testBefore(void);
 void testAfter(void);
 
+// prototypes for tests
 bool testGameManager_verifyIsStarted(void);
 bool testGameManager_runAndGameOverNoHang(void);
 bool testGameManager_changedFrameTimeHasEffect(void);
@@ -36,6 +37,10 @@ bool testLogManager_writeLogMixedParam(void);
 bool testClock_1SecSleep(void);
 bool testClock_deltaRestsTime(void);
 bool testClock_splitNotRestsTime(void);
+bool testPosition_createDefaultPosition(void);
+bool testPosition_createCustomPosition(void);
+bool testPosition_positionGettersAndSetters(void);
+bool testPosition_positionXYSetter(void);
 bool testObject_setAndGetPosition(void);
 bool testObject_setAndGetType(void);
 bool testObjectList_emptyListIsEmpty(void);
@@ -52,13 +57,14 @@ bool testObjectList_countZeroAfterClear(void);
 bool testObjectList_operatorPlusEmptyListPlusEmptyListIsZero(void);
 bool testObjectList_operatorPlusEmptyListPlusFilledListIsFilled(void);
 bool testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList(void);
-bool testObjectList_operatorPlusFullListPlusFullListIsDoubledListWithRealloc(void);
+bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void);
 
+// prototypes for helpers
 void objectListFillWithObject(ObjectList *p_objectList, int count);
 void objectList2Log(ObjectList *p_objectList);
 
 /**
- * The games main function.
+ * The main function, which configures and starts the unit test manager.
  * @param argc The arguments count.
  * @param argv The argument vector.
  * @return The succes code.
@@ -91,6 +97,11 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testClock_deltaRestsTime", &testClock_deltaRestsTime);
 	unitTestManager.registerTestFunction("testClock_splitNotRestsTime", &testClock_splitNotRestsTime);
 
+	unitTestManager.registerTestFunction("testPosition_createDefaultPosition", &testPosition_createDefaultPosition);
+	unitTestManager.registerTestFunction("testPosition_createCustomPosition", &testPosition_createCustomPosition);
+	unitTestManager.registerTestFunction("testPosition_positionGettersAndSetters", &testPosition_positionGettersAndSetters);
+	unitTestManager.registerTestFunction("testPosition_positionXYSetter", &testPosition_positionXYSetter);
+	
 	unitTestManager.registerTestFunction("testObject_setAndGetPosition", &testObject_setAndGetPosition);
 	unitTestManager.registerTestFunction("testObject_setAndGetType", &testObject_setAndGetType);
 
@@ -108,7 +119,7 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusEmptyListIsZero", &testObjectList_operatorPlusEmptyListPlusEmptyListIsZero);
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusFilledListIsFilled", &testObjectList_operatorPlusEmptyListPlusFilledListIsFilled);
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList", &testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList);
-	unitTestManager.registerTestFunction("testObjectList_operatorPlusFullListPlusFullListIsDoubledListWithRealloc", &testObjectList_operatorPlusFullListPlusFullListIsDoubledListWithRealloc);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc", &testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc);
 
 	// RUN UNIT TEST MANAGER
 	return unitTestManager.run(argc, argv);
@@ -170,11 +181,6 @@ void testAfter(void)
 
 	// clear world objects
 	worldManager.clearAllObjects();
-
-	logManager.writeLog(LOG_DEBUG,
-		"testAfter()",
-		"World objects count after cleaning: %d\n",
-		worldManager.getAllObjects().getCount());
 }
 
 /****************************************************************************
@@ -252,7 +258,7 @@ bool testWorldManager_insertAndRemoveObject(void)
 		countAfterRemove);
 
 	// manual delete because it was removed and not marked.
-	delete testObject;
+	//delete testObject;
 
 	return countBeforeInsert == countAfterRemove && countAfterInsert == countBeforeInsert + 1;
 }
@@ -269,7 +275,7 @@ bool testWorldManager_markOneObjectForDelete(void)
 	int countBeforeMark = worldManager.getAllObjects().getCount();
 	worldManager.markForDelete(testObjectToMark);
 	int countAfterMark = worldManager.getAllObjects().getCount();
-	worldManager.update();
+	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterUpdate = worldManager.getAllObjects().getCount();
 
 	logManager.writeLog(LOG_DEBUG,
@@ -379,24 +385,61 @@ bool testClock_splitNotRestsTime(void)
 	return secondSplit > 990000;
 }
 
+bool testPosition_createDefaultPosition(void)
+{
+	Position position;
+	
+	return position.getX() == 0 && position.getY() == 0;
+}
+
+bool testPosition_createCustomPosition(void)
+{
+	int x = 5;
+	int y = 10;
+	Position position(x, y);
+	
+	return position.getX() == x && position.getY() == y;
+}
+
+bool testPosition_positionGettersAndSetters(void)
+{
+	Position position;
+	int x = 10;
+	int y = 100;
+	position.setX(x);
+	position.setY(y);
+	
+	return position.getX() == x && position.getY() == y;
+}
+
+bool testPosition_positionXYSetter(void)
+{
+	Position position;
+	int x = 5;
+	int y = 55;
+	position.setXY(x, y);
+	
+	return position.getX() == x && position.getY() == y;
+}
+
 bool testObject_setAndGetPosition(void)
 {
-	Object o;
+	Object *obj = new Object();
 
-	o.setPosition(Position(3, 4));
-	Position p = o.getPosition();
+	obj->setPosition(Position(3, 4));
+	Position p = obj->getPosition();
 
 	return p.getX() == 3 && p.getY() == 4;
 }
 
 bool testObject_setAndGetType(void)
 {
-	Object o;
+	Object *obj = new Object();
 	string type = "test_type";
 
-	o.setType(type);
+	obj->setType(type);
 
-	return o.getType() == type;
+	return obj->getType() == type;
 }
 
 bool testObjectList_emptyListIsEmpty(void)
@@ -460,11 +503,11 @@ bool testObjectList_removeInsertedObject(void)
 {
 	LogManager &logManager = LogManager::getInstance();
 	ObjectList list;
-	Object obj;
-	obj.setPosition(Position(9999, 9999));
+	Object *obj = new Object();
+	obj->setPosition(Position(9999, 9999));
 
 	objectListFillWithObject(&list, 2);
-	list.insert(&obj);
+	list.insert(obj);
 	objectListFillWithObject(&list, 2);
 
 	objectList2Log(&list);
@@ -476,7 +519,7 @@ bool testObjectList_removeInsertedObject(void)
 			"Removing the added object from list with count %d\n",
 			countBeforeRemove);
 
-	list.remove(&obj);
+	list.remove(obj);
 
 	int countAfterRemove = list.getCount();
 
@@ -489,8 +532,8 @@ bool testObjectList_removeNotInsertedObject(void)
 {
 	LogManager &logManager = LogManager::getInstance();
 	ObjectList list;
-	Object obj;
-	obj.setPosition(Position(9999, 9999));
+	Object *obj = new Object();
+	obj->setPosition(Position(9999, 9999));
 
 	objectListFillWithObject(&list, 4);
 
@@ -503,7 +546,7 @@ bool testObjectList_removeNotInsertedObject(void)
 			"Removing the added object from list with count %d\n",
 			countBeforeRemove);
 
-	list.remove(&obj);
+	list.remove(obj);
 
 	int countAfterRemove = list.getCount();
 
@@ -579,7 +622,7 @@ bool testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList(void)
 	return addedList.getCount() == 2 * fullSize;
 }
 
-bool testObjectList_operatorPlusFullListPlusFullListIsDoubledListWithRealloc(void)
+bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void)
 {
 	ObjectList firstList;
 	ObjectList secondList;
