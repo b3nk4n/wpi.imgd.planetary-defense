@@ -55,6 +55,11 @@ public:
 	virtual int eventHandler(Event *p_event);
 
 	/**
+	 * Renders the test game object.
+	 */
+	virtual void draw(void);
+
+	/**
 	 * Sets the sets until the objects sets the game over flag.
 	 */
 	void setStepsToGameOver(int value);

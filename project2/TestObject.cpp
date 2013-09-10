@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "TestObject.h"
 #include "GameManager.h"
+#include "GraphicsManager.h"
 #include "WorldManager.h"
 #include "EventStep.h"
 #include "EventTest.h"
@@ -49,8 +50,6 @@ void TestObject::step(void)
 			_id);
 		GameManager &gameManager = GameManager::getInstance();
 		gameManager.setGameOver(true);
-		//WorldManager &worldManager = WorldManager::getInstance();
-		//worldManager.markForDelete(this);
 	}
 
 	--_stl;
@@ -97,6 +96,18 @@ int TestObject::eventHandler(Event *p_event)
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
 	}
+}
+
+/**
+ * Renders the test game object.
+ */
+void TestObject::draw(void)
+{
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+	//graphicsManager.drawChar(getPosition(), 'X', COLOR_RED);
+	//graphicsManager.drawString(getPosition(), "Hallo", CENTER_JUSTIFIED, COLOR_RED);
+	graphicsManager.drawStringFormat(getPosition(), CENTER_JUSTIFIED, COLOR_RED,
+		"Object ID: %d");
 }
 
 /**

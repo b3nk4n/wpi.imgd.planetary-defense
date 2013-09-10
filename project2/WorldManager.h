@@ -86,17 +86,22 @@ public:
 	void clearAllObjects(void);
 
 	/**
+	 * Marks a game object to be deleted at the end of the current game update loop.
+	 * @param p_object The game object to be deferred deleted.
+	 * @return Return 0 if marking was successful, in case of error -1.
+	 */
+	int markForDelete(Object *p_object);
+
+	/**
 	 * Updates game world and deleted all marked objects.
 	 * @param delta The elapsed game time is seconds.
 	 */
 	void update(float delta);
 
 	/**
-	 * Marks a game object to be deleted at the end of the current game update loop.
-	 * @param p_object The game object to be deferred deleted.
-	 * @return Return 0 if marking was successful, in case of error -1.
+	 * Renders all game objects.
 	 */
-	int markForDelete(Object *p_object);
+	void draw(void);
 
 	/**
 	 * Validates if event is handles by this manager.

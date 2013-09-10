@@ -21,9 +21,10 @@ Object::Object(void)
 	WorldManager &worldManager = WorldManager::getInstance();
 	LogManager &logManager = LogManager::getInstance();
 
-	_eventCount = 0;
-
 	setType(TYPE_OBJECT);
+
+	_eventCount = 0;
+	_altitude = MAX_ALTITUDE / 2;
 
 	// add itself to the world manager
 	if (worldManager.insertObject(this))
@@ -137,6 +138,14 @@ int Object::unregisterInterest(string eventType)
 }
 
 /**
+ * Renders the game object.
+ */
+void Object::draw(void)
+{
+
+}
+
+/**
  * Gets the game objects type.
  * @return The game object type.
  */
@@ -170,4 +179,27 @@ Position Object::getPosition(void)
 void Object::setPosition(Position position)
 {
 	_position = position;
+}
+
+/**
+ * Sets the verifies the altitude/depth of the object.
+ * @param value The new altitude value.
+ * @return Returns 0 if ok, else -1.
+ */
+int Object::setAltitude(int value)
+{
+	if (value < MIN_ALTITUDE || MAX_ALTITUDE < value)
+		return -1;
+
+	_altitude = value;
+	return 0;
+}
+
+/**
+ * Gets the objects altitude/depth.
+ * @return The objects altitude.
+ */
+int Object::getAltitude(void)
+{
+	return _altitude;
 }

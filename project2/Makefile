@@ -23,6 +23,7 @@ LDFLAGS = -lncurses -lrt
 endif
 ENGSRC = Clock.cpp \
 		 GameManager.cpp \
+		 GraphicsManager.cpp \
 		 Event.cpp \
 		 EventStep.cpp \
 		 EventTest.cpp \
@@ -87,9 +88,23 @@ GameManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 GameManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
 GameManager.o: GameManager.h /usr/include/time.h /usr/include/machine/time.h
 GameManager.o: Manager.h ObjectList.h Object.h Position.h Event.h
-GameManager.o: ObjectListIterator.h LogManager.h utility.h Clock.h
-GameManager.o: /usr/include/unistd.h /usr/include/sys/unistd.h WorldManager.h
-GameManager.o: EventStep.h
+GameManager.o: ObjectListIterator.h WorldManager.h GraphicsManager.h
+GameManager.o: /usr/include/curses.h /usr/include/ncurses_dll.h
+GameManager.o: /usr/include/unctrl.h LogManager.h utility.h Clock.h
+GameManager.o: /usr/include/unistd.h /usr/include/sys/unistd.h EventStep.h
+GraphicsManager.o: GraphicsManager.h /usr/include/curses.h
+GraphicsManager.o: /usr/include/ncurses_dll.h /usr/include/stdio.h
+GraphicsManager.o: /usr/include/_ansi.h /usr/include/newlib.h
+GraphicsManager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
+GraphicsManager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+GraphicsManager.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+GraphicsManager.o: /usr/include/machine/_default_types.h
+GraphicsManager.o: /usr/include/sys/lock.h /usr/include/sys/types.h
+GraphicsManager.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
+GraphicsManager.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+GraphicsManager.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
+GraphicsManager.o: Manager.h ObjectList.h Object.h Position.h Event.h
+GraphicsManager.o: ObjectListIterator.h LogManager.h utility.h
 LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/_ansi.h
 LogManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 LogManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -148,10 +163,12 @@ TestObject.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
 TestObject.o: TestObject.h Object.h Position.h Event.h GameManager.h
 TestObject.o: /usr/include/time.h /usr/include/machine/time.h
 TestObject.o: /usr/include/sys/types.h /usr/include/machine/types.h Manager.h
-TestObject.o: ObjectList.h ObjectListIterator.h WorldManager.h EventStep.h
-TestObject.o: EventTest.h LogManager.h /usr/include/stdio.h
-TestObject.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-TestObject.o: /usr/include/stdint.h /usr/include/bits/wordsize.h utility.h
+TestObject.o: ObjectList.h ObjectListIterator.h GraphicsManager.h
+TestObject.o: /usr/include/curses.h /usr/include/ncurses_dll.h
+TestObject.o: /usr/include/stdio.h /usr/include/sys/stdio.h
+TestObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+TestObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
+TestObject.o: WorldManager.h EventStep.h EventTest.h LogManager.h utility.h
 UnitTestManager.o: UnitTestManager.h /usr/include/string.h
 UnitTestManager.o: /usr/include/_ansi.h /usr/include/newlib.h
 UnitTestManager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
@@ -187,7 +204,8 @@ game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 game.o: /usr/include/bits/wordsize.h Manager.h ObjectList.h Object.h
 game.o: Position.h Event.h ObjectListIterator.h utility.h GameManager.h
-game.o: /usr/include/time.h /usr/include/machine/time.h TestObject.h
+game.o: /usr/include/time.h /usr/include/machine/time.h EventStep.h
+game.o: TestObject.h
 test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
 test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
@@ -200,9 +218,11 @@ test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 test.o: /usr/include/bits/wordsize.h LogManager.h Manager.h ObjectList.h
 test.o: Object.h Position.h Event.h ObjectListIterator.h utility.h Clock.h
 test.o: /usr/include/time.h /usr/include/machine/time.h /usr/include/unistd.h
-test.o: /usr/include/sys/unistd.h GameManager.h WorldManager.h TestObject.h
-test.o: UnitTestManager.h /usr/include/string.h /usr/include/sys/string.h
-test.o: EventStep.h EventTest.h
+test.o: /usr/include/sys/unistd.h GameManager.h GraphicsManager.h
+test.o: /usr/include/curses.h /usr/include/ncurses_dll.h
+test.o: /usr/include/unctrl.h WorldManager.h TestObject.h UnitTestManager.h
+test.o: /usr/include/string.h /usr/include/sys/string.h EventStep.h
+test.o: EventTest.h
 utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
 utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
 utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h

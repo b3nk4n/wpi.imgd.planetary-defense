@@ -56,6 +56,10 @@ int WorldManager::startUp(void)
  */
 void WorldManager::shutDown(void)
 {
+	// verify manager is started;
+	if (!_isStarted)
+		return;
+	
 	// cleanup world objects
 	clearAllObjects();
 
@@ -112,25 +116,6 @@ void WorldManager::clearAllObjects(void)
 }
 
 /**
- * Updates game world and deleted all marked objects.
- * @param delta The elapsed game time in seconds.
- */
-void WorldManager::update(float delta)
-{
-	// delete all marked objects
-	ObjectListIterator it(&_deletions);
-	for (it.first(); !it.isDone(); it.next())
-	{
-		// NOTE: game object removes itself from the _updates list
-		//       via removeObject() in its desctructor
-		delete it.currentObject();
-	}
-
-	// clear deletion list for next update
-	_deletions.clear();
-}
-
-/**
  * Marks a game object to be deleted at the end of the current game update loop.
  * @param p_object The game object to be deferred deleted.
  * @return Return 0 if marking was successful, in case of error -1.
@@ -152,6 +137,44 @@ int WorldManager::markForDelete(Object *p_object)
 	// insert to delitions/marked list
 	_deletions.insert(p_object);
 	return 0;
+}
+
+/**
+ * Updates game world and deleted all marked objects.
+ * @param delta The elapsed game time in seconds.
+ */
+void WorldManager::update(float delta)
+{
+	// delete all marked objects
+	ObjectListIterator it(&_deletions);
+	for (it.first(); !it.isDone(); it.next())
+	{
+		// NOTE: game object removes itself from the _updates list
+		//       via removeObject() in its desctructor
+		delete it.currentObject();
+	}
+
+	// clear deletion list for next update
+	_deletions.clear();
+}
+
+/**
+ * Renders all game objects.
+ */
+void WorldManager::draw(void)
+{
+	// draw view layer by view layer
+	for (int a = MIN_ALTITUDE; a < MAX_ALTITUDE; ++a)
+	{
+		ObjectListIterator it(&_updates);
+		for (it.first(); !it.isDone(); it.next())
+		{
+			Object *p_object = it.currentObject();
+			
+			if (p_object->getAltitude() == a)
+				p_object->draw();
+		}
+	}
 }
 
 /**

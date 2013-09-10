@@ -16,6 +16,8 @@ using std::string;
 
 #define TYPE_OBJECT "Object"
 #define MAX_OBJ_EVENTS 64
+#define MAX_ALTITUDE 4
+#define MIN_ALTITUDE 0
 
 /**
  * Represents a game object in the game world.
@@ -42,6 +44,11 @@ private:
 	 * The registerd event types.
 	 */
 	string _eventTypes[MAX_OBJ_EVENTS];
+
+	/**
+	 * The objects altitude/depth (0=low,...,4=high).
+	 */
+	int _altitude;
 
 public:
 	/**
@@ -79,6 +86,11 @@ public:
 	int unregisterInterest(string eventType);
 
 	/**
+	 * Renders the game object.
+	 */
+	virtual void draw(void);
+
+	/**
 	 * Gets the game objects type.
 	 * @return The game object type.
 	 */
@@ -101,6 +113,19 @@ public:
 	 * @param position The new game objects position.
 	 */
 	void setPosition(Position position);
+
+	/**
+	 * Sets the verifies the altitude/depth of the object.
+	 * @param value The new altitude value.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int setAltitude(int value);
+
+	/**
+	 * Gets the objects altitude/depth.
+	 * @return The objects altitude.
+	 */
+	int getAltitude(void);
 };
 
 #endif

@@ -85,12 +85,18 @@ int LogManager::startUp(bool flush)
  */
 void LogManager::shutDown(void)
 {
+	// verify manager is started;
+	if (!_isStarted)
+		return;
+	
 	// close the log file (fclose() flushes automatically)
 	if (p_file != NULL)
 	{
 		fclose(p_file);
 		p_file = NULL;
 	}
+
+	_isStarted = false;
 }
 
 /**

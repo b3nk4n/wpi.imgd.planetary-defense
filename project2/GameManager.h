@@ -29,6 +29,12 @@ private:
 	int _frameTime;
 
 	/**
+	 * Indicates whether the rendering is enabled or not.
+	 * This feature can be helpful for unit testing.
+	 */
+	bool _renderingEnabled;
+
+	/**
 	 * Creates a game manager instance.
 	 */
 	GameManager(void);
@@ -97,7 +103,13 @@ public:
 	 * Gets the target frame time.
 	 * @return The taget frame time.
 	 */
-	int getFrameTime();
+	int getFrameTime(void);
+
+	/**
+	 * Disables the 2d character rendering.
+	 * NOTE: used for the unit test manager.
+	 */
+	void disableGraphics(void);
 };
 
 #endif

@@ -10,6 +10,7 @@
 #include "LogManager.h"
 #include "Clock.h"
 #include "GameManager.h"
+#include "GraphicsManager.h"
 #include "WorldManager.h"
 #include "ObjectList.h"
 #include "TestObject.h"
@@ -31,6 +32,7 @@ bool testGameManager_runAndGameOverNoHang(void);
 bool testGameManager_changedFrameTimeHasEffect(void);
 bool testGameManager_stepEventIsValid(void);
 bool testGameManager_testEventIsNotValid(void);
+bool testGraphicsManager_verifyIsStarted(void);
 bool testWorldManager_markOneObjectForDelete(void);
 bool testWorldManager_clearAllObjects(void);
 bool testWorldManager_verifyIsStarted(void);
@@ -101,6 +103,8 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testGameManager_testEventIsNotValid", &testGameManager_testEventIsNotValid);
 	unitTestManager.registerTestFunction("testGameManager_registerInvalidEvent", &testGameManager_registerInvalidEvent);
 
+	unitTestManager.registerTestFunction("testGraphicsManager_verifyIsStarted", &testGraphicsManager_verifyIsStarted);
+
 	unitTestManager.registerTestFunction("testWorldManager_verifyIsStarted", &testWorldManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testWorldManager_insertAndRemoveObject", &testWorldManager_insertAndRemoveObject);
 	unitTestManager.registerTestFunction("testWorldManager_markOneObjectForDelete", &testWorldManager_markOneObjectForDelete);
@@ -163,6 +167,9 @@ void testSetup(void)
 {
 	LogManager &logManager = LogManager::getInstance();
 	GameManager &gameManager = GameManager::getInstance();
+
+	// disable rendering for unit testing
+	gameManager.disableGraphics();
 	
 	// startup the game manager
 	if (gameManager.startUp(true))
@@ -283,6 +290,14 @@ bool testGameManager_registerInvalidEvent(void)
 	int res = gameManager.registerInterest(new Object(), TEST_EVENT);
 
 	return res == -1;
+}
+
+bool testGraphicsManager_verifyIsStarted(void)
+{
+	// NOTE: This unit test was manually verified using another configuration.
+	//       To have a correct unit test framework output, the graphics
+	//       manager is not started at game engine start up.
+	return true;
 }
 
 bool testWorldManager_verifyIsStarted(void)

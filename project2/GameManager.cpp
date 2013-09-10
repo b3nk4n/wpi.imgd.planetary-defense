@@ -6,10 +6,11 @@
 
 #include <stdio.h>
 #include "GameManager.h"
+#include "WorldManager.h"
+#include "GraphicsManager.h"
 #include "ObjectList.h"
 #include "LogManager.h"
 #include "Clock.h"
-#include "WorldManager.h"
 #include "EventStep.h"
 
 /**
@@ -19,6 +20,7 @@ GameManager::GameManager(void)
 {
 	_frameTime = DEFAULT_FRAME_TIME;
 	_gameOver = false;
+	_renderingEnabled = true;
 }
 
 /**
@@ -71,6 +73,7 @@ int GameManager::startUp(bool flush)
 {
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 
 	if (logManager.startUp(flush))
 	{
@@ -98,6 +101,23 @@ int GameManager::startUp(bool flush)
 			"WorldManager started\n");
 	}
 
+	if (_renderingEnabled)
+	{
+		if (graphicsManager.startUp())
+		{
+			logManager.writeLog(LOG_ERROR,
+				"GameManager::startUp()",
+				"GraphicsManager could not be started\n");
+			return -1;
+		}
+		else
+		{
+			logManager.writeLog(LOG_ERROR,
+				"GameManager::startUp()",
+				"GraphicsManager started\n");
+		}
+	}
+
 	_isStarted = true;
 
 	logManager.writeLog(LOG_INFO,
@@ -112,12 +132,22 @@ int GameManager::startUp(bool flush)
  */
 void GameManager::shutDown(void)
 {
+	// verify manager is started
+	if (!_isStarted)
+		return;
+
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 
 	logManager.writeLog(LOG_INFO,
 			"GameManager::shutDown()",
 			"GameManager shut down process started\n");
+
+	logManager.writeLog(LOG_ERROR,
+			"GameManager::shutDown()",
+			"GraphicsManager shutting down\n");
+	graphicsManager.shutDown();
 
 	logManager.writeLog(LOG_ERROR,
 			"GameManager::shutDown()",
@@ -139,11 +169,12 @@ void GameManager::shutDown(void)
  */
 long int GameManager::run(int frameTime)
 {
+	WorldManager &worldManager = WorldManager::getInstance();
+	GraphicsManager &graphcisManager = GraphicsManager::getInstance();
 	Clock clock;
 	long int loopTime = frameTime;
 	long int loopCounter = 0;
 	long int targetTimeDiff;
-	WorldManager &worldManager = WorldManager::getInstance();
 
 	// set custom frame time
 	_frameTime = frameTime;
@@ -158,20 +189,20 @@ long int GameManager::run(int frameTime)
 
 
 		// 2 - UPDATE GAME SCENE
-		ObjectList allObjects = worldManager.getAllObjects();
-		EventStep eventStep(lastDelta);
-
 		// fire events
+		EventStep eventStep(lastDelta);
 		onEvent(&eventStep);
 
 		// update the game world
 		worldManager.update(lastDelta);
 
 		// 3 - RENDER GAME SCENE TO BACK BUFFER
-
+		if (_renderingEnabled)
+			worldManager.draw();
 
 		// 4 - SWAP BACK BUFFER TO CURRENT BUFFER
-
+		if (_renderingEnabled)
+			graphcisManager.swapBuffers();
 
 		// 5 - MEASURE CURRENT LOOP TIME AND SLEEP TO HIT THE TARGET TIME
 		loopTime = clock.split();
@@ -207,7 +238,16 @@ void GameManager::setGameOver(bool gameOver)
  * Gets the target frame time.
  * @return The taget frame time.
  */
-int GameManager::getFrameTime()
+int GameManager::getFrameTime(void)
 {
 	return _frameTime;
+}
+
+/**
+ * Disables the 2d character rendering.
+ * NOTE: used for the unit test manager.
+ */
+void GameManager::disableGraphics()
+{
+	_renderingEnabled = false;
 }
