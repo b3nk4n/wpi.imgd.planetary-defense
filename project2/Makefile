@@ -56,7 +56,7 @@ $(TESTBIN): $(ENG) $(TESTOBJ) $(TESTSRC)
 	$(CC) -c $(DEBUG) $(PLATFORM) $< -o $@
 
 clean:
-	$(RM) $(OBJECTS) $(TESTOBJ) $(GAMEBIN) $(TESTBIN) core engine.log Makefile.bak *~ *.stackdump
+	$(RM) $(OBJECTS) $(TESTOBJ) $(GAMEBIN) $(TESTBIN) core dragonfly.log Makefile.bak *~ *.stackdump
 
 depend: 
 	makedepend *.cpp 2> /dev/null
