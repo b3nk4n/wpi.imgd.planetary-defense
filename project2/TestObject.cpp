@@ -9,6 +9,7 @@
 #include "GameManager.h"
 #include "WorldManager.h"
 #include "EventStep.h"
+#include "EventTest.h"
 #include "LogManager.h"
 
 #define ENDLESS_TIME 999999999
@@ -88,6 +89,13 @@ int TestObject::eventHandler(Event *p_event)
 	if (p_event->getType() == STEP_EVENT)
 	{
 		step();
+	}
+
+	if (p_event->getType() == TEST_EVENT)
+	{
+		// test event kills object to verify event was received
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
 	}
 }
 

@@ -81,6 +81,13 @@ public:
 	long int run(int frameTime = DEFAULT_FRAME_TIME);
 
 	/**
+	 * Validates if event is handles by this manager.
+	 * @param eventType The event type name.
+	 * @return Returns TRUE if event is handled, else FALSE.
+	 */
+	 virtual bool isValid(string eventType);
+
+	/**
 	 * Sets the game over flag to quit the game loop.
 	 * @param gameOver The new game over flag value.
 	 */

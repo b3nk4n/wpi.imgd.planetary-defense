@@ -15,6 +15,7 @@
 using std::string;
 
 #define TYPE_OBJECT "Object"
+#define MAX_OBJ_EVENTS 64
 
 /**
  * Represents a game object in the game world.
@@ -31,6 +32,16 @@ private:
 	 * The objects position in the game world.
 	 */
 	Position _position;
+
+	/**
+	 * The number of registerd events.
+	 */
+	int _eventCount;
+
+	/**
+	 * The registerd event types.
+	 */
+	string _eventTypes[MAX_OBJ_EVENTS];
 
 public:
 	/**
@@ -51,6 +62,21 @@ public:
 	 * @return Return 0 if ignored, else 1 if event was handled.
 	 */
 	virtual int eventHandler(Event *p_event);
+
+	/**
+	 * Registers its interest for an event. Keeps track of manager and event.
+	 * @param eventType The event type name.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int registerInterest(string eventType);
+
+	/**
+	 * Unregisters its interest for an event.
+	 * @note doesn't check if game object has already been registered.
+	 * @param eventType The event type name.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int unregisterInterest(string eventType);
 
 	/**
 	 * Gets the game objects type.

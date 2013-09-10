@@ -97,6 +97,13 @@ public:
 	 * @return Return 0 if marking was successful, in case of error -1.
 	 */
 	int markForDelete(Object *p_object);
+
+	/**
+	 * Validates if event is handles by this manager.
+	 * @param eventType The event type name.
+	 * @return Returns TRUE if event is handled, else FALSE.
+	 */
+	 virtual bool isValid(string eventType);
 };
 
 #endif

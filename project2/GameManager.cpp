@@ -162,12 +162,7 @@ long int GameManager::run(int frameTime)
 		EventStep eventStep(lastDelta);
 
 		// fire events
-		ObjectListIterator it(&allObjects);
-		for (it.first(); !it.isDone(); it.next())
-		{
-			Object *p_object = it.currentObject();
-			p_object->eventHandler(&eventStep);
-		}
+		onEvent(&eventStep);
 
 		// update the game world
 		worldManager.update(lastDelta);
@@ -188,6 +183,16 @@ long int GameManager::run(int frameTime)
 
 	return loopCounter;
 }
+
+/**
+ * Validates if event is handles by this manager.
+ * @param eventType The event type name.
+ * @return Returns TRUE if event is handled, else FALSE.
+ */
+ bool GameManager::isValid(string eventType)
+ {
+ 	return eventType == STEP_EVENT;
+ }
 
 /**
  * Sets the game over flag to quit the game loop.

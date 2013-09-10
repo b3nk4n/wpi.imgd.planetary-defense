@@ -14,6 +14,8 @@
 #include "ObjectList.h"
 #include "TestObject.h"
 #include "UnitTestManager.h"
+#include "EventStep.h"
+#include "EventTest.h"
 
 using std::string;
 
@@ -27,10 +29,15 @@ void testAfter(void);
 bool testGameManager_verifyIsStarted(void);
 bool testGameManager_runAndGameOverNoHang(void);
 bool testGameManager_changedFrameTimeHasEffect(void);
+bool testGameManager_stepEventIsValid(void);
+bool testGameManager_testEventIsNotValid(void);
 bool testWorldManager_markOneObjectForDelete(void);
 bool testWorldManager_clearAllObjects(void);
 bool testWorldManager_verifyIsStarted(void);
 bool testWorldManager_insertAndRemoveObject(void);
+bool testWorldManager_stepEventIsNotValid(void);
+bool testWorldManager_testEventIsValid(void);
+bool testGameManager_registerInvalidEvent(void);
 bool testLogManager_verifyIsStarted(void);
 bool testLogManager_writeLogNoParam(void);
 bool testLogManager_writeLogMixedParam(void);
@@ -43,6 +50,13 @@ bool testPosition_positionGettersAndSetters(void);
 bool testPosition_positionXYSetter(void);
 bool testObject_setAndGetPosition(void);
 bool testObject_setAndGetType(void);
+bool testObject_registerInterest(void);
+bool testObject_registerInterestTwice(void);
+bool testObject_unregisterInterest(void);
+bool testObject_unregisterInterestTwice(void);
+bool testObject_registerCustomEvent(void);
+bool testObject_verifyEventIsReceived(void);
+bool testObject_verifyEventIsNotReceivedWhenNotRegisterd(void);
 bool testObjectList_emptyListIsEmpty(void);
 bool testObjectList_emptyListNotFull(void);
 bool testObjectList_emptyListCountZero(void);
@@ -83,11 +97,16 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testGameManager_verifyIsStarted", &testGameManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testGameManager_runAndGameOverNoHang", &testGameManager_runAndGameOverNoHang);
 	unitTestManager.registerTestFunction("testGameManager_changedFrameTimeHasEffect", &testGameManager_changedFrameTimeHasEffect);
+	unitTestManager.registerTestFunction("testGameManager_stepEventIsValid", &testGameManager_stepEventIsValid);
+	unitTestManager.registerTestFunction("testGameManager_testEventIsNotValid", &testGameManager_testEventIsNotValid);
+	unitTestManager.registerTestFunction("testGameManager_registerInvalidEvent", &testGameManager_registerInvalidEvent);
 
 	unitTestManager.registerTestFunction("testWorldManager_verifyIsStarted", &testWorldManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testWorldManager_insertAndRemoveObject", &testWorldManager_insertAndRemoveObject);
 	unitTestManager.registerTestFunction("testWorldManager_markOneObjectForDelete", &testWorldManager_markOneObjectForDelete);
 	unitTestManager.registerTestFunction("testWorldManager_clearAllObjects", &testWorldManager_clearAllObjects);
+	unitTestManager.registerTestFunction("testWorldManager_stepEventIsNotValid", &testWorldManager_stepEventIsNotValid);
+	unitTestManager.registerTestFunction("testWorldManager_testEventIsValid", &testWorldManager_testEventIsValid);
 
 	unitTestManager.registerTestFunction("testLogManager_verifyIsStarted", &testLogManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testLogManager_writeLogNoParam", &testLogManager_writeLogNoParam);
@@ -104,6 +123,14 @@ int main(int argc, char *argv[])
 	
 	unitTestManager.registerTestFunction("testObject_setAndGetPosition", &testObject_setAndGetPosition);
 	unitTestManager.registerTestFunction("testObject_setAndGetType", &testObject_setAndGetType);
+
+	unitTestManager.registerTestFunction("testObject_registerInterest", &testObject_registerInterest);
+	unitTestManager.registerTestFunction("testObject_registerInterestTwice", &testObject_registerInterestTwice);
+	unitTestManager.registerTestFunction("testObject_unregisterInterest", &testObject_unregisterInterest);
+	unitTestManager.registerTestFunction("testObject_unregisterInterestTwice", &testObject_unregisterInterestTwice);
+	unitTestManager.registerTestFunction("testObject_registerCustomEvent", &testObject_registerCustomEvent);
+	unitTestManager.registerTestFunction("testObject_verifyEventIsReceived", &testObject_verifyEventIsReceived);
+	unitTestManager.registerTestFunction("testObject_verifyEventIsNotReceivedWhenNotRegisterd", &testObject_verifyEventIsNotReceivedWhenNotRegisterd);
 
 	unitTestManager.registerTestFunction("testObjectList_emptyListIsEmpty", &testObjectList_emptyListIsEmpty);
 	unitTestManager.registerTestFunction("testObjectList_emptyListNotFull", &testObjectList_emptyListNotFull);
@@ -200,6 +227,7 @@ bool testGameManager_runAndGameOverNoHang(void)
 
 	TestObject *object = new TestObject();
 	object->setStepsToGameOver(30);
+	object->registerInterest(STEP_EVENT);
 	gameManager.run();
 
 	// if unit test does not hang here, test was successful
@@ -216,6 +244,7 @@ bool testGameManager_changedFrameTimeHasEffect(void)
 	long int maxDiff = 50000; // 50ms (high delta because CCC server is slow)
 	TestObject *object = new TestObject();
 	object->setStepsToGameOver(loops);
+	object->registerInterest(STEP_EVENT);
 
 	clock.delta();
 	int gameLoops = gameManager.run(frameTime);
@@ -230,6 +259,30 @@ bool testGameManager_changedFrameTimeHasEffect(void)
 
 	// if unit test does not hang here, test was successful
 	return gameLoops == loops && frameTime * loops - maxDiff < gameTime && gameTime <  frameTime * loops + maxDiff;
+}
+
+bool testGameManager_stepEventIsValid(void)
+{
+	GameManager &gameManager = GameManager::getInstance();
+	bool res = gameManager.isValid(STEP_EVENT);
+
+	return res;
+}
+
+bool testGameManager_testEventIsNotValid(void)
+{
+	GameManager &gameManager = GameManager::getInstance();
+	bool res = gameManager.isValid(TEST_EVENT);
+
+	return !res;
+}
+
+bool testGameManager_registerInvalidEvent(void)
+{
+	GameManager &gameManager = GameManager::getInstance();
+	int res = gameManager.registerInterest(new Object(), TEST_EVENT);
+
+	return res == -1;
 }
 
 bool testWorldManager_verifyIsStarted(void)
@@ -302,6 +355,22 @@ bool testWorldManager_clearAllObjects(void)
 	int countAfter = worldManager.getAllObjects().getCount();
 
 	return countBefore == 3 && countAfter == 0;
+}
+
+bool testWorldManager_stepEventIsNotValid(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	bool res = worldManager.isValid(STEP_EVENT);
+
+	return !res;
+}
+
+bool testWorldManager_testEventIsValid(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	bool res = worldManager.isValid(TEST_EVENT);
+
+	return res;
 }
 
 bool testLogManager_verifyIsStarted(void)
@@ -442,6 +511,81 @@ bool testObject_setAndGetType(void)
 	obj->setType(type);
 
 	return obj->getType() == type;
+}
+
+bool testObject_registerInterest(void)
+{
+	TestObject *obj = new TestObject();
+	int res = obj->registerInterest(STEP_EVENT);
+
+	return res == 0;
+}
+
+bool testObject_registerInterestTwice(void)
+{
+	TestObject *obj = new TestObject();
+	int res1 = obj->registerInterest(STEP_EVENT);
+	int res2 = obj->registerInterest(STEP_EVENT);
+
+	return res1 == 0 && res2 == 0; // NOTE: multiple register is allowed
+}
+
+bool testObject_unregisterInterest(void)
+{
+	TestObject *obj = new TestObject();
+	obj->registerInterest(STEP_EVENT);
+	int res = obj->unregisterInterest(STEP_EVENT);
+
+	return res == 0;
+}
+
+bool testObject_unregisterInterestTwice(void)
+{
+	TestObject *obj = new TestObject();
+	obj->registerInterest(STEP_EVENT);
+	int res1 = obj->unregisterInterest(STEP_EVENT);
+	int res2 = obj->unregisterInterest(STEP_EVENT);
+
+	return res1 == 0 && res2 == -1;
+}
+
+bool testObject_registerCustomEvent(void)
+{
+	TestObject *obj = new TestObject();
+	int res = obj->registerInterest(TEST_EVENT);
+
+	return res == 0;
+}
+
+bool testObject_verifyEventIsReceived(void)
+{
+	TestObject *obj = new TestObject();
+	obj->registerInterest(TEST_EVENT);
+
+	WorldManager &worldManager = WorldManager::getInstance();
+	int countBeforeEvent = worldManager.getAllObjects().getCount();
+	// NOTE: test object marks itself for delete on test event
+	EventTest testEvent;
+	worldManager.onEvent(&testEvent);
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterEvent = worldManager.getAllObjects().getCount();
+
+	return countBeforeEvent - countAfterEvent == 1;
+}
+
+bool testObject_verifyEventIsNotReceivedWhenNotRegisterd(void)
+{
+	TestObject *obj = new TestObject();
+
+	WorldManager &worldManager = WorldManager::getInstance();
+	int countBeforeEvent = worldManager.getAllObjects().getCount();
+	// NOTE: test object marks itself for delete on test event
+	EventTest testEvent;
+	worldManager.onEvent(&testEvent);
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterEvent = worldManager.getAllObjects().getCount();
+
+	return countBeforeEvent == countAfterEvent;
 }
 
 bool testObjectList_emptyListIsEmpty(void)

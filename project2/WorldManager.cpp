@@ -7,6 +7,7 @@
 
 #include "WorldManager.h"
 #include "LogManager.h"
+#include "EventStep.h"
 
 /**
  * Creates a world manager instance.
@@ -152,3 +153,13 @@ int WorldManager::markForDelete(Object *p_object)
 	_deletions.insert(p_object);
 	return 0;
 }
+
+/**
+ * Validates if event is handles by this manager.
+ * @param eventType The event type name.
+ * @return Returns TRUE if event is handled, else FALSE.
+ */
+ bool WorldManager::isValid(string eventType)
+ {
+ 	return eventType != STEP_EVENT;
+ }
