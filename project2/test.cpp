@@ -213,6 +213,7 @@ bool testGameManager_changedFrameTimeHasEffect(void)
 	Clock clock;
 	int frameTime = 99999;
 	int loops = 10;
+	long int maxDiff = 50000; // 50ms (high delta because CCC server is slow)
 	TestObject *object = new TestObject();
 	object->setStepsToGameOver(loops);
 
@@ -228,7 +229,7 @@ bool testGameManager_changedFrameTimeHasEffect(void)
 		gameTime);
 
 	// if unit test does not hang here, test was successful
-	return gameLoops == loops && frameTime * loops - 15000 < gameTime && gameTime <  frameTime * loops + 15000;
+	return gameLoops == loops && frameTime * loops - maxDiff < gameTime && gameTime <  frameTime * loops + maxDiff;
 }
 
 bool testWorldManager_verifyIsStarted(void)
@@ -346,6 +347,7 @@ bool testClock_1SecSleep(void)
 	LogManager &logManager = LogManager::getInstance();
 	int sleepTime = 1000000; // 1 sec
 	Clock clock;
+	long int maxDiff = 15000; // 15ms (high delta becaus of slow CCC server)
 
 	clock.delta();
 	usleep(sleepTime);
@@ -356,7 +358,7 @@ bool testClock_1SecSleep(void)
 		"sleep(1) took exactly: %ldusec\n",
 		diff);
 
-	return sleepTime - 15000 < diff && diff < sleepTime + 15000;
+	return sleepTime - maxDiff < diff && diff < sleepTime + maxDiff;
 }
 
 bool testClock_deltaRestsTime(void)
