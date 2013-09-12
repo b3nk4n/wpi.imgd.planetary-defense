@@ -27,6 +27,7 @@ ENGSRC = Clock.cpp \
 		 Event.cpp \
 		 EventStep.cpp \
 		 EventTest.cpp \
+		 InputManager.cpp \
 		 LogManager.cpp \
 		 Manager.cpp \
 		 Object.cpp \
@@ -90,8 +91,9 @@ GameManager.o: GameManager.h /usr/include/time.h /usr/include/machine/time.h
 GameManager.o: Manager.h ObjectList.h Object.h Position.h Event.h
 GameManager.o: ObjectListIterator.h WorldManager.h GraphicsManager.h
 GameManager.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-GameManager.o: /usr/include/unctrl.h LogManager.h utility.h Clock.h
-GameManager.o: /usr/include/unistd.h /usr/include/sys/unistd.h EventStep.h
+GameManager.o: /usr/include/unctrl.h InputManager.h LogManager.h utility.h
+GameManager.o: Clock.h /usr/include/unistd.h /usr/include/sys/unistd.h
+GameManager.o: EventStep.h
 GraphicsManager.o: GraphicsManager.h /usr/include/curses.h
 GraphicsManager.o: /usr/include/ncurses_dll.h /usr/include/stdio.h
 GraphicsManager.o: /usr/include/_ansi.h /usr/include/newlib.h
@@ -105,6 +107,8 @@ GraphicsManager.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 GraphicsManager.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
 GraphicsManager.o: Manager.h ObjectList.h Object.h Position.h Event.h
 GraphicsManager.o: ObjectListIterator.h LogManager.h utility.h
+InputManager.o: InputManager.h Manager.h ObjectList.h Object.h Position.h
+InputManager.o: Event.h ObjectListIterator.h
 LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/_ansi.h
 LogManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 LogManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h

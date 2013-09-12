@@ -8,6 +8,7 @@
 #include "GameManager.h"
 #include "WorldManager.h"
 #include "GraphicsManager.h"
+#include "InputManager.h"
 #include "ObjectList.h"
 #include "LogManager.h"
 #include "Clock.h"
@@ -74,6 +75,7 @@ int GameManager::startUp(bool flush)
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+	InputManager &inputManager = InputManager::getInstance();
 
 	if (logManager.startUp(flush))
 	{
@@ -118,6 +120,20 @@ int GameManager::startUp(bool flush)
 		}
 	}
 
+	if (inputManager.startUp())
+	{
+		logManager.writeLog(LOG_ERROR,
+			"GameManager::startUp()",
+			"InputManager could not be started\n");
+		return -1;
+	}
+	else
+	{
+		logManager.writeLog(LOG_ERROR,
+			"GameManager::startUp()",
+			"InputManager started\n");
+	}
+
 	_isStarted = true;
 
 	logManager.writeLog(LOG_INFO,
@@ -139,10 +155,16 @@ void GameManager::shutDown(void)
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+	InputManager &inputManager = InputManager::getInstance();
 
 	logManager.writeLog(LOG_INFO,
 			"GameManager::shutDown()",
 			"GameManager shut down process started\n");
+
+	logManager.writeLog(LOG_ERROR,
+			"GameManager::shutDown()",
+			"InputManager shutting down\n");
+	inputManager.shutDown();
 
 	logManager.writeLog(LOG_ERROR,
 			"GameManager::shutDown()",
