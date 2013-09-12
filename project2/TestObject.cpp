@@ -11,6 +11,8 @@
 #include "WorldManager.h"
 #include "EventStep.h"
 #include "EventTest.h"
+#include "EventKeyboard.h"
+#include "EventMouse.h"
 #include "LogManager.h"
 
 #define ENDLESS_TIME 999999999
@@ -85,6 +87,8 @@ void TestObject::step(void)
  */
 int TestObject::eventHandler(Event *p_event)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	if (p_event->getType() == STEP_EVENT)
 	{
 		step();
@@ -95,6 +99,26 @@ int TestObject::eventHandler(Event *p_event)
 		// test event kills object to verify event was received
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
+	}
+
+	if (p_event->getType() == KEYBOARD_EVENT)
+	{
+		EventKeyboard *p_keyboardEvent = static_cast<EventKeyboard *>(p_event);
+		logManager.writeLog(LOG_DEBUG,
+			"TestObject::eventHandler()",
+			"Key val=%d was pressed\n",
+			p_keyboardEvent->getKey());
+	}
+
+	if (p_event->getType() == MOUSE_EVENT)
+	{
+		EventMouse *p_mouseEvent = static_cast<EventMouse *>(p_event);
+		
+		if (p_mouseEvent->getPosition() == getPosition())
+		{
+			WorldManager &worldManager = WorldManager::getInstance();
+			worldManager.markForDelete(this);
+		}
 	}
 }
 

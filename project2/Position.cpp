@@ -26,6 +26,28 @@ Position::Position(int x, int y)
 }
 
 /**
+ * Overrides the comparison operator to compare two positions.
+ * @param otherPosition The other position.
+ * @return Returns TRUE if both positions have the same
+ *         coordinates, else false.
+ */
+bool Position::operator==(Position otherPosition) const
+{
+	return _x == otherPosition.getX() && _y == otherPosition.getY();
+}
+
+/**
+ * Overrides the negated comparison operator to compare two positions.
+ * @param otherPosition The other position.
+ * @return Returns TRUE if both positions do not have the same
+ *         coordinates, else false.
+ */
+bool Position::operator!=(Position otherPosition) const
+{
+	return !(*this == otherPosition);
+}
+
+/**
  * Gets the x value.
  * @return The current x value.
  */

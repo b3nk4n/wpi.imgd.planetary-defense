@@ -8,6 +8,8 @@
 #include "LogManager.h"
 #include "GameManager.h"
 #include "EventStep.h"
+#include "EventKeyboard.h"
+#include "EventMouse.h"
 #include "TestObject.h"
 
 #define TEST_OBJECTS_COUNT 4
@@ -70,16 +72,18 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
-	TestObject *o1 = new TestObject();
-	o1->setSTL(30);
-	o1->setPosition(Position(10, 10));
-	o1->registerInterest(STEP_EVENT);
+	//TestObject *o1 = new TestObject();
+	//o1->setSTL(10);
+	//o1->setPosition(Position(10, 10));
+	//o1->registerInterest(STEP_EVENT);
 	TestObject *o2 = new TestObject();
 	o2->setStepsToGameOver(100);
 	o2->setPosition(Position(5, 5));
 	o2->registerInterest(STEP_EVENT);
-	TestObject *o3 = new TestObject();
-	o3->setPosition(Position(20, 10));
-	o3->registerInterest(STEP_EVENT);
-	new TestObject();
+	//TestObject *o3 = new TestObject();
+	//o3->setPosition(Position(20, 10));
+	//o3->registerInterest(STEP_EVENT);
+	TestObject *o4 = new TestObject();
+	o4->registerInterest(KEYBOARD_EVENT);
+	o4->registerInterest(MOUSE_EVENT);
 }

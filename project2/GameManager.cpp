@@ -193,6 +193,7 @@ long int GameManager::run(int frameTime)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
 	GraphicsManager &graphcisManager = GraphicsManager::getInstance();
+	InputManager &inputManager = InputManager::getInstance();
 	Clock clock;
 	long int loopTime = frameTime;
 	long int loopCounter = 0;
@@ -208,7 +209,7 @@ long int GameManager::run(int frameTime)
 		++loopCounter;
 
 		// 1 - GET INPUT
-
+		inputManager.getInput();
 
 		// 2 - UPDATE GAME SCENE
 		// fire events
