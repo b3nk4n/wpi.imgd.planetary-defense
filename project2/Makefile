@@ -25,6 +25,8 @@ ENGSRC = Clock.cpp \
 		 GameManager.cpp \
 		 GraphicsManager.cpp \
 		 Event.cpp \
+		 EventKeyboard.cpp \
+		 EventMouse.cpp \
 		 EventStep.cpp \
 		 EventTest.cpp \
 		 InputManager.cpp \
@@ -76,6 +78,8 @@ Clock.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Clock.h
 Clock.o: /usr/include/time.h /usr/include/machine/time.h
 Clock.o: /usr/include/unistd.h /usr/include/sys/unistd.h
 Event.o: Event.h
+EventKeyboard.o: EventKeyboard.h Event.h
+EventMouse.o: EventMouse.h Event.h Position.h
 EventStep.o: EventStep.h Event.h
 EventTest.o: EventTest.h Event.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
