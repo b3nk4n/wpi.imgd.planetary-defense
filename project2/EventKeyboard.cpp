@@ -13,7 +13,7 @@
 EventKeyboard::EventKeyboard(void)
 {
 	setType(KEYBOARD_EVENT);
-	_keyValue = KEY_UNDEFINED;
+	_keyValue = UNDEFINED_KEY;
 }
 
 /**

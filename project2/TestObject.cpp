@@ -104,16 +104,31 @@ int TestObject::eventHandler(Event *p_event)
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		EventKeyboard *p_keyboardEvent = static_cast<EventKeyboard *>(p_event);
+		int key = p_keyboardEvent->getKey();
 		logManager.writeLog(LOG_DEBUG,
 			"TestObject::eventHandler()",
-			"Key val=%d was pressed\n",
-			p_keyboardEvent->getKey());
+			"Object with id=%d got key event: %d\n",
+			_id,
+			key);
+
+		if (key == UP_KEY || key == ENTER_KEY || key == SPACE_KEY)
+		{
+			GameManager &gameManager = GameManager::getInstance();
+			gameManager.setGameOver(true);
+		}
 	}
 
 	if (p_event->getType() == MOUSE_EVENT)
 	{
 		EventMouse *p_mouseEvent = static_cast<EventMouse *>(p_event);
 		
+		logManager.writeLog(LOG_DEBUG,
+			"TestObject::eventHandler()",
+			"Object with id=%d got mouse event in: (%d, %d)\n",
+			_id,
+			p_mouseEvent->getPosition().getX(),
+			p_mouseEvent->getPosition().getY());
+
 		if (p_mouseEvent->getPosition() == getPosition())
 		{
 			WorldManager &worldManager = WorldManager::getInstance();

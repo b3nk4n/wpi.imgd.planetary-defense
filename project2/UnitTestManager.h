@@ -16,6 +16,7 @@
 using std::string;
 
 #define MAX_TEST_CASES 256
+#define TESTSFILE_NAME "unittests.log"
 
 /**
  * A simple named test case.
@@ -41,6 +42,11 @@ private:
 	 * The unit tests counter.
 	 */
 	int _casesCount;
+
+	/**
+	 * Points to the log file structure.
+	 */
+	FILE *p_file;
 
 	/**
 	 * The test managers setup function.
@@ -90,6 +96,23 @@ private:
 	int testRun(int testIndex);
 
 	/**
+	 * Writes a line log massage to the configured output stream.
+	 * @param format The format string in classic printf() style.
+	 * @param ... Additional parameters.
+	 * @return Returns number of bytes written or -1 if an error occured.
+	 */
+	int print(const char *format, ...);
+
+
+	/**
+	 * Prints the frameworks ASCII bordered line.
+	 * @param format The format string in classic printf() style.
+	 * @param ... Additional parameters.
+	 */
+	void printBordered(const char *format, ...);
+
+
+	/**
 	 * Prints the frameworks ASCII logo.
 	 */
 	void printLogo(void);
@@ -102,18 +125,16 @@ private:
 	void printLine(char type, int length);
 
 	/**
-	 * Prints the frameworks ASCII title.
-	 * @param format The format string in classic printf() style.
- 	 * @param ... Additional parameters.
-	 */
-	void printTitle(const char *format, ...);
-
-	/**
 	 * Prints an ASCII summary.
 	 * @param total The number of tests.
 	 * @param succeeded The number of succeeded tests.
 	 */
 	void printSummary(int total, int succeeded);
+
+	/**
+	 * Prints the help text.
+	 */
+	void printHelp(void);
 
 public:
 	/**
@@ -151,6 +172,17 @@ public:
 	 * @param function The test function to add.
 	 */
 	void registerTestFunction(string name, bool (*function)(void));
+
+	/**
+	 * Starts up the unit test manager and loads/opens all resources.
+	 * @return Returns 0 if succeeded, else -1.
+	 */
+	int startUp(void);
+
+	/**
+	 * Shuts down the unit test manager and releases all resources.
+	 */
+	void shutDown(void);
 
 	/**
 	 * Runs the unit testing framework.

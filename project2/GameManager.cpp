@@ -21,7 +21,6 @@ GameManager::GameManager(void)
 {
 	_frameTime = DEFAULT_FRAME_TIME;
 	_gameOver = false;
-	_renderingEnabled = true;
 }
 
 /**
@@ -103,21 +102,18 @@ int GameManager::startUp(bool flush)
 			"WorldManager started\n");
 	}
 
-	if (_renderingEnabled)
+	if (graphicsManager.startUp())
 	{
-		if (graphicsManager.startUp())
-		{
-			logManager.writeLog(LOG_ERROR,
-				"GameManager::startUp()",
-				"GraphicsManager could not be started\n");
-			return -1;
-		}
-		else
-		{
-			logManager.writeLog(LOG_ERROR,
-				"GameManager::startUp()",
-				"GraphicsManager started\n");
-		}
+		logManager.writeLog(LOG_ERROR,
+			"GameManager::startUp()",
+			"GraphicsManager could not be started\n");
+		return -1;
+	}
+	else
+	{
+		logManager.writeLog(LOG_ERROR,
+			"GameManager::startUp()",
+			"GraphicsManager started\n");
 	}
 
 	if (inputManager.startUp())
@@ -220,12 +216,10 @@ long int GameManager::run(int frameTime)
 		worldManager.update(lastDelta);
 
 		// 3 - RENDER GAME SCENE TO BACK BUFFER
-		if (_renderingEnabled)
-			worldManager.draw();
+		worldManager.draw();
 
 		// 4 - SWAP BACK BUFFER TO CURRENT BUFFER
-		if (_renderingEnabled)
-			graphcisManager.swapBuffers();
+		graphcisManager.swapBuffers();
 
 		// 5 - MEASURE CURRENT LOOP TIME AND SLEEP TO HIT THE TARGET TIME
 		loopTime = clock.split();
@@ -264,13 +258,4 @@ void GameManager::setGameOver(bool gameOver)
 int GameManager::getFrameTime(void)
 {
 	return _frameTime;
-}
-
-/**
- * Disables the 2d character rendering.
- * NOTE: used for the unit test manager.
- */
-void GameManager::disableGraphics()
-{
-	_renderingEnabled = false;
 }

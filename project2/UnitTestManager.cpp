@@ -15,6 +15,7 @@
 UnitTestManager::UnitTestManager(void)
 {
 	_casesCount = 0;
+	p_file = stdout;
 }
 
 /**
@@ -56,11 +57,11 @@ int UnitTestManager::testRunAll(void)
 int UnitTestManager::testRun(int testIndex)
 {
 	// print title
-	printf("\n");
-	printTitle("RUNNING TEST [%2d]",
+	print("\n");
+	printBordered("RUNNING TEST [%2d]",
 		testIndex);
-	printTitle("TEST NAME:");
-	printTitle("%s",
+	printBordered("TEST NAME:");
+	printBordered("%s",
 		_testCases[testIndex].name.c_str());
 
 	// run before function
@@ -74,104 +75,10 @@ int UnitTestManager::testRun(int testIndex)
 	if (_funcAfter != NULL)
 		_funcAfter();
 	
-	printTitle("TEST RESULT:");
-	printTitle("%s", result == true ? "SUCCESS" : "FAIL");
+	printBordered("TEST RESULT:");
+	printBordered("%s", result == true ? "SUCCESS" : "FAIL");
 
 	return result ? 1 : 0;
-}
-
-/**
- * Prints the frameworks ASCII title.
- */
-void UnitTestManager::printLogo(void)
-{
-	printLine('#', UI_WIDTH);
-	printf("##             ____ ___       __  __ ___________              __              ##\n");
-	printf("##            |    |   \\____ |__|/  |\\__    ___/___   _______/  |_            ##\n");
-	printf("##            |    |   /    \\|  \\   __\\|    |_/ __ \\ /  ___/\\   __\\           ##\n");
-	printf("##            |    |  /   |  \\  ||  |  |    |\\  ___/ \\___ \\  |  |             ##\n");
-	printf("##            |______/|___|  /__||__|  |____| \\___  >____  > |__|             ##\n");
-	printf("##                         \\/                     \\/     \\/                   ##\n"); 
-	printf("##                       by Benjamin Sautermeister (c) 2013                   ##\n");
-	printLine('#', UI_WIDTH); 
-	printf("\n");
-}
-
-/**
- * Prints an ASCII line.
- * @param type The character type for the line.
- * @param length The line length.
- */
-void UnitTestManager::printLine(char type, int length)
-{
-	for (int i = 0; i < length; ++i)
-		printf("%c", type);
-
-	printf("\n");
-}
-
-/**
- * Prints the frameworks ASCII title.
- * @param format The format string in classic printf() style.
- * @param ... Additional parameters.
- */
-void UnitTestManager::printTitle(const char *format, ...)
-{
-	char buffer[256];
-
-	// GET TITLE BY ARGUMENTS
-	va_list args;
-	// setup argmument stack
-	va_start(args, format);
-	// write formatted log content including given arguments
-	vsprintf(buffer, format, args);
-	// cleanup argument stack
-	va_end(args);
-
-	int lineCharCount = UI_WIDTH - strlen(buffer) - 2 * TITLE_TEXT_BORDER;
-	int lineAfter = lineCharCount / 2;
-	int lineBefore = lineCharCount - lineAfter;
-
-	// LINE LEFT
-	for (int i = 0; i < lineBefore; ++i)
-		printf("#");
-
-	// BORDER LEFT
-	for (int i = 0; i < TITLE_TEXT_BORDER; ++i)
-		printf(" ");
-
-	// TITLE
-	printf("%s", buffer);
-
-	// BORDER RIGHT
-	for (int i = 0; i < TITLE_TEXT_BORDER; ++i)
-		printf(" ");
-
-	// LINE RIGHT
-	for (int i = 0; i < lineAfter; ++i)
-		printf("#");
-
-	printf("\n");
-}
-
-/**
- * Prints an ASCII summary.
- * @param total The number of tests.
- * @param succeeded The number of succeeded tests.
- */
-void UnitTestManager::printSummary(int total, int succeeded)
-{
-	printf("\n");
-	printLine('=', UI_WIDTH);
-	printf("\n");
-	printTitle("TEST SUMMARY");
-	printTitle(" >>> SUCCEEDED: %4d",
-		succeeded);
-	printTitle(" >>> FAILED:    %4d",
-		total - succeeded);
-	printTitle(" -------------------");
-	printTitle(" >>> TOTAL:     %4d",
-		total);
 }
 
 /**
@@ -236,6 +143,38 @@ void UnitTestManager::registerTestFunction(string name, bool (*function)(void))
 }
 
 /**
+ * Starts up the unit test manager and loads/opens all resources.
+ * @return Returns 0 if succeeded, else -1.
+ */
+int UnitTestManager::startUp(void)
+{
+	// open the log file
+	p_file = fopen(TESTSFILE_NAME, "w");
+
+	// verify open was successful
+	if (p_file == NULL)
+	{
+		perror("[UnitTestManager::startUp()]: Error while opening file.");
+		return -1;
+	}
+
+	return 0;
+}
+
+/**
+ * Shuts down the unit test manager and releases all resources.
+ */
+void UnitTestManager::shutDown(void)
+{
+	// close the test results file (fclose() flushes automatically)
+	if (p_file != NULL)
+	{
+		fclose(p_file);
+		p_file = stdout;
+	}
+}
+
+/**
  * Runs the unit testing framework.
  * @param argc The main's argc.
  * @param argv The main's argv
@@ -247,24 +186,17 @@ int UnitTestManager::run(int argc, char *argv[])
 	if (argc != 2)
 	{
 		// show help:
-		printLine('#', UI_WIDTH);
-		printTitle("UNIT TESTING TOOL >>> HELP PAGE");
-		printLine('#', UI_WIDTH);
-		printf("\n");
-		printTitle("Description:");
-		printf("\n\tA very simple unit testing framework.\n\n");
-		printTitle("Call:");
-		printf("\n\t>./test [option]\n\n");
-		printTitle("Options:");
-		printf("\n\tall: Run all test\n");
-		printf("\t%%d: Run test with given index\n\n");
-		printTitle("Example calls:");
-		printf("\n\t>./test all\n");
-		printf("\t>./test 0\n");
-		printf("\t>./test 10\n\n");
-		printLine('#', UI_WIDTH);
+		printHelp();
 		return 0;
 	}
+
+	// switch to log file printing
+	if (startUp())
+	{
+		return -1;
+	}
+
+	printLogo();
 
 	if (_funcSetup != NULL)
 		_funcSetup();
@@ -272,7 +204,7 @@ int UnitTestManager::run(int argc, char *argv[])
 	if (strcmp(argv[1], "all") == 0)
 	{
 		printLine('#', UI_WIDTH);
-		printTitle("UNIT TESTING TOOL >>> RUN ALL TESTS");
+		printBordered("UNIT TESTING TOOL >>> RUN ALL TESTS");
 		printLine('#', UI_WIDTH);
 		int successed = testRunAll();
 
@@ -285,7 +217,7 @@ int UnitTestManager::run(int argc, char *argv[])
 		if (index >= 0 && index < _casesCount)
 		{
 			printLine('#', UI_WIDTH);
-			printTitle("UNIT TESTING TOOL >>> RUN TEST INDEX %d", index);
+			printBordered("UNIT TESTING TOOL >>> RUN TEST INDEX %d", index);
 			printLine('#', UI_WIDTH);
 			int successed = testRun(index);
 
@@ -293,19 +225,189 @@ int UnitTestManager::run(int argc, char *argv[])
 		}
 		else
 		{
-			printf("Test function index out of range. Valid range is [%d - %d]\n",
+			print("Test function index out of range. Valid range is [%d - %d]\n",
 				0,
 				_casesCount - 1);
 			return -1;
 		}
 	}
 	// foot note
-	printf("\n");
+	print("\n");
 	printLine('-', UI_WIDTH);
-	printf("              Note: More details can be found in the log file.\n");
+	print("        Note: More details can be found in the game engines logfile.\n");
 
 	if (_funcCleanup != NULL)
 	_funcCleanup();
 
+	// swith back to terminal output
+	shutDown();
+
+	// console foot note
+	print("\n");
+	printLine('-', UI_WIDTH);
+	print("       Note: Test restuls have been written to the file %s\n", TESTSFILE_NAME);
+
 	return 0;
+}
+
+/**
+ * Writes a line log massage to the configured output stream.
+ * @param format The format string in classic printf() style.
+ * @param ... Additional parameters.
+ * @return Returns number of bytes written or -1 if an error occured.
+ */
+int UnitTestManager::print(const char *format, ...)
+{
+	int bytesWritten = 0;
+
+	va_list args;
+
+	// setup argmument stack
+	va_start(args, format);
+
+	// write formatted log content including given arguments
+	bytesWritten += vfprintf(p_file, format, args);
+
+	if (ferror(p_file))
+	{
+		return -1;
+	}
+
+	// try to flush the output
+	if(fflush(p_file))
+	{
+		return -1;
+	}
+
+	// cleanup argument stack
+	va_end(args);
+
+	return bytesWritten;
+}
+
+/**
+ * Prints the frameworks ASCII bordered line.
+ * @param format The format string in classic printf() style.
+ * @param ... Additional parameters.
+ */
+void UnitTestManager::printBordered(const char *format, ...)
+{
+	char buffer[256];
+
+	// GET TITLE BY ARGUMENTS
+	va_list args;
+	// setup argmument stack
+	va_start(args, format);
+	// write formatted log content including given arguments
+	vsprintf(buffer, format, args);
+	// cleanup argument stack
+	va_end(args);
+
+	int lineCharCount = UI_WIDTH - strlen(buffer) - 2 * TITLE_TEXT_BORDER;
+	int lineAfter = lineCharCount / 2;
+	int lineBefore = lineCharCount - lineAfter;
+
+	// LINE LEFT
+	for (int i = 0; i < lineBefore; ++i)
+		fprintf(p_file, "#");
+
+	// BORDER LEFT
+	for (int i = 0; i < TITLE_TEXT_BORDER; ++i)
+		fprintf(p_file, " ");
+
+	// TITLE
+	fprintf(p_file, "%s", buffer);
+
+	// BORDER RIGHT
+	for (int i = 0; i < TITLE_TEXT_BORDER; ++i)
+		fprintf(p_file, " ");
+
+	// LINE RIGHT
+	for (int i = 0; i < lineAfter; ++i)
+		fprintf(p_file, "#");
+
+	fprintf(p_file, "\n");
+}
+
+/**
+ * Prints the frameworks ASCII title.
+ */
+void UnitTestManager::printLogo(void)
+{
+	printLine('#', UI_WIDTH);
+	print("##             ____ ___       __  __ ___________              __              ##\n");
+	print("##            |    |   \\____ |__|/  |\\__    ___/___   _______/  |_            ##\n");
+	print("##            |    |   /    \\|  \\   __\\|    |_/ __ \\ /  ___/\\   __\\           ##\n");
+	print("##            |    |  /   |  \\  ||  |  |    |\\  ___/ \\___ \\  |  |             ##\n");
+	print("##            |______/|___|  /__||__|  |____| \\___  >____  > |__|             ##\n");
+	print("##                         \\/                     \\/     \\/                   ##\n"); 
+	print("##                       by Benjamin Sautermeister (c) 2013                   ##\n");
+	printLine('#', UI_WIDTH); 
+	print("\n");
+}
+
+/**
+ * Prints an ASCII line.
+ * @param type The character type for the line.
+ * @param length The line length.
+ */
+void UnitTestManager::printLine(char type, int length)
+{
+	for (int i = 0; i < length; ++i)
+		print("%c", type);
+
+	print("\n");
+}
+
+/**
+ * Prints an ASCII summary.
+ * @param total The number of tests.
+ * @param succeeded The number of succeeded tests.
+ */
+void UnitTestManager::printSummary(int total, int succeeded)
+{
+	print("\n");
+	printLine('=', UI_WIDTH);
+	print("\n");
+	printBordered("TEST SUMMARY");
+	printBordered(" >>> SUCCEEDED: %4d",
+		succeeded);
+	printBordered(" >>> FAILED:    %4d",
+		total - succeeded);
+	printBordered(" -------------------");
+	printBordered(" >>> TOTAL:     %4d",
+		total);
+}
+
+/**
+ * Prints the help text.
+ */
+void UnitTestManager::printHelp(void)
+{
+	printLine('#', UI_WIDTH);
+	printBordered("UNIT TESTING TOOL >>> HELP PAGE");
+	printLine('#', UI_WIDTH);
+	print("\n");
+	printBordered("Description:");
+	print("\n\tA very simple unit testing framework for automated testing");
+	print("\n\twithout any dependecies to external libraries.\n\n");
+	printBordered("Call:");
+	print("\n\t>./test [option]\n\n");
+	printBordered("Options:");
+	print("\n\tall:   Run all test\n");
+	print("\t%%d:    Run test with given index\n\n");
+	printBordered("Example calls:");
+	print("\n\t>./test all\n");
+	print("\t>./test 0\n");
+	print("\t>./test 10\n\n");
+	printBordered("Unit tests overview:");
+	print("\n");
+	for (int i = 0; i < _casesCount; ++i)
+	{
+		print("%4d: %s \n",
+			i,
+			_testCases[i].name.c_str());
+	}
+	print("\n");
+	printLine('#', UI_WIDTH);
 }

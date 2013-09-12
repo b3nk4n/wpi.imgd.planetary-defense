@@ -8,8 +8,11 @@
 #include "Object.h"
 #include "WorldManager.h"
 #include "GameManager.h"
+#include "InputManager.h"
 #include "LogManager.h"
 #include "EventStep.h"
+#include "EventKeyboard.h"
+#include "EventMouse.h"
 
 /**
  * Creates a game object instance.
@@ -84,10 +87,13 @@ int Object::registerInterest(string eventType)
 
 	GameManager &gameManager = GameManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
+	InputManager &inputManager = InputManager::getInstance();
 
 	// register with appropriate manager
 	if (eventType == STEP_EVENT)
 		regResult = gameManager.registerInterest(this, eventType);
+	else if (eventType == KEYBOARD_EVENT || eventType == MOUSE_EVENT)
+		regResult = inputManager.registerInterest(this, eventType);
 	// else if (...) // TODO: add other events/managers
 	else
 		regResult = worldManager.registerInterest(this, eventType);

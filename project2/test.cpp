@@ -12,11 +12,14 @@
 #include "GameManager.h"
 #include "GraphicsManager.h"
 #include "WorldManager.h"
+#include "InputManager.h"
 #include "ObjectList.h"
 #include "TestObject.h"
 #include "UnitTestManager.h"
 #include "EventStep.h"
 #include "EventTest.h"
+#include "EventKeyboard.h"
+#include "EventMouse.h"
 
 using std::string;
 
@@ -43,6 +46,10 @@ bool testGameManager_registerInvalidEvent(void);
 bool testLogManager_verifyIsStarted(void);
 bool testLogManager_writeLogNoParam(void);
 bool testLogManager_writeLogMixedParam(void);
+bool testInputManager_verifyIsStarted(void);
+bool testInputManager_keyboardEventIsValid(void);
+bool testInputManager_mouseEventIsValid(void);
+bool testInputManager_stepEventIsNotValid(void);
 bool testClock_1SecSleep(void);
 bool testClock_deltaRestsTime(void);
 bool testClock_splitNotRestsTime(void);
@@ -50,6 +57,10 @@ bool testPosition_createDefaultPosition(void);
 bool testPosition_createCustomPosition(void);
 bool testPosition_positionGettersAndSetters(void);
 bool testPosition_positionXYSetter(void);
+bool testPosition_samePositionsComparedIsTrue(void);
+bool testPosition_differentPositionsComparedIsFalse(void);
+bool testPosition_samePositionsNotComparedIsFalse(void);
+bool testPosition_differentPositionsNotComparedIsTrue(void);
 bool testObject_setAndGetPosition(void);
 bool testObject_setAndGetType(void);
 bool testObject_registerInterest(void);
@@ -115,7 +126,12 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testLogManager_verifyIsStarted", &testLogManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testLogManager_writeLogNoParam", &testLogManager_writeLogNoParam);
 	unitTestManager.registerTestFunction("testLogManager_writeLogMixedParam", &testLogManager_writeLogMixedParam);
-	
+
+	unitTestManager.registerTestFunction("testInputManager_verifyIsStarted", &testInputManager_verifyIsStarted);
+	unitTestManager.registerTestFunction("testInputManager_keyboardEventIsValid", &testInputManager_keyboardEventIsValid);
+	unitTestManager.registerTestFunction("testInputManager_mouseEventIsValid", &testInputManager_mouseEventIsValid);
+	unitTestManager.registerTestFunction("testInputManager_stepEventIsNotValid", &testInputManager_stepEventIsNotValid);
+
 	unitTestManager.registerTestFunction("testClock_1SecSleep", &testClock_1SecSleep);
 	unitTestManager.registerTestFunction("testClock_deltaRestsTime", &testClock_deltaRestsTime);
 	unitTestManager.registerTestFunction("testClock_splitNotRestsTime", &testClock_splitNotRestsTime);
@@ -124,7 +140,11 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testPosition_createCustomPosition", &testPosition_createCustomPosition);
 	unitTestManager.registerTestFunction("testPosition_positionGettersAndSetters", &testPosition_positionGettersAndSetters);
 	unitTestManager.registerTestFunction("testPosition_positionXYSetter", &testPosition_positionXYSetter);
-	
+	unitTestManager.registerTestFunction("testPosition_samePositionsComparedIsTrue", &testPosition_samePositionsComparedIsTrue);
+	unitTestManager.registerTestFunction("testPosition_differentPositionsComparedIsFalse", &testPosition_differentPositionsComparedIsFalse);
+	unitTestManager.registerTestFunction("testPosition_samePositionsNotComparedIsFalse", &testPosition_samePositionsNotComparedIsFalse);
+	unitTestManager.registerTestFunction("testPosition_differentPositionsNotComparedIsTrue", &testPosition_differentPositionsNotComparedIsTrue);
+
 	unitTestManager.registerTestFunction("testObject_setAndGetPosition", &testObject_setAndGetPosition);
 	unitTestManager.registerTestFunction("testObject_setAndGetType", &testObject_setAndGetType);
 
@@ -167,9 +187,6 @@ void testSetup(void)
 {
 	LogManager &logManager = LogManager::getInstance();
 	GameManager &gameManager = GameManager::getInstance();
-
-	// disable rendering for unit testing
-	gameManager.disableGraphics();
 	
 	// startup the game manager
 	if (gameManager.startUp(true))
@@ -426,6 +443,37 @@ bool testLogManager_writeLogMixedParam(void)
 	return written == 87;
 }
 
+bool testInputManager_verifyIsStarted(void)
+{
+	InputManager &inputManager = InputManager::getInstance();
+
+	return inputManager.isStarted();
+}
+
+bool testInputManager_keyboardEventIsValid(void)
+{
+	InputManager &inputManager = InputManager::getInstance();
+	bool res = inputManager.isValid(KEYBOARD_EVENT);
+
+	return res;
+}
+
+bool testInputManager_mouseEventIsValid(void)
+{
+	InputManager &inputManager = InputManager::getInstance();
+	bool res = inputManager.isValid(MOUSE_EVENT);
+
+	return res;
+}
+
+bool testInputManager_stepEventIsNotValid(void)
+{
+	InputManager &inputManager = InputManager::getInstance();
+	bool res = inputManager.isValid(STEP_EVENT);
+
+	return !res;
+}
+
 bool testClock_1SecSleep(void)
 {
 	LogManager &logManager = LogManager::getInstance();
@@ -506,6 +554,42 @@ bool testPosition_positionXYSetter(void)
 	position.setXY(x, y);
 	
 	return position.getX() == x && position.getY() == y;
+}
+
+bool testPosition_samePositionsComparedIsTrue(void)
+{
+	int x = 1;
+	int y = 2;
+	Position position1(x, y);
+	Position position2(x, y);
+	
+	return position1 == position2;
+}
+
+bool testPosition_differentPositionsComparedIsFalse(void)
+{
+	Position position1(1, 2);
+	Position position2(3, 4);
+	
+	return !(position1 == position2);
+}
+
+bool testPosition_samePositionsNotComparedIsFalse(void)
+{
+	int x = 1;
+	int y = 2;
+	Position position1(x, y);
+	Position position2(x, y);
+	
+	return !(position1 != position2);
+}
+
+bool testPosition_differentPositionsNotComparedIsTrue(void)
+{
+	Position position1(1, 2);
+	Position position2(3, 4);
+	
+	return position1 != position2;
 }
 
 bool testObject_setAndGetPosition(void)

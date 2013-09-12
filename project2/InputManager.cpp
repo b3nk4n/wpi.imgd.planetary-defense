@@ -127,17 +127,7 @@ int InputManager::startUp(void)
 
 
 	// enable mouse events
-	if (mousemask(BUTTON1_CLICKED &
-		BUTTON1_DOUBLE_CLICKED &
-		BUTTON2_CLICKED &
-		BUTTON2_DOUBLE_CLICKED,
-		NULL) == ERR)
-	{
-		logManager.writeLog(LOG_ERROR,
-			"InputManager::startUp()",
-			"Mouse init of Curses failed.\n");
-		return -1;
-	}
+	mousemask(BUTTON1_CLICKED, NULL);
 
 	_isStarted = true;
 	return 0;
@@ -221,6 +211,12 @@ void InputManager::getInput(void)
 		}
 		else // keyboard interaction event 
 		{
+			LogManager &logManager = LogManager::getInstance();
+			logManager.writeLog(LOG_DEBUG,
+				"InputManager.getInput()",
+				"Fireing keyboard event with input: %d\n",
+				input);
+
 			EventKeyboard keyboardEvent;
 			keyboardEvent.setKey(input);
 			onEvent(&keyboardEvent);

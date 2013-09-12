@@ -12,14 +12,14 @@
 
 #define KEYBOARD_EVENT "__keyboard__"
 
-#define KEY_UNDEFINED -1;
-#define KEY_DOWN 258
-#define KEY_UP 259
-#define KEY_LEFT 260
-#define KEY_RIGHT 261
-#define KEY_SPACE 32
-#define KEY_ENTER 13
-#define KEY_PAUSE 29
+#define UNDEFINED_KEY -1;
+#define DOWN_KEY 258
+#define UP_KEY 259
+#define LEFT_KEY 260
+#define RIGHT_KEY 261
+#define SPACE_KEY 32
+#define ENTER_KEY 13
+#define PAUSE_KEY 29
 
 /**
  * The keyboard event class.
