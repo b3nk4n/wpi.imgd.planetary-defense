@@ -26,6 +26,7 @@ Object::Object(void)
 	LogManager &logManager = LogManager::getInstance();
 
 	setType(TYPE_OBJECT);
+	setSolidness(HARD);
 
 	_velocityX = 0;
 	_velocityXCountdown = 0;
@@ -100,7 +101,6 @@ int Object::registerInterest(string eventType)
 		regResult = gameManager.registerInterest(this, eventType);
 	else if (eventType == KEYBOARD_EVENT || eventType == MOUSE_EVENT)
 		regResult = inputManager.registerInterest(this, eventType);
-	// else if (...) // TODO: add other events/managers
 	else
 		regResult = worldManager.registerInterest(this, eventType);
 
@@ -127,11 +127,13 @@ int Object::unregisterInterest(string eventType)
 		{
 			GameManager &gameManager = GameManager::getInstance();
 			WorldManager &worldManager = WorldManager::getInstance();
+			InputManager &inputManager = InputManager::getInstance();
 
 			// unregister event from appropriate manager
 			if (eventType == STEP_EVENT)
 				gameManager.unregisterInterest(this, eventType);
-			// else if (...) // TODO: unregister other events/managers
+			else if (eventType == KEYBOARD_EVENT || eventType == MOUSE_EVENT)
+				inputManager.unregisterInterest(this, eventType);
 			else
 				worldManager.unregisterInterest(this, eventType);
 
@@ -208,6 +210,7 @@ float Object::getVelocityX(void)
  */
 void Object::setVelocityX(float velocity)
 {
+	_velocityXCountdown = 1;
 	_velocityX = velocity;
 }
 
@@ -226,6 +229,7 @@ float Object::getVelocityY(void)
  */
 void Object::setVelocityY(float velocity)
 {
+	_velocityYCountdown = 1;
 	_velocityY = velocity;
 }
 
@@ -302,4 +306,56 @@ int Object::setAltitude(int value)
 int Object::getAltitude(void)
 {
 	return _altitude;
+}
+
+/**
+ * Checks whether the object is solid or not.
+ * @return Returns TRUE if the game object is solid, else FALSE.
+ */
+bool Object::isSolid(void)
+{
+	return _solidness != SPECTRAL;
+}
+
+/**
+ * Sets the solidness of the game object.
+ * @param value The new solidness value.
+ * @return Returns 0 if ok, else -1.
+ */
+int Object::setSolidness(Solidness value)
+{
+	if (value != HARD &&
+		value != SOFT &&
+		value != SPECTRAL)
+		return -1;
+
+	_solidness = value;
+	return 0;
+}
+
+/**
+ * Gets the game objects solidness.
+ * @return The solidness.
+ */
+Solidness Object::getSolidness(void)
+{
+	return _solidness;
+}
+
+/**
+ * Gets the no soft value.
+ * @return The no soft value.
+ */
+bool Object::getNoSoft(void)
+{
+	return _noSoft;
+}
+
+/**
+ * Sets the no soft value.
+ * @param The no soft value.
+ */
+void Object::setNoSoft(bool value)
+{
+	_noSoft = value;
 }

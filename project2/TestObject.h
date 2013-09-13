@@ -38,11 +38,6 @@ private:
 	 */
 	 void step(void);
 
-	 /**
-	 * Moves the test object.
-	 */
-	 void move(void);
-
 public:
 	/**
 	 * Creates a new test object instance.

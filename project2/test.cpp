@@ -20,6 +20,9 @@
 #include "EventTest.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
+#include "EventOut.h"
+#include "EventCollision.h"
+#include "utility.h"
 
 using std::string;
 
@@ -61,8 +64,22 @@ bool testPosition_samePositionsComparedIsTrue(void);
 bool testPosition_differentPositionsComparedIsFalse(void);
 bool testPosition_samePositionsNotComparedIsFalse(void);
 bool testPosition_differentPositionsNotComparedIsTrue(void);
+bool testBox_createDefaultBox(void);
+bool testBox_createCustomBox(void);
+bool testBox_cornerGetterSetter(void);
+bool testBox_HorizontalVerticalGetterSetter(void);
+bool testBox_sameBoxesComparedIsTrue(void);
+bool testBox_differentBoxesComparedIsFalse(void);
+bool testBox_sameBoxesNotComparedIsFalse(void);
+bool testBox_differentBoxesNotComparedIsTrue(void);
 bool testObject_setAndGetPosition(void);
 bool testObject_setAndGetType(void);
+bool testObject_setAndGetHardSolidness(void);
+bool testObject_setAndGetSoftSolidness(void);
+bool testObject_setAndGetSpectralSolidness(void);
+bool testObject_solidnessHardIsSolid(void);
+bool testObject_solidnessSoftIsSolid(void);
+bool testObject_solidnessSpectralIsNotSolid(void);
 bool testObject_registerInterest(void);
 bool testObject_registerInterestTwice(void);
 bool testObject_unregisterInterest(void);
@@ -70,6 +87,14 @@ bool testObject_unregisterInterestTwice(void);
 bool testObject_registerCustomEvent(void);
 bool testObject_verifyEventIsReceived(void);
 bool testObject_verifyEventIsNotReceivedWhenNotRegisterd(void);
+bool testObject_outEventIsFiredWhenOutScreen(void);
+bool testObject_collisionEventIsFiredForHardToHard(void);
+bool testObject_collisionEventIsFiredForHardToSoft(void);
+bool testObject_collisionEventIsFiredForSoftToHard(void);
+bool testObject_collisionEventIsFiredForSoftToSoft(void);
+bool testObject_collisionEventIsNotFiredForSpectralToSoft(void);
+bool testObject_collisionEventIsNotFiredForSoftToSpectral(void);
+bool testObject_collisionEventIsNotFiredForSpectralToSpectral(void);
 bool testObjectList_emptyListIsEmpty(void);
 bool testObjectList_emptyListNotFull(void);
 bool testObjectList_emptyListCountZero(void);
@@ -85,6 +110,8 @@ bool testObjectList_operatorPlusEmptyListPlusEmptyListIsZero(void);
 bool testObjectList_operatorPlusEmptyListPlusFilledListIsFilled(void);
 bool testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList(void);
 bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void);
+bool testUtility_boxContainsPointInsideTrue(void);
+bool testUtility_boxContainsPointOutsideFalse(void);
 
 // prototypes for helpers
 void objectListFillWithObject(ObjectList *p_objectList, int count);
@@ -145,9 +172,23 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testPosition_samePositionsNotComparedIsFalse", &testPosition_samePositionsNotComparedIsFalse);
 	unitTestManager.registerTestFunction("testPosition_differentPositionsNotComparedIsTrue", &testPosition_differentPositionsNotComparedIsTrue);
 
+	unitTestManager.registerTestFunction("testBox_createDefaultBox", &testBox_createDefaultBox);
+	unitTestManager.registerTestFunction("testBox_createCustomBox", &testBox_createCustomBox);
+	unitTestManager.registerTestFunction("testBox_cornerGetterSetter", &testBox_cornerGetterSetter);
+	unitTestManager.registerTestFunction("testBox_HorizontalVerticalGetterSetter", &testBox_HorizontalVerticalGetterSetter);
+	unitTestManager.registerTestFunction("testBox_sameBoxesComparedIsTrue", &testBox_sameBoxesComparedIsTrue);
+	unitTestManager.registerTestFunction("testBox_differentBoxesComparedIsFalse", &testBox_differentBoxesComparedIsFalse);
+	unitTestManager.registerTestFunction("testBox_sameBoxesNotComparedIsFalse", &testBox_sameBoxesNotComparedIsFalse);
+	unitTestManager.registerTestFunction("testBox_differentBoxesNotComparedIsTrue", &testBox_differentBoxesNotComparedIsTrue);
+
 	unitTestManager.registerTestFunction("testObject_setAndGetPosition", &testObject_setAndGetPosition);
 	unitTestManager.registerTestFunction("testObject_setAndGetType", &testObject_setAndGetType);
-
+	unitTestManager.registerTestFunction("testObject_setAndGetHardSolidness", &testObject_setAndGetHardSolidness);
+	unitTestManager.registerTestFunction("testObject_setAndGetSoftSolidness", &testObject_setAndGetSoftSolidness);
+	unitTestManager.registerTestFunction("testObject_setAndGetSpectralSolidness", &testObject_setAndGetSpectralSolidness);
+	unitTestManager.registerTestFunction("testObject_solidnessHardIsSolid", &testObject_solidnessHardIsSolid);
+	unitTestManager.registerTestFunction("testObject_solidnessSoftIsSolid", &testObject_solidnessSoftIsSolid);
+	unitTestManager.registerTestFunction("testObject_solidnessSpectralIsNotSolid", &testObject_solidnessSpectralIsNotSolid);
 	unitTestManager.registerTestFunction("testObject_registerInterest", &testObject_registerInterest);
 	unitTestManager.registerTestFunction("testObject_registerInterestTwice", &testObject_registerInterestTwice);
 	unitTestManager.registerTestFunction("testObject_unregisterInterest", &testObject_unregisterInterest);
@@ -155,6 +196,14 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testObject_registerCustomEvent", &testObject_registerCustomEvent);
 	unitTestManager.registerTestFunction("testObject_verifyEventIsReceived", &testObject_verifyEventIsReceived);
 	unitTestManager.registerTestFunction("testObject_verifyEventIsNotReceivedWhenNotRegisterd", &testObject_verifyEventIsNotReceivedWhenNotRegisterd);
+	unitTestManager.registerTestFunction("testObject_outEventIsFiredWhenOutScreen", &testObject_outEventIsFiredWhenOutScreen);
+	unitTestManager.registerTestFunction("testObject_collisionEventIsFiredForHardToHard", &testObject_collisionEventIsFiredForHardToHard);
+	unitTestManager.registerTestFunction("testObject_collisionEventIsFiredForHardToSoft", &testObject_collisionEventIsFiredForHardToSoft);
+	unitTestManager.registerTestFunction("testObject_collisionEventIsFiredForSoftToHard", &testObject_collisionEventIsFiredForSoftToHard);
+	unitTestManager.registerTestFunction("testObject_collisionEventIsFiredForSoftToSoft", &testObject_collisionEventIsFiredForSoftToSoft);
+	unitTestManager.registerTestFunction("testObject_collisionEventIsNotFiredForSpectralToSoft", &testObject_collisionEventIsNotFiredForSpectralToSoft);
+	unitTestManager.registerTestFunction("testObject_collisionEventIsNotFiredForSoftToSpectral", &testObject_collisionEventIsNotFiredForSoftToSpectral);
+	unitTestManager.registerTestFunction("testObject_collisionEventIsNotFiredForSpectralToSpectral", &testObject_collisionEventIsNotFiredForSpectralToSpectral);
 
 	unitTestManager.registerTestFunction("testObjectList_emptyListIsEmpty", &testObjectList_emptyListIsEmpty);
 	unitTestManager.registerTestFunction("testObjectList_emptyListNotFull", &testObjectList_emptyListNotFull);
@@ -171,6 +220,9 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusFilledListIsFilled", &testObjectList_operatorPlusEmptyListPlusFilledListIsFilled);
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList", &testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList);
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc", &testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc);
+
+	unitTestManager.registerTestFunction("testUtility_boxContainsPointInsideTrue", &testUtility_boxContainsPointInsideTrue);
+	unitTestManager.registerTestFunction("testUtility_boxContainsPointOutsideFalse", &testUtility_boxContainsPointOutsideFalse);
 
 	// RUN UNIT TEST MANAGER
 	return unitTestManager.run(argc, argv);
@@ -592,6 +644,93 @@ bool testPosition_differentPositionsNotComparedIsTrue(void)
 	return position1 != position2;
 }
 
+bool testBox_createDefaultBox(void)
+{
+	Box box;
+
+	return box.getCorner().getX() == 0 &&
+		box.getCorner().getY() == 0 &&
+		box.getHorizontal() == 0 &&
+		box.getVertical() == 0;
+}
+
+bool testBox_createCustomBox(void)
+{
+	int x = 5;
+	int y = 55;
+	int h = 4;
+	int v = 44;
+	Box box(Position(x, y), h, v);
+
+	return box.getCorner().getX() == x &&
+		box.getCorner().getY() == y &&
+		box.getHorizontal() == h &&
+		box.getVertical() == v;
+}
+
+bool testBox_cornerGetterSetter(void)
+{
+	int x = 3;
+	int y = 33;
+	Box box;
+	box.setCorner(Position(x, y));
+
+	return box.getCorner().getX() == x &&
+		box.getCorner().getY() == y;
+}
+
+bool testBox_HorizontalVerticalGetterSetter(void)
+{
+	int h = 3;
+	int v = 33;
+	Box box;
+	box.setHorizontal(h);
+	box.setVertical(v);
+
+	return box.getHorizontal() == h &&
+		box.getVertical() == v;
+}
+
+bool testBox_sameBoxesComparedIsTrue(void)
+{
+	int x = 1;
+	int y = 2;
+	int h = 3;
+	int v = 4;
+	Box box1(Position(x, y), h, v);
+	Box box2(Position(x, y), h, v);
+	
+	return box1 == box2;
+}
+
+bool testBox_differentBoxesComparedIsFalse(void)
+{
+	Box box1(Position(1, 2), 3, 4);
+	Box box2(Position(5, 6), 7, 8);
+	
+	return !(box1 == box2);
+}
+
+bool testBox_sameBoxesNotComparedIsFalse(void)
+{
+	int x = 1;
+	int y = 2;
+	int h = 3;
+	int v = 4;
+	Box box1(Position(x, y), h, v);
+	Box box2(Position(x, y), h, v);
+	
+	return !(box1 != box2);
+}
+
+bool testBox_differentBoxesNotComparedIsTrue(void)
+{
+	Box box1(Position(1, 2), 3, 4);
+	Box box2(Position(5, 6), 7, 8);
+	
+	return box1 != box2;
+}
+
 bool testObject_setAndGetPosition(void)
 {
 	Object *obj = new Object();
@@ -610,6 +749,54 @@ bool testObject_setAndGetType(void)
 	obj->setType(type);
 
 	return obj->getType() == type;
+}
+
+bool testObject_setAndGetHardSolidness(void)
+{
+	Object *obj = new Object();
+	obj->setSolidness(HARD);
+
+	return obj->getSolidness() == HARD;
+}
+
+bool testObject_setAndGetSoftSolidness(void)
+{
+	Object *obj = new Object();
+	obj->setSolidness(SOFT);
+
+	return obj->getSolidness() == SOFT;
+}
+
+bool testObject_setAndGetSpectralSolidness(void)
+{
+	Object *obj = new Object();
+	obj->setSolidness(SPECTRAL);
+
+	return obj->getSolidness() == SPECTRAL;
+}
+
+bool testObject_solidnessHardIsSolid(void)
+{
+	Object *obj = new Object();
+	obj->setSolidness(HARD);
+
+	return obj->isSolid();
+}
+
+bool testObject_solidnessSoftIsSolid(void)
+{
+	Object *obj = new Object();
+	obj->setSolidness(SOFT);
+
+	return obj->isSolid();
+}
+
+bool testObject_solidnessSpectralIsNotSolid(void)
+{
+	Object *obj = new Object();
+	obj->setSolidness(SPECTRAL);
+
+	return !obj->isSolid();
 }
 
 bool testObject_registerInterest(void)
@@ -685,6 +872,177 @@ bool testObject_verifyEventIsNotReceivedWhenNotRegisterd(void)
 	int countAfterEvent = worldManager.getAllObjects().getCount();
 
 	return countBeforeEvent == countAfterEvent;
+}
+
+bool testObject_outEventIsFiredWhenOutScreen(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *obj = new TestObject();
+	obj->setPosition(Position(10, 10));
+	obj->setVelocityX(-100);
+	obj->registerInterest(OUT_EVENT);
+	int countBeforeOut = worldManager.getAllObjects().getCount();
+	// NOTE: out event kill test object
+	worldManager.update(DEFAULT_FRAME_TIME);
+	// NOTE: must be called twice because delete is at the begin of the next update.
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterOut = worldManager.getAllObjects().getCount();
+
+	return countBeforeOut - countAfterOut == 1;
+}
+
+bool testObject_collisionEventIsFiredForHardToHard(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *obj1 = new TestObject();
+	TestObject *obj2 = new TestObject();
+	obj1->setPosition(Position(10, 10));
+	obj1->setSolidness(HARD);
+	//obj1->registerInterest(COLLISION_EVENT);
+	obj2->setPosition(Position(9, 10));
+	obj2->setVelocityX(1);
+	obj2->setSolidness(HARD);
+	//obj2->registerInterest(COLLISION_EVENT);
+	int countBeforeCollision = worldManager.getAllObjects().getCount();
+	// NOTE: collision event kills both object
+	worldManager.update(DEFAULT_FRAME_TIME);
+	// NOTE: must be called twice because delete is at the begin of the next update.
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterCollision = worldManager.getAllObjects().getCount();
+
+	return countBeforeCollision - countAfterCollision == 2;
+}
+
+bool testObject_collisionEventIsFiredForHardToSoft(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *obj1 = new TestObject();
+	TestObject *obj2 = new TestObject();
+	obj1->setPosition(Position(10, 10));
+	obj1->setSolidness(HARD);
+	//obj1->registerInterest(COLLISION_EVENT);
+	obj2->setPosition(Position(9, 10));
+	obj2->setVelocityX(1);
+	obj2->setSolidness(SOFT);
+	//obj2->registerInterest(COLLISION_EVENT);
+	int countBeforeCollision = worldManager.getAllObjects().getCount();
+	// NOTE: collision event kills both object
+	worldManager.update(DEFAULT_FRAME_TIME);
+	// NOTE: must be called twice because delete is at the begin of the next update.
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterCollision = worldManager.getAllObjects().getCount();
+
+	return countBeforeCollision - countAfterCollision == 2;
+}
+
+bool testObject_collisionEventIsFiredForSoftToHard(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *obj1 = new TestObject();
+	TestObject *obj2 = new TestObject();
+	obj1->setPosition(Position(10, 10));
+	obj1->setSolidness(SOFT);
+	//obj1->registerInterest(COLLISION_EVENT);
+	obj2->setPosition(Position(9, 10));
+	obj2->setVelocityX(1);
+	obj2->setSolidness(HARD);
+	//obj2->registerInterest(COLLISION_EVENT);
+	int countBeforeCollision = worldManager.getAllObjects().getCount();
+	// NOTE: collision event kills both object
+	worldManager.update(DEFAULT_FRAME_TIME);
+	// NOTE: must be called twice because delete is at the begin of the next update.
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterCollision = worldManager.getAllObjects().getCount();
+
+	return countBeforeCollision - countAfterCollision == 2;
+}
+
+bool testObject_collisionEventIsFiredForSoftToSoft(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *obj1 = new TestObject();
+	TestObject *obj2 = new TestObject();
+	obj1->setPosition(Position(10, 10));
+	obj1->setSolidness(SOFT);
+	//obj1->registerInterest(COLLISION_EVENT);
+	obj2->setPosition(Position(9, 10));
+	obj2->setVelocityX(1);
+	obj2->setSolidness(SOFT);
+	//obj2->registerInterest(COLLISION_EVENT);
+	int countBeforeCollision = worldManager.getAllObjects().getCount();
+	// NOTE: collision event kills both object
+	worldManager.update(DEFAULT_FRAME_TIME);
+	// NOTE: must be called twice because delete is at the begin of the next update.
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterCollision = worldManager.getAllObjects().getCount();
+
+	return countBeforeCollision - countAfterCollision == 2;
+}
+
+bool testObject_collisionEventIsNotFiredForSpectralToSoft(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *obj1 = new TestObject();
+	TestObject *obj2 = new TestObject();
+	obj1->setPosition(Position(10, 10));
+	obj1->setSolidness(SPECTRAL);
+	//obj1->registerInterest(COLLISION_EVENT);
+	obj2->setPosition(Position(9, 10));
+	obj2->setVelocityX(1);
+	obj2->setSolidness(SOFT);
+	//obj2->registerInterest(COLLISION_EVENT);
+	int countBeforeCollision = worldManager.getAllObjects().getCount();
+	// NOTE: collision event would kill both object
+	worldManager.update(DEFAULT_FRAME_TIME);
+	// NOTE: must be called twice because delete is at the begin of the next update.
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterCollision = worldManager.getAllObjects().getCount();
+
+	return countBeforeCollision == countAfterCollision;
+}
+
+bool testObject_collisionEventIsNotFiredForSoftToSpectral(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *obj1 = new TestObject();
+	TestObject *obj2 = new TestObject();
+	obj1->setPosition(Position(10, 10));
+	obj1->setSolidness(SOFT);
+	//obj1->registerInterest(COLLISION_EVENT);
+	obj2->setPosition(Position(9, 10));
+	obj2->setVelocityX(1);
+	obj2->setSolidness(SPECTRAL);
+	//obj2->registerInterest(COLLISION_EVENT);
+	int countBeforeCollision = worldManager.getAllObjects().getCount();
+	// NOTE: collision event would kill both object
+	worldManager.update(DEFAULT_FRAME_TIME);
+	// NOTE: must be called twice because delete is at the begin of the next update.
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterCollision = worldManager.getAllObjects().getCount();
+
+	return countBeforeCollision == countAfterCollision;
+}
+
+bool testObject_collisionEventIsNotFiredForSpectralToSpectral(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	TestObject *obj1 = new TestObject();
+	TestObject *obj2 = new TestObject();
+	obj1->setPosition(Position(10, 10));
+	obj1->setSolidness(SPECTRAL);
+	//obj1->registerInterest(COLLISION_EVENT);
+	obj2->setPosition(Position(9, 10));
+	obj2->setVelocityX(1);
+	obj2->setSolidness(SPECTRAL);
+	//obj2->registerInterest(COLLISION_EVENT);
+	int countBeforeCollision = worldManager.getAllObjects().getCount();
+	// NOTE: collision event would kill both object
+	worldManager.update(DEFAULT_FRAME_TIME);
+	// NOTE: must be called twice because delete is at the begin of the next update.
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterCollision = worldManager.getAllObjects().getCount();
+
+	return countBeforeCollision == countAfterCollision;
 }
 
 bool testObjectList_emptyListIsEmpty(void)
@@ -879,6 +1237,22 @@ bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void)
 	ObjectList addedList = firstList + secondList;
 
 	return addedList.getCount() == 2 * fullSize;
+}
+
+bool testUtility_boxContainsPointInsideTrue(void)
+{
+	Box box(Position(0, 0), 10, 10);
+	Position position(5, 5);
+
+	return boxContainsPoint(box, position);
+}
+
+bool testUtility_boxContainsPointOutsideFalse(void)
+{
+	Box box(Position(0, 0), 10, 10);
+	Position position(15, 5);
+
+	return !boxContainsPoint(box, position);
 }
 
 /****************************************************************************

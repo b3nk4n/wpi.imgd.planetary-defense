@@ -6,8 +6,13 @@
  ******************************************************************************/
 
 #include "WorldManager.h"
+#include "GraphicsManager.h"
 #include "LogManager.h"
 #include "EventStep.h"
+#include "EventCollision.h"
+#include "EventOut.h"
+#include "Box.h"
+#include "utility.h"
 
 /**
  * Creates a world manager instance.
@@ -156,21 +161,25 @@ void WorldManager::update(float delta)
 
 	// clear deletion list for next update
 	_deletions.clear();
+	
+	// NOTE: delete before velocity/position update for better performance.
+	//       but test have to update() twice until an object is deleted
 
 	// update positions based on their velocities
 	ObjectListIterator itVelocity(&_updates);
 	for (itVelocity.first(); !itVelocity.isDone(); itVelocity.next())
 	{
-		int x = itVelocity.currentObject()->getVelocityXStep();
-		int y = itVelocity.currentObject()->getVelocityXStep();
+		Object *p_currentObject = itVelocity.currentObject();
+		int x = p_currentObject->getVelocityXStep();
+		int y = p_currentObject->getVelocityYStep();
 
 		// move object if necessary
 		if (x != 0 || y != 0)
 		{
-			Position oldPosition = itVelocity.currentObject()->getPosition();
+			Position oldPosition = p_currentObject->getPosition();
 			Position newPosition = Position(oldPosition.getX() + x, oldPosition.getY() + y);
 
-			moveObject(newPosition);
+			moveObject(p_currentObject, newPosition);
 		}
 	}
 }
@@ -195,12 +204,116 @@ void WorldManager::draw(void)
 }
 
 /**
- * Tries to move the object to the designited position if possible.
- * @param position The position to move to.
+ * Gets the list of objects colliding with an objects at the given position.
+ * @param p_object The object to check, no matter if its solid or not.
+ * @param position The position to check.
+ * @return Returns list of objects collided with at given position.
  */
-void WorldManager::moveObject(Position position)
+ObjectList WorldManager::isCollision(Object *p_object, Position position)
 {
-	// TODO: omplement
+	// create an empty list for collisions
+	ObjectList collisionList;
+
+	// check all objects for collision
+	ObjectListIterator it(&_updates);
+	for (it.first(); !it.isDone(); it.next())
+	{
+		Object *p_currentObject = it.currentObject();
+
+		// do not consider self
+		if (p_currentObject != p_object)
+		{
+			// verify same positin and same solidness
+			if (positionIntersect(p_currentObject->getPosition(), position) &&
+				p_currentObject->isSolid())
+			{
+				collisionList.insert(p_currentObject);
+			}
+		}
+	}
+
+	return collisionList;
+}
+
+/**
+ * Tries to move the object to the designited position if possible.
+ * @param p_object The object to move (move OK if spectral)
+ * @param position The position to move to.
+ * @return Returns 0 if ok, else -1 for collision with solid object.
+ */
+int WorldManager::moveObject(Object *p_object, Position position)
+{
+	// objct must be solid for collision
+	if (p_object->isSolid())
+	{
+		// get collisions
+		ObjectList collisionList = isCollision(p_object, position);
+
+		if (!collisionList.isEmpty())
+		{
+			bool canMove = true;
+
+			ObjectListIterator it(&collisionList);
+			for (it.first(); !it.isDone(); it.next())
+			{
+				Object *p_currentObject = it.currentObject();
+
+				LogManager &logManager = LogManager::getInstance();
+				logManager.writeLog(LOG_DEBUG,
+					"WorldManager::moveObject()",
+					"Fireing collision event\n");
+
+				// send collision event to both
+				EventCollision eventCollision(p_object, p_currentObject, position);
+				p_object->eventHandler(&eventCollision);
+				p_currentObject->eventHandler(&eventCollision);
+
+				// verify not moving when hard objects are colliding
+				if (p_object->getSolidness() == HARD &&
+					p_currentObject->getSolidness() == HARD)
+					canMove = false;
+
+				// verify not moving when no soft objects are allowed to move
+				if (p_object->getNoSoft() &&
+					p_currentObject->getSolidness() == SOFT)
+					canMove = false;
+			}
+
+			if (!canMove)
+				return -1;
+		}
+	}
+
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+
+	// check if object was inside screen before move
+	bool insideBeforeMove = boxContainsPoint(
+		Box(Position(),
+			graphicsManager.getHorizontal(),
+			graphicsManager.getVertical()),
+		p_object->getPosition());
+
+	// if here, no collision occued to move is allowed
+	p_object->setPosition(position);
+
+	// verify the object has left the screen.
+	if (insideBeforeMove &&
+		!boxContainsPoint(
+			Box(Position(),
+				graphicsManager.getHorizontal(),
+				graphicsManager.getVertical()),
+			position))
+	{
+		LogManager &logManager = LogManager::getInstance();
+				logManager.writeLog(LOG_DEBUG,
+					"WorldManager::moveObject()",
+					"Fireing out event\n");
+
+		EventOut eventOut;
+		p_object->eventHandler(&eventOut);
+	}
+
+	return 0;
 }
 
 /**

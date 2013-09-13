@@ -104,10 +104,20 @@ public:
 	void draw(void);
 
 	/**
-	 * Tries to move the object to the designited position if possible.
-	 * @param position The position to move to.
+	 * Gets the list of objects colliding with an objects at the given position.
+	 * @param p_object The object to check, no matter if its solid or not.
+	 * @param position The position to check.
+	 * @return Returns list of objects collided with at given position.
 	 */
-	void moveObject(Position position);
+	ObjectList isCollision(Object *p_object, Position position);
+
+	/**
+	 * Tries to move the object to the designited position if possible.
+	 * @param p_object The object to move (move OK if spectral)
+	 * @param position The position to move to.
+	 * @return Returns 0 if ok, else -1 for collision with solid object.
+	 */
+	int moveObject(Object *p_object, Position position);
 
 	/**
 	 * Validates if event is handles by this manager.

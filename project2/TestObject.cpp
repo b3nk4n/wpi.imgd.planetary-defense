@@ -13,6 +13,8 @@
 #include "EventTest.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
+#include "EventOut.h"
+#include "EventCollision.h"
 #include "LogManager.h"
 
 #define ENDLESS_TIME 999999999
@@ -41,8 +43,6 @@ void TestObject::step(void)
 {
 	LogManager &logManager = LogManager::getInstance();
 
-	move();
-
 	--_stepsToGameOver;
 	if (_stepsToGameOver == 0)
 	{
@@ -67,27 +67,12 @@ void TestObject::step(void)
 }
 
 /**
- * Moves the test object.
- */
- void TestObject::move(void)
- {
- 	setPosition(Position(getPosition().getX() + 1, getPosition().getY() + 1));
-
- 	LogManager &logManager = LogManager::getInstance();
- 	logManager.writeLog(LOG_DEBUG,
-			"TestObject::move()",
-			"Object with id=%d moved to position x=%d, y=%d\n",
-			_id,
-			getPosition().getX(),
-			getPosition().getY());
- }
-
-/**
  * Handles the events.
  */
 int TestObject::eventHandler(Event *p_event)
 {
 	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
 
 	if (p_event->getType() == STEP_EVENT)
 	{
@@ -96,8 +81,12 @@ int TestObject::eventHandler(Event *p_event)
 
 	if (p_event->getType() == TEST_EVENT)
 	{
+		logManager.writeLog(LOG_DEBUG,
+			"TestObject::eventHandler()",
+			"Object with id=%d got OUT\n",
+			_id);
+
 		// test event kills object to verify event was received
-		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
 	}
 
@@ -131,9 +120,30 @@ int TestObject::eventHandler(Event *p_event)
 
 		if (p_mouseEvent->getPosition() == getPosition())
 		{
-			WorldManager &worldManager = WorldManager::getInstance();
 			worldManager.markForDelete(this);
 		}
+	}
+
+	if (p_event->getType() == COLLISION_EVENT)
+	{
+		EventCollision *p_eventCollision = static_cast<EventCollision *>(p_event);
+
+		logManager.writeLog(LOG_DEBUG,
+			"TestObject::eventHandler()",
+			"Object with id=%d reports collision\n",
+			_id);
+
+		worldManager.markForDelete(this);
+	}
+
+	if (p_event->getType() == OUT_EVENT)
+	{
+		logManager.writeLog(LOG_DEBUG,
+			"TestObject::eventHandler()",
+			"Object with id=%d got OUT\n",
+			_id);
+
+		worldManager.markForDelete(this);
 	}
 }
 
@@ -143,10 +153,11 @@ int TestObject::eventHandler(Event *p_event)
 void TestObject::draw(void)
 {
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
-	//graphicsManager.drawChar(getPosition(), 'X', COLOR_RED);
+	graphicsManager.drawChar(getPosition(), 'X', COLOR_RED);
 	//graphicsManager.drawString(getPosition(), "Hallo", CENTER_JUSTIFIED, COLOR_RED);
-	graphicsManager.drawStringFormat(getPosition(), CENTER_JUSTIFIED, COLOR_RED,
-		"Object ID: %d");
+	//graphicsManager.drawStringFormat(getPosition(), CENTER_JUSTIFIED, COLOR_RED,
+	//	"Object ID: %d",
+	//	_id);
 }
 
 /**

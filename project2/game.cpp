@@ -10,6 +10,8 @@
 #include "EventStep.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
+#include "EventCollision.h"
+#include "EventOut.h"
 #include "TestObject.h"
 
 #define TEST_OBJECTS_COUNT 4
@@ -72,18 +74,28 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
-	//TestObject *o1 = new TestObject();
-	//o1->setSTL(10);
-	//o1->setPosition(Position(10, 10));
-	//o1->registerInterest(STEP_EVENT);
+	TestObject *o1 = new TestObject();
+	o1->setSTL(10);
+	o1->setPosition(Position(10, 10));
+	o1->setVelocityX(0.25f);
+	o1->setVelocityY(0.25f);
+	o1->registerInterest(STEP_EVENT);
 	TestObject *o2 = new TestObject();
 	o2->setStepsToGameOver(100);
-	o2->setPosition(Position(5, 5));
+	o2->setPosition(Position(15, 5));
+	o2->setVelocityX(0.33f);
+	o2->setVelocityY(0.33f);
+	o2->setSolidness(HARD);
 	o2->registerInterest(STEP_EVENT);
-	//TestObject *o3 = new TestObject();
-	//o3->setPosition(Position(20, 10));
-	//o3->registerInterest(STEP_EVENT);
+	o2->registerInterest(OUT_EVENT);
+	TestObject *o3 = new TestObject();
+	o3->setPosition(Position(50, 10));
+	o3->setVelocityX(-0.1f);
+	o3->registerInterest(STEP_EVENT);
 	TestObject *o4 = new TestObject();
+	o4->setPosition(Position(30, 20));
+	o4->setSolidness(HARD);
 	o4->registerInterest(KEYBOARD_EVENT);
 	o4->registerInterest(MOUSE_EVENT);
+	o4->registerInterest(COLLISION_EVENT);
 }

@@ -32,3 +32,32 @@ char *getTimeString(void)
 
 	return timeStringBuffer;
 }
+
+/**
+ * Checks for positoin intersection.
+ * @param position1 The first position.
+ * @param position2 The second position.
+ * @return Returns TRUE if positions are intersection, else FALSE.
+ */
+bool positionIntersect(Position position1, Position position2)
+{
+	return position1.getX() == position2.getX() &&
+		position1.getY() == position2.getY();
+}
+
+/**
+ * Checks for intersection between a box and a position.
+ * @param box The box/rectangle.
+ * @param position The position.
+ * @param Returns TRUE if the position intersects the box, else false.
+ */
+bool boxContainsPoint(Box box, Position position)
+{
+	int boxX = box.getCorner().getX();
+	int boxY = box.getCorner().getY();
+
+	return position.getX() >= boxX &&
+		position.getX() <= boxX + box.getHorizontal() &&
+		position.getY() >= boxY &&
+		position.getY() <= boxY + box.getVertical();
+}

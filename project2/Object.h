@@ -20,6 +20,16 @@ using std::string;
 #define MIN_ALTITUDE 0
 
 /**
+ * The game objects possible solidnes states
+ */
+enum Solidness
+{
+	HARD,     // game objects cause collision and impede
+	SOFT,     // game objects caues collision without impede
+	SPECTRAL  // game objects don't collide or impede
+};
+
+/**
  * Represents a game object in the game world.
  */
 class Object
@@ -69,6 +79,16 @@ private:
 	 * The objects altitude/depth (0=low,...,4=high).
 	 */
 	int _altitude;
+
+	/**
+	 * The game objects solidness.
+	 */
+	Solidness _solidness;
+
+	/**
+	 * Indicates whether move onto soft objects is blocked.
+	 */
+	bool _noSoft;
 
 public:
 	/**
@@ -182,6 +202,37 @@ public:
 	 * @return The objects altitude.
 	 */
 	int getAltitude(void);
+
+	/**
+	 * Checks whether the object is solid or not.
+	 * @return Returns TRUE if the game object is solid, else FALSE.
+	 */
+	bool isSolid(void);
+
+	/**
+	 * Sets the solidness of the game object.
+	 * @param value The new solidness value.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int setSolidness(Solidness value);
+
+	/**
+	 * Gets the game objects solidness.
+	 * @return The solidness.
+	 */
+	Solidness getSolidness(void);
+
+	/**
+	 * Gets the no soft value.
+	 * @return The no soft value.
+	 */
+	bool getNoSoft(void);
+
+	/**
+	 * Sets the no soft value.
+	 * @param The no soft value.
+	 */
+	void setNoSoft(bool value);
 };
 
 #endif
