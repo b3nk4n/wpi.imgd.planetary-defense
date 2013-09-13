@@ -104,6 +104,12 @@ public:
 	void draw(void);
 
 	/**
+	 * Tries to move the object to the designited position if possible.
+	 * @param position The position to move to.
+	 */
+	void moveObject(Position position);
+
+	/**
 	 * Validates if event is handles by this manager.
 	 * @param eventType The event type name.
 	 * @return Returns TRUE if event is handled, else FALSE.

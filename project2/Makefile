@@ -1,5 +1,5 @@
 ################################################################################
-## @file        Manager.h
+## @file        Makefile
 ## @author      bsautermeister
 ## @description MAKEFILE FOR DRAGONFLY GAME ENGINE (IMGD 3000)
 ################################################################################
@@ -7,17 +7,17 @@
 CC = g++
 RM = rm -rf
 ifeq ($(system),linux32)
-LDFLAGS = -lncurses -lrt
+LDFLAGS = -lncurses -lrt -lm
 else
   ifeq ($(system),macos)
 PLATFORM = -DMACOS
-LDFLAGS = -lncurses
+LDFLAGS = -lncurses -lm
   else
     ifeq ($(system),cygwin)
 PLATFORM = -DCYGWIN
-LDFLAGS = -lncurses -lrt
+LDFLAGS = -lncurses -lrt -lm
     else
-LDFLAGS = -lncurses -lrt
+LDFLAGS = -lncurses -lrt -lm
     endif
   endif
 endif
@@ -51,11 +51,11 @@ TESTOBJ = $(ENGSRC:.cpp=.o) $(UNITTESTSRC:.cpp=.o)
 
 all: $(GAMESRC) $(GAMEBIN) $(TESTBIN) Makefile
 
-$(GAMEBIN): $(ENG) $(OBJECTS) $(GAMESRC)
-	$(CC) $(GAMESRC) $(OBJECTS) $(ENG) $(PLATFORM) -o $@ $(LDFLAGS)
+$(GAMEBIN):  $(OBJECTS) $(GAMESRC)
+	$(CC) $(GAMESRC) $(OBJECTS) $(PLATFORM) -o $@ $(LDFLAGS)
 
-$(TESTBIN): $(ENG) $(TESTOBJ) $(TESTSRC)
-	$(CC) $(TESTSRC) $(TESTOBJ) $(ENG) $(PLATFORM) -o $@ $(LDFLAGS)
+$(TESTBIN): $(TESTOBJ) $(TESTSRC)
+	$(CC) $(TESTSRC) $(TESTOBJ) $(PLATFORM) -o $@ $(LDFLAGS)
 
 .cpp.o:
 	$(CC) -c $(DEBUG) $(PLATFORM) $< -o $@

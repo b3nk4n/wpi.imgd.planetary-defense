@@ -5,6 +5,7 @@
  *              the game world.
  ******************************************************************************/
 
+#include <math.h>
 #include "Object.h"
 #include "WorldManager.h"
 #include "GameManager.h"
@@ -25,6 +26,11 @@ Object::Object(void)
 	LogManager &logManager = LogManager::getInstance();
 
 	setType(TYPE_OBJECT);
+
+	_velocityX = 0;
+	_velocityXCountdown = 0;
+	_velocityY = 0;
+	_velocityYCountdown = 0;
 
 	_eventCount = 0;
 	_altitude = MAX_ALTITUDE / 2;
@@ -185,6 +191,94 @@ Position Object::getPosition(void)
 void Object::setPosition(Position position)
 {
 	_position = position;
+}
+
+/**
+ * Gets the x velocity.
+ * @return The x velocity.
+ */
+float Object::getVelocityX(void)
+{
+	return _velocityX;
+}
+
+/**
+ * Sets the x velocity.
+ * @param velocity The x velocity.
+ */
+void Object::setVelocityX(float velocity)
+{
+	_velocityX = velocity;
+}
+
+/**
+ * Gets the y velocity.
+ * @return The y velocity.
+ */
+float Object::getVelocityY(void)
+{
+	return _velocityY;
+}
+
+/**
+ * Sets the y velocity.
+ * @param velocity The y velocity.
+ */
+void Object::setVelocityY(float velocity)
+{
+	_velocityY = velocity;
+}
+
+/**
+ * Gets the horizontal direction perfomed in one step.
+ * @return The horizontal movement distance for this step.
+ */
+int Object::getVelocityXStep(void)
+{
+	// verify there is any x velocity
+	if (_velocityX == 0)
+		return 0;
+
+	// check for moving in this step
+	_velocityXCountdown -= fabs(_velocityX);
+	if (_velocityXCountdown > 0)
+		return 0;
+
+	// moveing this step, calculate how far
+	int spaces = floor(1 - _velocityXCountdown);
+	_velocityXCountdown = 1 + fmod(_velocityXCountdown, 1);
+
+	// check direction left/right
+	if (_velocityX < 0)
+		spaces *= -1;
+
+	return spaces;
+}
+
+/**
+ * Gets the vertical direction perfomed in one step.
+ * @return The vertical movement distance for this step.
+ */
+int Object::getVelocityYStep(void)
+{
+	// verify there is any y velocity
+	if (_velocityY == 0)
+		return 0;
+
+	// check for moving in this step
+	_velocityYCountdown -= fabs(_velocityY);
+	if (_velocityYCountdown > 0)
+		return 0;
+
+	// moveing this step, calculate how far
+	int spaces = floor(1 - _velocityYCountdown);
+	_velocityYCountdown = 1 + fmod(_velocityYCountdown, 1);
+
+	// check direction up down
+	if (_velocityY < 0)
+		spaces *= -1;
+
+	return spaces;
 }
 
 /**

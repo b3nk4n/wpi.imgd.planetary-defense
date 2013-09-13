@@ -146,16 +146,33 @@ int WorldManager::markForDelete(Object *p_object)
 void WorldManager::update(float delta)
 {
 	// delete all marked objects
-	ObjectListIterator it(&_deletions);
-	for (it.first(); !it.isDone(); it.next())
+	ObjectListIterator itDelete(&_deletions);
+	for (itDelete.first(); !itDelete.isDone(); itDelete.next())
 	{
 		// NOTE: game object removes itself from the _updates list
 		//       via removeObject() in its desctructor
-		delete it.currentObject();
+		delete itDelete.currentObject();
 	}
 
 	// clear deletion list for next update
 	_deletions.clear();
+
+	// update positions based on their velocities
+	ObjectListIterator itVelocity(&_updates);
+	for (itVelocity.first(); !itVelocity.isDone(); itVelocity.next())
+	{
+		int x = itVelocity.currentObject()->getVelocityXStep();
+		int y = itVelocity.currentObject()->getVelocityXStep();
+
+		// move object if necessary
+		if (x != 0 || y != 0)
+		{
+			Position oldPosition = itVelocity.currentObject()->getPosition();
+			Position newPosition = Position(oldPosition.getX() + x, oldPosition.getY() + y);
+
+			moveObject(newPosition);
+		}
+	}
 }
 
 /**
@@ -175,6 +192,15 @@ void WorldManager::draw(void)
 				p_object->draw();
 		}
 	}
+}
+
+/**
+ * Tries to move the object to the designited position if possible.
+ * @param position The position to move to.
+ */
+void WorldManager::moveObject(Position position)
+{
+	// TODO: omplement
 }
 
 /**

@@ -36,6 +36,26 @@ private:
 	Position _position;
 
 	/**
+	 * The horizontal speed in spaces per step.
+	 */
+	float _velocityX;
+
+	/**
+	 * Countdown to horizontal movement.
+	 */
+	float _velocityXCountdown;
+
+	/**
+	 * The vertical speed in spaces per step.
+	 */
+	float _velocityY;
+
+	/**
+	 * Countdown to vertical movement.
+	 */
+	float _velocityYCountdown;
+
+	/**
 	 * The number of registerd events.
 	 */
 	int _eventCount;
@@ -113,6 +133,42 @@ public:
 	 * @param position The new game objects position.
 	 */
 	void setPosition(Position position);
+
+	/**
+	 * Gets the x velocity.
+	 * @return The x velocity.
+	 */
+	float getVelocityX(void);
+
+	/**
+	 * Sets the x velocity.
+	 * @param velocity The x velocity.
+	 */
+	void setVelocityX(float velocity);
+
+	/**
+	 * Gets the y velocity.
+	 * @return The y velocity.
+	 */
+	float getVelocityY(void);
+
+	/**
+	 * Sets the y velocity.
+	 * @param velocity The y velocity.
+	 */
+	void setVelocityY(float velocity);
+
+	/**
+	 * Gets the horizontal direction perfomed in one step.
+	 * @return The horizontal movement distance for this step.
+	 */
+	int getVelocityXStep(void);
+
+	/**
+	 * Gets the vertical direction perfomed in one step.
+	 * @return The vertical movement distance for this step.
+	 */
+	int getVelocityYStep(void);
 
 	/**
 	 * Sets the verifies the altitude/depth of the object.
