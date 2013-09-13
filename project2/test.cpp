@@ -15,6 +15,7 @@
 #include "InputManager.h"
 #include "ObjectList.h"
 #include "TestObject.h"
+#include "TestCollidableObject.h"
 #include "UnitTestManager.h"
 #include "EventStep.h"
 #include "EventTest.h"
@@ -40,6 +41,7 @@ bool testGameManager_stepEventIsValid(void);
 bool testGameManager_testEventIsNotValid(void);
 bool testGraphicsManager_verifyIsStarted(void);
 bool testWorldManager_markOneObjectForDelete(void);
+bool testWorldManager_markOneObjectForDeleteTwice(void);
 bool testWorldManager_clearAllObjects(void);
 bool testWorldManager_verifyIsStarted(void);
 bool testWorldManager_insertAndRemoveObject(void);
@@ -146,6 +148,8 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testWorldManager_verifyIsStarted", &testWorldManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testWorldManager_insertAndRemoveObject", &testWorldManager_insertAndRemoveObject);
 	unitTestManager.registerTestFunction("testWorldManager_markOneObjectForDelete", &testWorldManager_markOneObjectForDelete);
+	unitTestManager.registerTestFunction("testWorldManager_markOneObjectForDeleteTwice", &testWorldManager_markOneObjectForDeleteTwice);
+
 	unitTestManager.registerTestFunction("testWorldManager_clearAllObjects", &testWorldManager_clearAllObjects);
 	unitTestManager.registerTestFunction("testWorldManager_stepEventIsNotValid", &testWorldManager_stepEventIsNotValid);
 	unitTestManager.registerTestFunction("testWorldManager_testEventIsValid", &testWorldManager_testEventIsValid);
@@ -413,6 +417,32 @@ bool testWorldManager_markOneObjectForDelete(void)
 	new TestObject();
 
 	int countBeforeMark = worldManager.getAllObjects().getCount();
+	worldManager.markForDelete(testObjectToMark);
+	int countAfterMark = worldManager.getAllObjects().getCount();
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfterUpdate = worldManager.getAllObjects().getCount();
+
+	logManager.writeLog(LOG_DEBUG,
+		"testWorldmanager_markOneObjectForDelete()",
+		"Counts: %d --mark--> %d --update--> %d\n",
+		countBeforeMark,
+		countAfterMark,
+		countAfterUpdate);
+
+	return countBeforeMark == countAfterMark && countBeforeMark - 1 == countAfterUpdate;
+}
+
+bool testWorldManager_markOneObjectForDeleteTwice(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	new TestObject();
+	TestObject *testObjectToMark = new TestObject();
+	new TestObject();
+
+	int countBeforeMark = worldManager.getAllObjects().getCount();
+	worldManager.markForDelete(testObjectToMark);
 	worldManager.markForDelete(testObjectToMark);
 	int countAfterMark = worldManager.getAllObjects().getCount();
 	worldManager.update(DEFAULT_FRAME_TIME);
@@ -886,8 +916,6 @@ bool testObject_outEventIsFiredWhenOutScreen(void)
 	int countBeforeOut = worldManager.getAllObjects().getCount();
 	// NOTE: out event kill test object
 	worldManager.update(DEFAULT_FRAME_TIME);
-	// NOTE: must be called twice because delete is at the begin of the next update.
-	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterOut = worldManager.getAllObjects().getCount();
 
 	return countBeforeOut - countAfterOut == 1;
@@ -896,8 +924,8 @@ bool testObject_outEventIsFiredWhenOutScreen(void)
 bool testObject_collisionEventIsFiredForHardToHard(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	TestObject *obj1 = new TestObject();
-	TestObject *obj2 = new TestObject();
+	TestObject *obj1 = new TestCollidableObject();
+	TestObject *obj2 = new TestCollidableObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(HARD);
 	obj1->registerInterest(COLLISION_EVENT);
@@ -907,8 +935,6 @@ bool testObject_collisionEventIsFiredForHardToHard(void)
 	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event kills both object
-	worldManager.update(DEFAULT_FRAME_TIME);
-	// NOTE: must be called twice because delete is at the begin of the next update.
 	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterCollision = worldManager.getAllObjects().getCount();
 
@@ -918,8 +944,8 @@ bool testObject_collisionEventIsFiredForHardToHard(void)
 bool testObject_collisionEventIsFiredForHardToSoft(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	TestObject *obj1 = new TestObject();
-	TestObject *obj2 = new TestObject();
+	TestObject *obj1 = new TestCollidableObject();
+	TestObject *obj2 = new TestCollidableObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(HARD);
 	obj1->registerInterest(COLLISION_EVENT);
@@ -930,8 +956,6 @@ bool testObject_collisionEventIsFiredForHardToSoft(void)
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event kills both object
 	worldManager.update(DEFAULT_FRAME_TIME);
-	// NOTE: must be called twice because delete is at the begin of the next update.
-	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterCollision = worldManager.getAllObjects().getCount();
 
 	return countBeforeCollision - countAfterCollision == 2;
@@ -940,8 +964,8 @@ bool testObject_collisionEventIsFiredForHardToSoft(void)
 bool testObject_collisionEventIsFiredForSoftToHard(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	TestObject *obj1 = new TestObject();
-	TestObject *obj2 = new TestObject();
+	TestObject *obj1 = new TestCollidableObject();
+	TestObject *obj2 = new TestCollidableObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SOFT);
 	obj1->registerInterest(COLLISION_EVENT);
@@ -952,8 +976,6 @@ bool testObject_collisionEventIsFiredForSoftToHard(void)
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event kills both object
 	worldManager.update(DEFAULT_FRAME_TIME);
-	// NOTE: must be called twice because delete is at the begin of the next update.
-	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterCollision = worldManager.getAllObjects().getCount();
 
 	return countBeforeCollision - countAfterCollision == 2;
@@ -962,8 +984,8 @@ bool testObject_collisionEventIsFiredForSoftToHard(void)
 bool testObject_collisionEventIsFiredForSoftToSoft(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	TestObject *obj1 = new TestObject();
-	TestObject *obj2 = new TestObject();
+	TestObject *obj1 = new TestCollidableObject();
+	TestObject *obj2 = new TestCollidableObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SOFT);
 	obj1->registerInterest(COLLISION_EVENT);
@@ -974,8 +996,6 @@ bool testObject_collisionEventIsFiredForSoftToSoft(void)
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event kills both object
 	worldManager.update(DEFAULT_FRAME_TIME);
-	// NOTE: must be called twice because delete is at the begin of the next update.
-	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterCollision = worldManager.getAllObjects().getCount();
 
 	return countBeforeCollision - countAfterCollision == 2;
@@ -984,8 +1004,8 @@ bool testObject_collisionEventIsFiredForSoftToSoft(void)
 bool testObject_collisionEventIsNotFiredForSpectralToSoft(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	TestObject *obj1 = new TestObject();
-	TestObject *obj2 = new TestObject();
+	TestObject *obj1 = new TestCollidableObject();
+	TestObject *obj2 = new TestCollidableObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SPECTRAL);
 	obj1->registerInterest(COLLISION_EVENT);
@@ -996,8 +1016,6 @@ bool testObject_collisionEventIsNotFiredForSpectralToSoft(void)
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event would kill both object
 	worldManager.update(DEFAULT_FRAME_TIME);
-	// NOTE: must be called twice because delete is at the begin of the next update.
-	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterCollision = worldManager.getAllObjects().getCount();
 
 	return countBeforeCollision == countAfterCollision;
@@ -1006,8 +1024,8 @@ bool testObject_collisionEventIsNotFiredForSpectralToSoft(void)
 bool testObject_collisionEventIsNotFiredForSoftToSpectral(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	TestObject *obj1 = new TestObject();
-	TestObject *obj2 = new TestObject();
+	TestObject *obj1 = new TestCollidableObject();
+	TestObject *obj2 = new TestCollidableObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SOFT);
 	obj1->registerInterest(COLLISION_EVENT);
@@ -1018,8 +1036,6 @@ bool testObject_collisionEventIsNotFiredForSoftToSpectral(void)
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event would kill both object
 	worldManager.update(DEFAULT_FRAME_TIME);
-	// NOTE: must be called twice because delete is at the begin of the next update.
-	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterCollision = worldManager.getAllObjects().getCount();
 
 	return countBeforeCollision == countAfterCollision;
@@ -1028,8 +1044,8 @@ bool testObject_collisionEventIsNotFiredForSoftToSpectral(void)
 bool testObject_collisionEventIsNotFiredForSpectralToSpectral(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	TestObject *obj1 = new TestObject();
-	TestObject *obj2 = new TestObject();
+	TestObject *obj1 = new TestCollidableObject();
+	TestObject *obj2 = new TestCollidableObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SPECTRAL);
 	obj1->registerInterest(COLLISION_EVENT);
@@ -1039,8 +1055,6 @@ bool testObject_collisionEventIsNotFiredForSpectralToSpectral(void)
 	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event would kill both object
-	worldManager.update(DEFAULT_FRAME_TIME);
-	// NOTE: must be called twice because delete is at the begin of the next update.
 	worldManager.update(DEFAULT_FRAME_TIME);
 	int countAfterCollision = worldManager.getAllObjects().getCount();
 

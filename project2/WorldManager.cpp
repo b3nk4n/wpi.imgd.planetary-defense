@@ -150,21 +150,6 @@ int WorldManager::markForDelete(Object *p_object)
  */
 void WorldManager::update(float delta)
 {
-	// delete all marked objects
-	ObjectListIterator itDelete(&_deletions);
-	for (itDelete.first(); !itDelete.isDone(); itDelete.next())
-	{
-		// NOTE: game object removes itself from the _updates list
-		//       via removeObject() in its desctructor
-		delete itDelete.currentObject();
-	}
-
-	// clear deletion list for next update
-	_deletions.clear();
-	
-	// NOTE: delete before velocity/position update for better performance.
-	//       but test have to update() twice until an object is deleted
-
 	// update positions based on their velocities
 	ObjectListIterator itVelocity(&_updates);
 	for (itVelocity.first(); !itVelocity.isDone(); itVelocity.next())
@@ -182,6 +167,18 @@ void WorldManager::update(float delta)
 			moveObject(p_currentObject, newPosition);
 		}
 	}
+
+	// delete all marked objects
+	ObjectListIterator itDelete(&_deletions);
+	for (itDelete.first(); !itDelete.isDone(); itDelete.next())
+	{
+		// NOTE: game object removes itself from the _updates list
+		//       via removeObject() in its desctructor
+		delete itDelete.currentObject();
+	}
+
+	// clear deletion list for next update
+	_deletions.clear();
 }
 
 /**

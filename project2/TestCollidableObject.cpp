@@ -36,6 +36,11 @@ int TestCollidableObject::eventHandler(Event *p_event)
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
 
+	if (TestObject::eventHandler(p_event))
+	{
+		return 1;
+	}
+
 	if (p_event->getType() == COLLISION_EVENT)
 	{
 		EventCollision *p_eventCollision = static_cast<EventCollision *>(p_event);
@@ -45,9 +50,11 @@ int TestCollidableObject::eventHandler(Event *p_event)
 			"Object with id=%d reports collision\n",
 			_id);
 
-		setVelocityX(-1 * getVelocityX());
-		setVelocityY(-1 * getVelocityY());
+		worldManager.markForDelete(this);
+		return 1;
+		
 	}
+	return 0;
 }
 
 /**

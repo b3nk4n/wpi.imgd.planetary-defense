@@ -77,6 +77,7 @@ int TestObject::eventHandler(Event *p_event)
 	if (p_event->getType() == STEP_EVENT)
 	{
 		step();
+		return 1;
 	}
 
 	if (p_event->getType() == TEST_EVENT)
@@ -88,6 +89,7 @@ int TestObject::eventHandler(Event *p_event)
 
 		// test event kills object to verify event was received
 		worldManager.markForDelete(this);
+		return 1;
 	}
 
 	if (p_event->getType() == KEYBOARD_EVENT)
@@ -100,10 +102,16 @@ int TestObject::eventHandler(Event *p_event)
 			_id,
 			key);
 
-		if (key == UP_KEY || key == ENTER_KEY || key == SPACE_KEY)
+		if (key == UP_KEY || key == ENTER_KEY)
 		{
 			GameManager &gameManager = GameManager::getInstance();
 			gameManager.setGameOver(true);
+			return 1;
+		}
+		else if (key == SPACE_KEY)
+		{
+			worldManager.markForDelete(this);
+			return 1;
 		}
 	}
 
@@ -122,6 +130,7 @@ int TestObject::eventHandler(Event *p_event)
 		{
 			worldManager.markForDelete(this);
 		}
+		return 1;
 	}
 
 	if (p_event->getType() == OUT_EVENT)
@@ -132,7 +141,10 @@ int TestObject::eventHandler(Event *p_event)
 			_id);
 
 		worldManager.markForDelete(this);
+		return 1;
 	}
+
+	return 0;
 }
 
 /**
