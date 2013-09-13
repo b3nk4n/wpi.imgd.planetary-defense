@@ -181,6 +181,9 @@ void UnitTestManager::shutDown(void)
  */
 int UnitTestManager::run(int argc, char *argv[])
 {
+	int casesThisRun = 0;
+	int successed = 0;
+
 	printLogo();
 
 	if (argc != 2)
@@ -206,9 +209,8 @@ int UnitTestManager::run(int argc, char *argv[])
 		printLine('#', UI_WIDTH);
 		printBordered("UNIT TESTING TOOL >>> RUN ALL TESTS");
 		printLine('#', UI_WIDTH);
-		int successed = testRunAll();
-
-		printSummary(_casesCount, successed);
+		successed = testRunAll();
+		casesThisRun = _casesCount;
 	}
 	else
 	{
@@ -219,9 +221,8 @@ int UnitTestManager::run(int argc, char *argv[])
 			printLine('#', UI_WIDTH);
 			printBordered("UNIT TESTING TOOL >>> RUN TEST INDEX %d", index);
 			printLine('#', UI_WIDTH);
-			int successed = testRun(index);
-
-			printSummary(1, successed);
+			successed = testRun(index);
+			casesThisRun = 1;
 		}
 		else
 		{
@@ -231,6 +232,9 @@ int UnitTestManager::run(int argc, char *argv[])
 			return -1;
 		}
 	}
+
+	printSummary(casesThisRun, successed);
+
 	// foot note
 	print("\n");
 	printLine('-', UI_WIDTH);
@@ -242,10 +246,12 @@ int UnitTestManager::run(int argc, char *argv[])
 	// swith back to terminal output
 	shutDown();
 
+	printSummary(casesThisRun, successed);
+
 	// console foot note
 	print("\n");
 	printLine('-', UI_WIDTH);
-	print("       Note: Test restuls have been written to the file %s\n", TESTSFILE_NAME);
+	print("       Note: Test results have been written to the file %s\n", TESTSFILE_NAME);
 
 	return 0;
 }

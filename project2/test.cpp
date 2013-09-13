@@ -315,9 +315,10 @@ bool testGameManager_changedFrameTimeHasEffect(void)
 	LogManager &logManager = LogManager::getInstance();
 	GameManager &gameManager = GameManager::getInstance();
 	Clock clock;
-	int frameTime = 99999;
+	int frameTime = 3 * DEFAULT_FRAME_TIME;
 	int loops = 10;
-	long int maxDiff = 50000; // 50ms (high delta because CCC server is slow)
+	long int maxDiff = 100000; // 100ms (high delta because CCC server is slow
+		                       // and usleep is sometimes buggy in cygwin)
 	TestObject *object = new TestObject();
 	object->setStepsToGameOver(loops);
 	object->registerInterest(STEP_EVENT);
@@ -326,12 +327,13 @@ bool testGameManager_changedFrameTimeHasEffect(void)
 	int gameLoops = gameManager.run(frameTime);
 	long int gameTime = clock.split();
 
-	logManager.writeLog(LOG_DEBUG,
+	logManager.writeLog(LOG_DEBUG, 
 		"testGameManager_changedFrameTimeHasEffect()",
-		"Game has done (%d/%d) loops and took %ldusec\n",
+		"Game has done (%d/%d) loops and took %ld/%ldusec\n",
 		gameLoops,
 		loops,
-		gameTime);
+		gameTime,
+		frameTime * loops);
 
 	// if unit test does not hang here, test was successful
 	return gameLoops == loops && frameTime * loops - maxDiff < gameTime && gameTime <  frameTime * loops + maxDiff;
@@ -898,11 +900,11 @@ bool testObject_collisionEventIsFiredForHardToHard(void)
 	TestObject *obj2 = new TestObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(HARD);
-	//obj1->registerInterest(COLLISION_EVENT);
+	obj1->registerInterest(COLLISION_EVENT);
 	obj2->setPosition(Position(9, 10));
 	obj2->setVelocityX(1);
 	obj2->setSolidness(HARD);
-	//obj2->registerInterest(COLLISION_EVENT);
+	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event kills both object
 	worldManager.update(DEFAULT_FRAME_TIME);
@@ -920,11 +922,11 @@ bool testObject_collisionEventIsFiredForHardToSoft(void)
 	TestObject *obj2 = new TestObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(HARD);
-	//obj1->registerInterest(COLLISION_EVENT);
+	obj1->registerInterest(COLLISION_EVENT);
 	obj2->setPosition(Position(9, 10));
 	obj2->setVelocityX(1);
 	obj2->setSolidness(SOFT);
-	//obj2->registerInterest(COLLISION_EVENT);
+	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event kills both object
 	worldManager.update(DEFAULT_FRAME_TIME);
@@ -942,11 +944,11 @@ bool testObject_collisionEventIsFiredForSoftToHard(void)
 	TestObject *obj2 = new TestObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SOFT);
-	//obj1->registerInterest(COLLISION_EVENT);
+	obj1->registerInterest(COLLISION_EVENT);
 	obj2->setPosition(Position(9, 10));
 	obj2->setVelocityX(1);
 	obj2->setSolidness(HARD);
-	//obj2->registerInterest(COLLISION_EVENT);
+	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event kills both object
 	worldManager.update(DEFAULT_FRAME_TIME);
@@ -964,11 +966,11 @@ bool testObject_collisionEventIsFiredForSoftToSoft(void)
 	TestObject *obj2 = new TestObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SOFT);
-	//obj1->registerInterest(COLLISION_EVENT);
+	obj1->registerInterest(COLLISION_EVENT);
 	obj2->setPosition(Position(9, 10));
 	obj2->setVelocityX(1);
 	obj2->setSolidness(SOFT);
-	//obj2->registerInterest(COLLISION_EVENT);
+	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event kills both object
 	worldManager.update(DEFAULT_FRAME_TIME);
@@ -986,11 +988,11 @@ bool testObject_collisionEventIsNotFiredForSpectralToSoft(void)
 	TestObject *obj2 = new TestObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SPECTRAL);
-	//obj1->registerInterest(COLLISION_EVENT);
+	obj1->registerInterest(COLLISION_EVENT);
 	obj2->setPosition(Position(9, 10));
 	obj2->setVelocityX(1);
 	obj2->setSolidness(SOFT);
-	//obj2->registerInterest(COLLISION_EVENT);
+	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event would kill both object
 	worldManager.update(DEFAULT_FRAME_TIME);
@@ -1008,11 +1010,11 @@ bool testObject_collisionEventIsNotFiredForSoftToSpectral(void)
 	TestObject *obj2 = new TestObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SOFT);
-	//obj1->registerInterest(COLLISION_EVENT);
+	obj1->registerInterest(COLLISION_EVENT);
 	obj2->setPosition(Position(9, 10));
 	obj2->setVelocityX(1);
 	obj2->setSolidness(SPECTRAL);
-	//obj2->registerInterest(COLLISION_EVENT);
+	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event would kill both object
 	worldManager.update(DEFAULT_FRAME_TIME);
@@ -1030,11 +1032,11 @@ bool testObject_collisionEventIsNotFiredForSpectralToSpectral(void)
 	TestObject *obj2 = new TestObject();
 	obj1->setPosition(Position(10, 10));
 	obj1->setSolidness(SPECTRAL);
-	//obj1->registerInterest(COLLISION_EVENT);
+	obj1->registerInterest(COLLISION_EVENT);
 	obj2->setPosition(Position(9, 10));
 	obj2->setVelocityX(1);
 	obj2->setSolidness(SPECTRAL);
-	//obj2->registerInterest(COLLISION_EVENT);
+	obj2->registerInterest(COLLISION_EVENT);
 	int countBeforeCollision = worldManager.getAllObjects().getCount();
 	// NOTE: collision event would kill both object
 	worldManager.update(DEFAULT_FRAME_TIME);
