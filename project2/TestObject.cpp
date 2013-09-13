@@ -124,18 +124,6 @@ int TestObject::eventHandler(Event *p_event)
 		}
 	}
 
-	if (p_event->getType() == COLLISION_EVENT)
-	{
-		EventCollision *p_eventCollision = static_cast<EventCollision *>(p_event);
-
-		logManager.writeLog(LOG_DEBUG,
-			"TestObject::eventHandler()",
-			"Object with id=%d reports collision\n",
-			_id);
-
-		worldManager.markForDelete(this);
-	}
-
 	if (p_event->getType() == OUT_EVENT)
 	{
 		logManager.writeLog(LOG_DEBUG,

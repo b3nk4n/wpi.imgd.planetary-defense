@@ -127,7 +127,15 @@ int InputManager::startUp(void)
 
 
 	// enable mouse events
-	mousemask(BUTTON1_CLICKED, NULL);
+	if (mousemask(BUTTON1_CLICKED | BUTTON1_DOUBLE_CLICKED |
+		BUTTON2_CLICKED | BUTTON2_DOUBLE_CLICKED,
+		NULL) == 0)
+	{
+		logManager.writeLog(LOG_ERROR,
+			"InputManager::startUp()",
+			"Configuring mouse mask of Curses failed.\n");
+		return -1;
+	}
 
 	_isStarted = true;
 	return 0;

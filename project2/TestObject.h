@@ -19,11 +19,6 @@ class TestObject : public Object
 private:
 
 	/**
-	 * The objects random generated id.
-	 */
-	int _id;
-
-	/**
 	 * The test object time to end the game (in steps)
 	 */
 	int _stepsToGameOver;
@@ -37,6 +32,13 @@ private:
 	 * Updates the test object.
 	 */
 	 void step(void);
+
+protected:
+	
+	/**
+	 * The objects random generated id.
+	 */
+	int _id;
 
 public:
 	/**

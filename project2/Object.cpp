@@ -33,6 +33,8 @@ Object::Object(void)
 	_velocityY = 0;
 	_velocityYCountdown = 0;
 
+	_noSoft = false;
+
 	_eventCount = 0;
 	_altitude = MAX_ALTITUDE / 2;
 

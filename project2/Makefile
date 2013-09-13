@@ -39,6 +39,7 @@ ENGSRC = Box.cpp \
 		 ObjectList.cpp \
 		 ObjectListIterator.cpp \
 		 Position.cpp \
+		 TestCollidableObject.cpp \
 		 TestObject.cpp \
 		 utility.cpp \
 		 WorldManager.cpp 
@@ -88,6 +89,19 @@ EventMouse.o: EventMouse.h Event.h Position.h
 EventOut.o: EventOut.h Event.h
 EventStep.o: EventStep.h Event.h
 EventTest.o: EventTest.h Event.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h LogManager.h
+game.o: /usr/include/stdio.h /usr/include/sys/types.h
+game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
+game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+game.o: /usr/include/bits/wordsize.h Manager.h ObjectList.h Object.h
+game.o: Position.h Event.h ObjectListIterator.h utility.h Box.h GameManager.h
+game.o: /usr/include/time.h /usr/include/machine/time.h EventStep.h
+game.o: EventKeyboard.h EventMouse.h EventCollision.h EventOut.h TestObject.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
 GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -181,62 +195,6 @@ ObjectList.o: Box.h
 ObjectListIterator.o: ObjectListIterator.h ObjectList.h Object.h Position.h
 ObjectListIterator.o: Event.h
 Position.o: Position.h
-TestObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-TestObject.o: /usr/include/_ansi.h /usr/include/newlib.h
-TestObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
-TestObject.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-TestObject.o: /usr/include/machine/_types.h
-TestObject.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-TestObject.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-TestObject.o: TestObject.h Object.h Position.h Event.h GameManager.h
-TestObject.o: /usr/include/time.h /usr/include/machine/time.h
-TestObject.o: /usr/include/sys/types.h /usr/include/machine/types.h Manager.h
-TestObject.o: ObjectList.h ObjectListIterator.h GraphicsManager.h
-TestObject.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-TestObject.o: /usr/include/stdio.h /usr/include/sys/stdio.h
-TestObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-TestObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
-TestObject.o: WorldManager.h EventStep.h EventTest.h EventKeyboard.h
-TestObject.o: EventMouse.h LogManager.h utility.h Box.h
-UnitTestManager.o: UnitTestManager.h /usr/include/string.h
-UnitTestManager.o: /usr/include/_ansi.h /usr/include/newlib.h
-UnitTestManager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-UnitTestManager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-UnitTestManager.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-UnitTestManager.o: /usr/include/machine/_default_types.h
-UnitTestManager.o: /usr/include/sys/lock.h /usr/include/sys/cdefs.h
-UnitTestManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-UnitTestManager.o: /usr/include/sys/string.h /usr/include/stdlib.h
-UnitTestManager.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-UnitTestManager.o: /usr/include/stdio.h /usr/include/sys/types.h
-UnitTestManager.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-WorldManager.o: WorldManager.h Manager.h ObjectList.h Object.h Position.h
-WorldManager.o: Event.h ObjectListIterator.h GraphicsManager.h
-WorldManager.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-WorldManager.o: /usr/include/stdio.h /usr/include/_ansi.h
-WorldManager.o: /usr/include/newlib.h /usr/include/sys/config.h
-WorldManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-WorldManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-WorldManager.o: /usr/include/machine/_types.h
-WorldManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-WorldManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-WorldManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-WorldManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-WorldManager.o: /usr/include/unctrl.h LogManager.h utility.h Box.h
-WorldManager.o: EventStep.h EventCollision.h EventOut.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h LogManager.h
-game.o: /usr/include/stdio.h /usr/include/sys/types.h
-game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-game.o: /usr/include/bits/wordsize.h Manager.h ObjectList.h Object.h
-game.o: Position.h Event.h ObjectListIterator.h utility.h Box.h GameManager.h
-game.o: /usr/include/time.h /usr/include/machine/time.h EventStep.h
-game.o: EventKeyboard.h EventMouse.h TestObject.h
 test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
 test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
@@ -253,7 +211,57 @@ test.o: /usr/include/unistd.h /usr/include/sys/unistd.h GameManager.h
 test.o: GraphicsManager.h /usr/include/curses.h /usr/include/ncurses_dll.h
 test.o: /usr/include/unctrl.h WorldManager.h InputManager.h TestObject.h
 test.o: UnitTestManager.h /usr/include/string.h /usr/include/sys/string.h
-test.o: EventStep.h EventTest.h EventKeyboard.h EventMouse.h
+test.o: EventStep.h EventTest.h EventKeyboard.h EventMouse.h EventOut.h
+test.o: EventCollision.h
+TestCollidableObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+TestCollidableObject.o: /usr/include/_ansi.h /usr/include/newlib.h
+TestCollidableObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
+TestCollidableObject.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+TestCollidableObject.o: /usr/include/machine/_types.h
+TestCollidableObject.o: /usr/include/machine/_default_types.h
+TestCollidableObject.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
+TestCollidableObject.o: /usr/include/alloca.h TestCollidableObject.h
+TestCollidableObject.o: TestObject.h Object.h Position.h Event.h
+TestCollidableObject.o: GameManager.h /usr/include/time.h
+TestCollidableObject.o: /usr/include/machine/time.h /usr/include/sys/types.h
+TestCollidableObject.o: /usr/include/machine/types.h Manager.h ObjectList.h
+TestCollidableObject.o: ObjectListIterator.h GraphicsManager.h
+TestCollidableObject.o: /usr/include/curses.h /usr/include/ncurses_dll.h
+TestCollidableObject.o: /usr/include/stdio.h /usr/include/sys/stdio.h
+TestCollidableObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+TestCollidableObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
+TestCollidableObject.o: WorldManager.h EventCollision.h LogManager.h
+TestCollidableObject.o: utility.h Box.h
+TestObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+TestObject.o: /usr/include/_ansi.h /usr/include/newlib.h
+TestObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
+TestObject.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+TestObject.o: /usr/include/machine/_types.h
+TestObject.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+TestObject.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
+TestObject.o: TestObject.h Object.h Position.h Event.h GameManager.h
+TestObject.o: /usr/include/time.h /usr/include/machine/time.h
+TestObject.o: /usr/include/sys/types.h /usr/include/machine/types.h Manager.h
+TestObject.o: ObjectList.h ObjectListIterator.h GraphicsManager.h
+TestObject.o: /usr/include/curses.h /usr/include/ncurses_dll.h
+TestObject.o: /usr/include/stdio.h /usr/include/sys/stdio.h
+TestObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+TestObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
+TestObject.o: WorldManager.h EventStep.h EventTest.h EventKeyboard.h
+TestObject.o: EventMouse.h EventOut.h EventCollision.h LogManager.h utility.h
+TestObject.o: Box.h
+UnitTestManager.o: UnitTestManager.h /usr/include/string.h
+UnitTestManager.o: /usr/include/_ansi.h /usr/include/newlib.h
+UnitTestManager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
+UnitTestManager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+UnitTestManager.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+UnitTestManager.o: /usr/include/machine/_default_types.h
+UnitTestManager.o: /usr/include/sys/lock.h /usr/include/sys/cdefs.h
+UnitTestManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
+UnitTestManager.o: /usr/include/sys/string.h /usr/include/stdlib.h
+UnitTestManager.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
+UnitTestManager.o: /usr/include/stdio.h /usr/include/sys/types.h
+UnitTestManager.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
 utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
 utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
@@ -264,3 +272,17 @@ utility.o: /usr/include/machine/types.h /usr/include/stdio.h
 utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h utility.h
 utility.o: Position.h Box.h
+WorldManager.o: WorldManager.h Manager.h ObjectList.h Object.h Position.h
+WorldManager.o: Event.h ObjectListIterator.h GraphicsManager.h
+WorldManager.o: /usr/include/curses.h /usr/include/ncurses_dll.h
+WorldManager.o: /usr/include/stdio.h /usr/include/_ansi.h
+WorldManager.o: /usr/include/newlib.h /usr/include/sys/config.h
+WorldManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
+WorldManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+WorldManager.o: /usr/include/machine/_types.h
+WorldManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+WorldManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
+WorldManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+WorldManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
+WorldManager.o: /usr/include/unctrl.h LogManager.h utility.h Box.h
+WorldManager.o: EventStep.h EventCollision.h EventOut.h

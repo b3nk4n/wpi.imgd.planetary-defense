@@ -228,18 +228,7 @@ long int GameManager::run(int frameTime)
 		// just sleep if target is not already expired
 		if (targetTimeDiff > 0)
 		{
-			logManager.writeLog(LOG_INFO,
-				"GameManager::run()",
-				"Target time reached. Sleep for: %ld\n",
-				targetTimeDiff);
-			Clock clock2;
-			clock.delta();
 			usleep(targetTimeDiff);
-			long int sleepTime = clock.split();
-			logManager.writeLog(LOG_INFO,
-				"GameManager::run()",
-				"Really slept for: %ld\n",
-				sleepTime);
 		}
 		else
 		{
