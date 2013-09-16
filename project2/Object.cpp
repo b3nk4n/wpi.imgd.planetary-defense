@@ -251,7 +251,7 @@ int Object::getVelocityXStep(void)
 		return 0;
 
 	// moveing this step, calculate how far
-	int spaces = floor(1 - _velocityXCountdown);
+	int spaces = (int)floor(1 - _velocityXCountdown);
 	_velocityXCountdown = 1 + fmod(_velocityXCountdown, 1);
 
 	// check direction left/right
@@ -277,7 +277,7 @@ int Object::getVelocityYStep(void)
 		return 0;
 
 	// moveing this step, calculate how far
-	int spaces = floor(1 - _velocityYCountdown);
+	int spaces = (int)floor(1 - _velocityYCountdown);
 	_velocityYCountdown = 1 + fmod(_velocityYCountdown, 1);
 
 	// check direction up down

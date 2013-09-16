@@ -72,217 +72,235 @@ depend:
 # DO NOT DELETE
 
 Box.o: Box.h Position.h
-Clock.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
-Clock.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-Clock.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-Clock.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-Clock.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-Clock.o: /usr/include/sys/types.h /usr/include/machine/types.h
-Clock.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-Clock.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Clock.h
-Clock.o: /usr/include/time.h /usr/include/machine/time.h
-Clock.o: /usr/include/unistd.h /usr/include/sys/unistd.h
-Event.o: Event.h
+Clock.o: /usr/include/stdio.h /usr/include/features.h
+Clock.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+Clock.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+Clock.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+Clock.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+Clock.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+Clock.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+Clock.o: Clock.h /usr/include/time.h /usr/include/bits/time.h
+Clock.o: /usr/include/unistd.h /usr/include/bits/posix_opt.h
+Clock.o: /usr/include/bits/confname.h /usr/include/getopt.h
 EventCollision.o: EventCollision.h Event.h Object.h Position.h
+Event.o: Event.h
 EventKeyboard.o: EventKeyboard.h Event.h
 EventMouse.o: EventMouse.h Event.h Position.h
 EventOut.o: EventOut.h Event.h
 EventStep.o: EventStep.h Event.h
 EventTest.o: EventTest.h Event.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h LogManager.h
-game.o: /usr/include/stdio.h /usr/include/sys/types.h
-game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-game.o: /usr/include/bits/wordsize.h Manager.h ObjectList.h Object.h
-game.o: Position.h Event.h ObjectListIterator.h utility.h Box.h GameManager.h
-game.o: /usr/include/time.h /usr/include/machine/time.h EventStep.h
+game.o: /usr/include/stdlib.h /usr/include/features.h
+game.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+game.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+game.o: /usr/include/sys/types.h /usr/include/bits/types.h
+game.o: /usr/include/bits/typesizes.h /usr/include/time.h
+game.o: /usr/include/bits/time.h /usr/include/endian.h
+game.o: /usr/include/bits/endian.h /usr/include/sys/select.h
+game.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
+game.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+game.o: /usr/include/alloca.h LogManager.h /usr/include/stdio.h
+game.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+game.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+game.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+game.o: Manager.h ObjectList.h Object.h Position.h Event.h
+game.o: ObjectListIterator.h utility.h Box.h GameManager.h EventStep.h
 game.o: EventKeyboard.h EventMouse.h EventCollision.h EventOut.h TestObject.h
-GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
-GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
-GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-GameManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-GameManager.o: /usr/include/machine/_types.h
-GameManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-GameManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-GameManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-GameManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-GameManager.o: GameManager.h /usr/include/time.h /usr/include/machine/time.h
-GameManager.o: Manager.h ObjectList.h Object.h Position.h Event.h
-GameManager.o: ObjectListIterator.h WorldManager.h GraphicsManager.h
-GameManager.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-GameManager.o: /usr/include/unctrl.h InputManager.h LogManager.h utility.h
-GameManager.o: Box.h Clock.h /usr/include/unistd.h /usr/include/sys/unistd.h
-GameManager.o: EventStep.h
+game.o: TestCollidableObject.h
+GameManager.o: /usr/include/stdio.h /usr/include/features.h
+GameManager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+GameManager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+GameManager.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+GameManager.o: /usr/include/libio.h /usr/include/_G_config.h
+GameManager.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+GameManager.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+GameManager.o: /usr/include/bits/sys_errlist.h GameManager.h
+GameManager.o: /usr/include/time.h /usr/include/bits/time.h Manager.h
+GameManager.o: ObjectList.h Object.h Position.h Event.h ObjectListIterator.h
+GameManager.o: WorldManager.h GraphicsManager.h /usr/include/curses.h
+GameManager.o: /usr/include/ncurses/ncurses_dll.h
+GameManager.o: /usr/include/ncurses/unctrl.h /usr/include/ncurses/curses.h
+GameManager.o: InputManager.h LogManager.h utility.h Box.h Clock.h
+GameManager.o: /usr/include/unistd.h /usr/include/bits/posix_opt.h
+GameManager.o: /usr/include/bits/confname.h /usr/include/getopt.h EventStep.h
 GraphicsManager.o: GraphicsManager.h /usr/include/curses.h
-GraphicsManager.o: /usr/include/ncurses_dll.h /usr/include/stdio.h
-GraphicsManager.o: /usr/include/_ansi.h /usr/include/newlib.h
-GraphicsManager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-GraphicsManager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-GraphicsManager.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-GraphicsManager.o: /usr/include/machine/_default_types.h
-GraphicsManager.o: /usr/include/sys/lock.h /usr/include/sys/types.h
-GraphicsManager.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-GraphicsManager.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-GraphicsManager.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
-GraphicsManager.o: Manager.h ObjectList.h Object.h Position.h Event.h
-GraphicsManager.o: ObjectListIterator.h LogManager.h utility.h Box.h
+GraphicsManager.o: /usr/include/ncurses/ncurses_dll.h /usr/include/stdio.h
+GraphicsManager.o: /usr/include/features.h /usr/include/sys/cdefs.h
+GraphicsManager.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+GraphicsManager.o: /usr/include/gnu/stubs-64.h /usr/include/bits/types.h
+GraphicsManager.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+GraphicsManager.o: /usr/include/_G_config.h /usr/include/wchar.h
+GraphicsManager.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+GraphicsManager.o: /usr/include/bits/stdio_lim.h
+GraphicsManager.o: /usr/include/bits/sys_errlist.h
+GraphicsManager.o: /usr/include/ncurses/unctrl.h
+GraphicsManager.o: /usr/include/ncurses/curses.h Manager.h ObjectList.h
+GraphicsManager.o: Object.h Position.h Event.h ObjectListIterator.h
+GraphicsManager.o: LogManager.h utility.h Box.h
 InputManager.o: InputManager.h Manager.h ObjectList.h Object.h Position.h
 InputManager.o: Event.h ObjectListIterator.h GraphicsManager.h
-InputManager.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-InputManager.o: /usr/include/stdio.h /usr/include/_ansi.h
-InputManager.o: /usr/include/newlib.h /usr/include/sys/config.h
-InputManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-InputManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-InputManager.o: /usr/include/machine/_types.h
-InputManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-InputManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-InputManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-InputManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-InputManager.o: /usr/include/unctrl.h LogManager.h utility.h Box.h
+InputManager.o: /usr/include/curses.h /usr/include/ncurses/ncurses_dll.h
+InputManager.o: /usr/include/stdio.h /usr/include/features.h
+InputManager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+InputManager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+InputManager.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+InputManager.o: /usr/include/libio.h /usr/include/_G_config.h
+InputManager.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+InputManager.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+InputManager.o: /usr/include/bits/sys_errlist.h /usr/include/ncurses/unctrl.h
+InputManager.o: /usr/include/ncurses/curses.h LogManager.h utility.h Box.h
 InputManager.o: EventKeyboard.h EventMouse.h
-LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/_ansi.h
-LogManager.o: /usr/include/newlib.h /usr/include/sys/config.h
-LogManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-LogManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-LogManager.o: /usr/include/machine/_types.h
-LogManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-LogManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-LogManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-LogManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Manager.h
-LogManager.o: ObjectList.h Object.h Position.h Event.h ObjectListIterator.h
-LogManager.o: utility.h Box.h
-Manager.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
-Manager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-Manager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-Manager.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-Manager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-Manager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-Manager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-Manager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Manager.h
-Manager.o: ObjectList.h Object.h Position.h Event.h ObjectListIterator.h
-Object.o: /usr/include/math.h /usr/include/sys/reent.h /usr/include/_ansi.h
-Object.o: /usr/include/newlib.h /usr/include/sys/config.h
-Object.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-Object.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-Object.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-Object.o: Object.h Position.h Event.h WorldManager.h Manager.h ObjectList.h
-Object.o: ObjectListIterator.h GameManager.h /usr/include/time.h
-Object.o: /usr/include/machine/time.h /usr/include/sys/types.h
-Object.o: /usr/include/machine/types.h InputManager.h LogManager.h
-Object.o: /usr/include/stdio.h /usr/include/sys/stdio.h
-Object.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-Object.o: /usr/include/bits/wordsize.h utility.h Box.h EventStep.h
-Object.o: EventKeyboard.h EventMouse.h
-ObjectList.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-ObjectList.o: /usr/include/_ansi.h /usr/include/newlib.h
-ObjectList.o: /usr/include/sys/config.h /usr/include/sys/features.h
-ObjectList.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-ObjectList.o: /usr/include/machine/_types.h
-ObjectList.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-ObjectList.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-ObjectList.o: /usr/include/stdio.h /usr/include/sys/types.h
-ObjectList.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-ObjectList.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-ObjectList.o: /usr/include/bits/wordsize.h /usr/include/string.h
-ObjectList.o: /usr/include/sys/string.h ObjectList.h Object.h Position.h
-ObjectList.o: Event.h ObjectListIterator.h LogManager.h Manager.h utility.h
-ObjectList.o: Box.h
+LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/features.h
+LogManager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+LogManager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+LogManager.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+LogManager.o: /usr/include/libio.h /usr/include/_G_config.h
+LogManager.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+LogManager.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+LogManager.o: /usr/include/bits/sys_errlist.h Manager.h ObjectList.h Object.h
+LogManager.o: Position.h Event.h ObjectListIterator.h utility.h Box.h
+Manager.o: /usr/include/stdio.h /usr/include/features.h
+Manager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+Manager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+Manager.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+Manager.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+Manager.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+Manager.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+Manager.o: Manager.h ObjectList.h Object.h Position.h Event.h
+Manager.o: ObjectListIterator.h
+Object.o: /usr/include/math.h /usr/include/features.h
+Object.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+Object.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+Object.o: /usr/include/bits/huge_val.h /usr/include/bits/mathdef.h
+Object.o: /usr/include/bits/mathcalls.h Object.h Position.h Event.h
+Object.o: WorldManager.h Manager.h ObjectList.h ObjectListIterator.h
+Object.o: GameManager.h /usr/include/time.h /usr/include/bits/time.h
+Object.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+Object.o: InputManager.h LogManager.h /usr/include/stdio.h
+Object.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+Object.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+Object.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+Object.o: utility.h Box.h EventStep.h EventKeyboard.h EventMouse.h
+ObjectList.o: /usr/include/stdlib.h /usr/include/features.h
+ObjectList.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+ObjectList.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+ObjectList.o: /usr/include/sys/types.h /usr/include/bits/types.h
+ObjectList.o: /usr/include/bits/typesizes.h /usr/include/time.h
+ObjectList.o: /usr/include/bits/time.h /usr/include/endian.h
+ObjectList.o: /usr/include/bits/endian.h /usr/include/sys/select.h
+ObjectList.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
+ObjectList.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+ObjectList.o: /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h
+ObjectList.o: /usr/include/_G_config.h /usr/include/wchar.h
+ObjectList.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+ObjectList.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+ObjectList.o: /usr/include/string.h ObjectList.h Object.h Position.h Event.h
+ObjectList.o: ObjectListIterator.h LogManager.h Manager.h utility.h Box.h
 ObjectListIterator.o: ObjectListIterator.h ObjectList.h Object.h Position.h
 ObjectListIterator.o: Event.h
 Position.o: Position.h
-test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-test.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-test.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-test.o: /usr/include/stdio.h /usr/include/sys/types.h
-test.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-test.o: /usr/include/bits/wordsize.h LogManager.h Manager.h ObjectList.h
-test.o: Object.h Position.h Event.h ObjectListIterator.h utility.h Box.h
-test.o: Clock.h /usr/include/time.h /usr/include/machine/time.h
-test.o: /usr/include/unistd.h /usr/include/sys/unistd.h GameManager.h
-test.o: GraphicsManager.h /usr/include/curses.h /usr/include/ncurses_dll.h
-test.o: /usr/include/unctrl.h WorldManager.h InputManager.h TestObject.h
-test.o: UnitTestManager.h /usr/include/string.h /usr/include/sys/string.h
-test.o: EventStep.h EventTest.h EventKeyboard.h EventMouse.h EventOut.h
-test.o: EventCollision.h
-TestCollidableObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-TestCollidableObject.o: /usr/include/_ansi.h /usr/include/newlib.h
-TestCollidableObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
-TestCollidableObject.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-TestCollidableObject.o: /usr/include/machine/_types.h
-TestCollidableObject.o: /usr/include/machine/_default_types.h
-TestCollidableObject.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
+TestCollidableObject.o: /usr/include/stdlib.h /usr/include/features.h
+TestCollidableObject.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+TestCollidableObject.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+TestCollidableObject.o: /usr/include/sys/types.h /usr/include/bits/types.h
+TestCollidableObject.o: /usr/include/bits/typesizes.h /usr/include/time.h
+TestCollidableObject.o: /usr/include/bits/time.h /usr/include/endian.h
+TestCollidableObject.o: /usr/include/bits/endian.h /usr/include/sys/select.h
+TestCollidableObject.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
+TestCollidableObject.o: /usr/include/sys/sysmacros.h
+TestCollidableObject.o: /usr/include/bits/pthreadtypes.h
 TestCollidableObject.o: /usr/include/alloca.h TestCollidableObject.h
 TestCollidableObject.o: TestObject.h Object.h Position.h Event.h
-TestCollidableObject.o: GameManager.h /usr/include/time.h
-TestCollidableObject.o: /usr/include/machine/time.h /usr/include/sys/types.h
-TestCollidableObject.o: /usr/include/machine/types.h Manager.h ObjectList.h
+TestCollidableObject.o: GameManager.h Manager.h ObjectList.h
 TestCollidableObject.o: ObjectListIterator.h GraphicsManager.h
-TestCollidableObject.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-TestCollidableObject.o: /usr/include/stdio.h /usr/include/sys/stdio.h
-TestCollidableObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-TestCollidableObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
-TestCollidableObject.o: WorldManager.h EventCollision.h LogManager.h
-TestCollidableObject.o: utility.h Box.h
-TestObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-TestObject.o: /usr/include/_ansi.h /usr/include/newlib.h
-TestObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
-TestObject.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-TestObject.o: /usr/include/machine/_types.h
-TestObject.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-TestObject.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-TestObject.o: TestObject.h Object.h Position.h Event.h GameManager.h
-TestObject.o: /usr/include/time.h /usr/include/machine/time.h
-TestObject.o: /usr/include/sys/types.h /usr/include/machine/types.h Manager.h
-TestObject.o: ObjectList.h ObjectListIterator.h GraphicsManager.h
-TestObject.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-TestObject.o: /usr/include/stdio.h /usr/include/sys/stdio.h
-TestObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-TestObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
-TestObject.o: WorldManager.h EventStep.h EventTest.h EventKeyboard.h
-TestObject.o: EventMouse.h EventOut.h EventCollision.h LogManager.h utility.h
-TestObject.o: Box.h
-UnitTestManager.o: UnitTestManager.h /usr/include/string.h
-UnitTestManager.o: /usr/include/_ansi.h /usr/include/newlib.h
-UnitTestManager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-UnitTestManager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-UnitTestManager.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-UnitTestManager.o: /usr/include/machine/_default_types.h
-UnitTestManager.o: /usr/include/sys/lock.h /usr/include/sys/cdefs.h
-UnitTestManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-UnitTestManager.o: /usr/include/sys/string.h /usr/include/stdlib.h
-UnitTestManager.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-UnitTestManager.o: /usr/include/stdio.h /usr/include/sys/types.h
-UnitTestManager.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
-utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-utility.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-utility.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-utility.o: /usr/include/machine/time.h /usr/include/sys/types.h
-utility.o: /usr/include/machine/types.h /usr/include/stdio.h
-utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h utility.h
-utility.o: Position.h Box.h
+TestCollidableObject.o: /usr/include/curses.h
+TestCollidableObject.o: /usr/include/ncurses/ncurses_dll.h
+TestCollidableObject.o: /usr/include/stdio.h /usr/include/libio.h
+TestCollidableObject.o: /usr/include/_G_config.h /usr/include/wchar.h
+TestCollidableObject.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+TestCollidableObject.o: /usr/include/bits/stdio_lim.h
+TestCollidableObject.o: /usr/include/bits/sys_errlist.h
+TestCollidableObject.o: /usr/include/ncurses/unctrl.h
+TestCollidableObject.o: /usr/include/ncurses/curses.h WorldManager.h
+TestCollidableObject.o: EventCollision.h LogManager.h utility.h Box.h
+test.o: /usr/include/stdlib.h /usr/include/features.h
+test.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+test.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+test.o: /usr/include/sys/types.h /usr/include/bits/types.h
+test.o: /usr/include/bits/typesizes.h /usr/include/time.h
+test.o: /usr/include/bits/time.h /usr/include/endian.h
+test.o: /usr/include/bits/endian.h /usr/include/sys/select.h
+test.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
+test.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+test.o: /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h
+test.o: /usr/include/_G_config.h /usr/include/wchar.h
+test.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+test.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+test.o: LogManager.h Manager.h ObjectList.h Object.h Position.h Event.h
+test.o: ObjectListIterator.h utility.h Box.h Clock.h /usr/include/unistd.h
+test.o: /usr/include/bits/posix_opt.h /usr/include/bits/confname.h
+test.o: /usr/include/getopt.h GameManager.h GraphicsManager.h
+test.o: /usr/include/curses.h /usr/include/ncurses/ncurses_dll.h
+test.o: /usr/include/ncurses/unctrl.h /usr/include/ncurses/curses.h
+test.o: WorldManager.h InputManager.h TestObject.h TestCollidableObject.h
+test.o: UnitTestManager.h /usr/include/string.h EventStep.h EventTest.h
+test.o: EventKeyboard.h EventMouse.h EventOut.h EventCollision.h
+TestObject.o: /usr/include/stdlib.h /usr/include/features.h
+TestObject.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+TestObject.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+TestObject.o: /usr/include/sys/types.h /usr/include/bits/types.h
+TestObject.o: /usr/include/bits/typesizes.h /usr/include/time.h
+TestObject.o: /usr/include/bits/time.h /usr/include/endian.h
+TestObject.o: /usr/include/bits/endian.h /usr/include/sys/select.h
+TestObject.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
+TestObject.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+TestObject.o: /usr/include/alloca.h TestObject.h Object.h Position.h Event.h
+TestObject.o: GameManager.h Manager.h ObjectList.h ObjectListIterator.h
+TestObject.o: GraphicsManager.h /usr/include/curses.h
+TestObject.o: /usr/include/ncurses/ncurses_dll.h /usr/include/stdio.h
+TestObject.o: /usr/include/libio.h /usr/include/_G_config.h
+TestObject.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+TestObject.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+TestObject.o: /usr/include/bits/sys_errlist.h /usr/include/ncurses/unctrl.h
+TestObject.o: /usr/include/ncurses/curses.h WorldManager.h EventStep.h
+TestObject.o: EventTest.h EventKeyboard.h EventMouse.h EventOut.h
+TestObject.o: EventCollision.h LogManager.h utility.h Box.h
+UnitTestManager.o: /usr/include/unistd.h /usr/include/features.h
+UnitTestManager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+UnitTestManager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+UnitTestManager.o: /usr/include/bits/posix_opt.h /usr/include/bits/types.h
+UnitTestManager.o: /usr/include/bits/typesizes.h /usr/include/bits/confname.h
+UnitTestManager.o: /usr/include/getopt.h UnitTestManager.h
+UnitTestManager.o: /usr/include/string.h /usr/include/stdlib.h
+UnitTestManager.o: /usr/include/sys/types.h /usr/include/time.h
+UnitTestManager.o: /usr/include/bits/time.h /usr/include/endian.h
+UnitTestManager.o: /usr/include/bits/endian.h /usr/include/sys/select.h
+UnitTestManager.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
+UnitTestManager.o: /usr/include/sys/sysmacros.h
+UnitTestManager.o: /usr/include/bits/pthreadtypes.h /usr/include/alloca.h
+UnitTestManager.o: /usr/include/stdio.h /usr/include/libio.h
+UnitTestManager.o: /usr/include/_G_config.h /usr/include/wchar.h
+UnitTestManager.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+UnitTestManager.o: /usr/include/bits/stdio_lim.h
+UnitTestManager.o: /usr/include/bits/sys_errlist.h
+utility.o: /usr/include/time.h /usr/include/features.h
+utility.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+utility.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+utility.o: /usr/include/bits/time.h /usr/include/bits/types.h
+utility.o: /usr/include/bits/typesizes.h /usr/include/stdio.h
+utility.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+utility.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+utility.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+utility.o: utility.h Position.h Box.h
 WorldManager.o: WorldManager.h Manager.h ObjectList.h Object.h Position.h
 WorldManager.o: Event.h ObjectListIterator.h GraphicsManager.h
-WorldManager.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-WorldManager.o: /usr/include/stdio.h /usr/include/_ansi.h
-WorldManager.o: /usr/include/newlib.h /usr/include/sys/config.h
-WorldManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-WorldManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-WorldManager.o: /usr/include/machine/_types.h
-WorldManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-WorldManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-WorldManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-WorldManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-WorldManager.o: /usr/include/unctrl.h LogManager.h utility.h Box.h
+WorldManager.o: /usr/include/curses.h /usr/include/ncurses/ncurses_dll.h
+WorldManager.o: /usr/include/stdio.h /usr/include/features.h
+WorldManager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+WorldManager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+WorldManager.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+WorldManager.o: /usr/include/libio.h /usr/include/_G_config.h
+WorldManager.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+WorldManager.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+WorldManager.o: /usr/include/bits/sys_errlist.h /usr/include/ncurses/unctrl.h
+WorldManager.o: /usr/include/ncurses/curses.h LogManager.h utility.h Box.h
 WorldManager.o: EventStep.h EventCollision.h EventOut.h

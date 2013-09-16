@@ -364,3 +364,4 @@ WINDOW *GraphicsManager::getBuffer(void)
 {
 	return _p_buffer;
 }
+
