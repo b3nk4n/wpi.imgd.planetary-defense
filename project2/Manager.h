@@ -89,6 +89,13 @@ public:
 	void onEvent(Event *p_event);
 
 	/**
+	 * Sends an event to the given game objects when it is interested in this event.
+	 * @param p_event The event to send.
+	 * @param p_object The objects to send the event.
+	 */
+	void onEvent(Event *p_event, Object *p_object);
+
+	/**
 	 * Validates if event is handles by this manager.
 	 * @param eventType The event type name.
 	 * @return Returns TRUE if event is handled, else FALSE.

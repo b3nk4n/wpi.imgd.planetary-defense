@@ -262,8 +262,8 @@ int WorldManager::moveObject(Object *p_object, Position position)
 
 				// send collision event to both
 				EventCollision eventCollision(p_object, p_currentObject, position);
-				p_object->eventHandler(&eventCollision);
-				p_currentObject->eventHandler(&eventCollision);
+				onEvent(&eventCollision, p_object);
+				onEvent(&eventCollision, p_currentObject);
 
 				// verify not moving when hard objects are colliding
 				if (p_object->getSolidness() == HARD &&
@@ -307,7 +307,7 @@ int WorldManager::moveObject(Object *p_object, Position position)
 					"Fireing out event\n");
 
 		EventOut eventOut;
-		p_object->eventHandler(&eventOut);
+		onEvent(&eventOut, p_object);
 	}
 
 	return 0;

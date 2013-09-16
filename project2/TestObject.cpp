@@ -153,11 +153,16 @@ int TestObject::eventHandler(Event *p_event)
 void TestObject::draw(void)
 {
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
-	graphicsManager.drawChar(getPosition(), 'X', COLOR_RED);
-	//graphicsManager.drawString(getPosition(), "Hallo", CENTER_JUSTIFIED, COLOR_RED);
-	//graphicsManager.drawStringFormat(getPosition(), CENTER_JUSTIFIED, COLOR_RED,
-	//	"Object ID: %d",
-	//	_id);
+	int color;
+
+	if (getSolidness() == HARD)
+		color = COLOR_RED;
+	else if (getSolidness() == SOFT)
+		color = COLOR_YELLOW;
+	else
+		color = COLOR_GREEN;
+
+	graphicsManager.drawChar(getPosition(), 'X', color);
 }
 
 /**

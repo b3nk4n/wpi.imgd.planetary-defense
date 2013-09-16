@@ -4,6 +4,7 @@
  * @description Manager of a simplified unit test framework.
  ******************************************************************************/
 
+#include <unistd.h>
 #include "UnitTestManager.h"
 
 #define UI_WIDTH 80
@@ -200,6 +201,9 @@ int UnitTestManager::run(int argc, char *argv[])
 	}
 
 	printLogo();
+	
+	// wait a little to ensure the logo is printed
+	sleep(1);
 
 	if (_funcSetup != NULL)
 		_funcSetup();

@@ -19,7 +19,7 @@ TestCollidableObject::TestCollidableObject(void)
 {
 	setType(TYPE_TEST_COLLIDABLE_OBJECT);
 
-	registerInterest(COLLISION_EVENT); // NOTE: registering for COLLISION/OUT not necessary !?
+	registerInterest(COLLISION_EVENT);
 
 	LogManager &logManager = LogManager::getInstance();
 	logManager.writeLog(LOG_DEBUG,
