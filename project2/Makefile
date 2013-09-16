@@ -40,6 +40,8 @@ ENGSRC = Box.cpp \
 		 ObjectList.cpp \
 		 ObjectListIterator.cpp \
 		 Position.cpp \
+		 ResourceManager.cpp \
+		 Sprite.cpp \
 		 TestCollidableObject.cpp \
 		 TestObject.cpp \
 		 utility.cpp \
@@ -90,6 +92,7 @@ EventMouse.o: EventMouse.h Event.h Position.h
 EventOut.o: EventOut.h Event.h
 EventStep.o: EventStep.h Event.h
 EventTest.o: EventTest.h Event.h
+Frame.o: Frame.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
 GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -183,6 +186,22 @@ ObjectList.o: Box.h
 ObjectListIterator.o: ObjectListIterator.h ObjectList.h Object.h Position.h
 ObjectListIterator.o: Event.h
 Position.o: Position.h
+ResourceManager.o: ResourceManager.h Manager.h ObjectList.h Object.h
+ResourceManager.o: Position.h Event.h ObjectListIterator.h Sprite.h Frame.h
+Sprite.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+Sprite.o: /usr/include/_ansi.h /usr/include/newlib.h
+Sprite.o: /usr/include/sys/config.h /usr/include/sys/features.h
+Sprite.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+Sprite.o: /usr/include/machine/_types.h /usr/include/machine/_default_types.h
+Sprite.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
+Sprite.o: /usr/include/alloca.h Sprite.h Frame.h GraphicsManager.h
+Sprite.o: /usr/include/curses.h /usr/include/ncurses_dll.h
+Sprite.o: /usr/include/stdio.h /usr/include/sys/types.h
+Sprite.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
+Sprite.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+Sprite.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h Manager.h
+Sprite.o: ObjectList.h Object.h Position.h Event.h ObjectListIterator.h
+Sprite.o: LogManager.h utility.h Box.h
 TestCollidableObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 TestCollidableObject.o: /usr/include/_ansi.h /usr/include/newlib.h
 TestCollidableObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
