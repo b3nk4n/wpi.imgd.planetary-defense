@@ -23,6 +23,9 @@
 #include "EventMouse.h"
 #include "EventOut.h"
 #include "EventCollision.h"
+#include "Frame.h"
+#include "Sprite.h"
+#include "ResourceManager.h"
 #include "utility.h"
 
 using std::string;
@@ -55,6 +58,18 @@ bool testInputManager_verifyIsStarted(void);
 bool testInputManager_keyboardEventIsValid(void);
 bool testInputManager_mouseEventIsValid(void);
 bool testInputManager_stepEventIsNotValid(void);
+bool testResourceManager_verifyIsStarted(void);
+bool testResourceManager_loadCorrectSpriteReturnsSuccess(void);
+bool testResourceManager_loadErrorMistakeSpriteReturnsError(void);
+bool testResourceManager_loadErrorColorSpriteReturnsError(void);
+bool testResourceManager_loadErrorLessFramesSpriteReturnsError(void);
+bool testResourceManager_loadErrorMoreFramesSpriteReturnsError(void);
+bool testResourceManager_loadErrorLessHeightSpriteReturnsError(void);
+bool testResourceManager_loadErrorMoreHeightSpriteReturnsError(void);
+bool testResourceManager_loadErrorLessWidthSpriteReturnsError(void);
+bool testResourceManager_loadErrorMoreWidthSpriteReturnsError(void);
+bool testResourceManager_loadErrorUnknownFileReturnsError(void);
+bool testResourceManager_getAndUnloadSprite(void);
 bool testClock_1SecSleep(void);
 bool testClock_deltaRestsTime(void);
 bool testClock_splitNotRestsTime(void);
@@ -112,6 +127,12 @@ bool testObjectList_operatorPlusEmptyListPlusEmptyListIsZero(void);
 bool testObjectList_operatorPlusEmptyListPlusFilledListIsFilled(void);
 bool testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList(void);
 bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void);
+bool testFrame_ceateDefault(void);
+bool testFrame_createCustom(void);
+bool testFrame_getterAndSetter(void);
+bool testSprite_createEmpty(void);
+bool testSprite_createSingleFrame(void);
+bool testSprite_frameOverflowReturnsError(void);
 bool testUtility_boxContainsPointInsideTrue(void);
 bool testUtility_boxContainsPointOutsideFalse(void);
 
@@ -149,7 +170,6 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testWorldManager_insertAndRemoveObject", &testWorldManager_insertAndRemoveObject);
 	unitTestManager.registerTestFunction("testWorldManager_markOneObjectForDelete", &testWorldManager_markOneObjectForDelete);
 	unitTestManager.registerTestFunction("testWorldManager_markOneObjectForDeleteTwice", &testWorldManager_markOneObjectForDeleteTwice);
-
 	unitTestManager.registerTestFunction("testWorldManager_clearAllObjects", &testWorldManager_clearAllObjects);
 	unitTestManager.registerTestFunction("testWorldManager_stepEventIsNotValid", &testWorldManager_stepEventIsNotValid);
 	unitTestManager.registerTestFunction("testWorldManager_testEventIsValid", &testWorldManager_testEventIsValid);
@@ -162,6 +182,19 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testInputManager_keyboardEventIsValid", &testInputManager_keyboardEventIsValid);
 	unitTestManager.registerTestFunction("testInputManager_mouseEventIsValid", &testInputManager_mouseEventIsValid);
 	unitTestManager.registerTestFunction("testInputManager_stepEventIsNotValid", &testInputManager_stepEventIsNotValid);
+
+	unitTestManager.registerTestFunction("testResourceManager_verifyIsStarted", &testResourceManager_verifyIsStarted);
+	unitTestManager.registerTestFunction("testResourceManager_loadCorrectSpriteReturnsSuccess", &testResourceManager_loadCorrectSpriteReturnsSuccess);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorMistakeSpriteReturnsError", &testResourceManager_loadErrorMistakeSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorColorSpriteReturnsError", &testResourceManager_loadErrorColorSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorLessFramesSpriteReturnsError", &testResourceManager_loadErrorLessFramesSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorMoreFramesSpriteReturnsError", &testResourceManager_loadErrorMoreFramesSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorLessHeightSpriteReturnsError", &testResourceManager_loadErrorLessHeightSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorMoreHeightSpriteReturnsError", &testResourceManager_loadErrorMoreHeightSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorLessWidthSpriteReturnsError", &testResourceManager_loadErrorLessWidthSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorMoreWidthSpriteReturnsError", &testResourceManager_loadErrorMoreWidthSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorUnknownFileReturnsError", &testResourceManager_loadErrorUnknownFileReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_getAndUnloadSprite", &testResourceManager_getAndUnloadSprite);
 
 	unitTestManager.registerTestFunction("testClock_1SecSleep", &testClock_1SecSleep);
 	unitTestManager.registerTestFunction("testClock_deltaRestsTime", &testClock_deltaRestsTime);
@@ -224,6 +257,14 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusFilledListIsFilled", &testObjectList_operatorPlusEmptyListPlusFilledListIsFilled);
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList", &testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList);
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc", &testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc);
+
+	unitTestManager.registerTestFunction("testFrame_ceateDefault", &testFrame_ceateDefault);
+	unitTestManager.registerTestFunction("testFrame_createCustom", &testFrame_createCustom);
+	unitTestManager.registerTestFunction("testFrame_getterAndSetter", &testFrame_getterAndSetter);
+
+	unitTestManager.registerTestFunction("testSprite_createEmpty", &testSprite_createEmpty);
+	unitTestManager.registerTestFunction("testSprite_createSingleFrame", &testSprite_createSingleFrame);
+	unitTestManager.registerTestFunction("testSprite_frameOverflowReturnsError", &testSprite_frameOverflowReturnsError);
 
 	unitTestManager.registerTestFunction("testUtility_boxContainsPointInsideTrue", &testUtility_boxContainsPointInsideTrue);
 	unitTestManager.registerTestFunction("testUtility_boxContainsPointOutsideFalse", &testUtility_boxContainsPointOutsideFalse);
@@ -556,6 +597,116 @@ bool testInputManager_stepEventIsNotValid(void)
 	bool res = inputManager.isValid(STEP_EVENT);
 
 	return !res;
+}
+
+bool testResourceManager_verifyIsStarted(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+
+	return resourceManager.isStarted();
+}
+
+bool testResourceManager_loadCorrectSpriteReturnsSuccess(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship1";
+	int res = resourceManager.loadSprite("sprites/test-spr.txt", label);
+
+	return res == 0;
+}
+
+bool testResourceManager_loadErrorMistakeSpriteReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship2";
+	int res = resourceManager.loadSprite("sprites/test-spr-error-mistake.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_loadErrorColorSpriteReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship3";
+	int res = resourceManager.loadSprite("sprites/test-spr-error-color.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_loadErrorLessFramesSpriteReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship4";
+	int res = resourceManager.loadSprite("sprites/test-spr-error-frames-less.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_loadErrorMoreFramesSpriteReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship5";
+	int res = resourceManager.loadSprite("sprites/test-spr-error-frames-more.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_loadErrorLessHeightSpriteReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship6";
+	int res = resourceManager.loadSprite("sprites/test-spr-error-height-less.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_loadErrorMoreHeightSpriteReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship7";
+	int res = resourceManager.loadSprite("sprites/test-spr-error-height-more.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_loadErrorLessWidthSpriteReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship8";
+	int res = resourceManager.loadSprite("sprites/test-spr-error-width-less.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_loadErrorMoreWidthSpriteReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship9";
+	int res = resourceManager.loadSprite("sprites/test-spr-error-width-more.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_loadErrorUnknownFileReturnsError(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship10";
+	int res = resourceManager.loadSprite("sprites/unknown-file.txt", label);
+
+	return res == -1;
+}
+
+bool testResourceManager_getAndUnloadSprite(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "ship11";
+	int res1 = resourceManager.loadSprite("sprites/test-spr.txt", label);
+	Sprite *p_sprite1 = resourceManager.getSprite(label);
+	int res2 = resourceManager.unloadSprite(label);
+	Sprite *p_sprite2 = resourceManager.getSprite(label);
+
+	return res1 == 0 && p_sprite1 != NULL &&
+		res2 == 0 && p_sprite2 == NULL;
 }
 
 bool testClock_1SecSleep(void)
@@ -1253,6 +1404,93 @@ bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void)
 	ObjectList addedList = firstList + secondList;
 
 	return addedList.getCount() == 2 * fullSize;
+}
+
+bool testFrame_ceateDefault(void)
+{
+	Frame frame;
+
+	return frame.getHeight() == 0 &&
+		frame.getWidth() == 0 &&
+		frame.getData() == EMPTY_FRAME;
+}
+
+bool testFrame_createCustom(void)
+{
+	int width = 2;
+	int height = 3;
+	string data = "XXXXXX";
+
+	Frame frame(width, height, data);
+
+	return frame.getHeight() == height &&
+		frame.getWidth() == width &&
+		frame.getData() == data;
+}
+
+bool testFrame_getterAndSetter(void)
+{
+	int width = 2;
+	int height = 4;
+	string data = "XXXXXXXX";
+
+	Frame frame;
+	frame.setWidth(width);
+	frame.setHeight(height);
+	frame.setData(data);
+
+	return frame.getHeight() == height &&
+		frame.getWidth() == width &&
+		frame.getData() == data;
+}
+
+bool testSprite_createEmpty(void)
+{
+	Sprite s(1);
+
+	return s.getHeight() == 0 &&
+		s.getWidth() == 0 &&
+		s.getColor() == COLOR_DEFAULT &&
+		s.getFrameCount() == 0 &&
+		s.getLabel() == UNLABELED_SPRITE;
+}
+
+bool testSprite_createSingleFrame(void)
+{
+	int width = 2;
+	int height = 4;
+	int color = COLOR_RED;
+	string label = "testLabel";
+	string data = "XXXXXXXX";
+
+	Frame frame(width, height, data);
+
+	Sprite s(1);
+	s.setWidth(width);
+	s.setHeight(height);
+	s.setColor(color);
+	s.setLabel(label);
+	s.addFrame(frame);
+
+	return s.getHeight() == height &&
+		s.getWidth() == width &&
+		s.getColor() == color &&
+		s.getFrameCount() == 1 &&
+		s.getLabel() == label;
+}
+
+bool testSprite_frameOverflowReturnsError(void)
+{
+	Frame frame1(2, 3, "AABBCC");
+	Frame frame2(1, 2, "AB");
+
+	Sprite s(1);
+	int res1 = s.addFrame(frame1);
+	int res2 = s.addFrame(frame2);
+
+	return res1 == 0 &&
+		res2 == -1 &&
+		s.getFrameCount() == 1;
 }
 
 bool testUtility_boxContainsPointInsideTrue(void)

@@ -11,7 +11,7 @@
 
 using std::string;
 
-#define EMTPY_FRAME ""
+#define EMPTY_FRAME ""
 
 /**
  * Represents a frame of an animation.

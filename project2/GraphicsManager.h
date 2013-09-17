@@ -164,6 +164,13 @@ public:
 	 * @return The Curses drawing window.
 	 */
 	WINDOW *getBuffer(void);
+
+	/**
+	 * Gets the curses color of the given string.
+	 * @param color The color string.
+	 * @return The curses color or -1 if unknown.
+	 */
+	static int getColorByString(string color);
 };
 
 #endif

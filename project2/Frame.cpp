@@ -13,7 +13,7 @@ Frame::Frame(void)
 {
 	setWidth(0);
 	setHeight(0);
-	setData(EMTPY_FRAME);
+	setData(EMPTY_FRAME);
 }
 
 /**

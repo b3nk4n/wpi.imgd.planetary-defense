@@ -32,6 +32,7 @@ Sprite::Sprite(int maxFrames)
 	setWidth(0);
 	setHeight(0);
 	_color = COLOR_DEFAULT;
+	_label = UNLABELED_SPRITE;
 
 	// allocates frames and verify success
 	p_frame = new Frame[maxFrames];
@@ -150,6 +151,7 @@ int Sprite::addFrame(Frame frame)
 	
 	// add the frame
 	p_frame[_frameCount++] = frame;
+	return 0;
 }
 
 /**

@@ -33,7 +33,7 @@ private:
 	/**
 	 * The array of sprites.
 	 */
-	Sprite *p_sprites[MAX_SPRITES];
+	Sprite *_p_sprites[MAX_SPRITES];
 
 	/**
 	 * The number of loaded sprites.
@@ -91,7 +91,7 @@ public:
 	 * @param label The label to identify the sprite.
 	 * @return Returns 0 if ok, else -1.
 	 */
-	int unloadSprite(string filename, string label);
+	int unloadSprite(string label);
 
 	/**
 	 * Gets the sprite.

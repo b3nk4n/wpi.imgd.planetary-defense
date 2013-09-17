@@ -9,6 +9,7 @@
 #include "WorldManager.h"
 #include "GraphicsManager.h"
 #include "InputManager.h"
+#include "ResourceManager.h"
 #include "ObjectList.h"
 #include "LogManager.h"
 #include "Clock.h"
@@ -75,6 +76,7 @@ int GameManager::startUp(bool flush)
 	WorldManager &worldManager = WorldManager::getInstance();
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 	InputManager &inputManager = InputManager::getInstance();
+	ResourceManager &resourceManager = ResourceManager::getInstance();
 
 	if (logManager.startUp(flush))
 	{
@@ -83,7 +85,7 @@ int GameManager::startUp(bool flush)
 	}
 	else
 	{
-		logManager.writeLog(LOG_ERROR,
+		logManager.writeLog(LOG_INFO,
 			"GameManager::startUp()",
 			"LogManager started\n");
 	}
@@ -97,7 +99,7 @@ int GameManager::startUp(bool flush)
 	}
 	else
 	{
-		logManager.writeLog(LOG_ERROR,
+		logManager.writeLog(LOG_INFO,
 			"GameManager::startUp()",
 			"WorldManager started\n");
 	}
@@ -111,7 +113,7 @@ int GameManager::startUp(bool flush)
 	}
 	else
 	{
-		logManager.writeLog(LOG_ERROR,
+		logManager.writeLog(LOG_INFO,
 			"GameManager::startUp()",
 			"GraphicsManager started\n");
 	}
@@ -125,9 +127,23 @@ int GameManager::startUp(bool flush)
 	}
 	else
 	{
-		logManager.writeLog(LOG_ERROR,
+		logManager.writeLog(LOG_INFO,
 			"GameManager::startUp()",
 			"InputManager started\n");
+	}
+
+	if (resourceManager.startUp())
+	{
+		logManager.writeLog(LOG_ERROR,
+			"GameManager::startUp()",
+			"ResourceManager could not be started\n");
+		return -1;
+	}
+	else
+	{
+		logManager.writeLog(LOG_INFO,
+			"GameManager::startUp()",
+			"ResourceManager started\n");
 	}
 
 	_isStarted = true;
@@ -152,27 +168,33 @@ void GameManager::shutDown(void)
 	WorldManager &worldManager = WorldManager::getInstance();
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 	InputManager &inputManager = InputManager::getInstance();
+	ResourceManager &resourceManager = ResourceManager::getInstance();
 
 	logManager.writeLog(LOG_INFO,
 			"GameManager::shutDown()",
 			"GameManager shut down process started\n");
 
-	logManager.writeLog(LOG_ERROR,
+	logManager.writeLog(LOG_INFO,
+			"GameManager::shutDown()",
+			"ResourceManager shutting down\n");
+	resourceManager.shutDown();
+
+	logManager.writeLog(LOG_INFO,
 			"GameManager::shutDown()",
 			"InputManager shutting down\n");
 	inputManager.shutDown();
 
-	logManager.writeLog(LOG_ERROR,
+	logManager.writeLog(LOG_INFO,
 			"GameManager::shutDown()",
 			"GraphicsManager shutting down\n");
 	graphicsManager.shutDown();
 
-	logManager.writeLog(LOG_ERROR,
+	logManager.writeLog(LOG_INFO,
 			"GameManager::shutDown()",
 			"WorldManager shutting down\n");
 	worldManager.shutDown();
 
-	logManager.writeLog(LOG_ERROR,
+	logManager.writeLog(LOG_INFO,
 			"GameManager::shutDown()",
 			"LogManager shutting down\n");
 	logManager.shutDown();

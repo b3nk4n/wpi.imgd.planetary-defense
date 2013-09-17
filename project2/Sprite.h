@@ -13,6 +13,8 @@
 
 using std::string;
 
+#define UNLABELED_SPRITE "__unlabeled__"
+
 /**
  * Represents an animated 2d sprite.
  */

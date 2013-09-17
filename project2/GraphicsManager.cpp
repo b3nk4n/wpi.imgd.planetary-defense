@@ -365,3 +365,27 @@ WINDOW *GraphicsManager::getBuffer(void)
 	return _p_buffer;
 }
 
+/**
+ * Gets the curses color of the given string.
+ * @param color The color string.
+ * @return The curses color or -1 if unknown.
+ */
+int GraphicsManager::getColorByString(string color)
+{
+	if (color == "red")
+		return COLOR_RED;
+	else if (color == "green")
+		return COLOR_GREEN;
+	else if (color == "yellow")
+		return COLOR_YELLOW;
+	else if (color == "blue")
+		return COLOR_BLUE;
+	else if (color == "magenta")
+		return COLOR_MAGENTA;
+	else if (color == "cyan")
+		return COLOR_CYAN;
+	else if (color == "white")
+		return COLOR_WHITE;
+	else
+		return -1;
+}
