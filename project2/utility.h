@@ -41,9 +41,18 @@ bool boxIntersectsBox(Box box1, Box box2);
  * @param value The value.
  * @param min The ranges minimum.
  * @param max The ranges maximum.
- * @return Returns TRUE, if value is in range, else FALSE:
+ * @return Returns TRUE, if value is in range, else FALSE.
  */
 bool valueInRange(int value, int min, int max);
+
+/**
+ * Clips the value to the given range.
+ * @param value The value.
+ * @param min The ranges minimum.
+ * @param max The ranges maximum.
+ * @return Returns the clipped value.
+ */
+int clipValue(int value, int min, int max);
 
 /**
  * Converts relative bounding box for object to absolute world box.
@@ -107,5 +116,19 @@ float distance(Position position1, Position position2);
  * @return The calculates squared distance.
  */
 float distanceSquared(Position position1, Position position2);
+
+/**
+ * Converts the world position to view position
+ * @param worldPosition The world position.
+ * @return The converted view position.
+ */
+Position worldToView(Position worldPosition);
+
+/**
+ * Converts the view position to world position
+ * @param viewPosition The view position.
+ * @return The converted world position.
+ */
+Position viewToWorld(Position viewPosition);
 
 #endif

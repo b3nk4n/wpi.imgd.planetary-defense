@@ -118,6 +118,18 @@ int GameManager::startUp(bool flush)
 			"GraphicsManager started\n");
 	}
 
+	// setup world and view bounds to terminal size
+	worldManager.setWorldBoundary(
+		Box(
+			Position(),
+			graphicsManager.getHorizontal(),
+			graphicsManager.getVertical()));
+	worldManager.setViewBoundary(
+		Box(
+			Position(),
+			graphicsManager.getHorizontal(),
+			graphicsManager.getVertical()));
+
 	if (inputManager.startUp())
 	{
 		logManager.writeLog(LOG_ERROR,

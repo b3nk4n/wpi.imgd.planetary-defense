@@ -10,6 +10,7 @@
 
 #include "utility.h"
 #include "Object.h"
+#include "WorldManager.h"
 
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
 #define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
@@ -90,11 +91,29 @@ bool boxIntersectsBox(Box box1, Box box2)
  * @param value The value.
  * @param min The ranges minimum.
  * @param max The ranges maximum.
- * @return Returns TRUE, if value is in range, else FALSE:
+ * @return Returns TRUE, if value is in range, else FALSE.
  */
 bool valueInRange(int value, int min, int max)
 {
 	return min <= value && value <= max;
+}
+
+/**
+ * Clips the value to the given range.
+ * @param value The value.
+ * @param min The ranges minimum.
+ * @param max The ranges maximum.
+ * @return Returns the clipped value.
+ */
+int clipValue(int value, int min, int max)
+{
+	if (min > value)
+		return min;
+
+	if (max < value)
+		return max;
+
+	return value;
 }
 
 /**
@@ -104,7 +123,20 @@ bool valueInRange(int value, int min, int max)
  */
 Box getWorldBox(Object *p_object)
 {
-	return Box(); // TODO: implement
+	int x = p_object->getPosition().getX();
+	int y = p_object->getPosition().getY();
+	int bx = p_object->getBox().getCorner().getX();
+	int by = p_object->getBox().getCorner().getY();
+	int h = p_object->getBox().getHorizontal();
+	int v = p_object->getBox().getVertical();
+
+	if (p_object->isCentered())
+	{
+		x -= h / 2;
+		y -= v / 2;
+	}
+
+	return Box(Position(x + bx, y + by), h, v);
 }
 
 /**
@@ -210,8 +242,8 @@ bool lineIntersectsLine(Line line1, Line line2)
 bool lineIntersectsBox(Line line, Box box)
 {
 	// fixed witdh/height for curses
-	int bh = MAX(0, box.getHorizontal());
-	int bv = MAX(0, box.getVertical());
+	int bh = MAX(0, box.getHorizontal() - 1);
+	int bv = MAX(0, box.getVertical() - 1);
 
 	int px1 = line.getPosition1().getX();
 	int py1 = line.getPosition1().getY();
@@ -263,19 +295,19 @@ bool lineIntersectsBox(Line line, Box box)
 bool circleIntersectsBox(Circle circle, Box box)
 {
 	// fixed witdh/height for curses
-	int bh = MAX(0, box.getHorizontal());
-	int bv = MAX(0, box.getVertical());
+	int bh = MAX(0, box.getHorizontal() - 1);
+	int bv = MAX(0, box.getVertical() - 1);
 
 	int cr = circle.getRadius();
 	Position cc = circle.getCenter();
 	Box higherBox(
 		Position(box.getCorner().getX(), box.getCorner().getY() - cr),
-		box.getHorizontal(),
-		box.getVertical() + 2 * cr);
+		bh,
+		bv + 2 * cr);
 	Box widerBox(
 		Position(box.getCorner().getX() - cr, box.getCorner().getY()),
-		box.getHorizontal() + 2 * cr,
-		box.getVertical());
+		bh + 2 * cr,
+		bv);
 
 	// check circle is inside the higher/wider box
 	if (boxContainsPoint(higherBox, cc) ||
@@ -342,4 +374,36 @@ float distanceSquared(Position position1, Position position2)
 	float deltaY = position2.getY() - position1.getY();
 
 	return deltaX * deltaX + deltaY * deltaY;
+}
+
+/**
+ * Converts the world position to view position
+ * @param worldPosition The world position.
+ * @return The converted view position.
+ */
+Position worldToView(Position worldPosition)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	Position viewOrigin = worldManager.getViewBoundary().getCorner();
+	int viewX = viewOrigin.getX();
+	int viewY = viewOrigin.getY();
+	Position viewPosition(worldPosition.getX() - viewX,
+		worldPosition.getY() - viewY);
+	return viewPosition;
+}
+
+/**
+ * Converts the view position to world position
+ * @param viewPosition The view position.
+ * @return The converted world position.
+ */
+Position viewToWorld(Position viewPosition)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	Position viewOrigin = worldManager.getViewBoundary().getCorner();
+	int viewX = viewOrigin.getX();
+	int viewY = viewOrigin.getY();
+	Position worldPosition(viewPosition.getX() + viewX,
+		viewPosition.getY() + viewY);
+	return worldPosition;
 }

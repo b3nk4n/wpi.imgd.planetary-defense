@@ -165,6 +165,18 @@ bool testUtility_valueInRangeInsideTrue(void);
 bool testUtility_valueInRangeOnLowerBorderTrue(void);
 bool testUtility_valueInRangeOnHigherBorderTrue(void);
 bool testUtility_valueInRangeOutsideFalse(void);
+bool testUtility_clipValueInside(void);
+bool testUtility_clipValueOnLowerBorder(void);
+bool testUtility_clipValueOnHigherBorder(void);
+bool testUtility_clipValueOutside(void);
+bool testUtility_getWorldBoxObjectOriginObject(void);
+bool testUtility_getWorldBoxObjectMovedObject(void);
+bool testUtility_getWorldBoxObjectOriginObjectMovedBox(void);
+bool testUtility_getWorldBoxObjectMovedObjectMovedBox(void);
+bool testUtility_getWorldBoxObjectOriginObjectNotCentered(void);
+bool testUtility_getWorldBoxObjectMovedObjectNotCentered(void);
+bool testUtility_getWorldBoxObjectOriginObjectMovedBoxNotCentered(void);
+bool testUtility_getWorldBoxObjectMovedObjectMovedBoxNotCentered(void);
 bool testUtility_lineIntersectsLineOverlappingTrue(void);
 bool testUtility_lineIntersectsLineDiagonalOverlappingTrue(void);
 bool testUtility_lineIntersectsLineParallelOverlappingFalse(void);
@@ -351,6 +363,18 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testUtility_valueInRangeOnLowerBorderTrue", &testUtility_valueInRangeOnLowerBorderTrue);
 	unitTestManager.registerTestFunction("testUtility_valueInRangeOnHigherBorderTrue", &testUtility_valueInRangeOnHigherBorderTrue);
 	unitTestManager.registerTestFunction("testUtility_valueInRangeOutsideFalse", &testUtility_valueInRangeOutsideFalse);
+	unitTestManager.registerTestFunction("testUtility_clipValueInside", &testUtility_clipValueInside);
+	unitTestManager.registerTestFunction("testUtility_clipValueOnLowerBorder", &testUtility_clipValueOnLowerBorder);
+	unitTestManager.registerTestFunction("testUtility_clipValueOnHigherBorder", &testUtility_clipValueOnHigherBorder);
+	unitTestManager.registerTestFunction("testUtility_clipValueOutside", &testUtility_clipValueOutside);
+	unitTestManager.registerTestFunction("testUtility_getWorldBoxObjectOriginObject", &testUtility_getWorldBoxObjectOriginObject);
+	unitTestManager.registerTestFunction("testUtility_getWorldBoxObjectMovedObject", &testUtility_getWorldBoxObjectMovedObject);
+	unitTestManager.registerTestFunction("testUtility_getWorldBoxObjectOriginObjectMovedBox", &testUtility_getWorldBoxObjectOriginObjectMovedBox);
+	unitTestManager.registerTestFunction("testUtility_getWorldBoxObjectMovedObjectMovedBox", &testUtility_getWorldBoxObjectMovedObjectMovedBox);
+	unitTestManager.registerTestFunction("testUtility_getWorldBoxObjectOriginObjectNotCentered", &testUtility_getWorldBoxObjectOriginObjectNotCentered);
+	unitTestManager.registerTestFunction("testUtility_getWorldBoxObjectMovedObjectNotCentered", &testUtility_getWorldBoxObjectMovedObjectNotCentered);
+	unitTestManager.registerTestFunction("testUtility_getWorldBoxObjectOriginObjectMovedBoxNotCentered", &testUtility_getWorldBoxObjectOriginObjectMovedBoxNotCentered);
+	unitTestManager.registerTestFunction("testUtility_getWorldBoxObjectMovedObjectMovedBoxNotCentered", &testUtility_getWorldBoxObjectMovedObjectMovedBoxNotCentered);
 	unitTestManager.registerTestFunction("testUtility_lineIntersectsLineOverlappingTrue", &testUtility_lineIntersectsLineOverlappingTrue);
 	unitTestManager.registerTestFunction("testUtility_lineIntersectsLineDiagonalOverlappingTrue", &testUtility_lineIntersectsLineDiagonalOverlappingTrue);
 	unitTestManager.registerTestFunction("testUtility_lineIntersectsLineParallelOverlappingFalse", &testUtility_lineIntersectsLineParallelOverlappingFalse);
@@ -1860,6 +1884,118 @@ bool testUtility_boxContainsPointOutsideFalse(void)
 	return !boxContainsPoint(box, position);
 }
 
+bool testUtility_getWorldBoxObjectOriginObject(void)
+{
+	Box bounds(Position(), 1, 2);
+	Object *p_object = new Object();
+	p_object->setBox(bounds);
+	Box box = getWorldBox(p_object);
+
+	return box.getCorner().getX() == 0 &&
+		box.getCorner().getY() == -1 &&
+		box.getHorizontal() == 1 &&
+		box.getVertical() == 2;
+}
+
+bool testUtility_getWorldBoxObjectMovedObject(void)
+{
+	Box bounds(Position(), 1, 2);
+	Object *p_object = new Object();
+	p_object->setBox(bounds);
+	p_object->setPosition(Position(3, 4));
+	Box box = getWorldBox(p_object);
+
+	return box.getCorner().getX() == 3 &&
+		box.getCorner().getY() == 3 &&
+		box.getHorizontal() == 1 &&
+		box.getVertical() == 2;
+}
+
+bool testUtility_getWorldBoxObjectOriginObjectMovedBox(void)
+{
+	Box bounds(Position(5, 6), 1, 2);
+	Object *p_object = new Object();
+	p_object->setBox(bounds);
+	Box box = getWorldBox(p_object);
+
+	return box.getCorner().getX() == 5 &&
+		box.getCorner().getY() == 5 &&
+		box.getHorizontal() == 1 &&
+		box.getVertical() == 2;
+}
+
+bool testUtility_getWorldBoxObjectMovedObjectMovedBox(void)
+{
+	Box bounds(Position(5, 6), 1, 2);
+	Object *p_object = new Object();
+	p_object->setBox(bounds);
+	p_object->setPosition(Position(3, 4));
+	Box box = getWorldBox(p_object);
+
+	return box.getCorner().getX() == 8 &&
+		box.getCorner().getY() == 9 &&
+		box.getHorizontal() == 1 &&
+		box.getVertical() == 2;
+}
+
+bool testUtility_getWorldBoxObjectOriginObjectNotCentered(void)
+{
+	Box bounds(Position(), 1, 2);
+	Object *p_object = new Object();
+	p_object->setBox(bounds);
+	p_object->setCentered(false);
+	Box box = getWorldBox(p_object);
+
+	return box.getCorner().getX() == 0 &&
+		box.getCorner().getY() == 0 &&
+		box.getHorizontal() == 1 &&
+		box.getVertical() == 2;
+}
+
+bool testUtility_getWorldBoxObjectMovedObjectNotCentered(void)
+{
+	Box bounds(Position(), 1, 2);
+	Object *p_object = new Object();
+	p_object->setBox(bounds);
+	p_object->setPosition(Position(3, 4));
+	p_object->setCentered(false);
+	Box box = getWorldBox(p_object);
+
+	return box.getCorner().getX() == 3 &&
+		box.getCorner().getY() == 4 &&
+		box.getHorizontal() == 1 &&
+		box.getVertical() == 2;
+}
+
+bool testUtility_getWorldBoxObjectOriginObjectMovedBoxNotCentered(void)
+{
+	Box bounds(Position(5, 6), 1, 2);
+	Object *p_object = new Object();
+	p_object->setBox(bounds);
+	p_object->setCentered(false);
+	Box box = getWorldBox(p_object);
+
+	return box.getCorner().getX() == 5 &&
+		box.getCorner().getY() == 6 &&
+		box.getHorizontal() == 1 &&
+		box.getVertical() == 2;
+}
+
+bool testUtility_getWorldBoxObjectMovedObjectMovedBoxNotCentered(void)
+{
+	Box bounds(Position(5, 6), 1, 2);
+	Object *p_object = new Object();
+	p_object->setBox(bounds);
+	p_object->setPosition(Position(3, 4));
+	p_object->setCentered(false);
+	Box box = getWorldBox(p_object);
+
+	return box.getCorner().getX() == 8 &&
+		box.getCorner().getY() == 10 &&
+		box.getHorizontal() == 1 &&
+		box.getVertical() == 2;
+}
+
 bool testUtility_valueInRangeInsideTrue(void)
 {
 	return valueInRange(10.0f, 5.0f, 12.0f);
@@ -1878,6 +2014,31 @@ bool testUtility_valueInRangeOnHigherBorderTrue(void)
 bool testUtility_valueInRangeOutsideFalse(void)
 {
 	return !valueInRange(16.0f, 5.0f, 12.0f);
+}
+
+bool testUtility_clipValueInside(void)
+{
+	int value = 10;
+	return clipValue(value, 5, 15) == value;
+}
+
+bool testUtility_clipValueOnLowerBorder(void)
+{
+	int value = 5;
+	return clipValue(value, 5, 12) == value;
+}
+
+bool testUtility_clipValueOnHigherBorder(void)
+{
+	int value = 12;
+	return clipValue(value, 5, 12) == value;
+}
+
+bool testUtility_clipValueOutside(void)
+{
+	int value = 16;
+	int max = 12;
+	return clipValue(value, 5, max) == max;
 }
 
 bool testUtility_lineIntersectsLineOverlappingTrue(void)
@@ -1930,7 +2091,7 @@ bool testUtility_lineIntersectsBoxInAndOutsideTrue(void)
 
 bool testUtility_lineIntersectsBoxBothOutsideDiagonalCrossTrue(void)
 {
-	Line line(Position(3, 6), Position(6, 3));
+	Line line(Position(3, 6), Position(6, 2));
 	Box box(Position(0, 0), 5, 5);
 
 	return lineIntersectsBox(line, box);
@@ -1962,7 +2123,7 @@ bool testUtility_circleIntersectsBoxInsideTrue(void)
 
 bool testUtility_circleIntersectsBoxSideOverlappingTrue(void)
 {
-	Circle circle(Position(7, 2), 3);
+	Circle circle(Position(7, 2), 4);
 	Box box(Position(0, 0), 5, 5);
 
 	return circleIntersectsBox(circle, box);
@@ -1970,7 +2131,7 @@ bool testUtility_circleIntersectsBoxSideOverlappingTrue(void)
 
 bool testUtility_circleIntersectsBoxEdgeOverlappingTrue(void)
 {
-	Circle circle(Position(12, 12), 4);
+	Circle circle(Position(12, 12), 5);
 	Box box(Position(0, 0), 10, 10);
 
 	return circleIntersectsBox(circle, box);

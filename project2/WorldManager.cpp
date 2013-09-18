@@ -13,7 +13,6 @@
 #include "EventOut.h"
 #include "EventMouse.h"
 #include "EventKeyboard.h"
-#include "Box.h"
 #include "utility.h"
 
 /**
@@ -21,7 +20,11 @@
  */
 WorldManager::WorldManager(void)
 {
-
+	// default world and view is empty
+	_worldBoundary.setHorizontal(0);
+	_worldBoundary.setVertical(0);
+	_viewBoundary.setHorizontal(0);
+	_viewBoundary.setVertical(0);
 }
 
 /**
@@ -205,7 +208,14 @@ void WorldManager::draw(void)
 			Object *p_object = it.currentObject();
 			
 			if (p_object->getAltitude() == a)
-				p_object->draw();
+			{
+				// convert bounding box to world coordinates
+				Box worldBox = getWorldBox(p_object);
+
+				// only draw if object is visible on screen
+				if (boxIntersectsBox(worldBox, _viewBoundary))
+					p_object->draw();
+			}
 		}
 	}
 }
@@ -218,7 +228,6 @@ void WorldManager::draw(void)
  */
 ObjectList WorldManager::isCollision(Object *p_object, Box box)
 {
-	LogManager &logManager = LogManager::getInstance();
 	// create an empty list for collisions
 	ObjectList collisionList;
 
@@ -231,25 +240,10 @@ ObjectList WorldManager::isCollision(Object *p_object, Box box)
 		// do not consider self
 		if (p_currentObject != p_object)
 		{
-			logManager.writeLog(LOG_DEBUG,
-				"WorldManager::isCollision()",
-				"Checking (x=%d,y=%d,h=%d,v=%d) and (x=%d,y=%d,h=%d,v=%d)\n",
-				p_currentObject->getBox().getCorner().getX(),
-				p_currentObject->getBox().getCorner().getY(),
-				p_currentObject->getBox().getHorizontal(),
-				p_currentObject->getBox().getVertical(),
-				box.getCorner().getX(),
-				box.getCorner().getY(),
-				box.getHorizontal(),
-				box.getVertical());
-
 			// verify same position and same solidness
-			if (boxIntersectsBox(p_currentObject->getBox(), box) &&
+			if (boxIntersectsBox(getWorldBox(p_currentObject), box) &&
 				p_currentObject->isSolid())
 			{
-				logManager.writeLog(LOG_DEBUG,
-				"WorldManager::isCollision()",
-				"Collision!\n");
 				collisionList.insert(p_currentObject);
 			}
 		}
@@ -272,7 +266,7 @@ int WorldManager::moveObject(Object *p_object, Position position)
 	if (p_object->isSolid())
 	{
 		// calculate bounding box of probable next position
-		 Box nextBox = p_object->getBox();
+		 Box nextBox = getWorldBox(p_object);
 		 int dx = position.getX() - p_object->getPosition().getX();
 		 int dy = position.getY() - p_object->getPosition().getY();
 		 nextBox.setCorner(Position(
@@ -331,7 +325,7 @@ int WorldManager::moveObject(Object *p_object, Position position)
 		Box(Position(),
 			graphicsManager.getHorizontal(),
 			graphicsManager.getVertical()),
-		p_object->getBox());
+		getWorldBox(p_object));
 
 	// if here, no collision occued to move is allowed
 	p_object->setPosition(position);
@@ -342,7 +336,7 @@ int WorldManager::moveObject(Object *p_object, Position position)
 			Box(Position(),
 				graphicsManager.getHorizontal(),
 				graphicsManager.getVertical()),
-			p_object->getBox()))
+			getWorldBox(p_object)))
 	{
 		EventOut eventOut;
 		if (p_object->isInterestedInEvent(eventOut.getType()))
@@ -354,6 +348,12 @@ int WorldManager::moveObject(Object *p_object, Position position)
 		}
 	}
 
+	// if view is following this object, adjust the view bounds
+	if (_p_viewFollowing == p_object)
+	{
+		setViewPosition(p_object->getPosition());
+	}
+
 	return 0;
 }
 
@@ -362,9 +362,118 @@ int WorldManager::moveObject(Object *p_object, Position position)
  * @param eventType The event type name.
  * @return Returns TRUE if event is handled, else FALSE.
  */
- bool WorldManager::isValid(string eventType)
+bool WorldManager::isValid(string eventType)
  {
  	return eventType != STEP_EVENT &&
  		eventType != MOUSE_EVENT &&
  		eventType != KEYBOARD_EVENT;
+ }
+
+  /**
+  * Sets the view to center screen on position the specified position
+  * @note The view edge will not go bexound the world boundries
+  * @param worldPosition The view position to look to.
+  */
+void WorldManager::setViewPosition(Position worldPosition)
+{
+	LogManager &logManager = LogManager::getInstance();
+
+	// ensure horizontal not out of world bounds
+	int x = worldPosition.getX() - _viewBoundary.getHorizontal() / 2;
+	if (x + _viewBoundary.getHorizontal() > _worldBoundary.getHorizontal())
+		x = _worldBoundary.getHorizontal() - _viewBoundary.getHorizontal();
+	else if (x < 0)
+		x = 0;
+
+	// ensure vertical not out of world bounds
+	int y = worldPosition.getY() - _viewBoundary.getVertical() / 2;
+	if (y + _viewBoundary.getVertical() > _worldBoundary.getVertical())
+		y = _worldBoundary.getVertical() - _viewBoundary.getVertical();
+	else if (y < 0)
+		y = 0;
+
+	// set view
+	 _viewBoundary.setCorner(Position(x, y));
+
+	 logManager.writeLog(LOG_DEBUG,
+				"WorldManager::setViewPosition()",
+				"Updated camera bounds to: x=%d, y=%d, h=%d, v=%d\n",
+				_viewBoundary.getCorner().getX(),
+				_viewBoundary.getCorner().getY(),
+				_viewBoundary.getHorizontal(),
+				_viewBoundary.getVertical());
+}
+
+/**
+ * Sets the view to center screen on object.
+ * @param p_viewFollowing The object to follow or NULL to stop following.
+ * @return Returns 0 if ok, else -1.
+ */
+int WorldManager::setViewFollowing(Object *p_viewFollowing)
+{
+	// check disabling object following
+	if (!p_viewFollowing)
+	{
+		_p_viewFollowing = NULL;
+		return 0;
+	}
+
+	// verify the requested object to follow exists
+	bool found = false;
+	ObjectList allObjects = getAllObjects();
+	ObjectListIterator it(&allObjects);
+	for (it.first(); !it.isDone(); it.next())
+	{
+		if (it.currentObject() == p_viewFollowing)
+		{
+			found = true;
+			break;
+		}
+	}
+
+	// if found, adjust attribute accordingly and set view position
+	if (found)
+	{
+		_p_viewFollowing = p_viewFollowing;
+		setViewPosition(_p_viewFollowing->getPosition());
+		return 0;
+	}
+
+	return -1;
+}
+
+ /**
+  * Gets the world boundary.
+  * @return The world boundary.
+  */
+ Box WorldManager::getWorldBoundary(void)
+ {
+ 	return _worldBoundary;
+ }
+
+ /**
+  * Sets the world boundary.
+  * @param world The world boundary.
+  */
+ void WorldManager::setWorldBoundary(Box world)
+ {
+ 	_worldBoundary = world;
+ }
+
+ /**
+  * Gets the view boundary.
+  * @return The view boundary.
+  */
+ Box WorldManager::getViewBoundary(void)
+ {
+ 	return _viewBoundary;
+ }
+
+ /**
+  * Sets the view boundary.
+  * @param view The view boundary.
+  */
+ void WorldManager::setViewBoundary(Box view)
+ {
+ 	_viewBoundary = view;
  }

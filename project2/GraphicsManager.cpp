@@ -162,9 +162,12 @@ void GraphicsManager::shutDown(void)
  */
 int GraphicsManager::drawChar(Position worldPosition, char symbol, int color)
 {
+	// convert to view position
+	Position viewPosition = worldToView(worldPosition);
+
 	int colOn = wattron(_p_buffer, COLOR_PAIR(color));
 
-	int res = mvwaddch(_p_buffer, worldPosition.getY(), worldPosition.getX(), symbol);
+	int res = mvwaddch(_p_buffer, viewPosition.getY(), viewPosition.getX(), symbol);
 
 	if (colOn)
 		wattroff(_p_buffer, COLOR_PAIR(color));

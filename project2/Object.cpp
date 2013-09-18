@@ -603,18 +603,7 @@ int Object::getSpriteSlowdownCount(void)
  */
 Box Object::getBox(void)
 {
-	int x = getPosition().getX();
-	int y = getPosition().getY();
-	int h = _box.getHorizontal();
-	int v = _box.getVertical();
-
-	if (isCentered())
-	{
-		x -= h / 2;
-		y -= v / 2;
-	}
-
-	return Box(Position(x, y), h, v);
+	return _box;
 }
 
 /**

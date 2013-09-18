@@ -10,6 +10,7 @@
 
 #include "Manager.h"
 #include "ObjectList.h"
+#include "Box.h"
 
 /**
  * Class representing a manager to organize the game world.
@@ -26,6 +27,21 @@ private:
 	 * List of all world objects to be deferred deleted.
 	 */
 	ObjectList _deletions;
+
+	/**
+	 * The worlds boundary.
+	 */
+	Box _worldBoundary;
+
+	/**
+	 * The views boundary.
+	 */
+	Box _viewBoundary;
+
+	/**
+	 * The objected which is followed by the view camera.
+	 */
+	Object *_p_viewFollowing;
 
 	/**
 	 * Creates a world manager instance.
@@ -124,7 +140,45 @@ public:
 	 * @param eventType The event type name.
 	 * @return Returns TRUE if event is handled, else FALSE.
 	 */
-	 virtual bool isValid(string eventType);
+	virtual bool isValid(string eventType);
+
+	 /**
+	  * Sets the view to center screen on position the specified position
+	  * @note The view edge will not go bexound the world boundries
+	  * @param position The view position to look to.
+	  */
+	void setViewPosition(Position position);
+
+	/**
+	 * Sets the view to center screen on object.
+	 * @param p_viewFollowing The object to follow or NULL to stop following.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int setViewFollowing(Object *p_viewFollowing);
+
+	 /**
+	  * Gets the world boundary.
+	  * @return The world boundary.
+	  */
+	 Box getWorldBoundary(void);
+
+	 /**
+	  * Sets the world boundary.
+	  * @param world The world boundary.
+	  */
+	 void setWorldBoundary(Box world);
+
+	 /**
+	  * Gets the view boundary.
+	  * @return The view boundary.
+	  */
+	 Box getViewBoundary(void);
+
+	 /**
+	  * Sets the view boundary.
+	  * @param view The view boundary.
+	  */
+	 void setViewBoundary(Box view);
 };
 
 #endif

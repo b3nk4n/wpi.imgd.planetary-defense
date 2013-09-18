@@ -8,6 +8,7 @@
 #include "LogManager.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
+#include "WorldManager.h"
 #include "EventStep.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
@@ -20,6 +21,7 @@
 #define TEST_OBJECTS_COUNT 4
 
 // prototypes
+void configureGame(void);
 void loadResources(void);
 void populateWorld(void);
 
@@ -47,6 +49,7 @@ int main(int argc, char *argv[])
 	// configure the log manager
 	logManager.setVerbosity(LOG_DEBUG);
 
+	configureGame();
 	loadResources();
 	populateWorld();
 
@@ -65,6 +68,16 @@ int main(int argc, char *argv[])
 }
 
 /**
+ * Configures the game.
+ */
+void configureGame(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	Box world = Box(Position(0, 0), 240, 48);
+	worldManager.setWorldBoundary(world);
+}
+
+/**
  * Loads the game resources.
  */
 void loadResources(void)
@@ -80,12 +93,13 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
-	/*TestObject *o1 = new TestObject();
-	o1->setSTL(10);
+	TestObject *o1 = new TestObject();
+	o1->setSTL(20);
 	o1->setPosition(Position(10, 10));
 	o1->setVelocityX(0.25f);
 	o1->setVelocityY(0.25f);
 	o1->registerInterest(STEP_EVENT);
+	
 	TestObject *o2 = new TestCollidableObject();
 	o2->setPosition(Position(15, 5));
 	o2->setVelocityX(0.33f);
@@ -93,16 +107,21 @@ void populateWorld(void)
 	o2->setSolidness(HARD);
 	o2->registerInterest(STEP_EVENT);
 	o2->registerInterest(OUT_EVENT);
+	
 	TestObject *o3 = new TestObject();
-	o3->setPosition(Position(50, 10));
-	o3->setVelocityX(-0.1f);
+	o3->setPosition(Position(80, 10));
+	o3->setVelocityX(-0.5f);
 	o3->setStepsToGameOver(150);
 	o3->registerInterest(STEP_EVENT);
+	// follow this object
+	WorldManager &worldManager = WorldManager::getInstance();
+	worldManager.setViewFollowing(o3);
+	
 	TestObject *o4 = new TestObject();
 	o4->setPosition(Position(30, 20));
 	o4->setSolidness(HARD);
 	o4->registerInterest(KEYBOARD_EVENT);
-	o4->registerInterest(MOUSE_EVENT);*/
+	o4->registerInterest(MOUSE_EVENT);
 
 	// *** collision/solidness test:
 
@@ -112,7 +131,7 @@ void populateWorld(void)
 	hard1->setPosition(Position(40, 1));
 	hard1->setVelocityY(0.25);
 
-	/*TestObject *hard2 = new TestObject();
+	TestObject *hard2 = new TestObject();
 	hard2->setSolidness(HARD);
 	hard2->setPosition(Position(42, 1));
 	hard2->setVelocityY(0.25);
@@ -135,7 +154,7 @@ void populateWorld(void)
 	TestObject *spectral6 = new TestObject();
 	spectral6->setSolidness(SPECTRAL);
 	spectral6->setPosition(Position(50, 1));
-	spectral6->setVelocityY(0.25);*/
+	spectral6->setVelocityY(0.25);
 
 	// bottom row:
 	TestObject *hard_1 = new TestObject();
@@ -143,7 +162,7 @@ void populateWorld(void)
 	hard_1->setPosition(Position(40, 21));
 	hard_1->setVelocityY(-0.25);
 
-	/*TestObject *soft_2 = new TestObject();
+	TestObject *soft_2 = new TestObject();
 	soft_2->setSolidness(SOFT);
 	soft_2->setPosition(Position(42, 21));
 	soft_2->setVelocityY(-0.25);
@@ -166,10 +185,10 @@ void populateWorld(void)
 	TestObject *spectral_6 = new TestObject();
 	spectral_6->setSolidness(SPECTRAL);
 	spectral_6->setPosition(Position(50, 21));
-	spectral_6->setVelocityY(-0.25);*/
+	spectral_6->setVelocityY(-0.25);
 
 	// no soft:
-	/*TestObject *hard01 = new TestObject();
+	TestObject *hard01 = new TestObject();
 	hard01->setSolidness(HARD);
 	hard01->setPosition(Position(60, 1));
 	hard01->setVelocityY(0.25);
@@ -197,10 +216,10 @@ void populateWorld(void)
 
 	TestObject *hard06 = new TestObject();
 	hard06->setSolidness(HARD);
-	hard06->setPosition(Position(64, 21));*/
+	hard06->setPosition(Position(64, 21));
 
 	// Sprites/animations
-	/*TestObject *oa_fast = new TestAnimatedObject("test", 0);
+	TestObject *oa_fast = new TestAnimatedObject("test", 0);
 	oa_fast->setPosition(Position(10, 20));
 	oa_fast->setVelocityX(0.25f);
 	oa_fast->setVelocityY(-0.1f);
@@ -213,5 +232,5 @@ void populateWorld(void)
 	TestObject *oa_slow = new TestAnimatedObject("test", 10);
 	oa_slow->setPosition(Position(20, 20));
 	oa_slow->setVelocityX(0.25f);
-	oa_slow->setVelocityY(-0.1f);*/
+	oa_slow->setVelocityY(-0.1f);
 }
