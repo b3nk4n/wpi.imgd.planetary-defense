@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "LogManager.h"
 #include "GameManager.h"
+#include "ResourceManager.h"
 #include "EventStep.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
@@ -14,6 +15,7 @@
 #include "EventOut.h"
 #include "TestObject.h"
 #include "TestCollidableObject.h"
+#include "TestAnimatedObject.h"
 
 #define TEST_OBJECTS_COUNT 4
 
@@ -67,7 +69,10 @@ int main(int argc, char *argv[])
  */
 void loadResources(void)
 {
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+
 	// load games txt sprite sheets
+	resourceManager.loadSprite("sprites/test-spr.txt", "test");
 }
 
 /**
@@ -81,7 +86,7 @@ void populateWorld(void)
 	o1->setVelocityX(0.25f);
 	o1->setVelocityY(0.25f);
 	o1->registerInterest(STEP_EVENT);
-	TestCollidableObject *o2 = new TestCollidableObject();
+	TestObject *o2 = new TestCollidableObject();
 	o2->setPosition(Position(15, 5));
 	o2->setVelocityX(0.33f);
 	o2->setVelocityY(0.33f);
@@ -98,7 +103,6 @@ void populateWorld(void)
 	o4->setSolidness(HARD);
 	o4->registerInterest(KEYBOARD_EVENT);
 	o4->registerInterest(MOUSE_EVENT);
-
 
 	// *** collision/solidness test:
 
@@ -194,4 +198,20 @@ void populateWorld(void)
 	TestObject *hard06 = new TestObject();
 	hard06->setSolidness(HARD);
 	hard06->setPosition(Position(64, 21));
+
+	// Sprites/animations
+	/*TestObject *oa_fast = new TestAnimatedObject("test", 0);
+	oa_fast->setPosition(Position(10, 20));
+	oa_fast->setVelocityX(0.25f);
+	oa_fast->setVelocityY(-0.1f);
+
+	TestObject *oa_med = new TestAnimatedObject("test", 5);
+	oa_med->setPosition(Position(15, 20));
+	oa_med->setVelocityX(0.25f);
+	oa_med->setVelocityY(-0.1f);
+
+	TestObject *oa_slow = new TestAnimatedObject("test", 10);
+	oa_slow->setPosition(Position(20, 20));
+	oa_slow->setVelocityX(0.25f);
+	oa_slow->setVelocityY(-0.1f);*/
 }

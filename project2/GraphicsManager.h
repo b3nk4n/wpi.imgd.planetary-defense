@@ -17,6 +17,7 @@
 #include <string>
 #include "Manager.h"
 #include "Position.h"
+#include "Frame.h"
 
 using std::string;
 
@@ -140,6 +141,18 @@ public:
 	 */
 	int drawStringFormat(Position worldPosition, Justification justification,
 		int color, const char *format, ...);
+
+	/**
+	 * Renders a frame.
+	 * @param worldPosition The word position.
+	 * @param frame The frame to render.
+	 * @param centered Indicates whether the given positin is the center or
+	 *                 the top left corner.
+	 * @param color The frames color.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int drawFrame(Position worldPosition, Frame frame,
+		bool centered, int color);
 
 	/**
 	 * Gets the screen horizontal width.

@@ -10,6 +10,7 @@
 #include "WorldManager.h"
 #include "GameManager.h"
 #include "InputManager.h"
+#include "GraphicsManager.h"
 #include "LogManager.h"
 #include "EventStep.h"
 #include "EventKeyboard.h"
@@ -38,6 +39,11 @@ Object::Object(void)
 	_eventCount = 0;
 	_altitude = MAX_ALTITUDE / 2;
 
+	_p_sprite = NULL;
+	_spriteCentered = true;
+	_spriteIndex = 0;
+	setSpriteSlowdown(1);
+
 	// add itself to the world manager
 	if (worldManager.insertObject(this))
 	{
@@ -55,14 +61,16 @@ Object::~Object(void)
 	LogManager &logManager = LogManager::getInstance();
 
 	// unregister all event interests
-	for (int i = 0; i < _eventCount; ++i)
+	for (int i = _eventCount - 1; i >= 0; --i)
 	{
-		if (unregisterInterest(_eventTypes[i]))
+		string eventToUnregister = _eventTypes[i];
+
+		if (unregisterInterest(eventToUnregister))
 		{
 			logManager.writeLog(LOG_ERROR,
 				"Object::~Object()",
 				"Uregister of event %s failed\n",
-				_eventTypes[i].c_str());
+				eventToUnregister.c_str());
 		}
 	}
 
@@ -89,6 +97,18 @@ int Object::eventHandler(Event *p_event)
  */
 int Object::registerInterest(string eventType)
 {
+	LogManager &logManager = LogManager::getInstance();
+
+	// verify object has not already registered for this event
+	if (isInterestedInEvent(eventType))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"Object::registerInterest()",
+			"Object already registered in event %d.\n",
+			eventType.c_str());
+		return -1;
+	}
+
 	int regResult;
 	// check if event limit has reached
 	if (_eventCount == MAX_OBJ_EVENTS)
@@ -100,16 +120,33 @@ int Object::registerInterest(string eventType)
 
 	// register with appropriate manager
 	if (eventType == STEP_EVENT)
+	{
+		logManager.writeLog(LOG_DEBUG,
+			"Object::registerInterest()",
+			"Register@GameManager event %s.\n",
+			eventType.c_str());
 		regResult = gameManager.registerInterest(this, eventType);
+	}
 	else if (eventType == KEYBOARD_EVENT || eventType == MOUSE_EVENT)
+	{
+		logManager.writeLog(LOG_DEBUG,
+			"Object::registerInterest()",
+			"Register@InputManager event %s.\n",
+			eventType.c_str());
 		regResult = inputManager.registerInterest(this, eventType);
+	}
 	else
+	{
+		logManager.writeLog(LOG_DEBUG,
+			"Object::registerInterest()",
+			"Register@WorldManager event %s.\n",
+			eventType.c_str());
 		regResult = worldManager.registerInterest(this, eventType);
+	}
 
 	// keep track of aded event
 	_eventTypes[_eventCount] = eventType;
 	++_eventCount;
-
 
 	return regResult;
 }
@@ -122,6 +159,8 @@ int Object::registerInterest(string eventType)
  */
 int Object::unregisterInterest(string eventType)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	// find the registerd event
 	for (int i = 0; i < _eventCount; ++i)
 	{
@@ -133,11 +172,29 @@ int Object::unregisterInterest(string eventType)
 
 			// unregister event from appropriate manager
 			if (eventType == STEP_EVENT)
+			{
+				logManager.writeLog(LOG_DEBUG,
+					"Object::unregisterInterest()",
+					"unregister@GameManager event %s.\n",
+					eventType.c_str());
 				gameManager.unregisterInterest(this, eventType);
+			}
 			else if (eventType == KEYBOARD_EVENT || eventType == MOUSE_EVENT)
+			{
+				logManager.writeLog(LOG_DEBUG,
+					"Object::unregisterInterest()",
+					"unregister@InputManager event %s.\n",
+					eventType.c_str());
 				inputManager.unregisterInterest(this, eventType);
+			}
 			else
+			{
+				logManager.writeLog(LOG_DEBUG,
+					"Object::unregisterInterest()",
+					"unregister@WorldManager event %s.\n",
+					eventType.c_str());
 				worldManager.unregisterInterest(this, eventType);
+			}
 
 			// scoot over events
 			for (int j = i; j < _eventCount - 1; ++j)
@@ -154,11 +211,51 @@ int Object::unregisterInterest(string eventType)
 }
 
 /**
- * Renders the game object.
+ * Gets whether the object is interested in the given event type.
+ * @param eventType The event type name.
+ * @return Returns TRUE if interested in event, else FALSE.
+ */
+bool Object::isInterestedInEvent(string eventType)
+{
+	for (int i = 0; i < _eventCount; ++i)
+	{
+		if (_eventTypes[i] == eventType)
+			return true;
+	}
+	return false;
+}
+
+/**
+ * Renders the game objects sprite frame. Drawing accounts for: centering,
+ * slowdown, advancing sprite frame.
  */
 void Object::draw(void)
 {
+	GraphicsManager &graphcisManager = GraphicsManager::getInstance();
+	int index = getSpriteIndex();
 
+	// render the current frame
+	graphcisManager.drawFrame(_position,
+		_p_sprite->getFrame(index),
+		_spriteCentered,
+		_p_sprite->getColor());
+
+	// verify frozen animation
+	if (getSpriteSlowdown() == 0)
+		return;
+
+	int count = getSpriteSlowdownCount();
+	++count;
+
+	// advance sprite index, if appropriate
+	if (count >= getSpriteSlowdown())
+	{
+		count = 0;
+		index = (index + 1) % _p_sprite->getFrameCount();
+	}
+
+	setSpriteSlowdownCount(count);
+	setSpriteIndex(index);
 }
 
 /**
@@ -355,9 +452,143 @@ bool Object::getNoSoft(void)
 
 /**
  * Sets the no soft value.
- * @param The no soft value.
+ * @param value The no soft value.
  */
 void Object::setNoSoft(bool value)
 {
 	_noSoft = value;
+}
+
+/**
+ * Sets the sprite and sets bounding box to sprite size.
+ * @param p_sprite The sprite to associate.
+ */
+void Object::setSprite(Sprite *p_sprite)
+{
+	setSprite(p_sprite, true);
+}
+
+/**
+ * Sets the sprite.
+ * @param p_sprite The sprite to associate.
+ * @param setBox Indicates whether the boundig box is set to
+ *               the size of the sprite.
+ */
+void Object::setSprite(Sprite *p_sprite, bool setBox)
+{
+	_p_sprite = p_sprite;
+	// TODO: do something with setBox param !!!
+}
+
+/**
+ * Gets the associated sprite.
+ * @return The sprite.
+ */
+Sprite *Object::getSprite(void)
+{
+	return _p_sprite;
+}
+
+/**
+ * Sets whether the sprite is centered.
+ * @param value The centered value.
+ */
+void Object::setCentered(bool value)
+{
+	_spriteCentered = value;
+}
+
+/**
+ * Gets whether the sprite is centered.
+ * @return Returns TURE if sprite is centered, else FALSE.
+ */
+bool Object::isCentered(void)
+{
+	return _spriteCentered;
+}
+
+/**
+ * Sets the sprite frame index.
+ * @param index The new sprite index.
+ */
+void Object::setSpriteIndex(int index)
+{
+	if (index < 0 || index >= _p_sprite->getFrameCount())
+	{
+		LogManager &logManager = LogManager::getInstance();
+		logManager.writeLog(LOG_WARNING,
+			"Object::setSpriteIndex()",
+			"Requested index %d is out of bound. Value was clipped.\n",
+			index);
+		if (index < 0)
+			index = 0;
+		else
+			index = _p_sprite->getFrameCount() - 1;
+	}
+
+	_spriteIndex = index;
+}
+
+/**
+ * Gets the sprite frame index.
+ * @return The sprite frame index.
+ */
+int Object::getSpriteIndex(void)
+{
+	return _spriteIndex;
+}
+
+/**
+ * Sets the sprite slowdown.
+ * @param value The slowdown value.
+ */
+void Object::setSpriteSlowdown(int value)
+{
+	if (value < 0)
+	{
+		LogManager &logManager = LogManager::getInstance();
+		logManager.writeLog(LOG_WARNING,
+			"Object::setSpriteSlowdown()",
+			"Negative slowdown not supported. Value was clipped.\n");	
+		value = 0;
+	}
+
+	_spriteSlowdown = value;
+	_spriteSlowdownCount = 0;
+}
+
+/**
+ * Gets the sprite slowdown value.
+ * @return The sprite slowdown value.
+ */
+int Object::getSpriteSlowdown(void)
+{
+	return _spriteSlowdown;
+}
+
+/**
+ * Sets the sprite slowdown counter.
+ * @param value the new sprite slowdown counter value.
+ */
+void Object::setSpriteSlowdownCount(int value)
+{
+	if (value < 0)
+	{
+		LogManager &logManager = LogManager::getInstance();
+		logManager.writeLog(LOG_WARNING,
+			"Object::setSpriteSlowdownCount()",
+			"Negative slowdown count not allowed. Value was clipped.\n");	
+		value = 0;
+	}
+
+	_spriteSlowdownCount = value;
+}
+
+/**
+ * Gets the sprite slowdown counter.
+ * @return The sprite slowdown counter value.
+ */
+int Object::getSpriteSlowdownCount(void)
+{
+	return _spriteSlowdownCount;
 }

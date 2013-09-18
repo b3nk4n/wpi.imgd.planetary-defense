@@ -13,7 +13,7 @@ Frame::Frame(void)
 {
 	setWidth(0);
 	setHeight(0);
-	setData(EMPTY_FRAME);
+	setData("");
 }
 
 /**
@@ -81,4 +81,13 @@ string Frame::getData(void)
 void Frame::setData(string data)
 {
 	_data = data;
+}
+
+/**
+ * Gets whether the frame is empty.
+ * @return Returns TRUE, if the frame is empty, else FALSE.
+ */
+bool Frame::isEmpty(void)
+{
+	return _data.empty();
 }

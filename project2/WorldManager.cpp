@@ -11,6 +11,8 @@
 #include "EventStep.h"
 #include "EventCollision.h"
 #include "EventOut.h"
+#include "EventMouse.h"
+#include "EventKeyboard.h"
 #include "Box.h"
 #include "utility.h"
 
@@ -141,6 +143,12 @@ int WorldManager::markForDelete(Object *p_object)
 
 	// insert to delitions/marked list
 	_deletions.insert(p_object);
+
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"WorldManager::markForDelete()",
+		"One object marked for delete\n");
+
 	return 0;
 }
 
@@ -150,6 +158,8 @@ int WorldManager::markForDelete(Object *p_object)
  */
 void WorldManager::update(float delta)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	// update positions based on their velocities
 	ObjectListIterator itVelocity(&_updates);
 	for (itVelocity.first(); !itVelocity.isDone(); itVelocity.next())
@@ -262,8 +272,10 @@ int WorldManager::moveObject(Object *p_object, Position position)
 
 				// send collision event to both
 				EventCollision eventCollision(p_object, p_currentObject, position);
-				onEvent(&eventCollision, p_object);
-				onEvent(&eventCollision, p_currentObject);
+				if (p_object->isInterestedInEvent(eventCollision.getType()))
+					p_object->eventHandler(&eventCollision);
+				if (p_currentObject->isInterestedInEvent(eventCollision.getType()))
+					p_currentObject->eventHandler(&eventCollision);
 
 				// verify not moving when hard objects are colliding
 				if (p_object->getSolidness() == HARD &&
@@ -307,7 +319,8 @@ int WorldManager::moveObject(Object *p_object, Position position)
 					"Fireing out event\n");
 
 		EventOut eventOut;
-		onEvent(&eventOut, p_object);
+		if (p_object->isInterestedInEvent(eventOut.getType()))
+			p_object->eventHandler(&eventOut);
 	}
 
 	return 0;
@@ -320,5 +333,7 @@ int WorldManager::moveObject(Object *p_object, Position position)
  */
  bool WorldManager::isValid(string eventType)
  {
- 	return eventType != STEP_EVENT;
+ 	return eventType != STEP_EVENT &&
+ 		eventType != MOUSE_EVENT &&
+ 		eventType != KEYBOARD_EVENT;
  }

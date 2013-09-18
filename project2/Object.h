@@ -11,6 +11,7 @@
 #include <string>
 #include "Position.h"
 #include "Event.h"
+#include "Sprite.h"
 
 using std::string;
 
@@ -90,6 +91,31 @@ private:
 	 */
 	bool _noSoft;
 
+	/**
+	 * The sprite associated to this object.
+	 */
+	Sprite *_p_sprite;
+
+	/**
+	 * Indicates if the sprite is centered on the object.
+	 */
+	bool _spriteCentered;
+
+	/**
+	 * The current sprite frame index.
+	 */
+	int _spriteIndex;
+
+	/**
+	 * Sprite slowdown rate (0=stop, 1=no, 2...n=slowdown)
+	 */
+	int _spriteSlowdown;
+
+	/**
+	 * Slowdown conter.
+	 */
+	int _spriteSlowdownCount;
+
 public:
 	/**
 	* Creates a game object instance.
@@ -126,7 +152,15 @@ public:
 	int unregisterInterest(string eventType);
 
 	/**
-	 * Renders the game object.
+	 * Gets whether the object is interested in the given event type.
+	 * @param eventType The event type name.
+	 * @return Returns TRUE if interested in event, else FALSE.
+	 */
+	bool isInterestedInEvent(string eventType);
+
+	/**
+	 * Renders the game objects sprite frame. Drawing accounts for: centering,
+	 * slowdown, advancing sprite frame.
 	 */
 	virtual void draw(void);
 
@@ -230,9 +264,77 @@ public:
 
 	/**
 	 * Sets the no soft value.
-	 * @param The no soft value.
+	 * @param value The no soft value.
 	 */
 	void setNoSoft(bool value);
+
+	/**
+	 * Sets the sprite and sets bounding box to sprite size.
+	 * @param p_sprite The sprite to associate.
+	 */
+	void setSprite(Sprite *p_sprite);
+
+	/**
+	 * Sets the sprite.
+	 * @param p_sprite The sprite to associate.
+	 * @param setBox Indicates whether the boundig box is set to
+	 *               the size of the sprite.
+	 */
+	void setSprite(Sprite *p_sprite, bool setBox);
+
+	/**
+	 * Gets the associated sprite.
+	 * @return The sprite.
+	 */
+	Sprite *getSprite(void);
+
+	/**
+	 * Sets whether the sprite is centered.
+	 * @param value The centered value.
+	 */
+	void setCentered(bool value);
+
+	/**
+	 * Gets whether the sprite is centered.
+	 * @return Returns TURE if sprite is centered, else FALSE.
+	 */
+	bool isCentered(void);
+
+	/**
+	 * Sets the sprite frame index.
+	 * @param index The new sprite index.
+	 */
+	void setSpriteIndex(int index);
+
+	/**
+	 * Gets the sprite frame index.
+	 * @return The sprite frame index.
+	 */
+	int getSpriteIndex(void);
+
+	/**
+	 * Sets the sprite slowdown.
+	 * @param value The slowdown value.
+	 */
+	void setSpriteSlowdown(int value);
+
+	/**
+	 * Gets the sprite slowdown value.
+	 * @return The sprite slowdown value.
+	 */
+	int getSpriteSlowdown(void);
+
+	/**
+	 * Sets the sprite slowdown counter.
+	 * @param value the new sprite slowdown counter value.
+	 */
+	void setSpriteSlowdownCount(int value);
+
+	/**
+	 * Gets the sprite slowdown counter.
+	 * @return The sprite slowdown counter value.
+	 */
+	int getSpriteSlowdownCount(void);
 };
 
 #endif

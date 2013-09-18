@@ -64,6 +64,6 @@ void TestCollidableObject::draw(void)
 {
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 	graphicsManager.drawChar(getPosition(), 'O', COLOR_BLUE);
-	graphicsManager.drawString(Position(getPosition().getX() - 15, getPosition().getY()),
+	graphicsManager.drawString(Position(getPosition().getX() - 12, getPosition().getY()),
 		"Collidable -->", CENTER_JUSTIFIED, COLOR_WHITE);
 }

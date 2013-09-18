@@ -77,6 +77,10 @@ int Manager::registerInterest(Object *p_object, string eventType)
  */
 int Manager::unregisterInterest(Object *p_object, string eventType)
 {
+	// validate if the event type is allowed
+	if (!isValid(eventType))
+		return -1;
+
 	// check for events
 	for (int i = 0; i < _eventListCount; ++i)
 	{
@@ -88,7 +92,7 @@ int Manager::unregisterInterest(Object *p_object, string eventType)
 				return -1;
 			}
 
-			// verify if list is now empty
+			// check if list is now empty
 			if (_objectLists[i].isEmpty())
 			{
 				// scoot over both list
@@ -100,6 +104,8 @@ int Manager::unregisterInterest(Object *p_object, string eventType)
 
 				--_eventListCount;
 			}
+
+			return 0;
 		}
 	}
 
@@ -122,30 +128,6 @@ void Manager::onEvent(Event *p_event)
 			for (it.first(); !it.isDone(); it.next())
 			{
 				it.currentObject()->eventHandler(p_event);
-			}
-			return;
-		}
-	}
-}
-
-/**
- * Sends an event to the given game objects when it is interested in this event.
- * @param p_event The event to send.
- * @param p_object The objects to send the event.
- */
-void Manager::onEvent(Event *p_event, Object *p_object)
-{
-	for (int i = 0; i < _eventListCount; ++i)
-	{
-		if (_events[i] == p_event->getType())
-		{
-			// notify all interested objects
-			ObjectListIterator it(&_objectLists[i]);
-			for (it.first(); !it.isDone(); it.next())
-			{
-				Object *p_currentObject = it.currentObject();
-				if (p_currentObject == p_object)
-					p_currentObject->eventHandler(p_event);
 			}
 			return;
 		}

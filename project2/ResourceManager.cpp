@@ -167,7 +167,7 @@ int ResourceManager::loadSprite(string filename, string label)
 		}
 
 		// an error occured when an empty frame was received
-		if (frame.getData() == EMPTY_FRAME)
+		if (frame.isEmpty())
 		{
 			break;
 		}

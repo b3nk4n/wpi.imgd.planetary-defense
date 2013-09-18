@@ -996,7 +996,7 @@ bool testObject_registerInterestTwice(void)
 	int res1 = obj->registerInterest(STEP_EVENT);
 	int res2 = obj->registerInterest(STEP_EVENT);
 
-	return res1 == 0 && res2 == 0; // NOTE: multiple register is allowed
+	return res1 == 0 && res2 == -1;
 }
 
 bool testObject_unregisterInterest(void)
@@ -1412,7 +1412,7 @@ bool testFrame_ceateDefault(void)
 
 	return frame.getHeight() == 0 &&
 		frame.getWidth() == 0 &&
-		frame.getData() == EMPTY_FRAME;
+		frame.isEmpty();
 }
 
 bool testFrame_createCustom(void)

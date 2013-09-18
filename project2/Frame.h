@@ -11,8 +11,6 @@
 
 using std::string;
 
-#define EMPTY_FRAME ""
-
 /**
  * Represents a frame of an animation.
  */
@@ -83,6 +81,12 @@ public:
 	 * @param data The string frame data.
 	 */
 	void setData(string data);
+
+	/**
+	 * Gets whether the frame is empty.
+	 * @return Returns TRUE, if the frame is empty, else FALSE.
+	 */
+	bool isEmpty(void);
 };
 
 #endif

@@ -323,6 +323,46 @@ int GraphicsManager::drawStringFormat(Position worldPosition, Justification just
 }
 
 /**
+ * Renders a frame.
+ * @param worldPosition The word position.
+ * @param frame The frame to render.
+ * @param centered Indicates whether the given positin is the center or
+ *                 the top left corner.
+ * @param color The frames color.
+ * @return Returns 0 if ok, else -1.
+ */
+int GraphicsManager::drawFrame(Position worldPosition, Frame frame, bool centered, int color)
+{
+	// verify frame is not empty
+	if (frame.isEmpty())
+		return -1;
+
+	// check centered flag and adjust position
+	int offsetX = 0;
+	int offsetY = 0;
+	if (centered)
+	{
+		offsetX = frame.getWidth() / 2;
+		offsetY = frame.getHeight() / 2;
+	}
+
+	string frameData = frame.getData();
+
+	// draw character by character
+	for (int y = 0; y < frame.getHeight(); ++y)
+	{
+		for (int x = 0; x < frame.getWidth(); ++x)
+		{
+			Position tempPos(worldPosition.getX() - offsetX + x,
+				worldPosition.getY() - offsetY + y);
+			drawChar(tempPos,
+				frameData.at(y * frame.getWidth() + x),
+				color);
+		}
+	}
+}
+
+/**
  * Gets the screen horizontal width.
  * @return The screen width.
  */
