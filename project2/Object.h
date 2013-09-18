@@ -12,6 +12,7 @@
 #include "Position.h"
 #include "Event.h"
 #include "Sprite.h"
+#include "Box.h"
 
 using std::string;
 
@@ -115,6 +116,11 @@ private:
 	 * Slowdown conter.
 	 */
 	int _spriteSlowdownCount;
+
+	/**
+	 * The game objects bounding box for collision.
+	 */
+	Box _box;
 
 public:
 	/**
@@ -277,10 +283,10 @@ public:
 	/**
 	 * Sets the sprite.
 	 * @param p_sprite The sprite to associate.
-	 * @param setBox Indicates whether the boundig box is set to
+	 * @param useBox Indicates whether the boundig box is set to
 	 *               the size of the sprite.
 	 */
-	void setSprite(Sprite *p_sprite, bool setBox);
+	void setSprite(Sprite *p_sprite, bool useBox);
 
 	/**
 	 * Gets the associated sprite.
@@ -335,6 +341,18 @@ public:
 	 * @return The sprite slowdown counter value.
 	 */
 	int getSpriteSlowdownCount(void);
+
+	/**
+	 * Gets the bounding box.
+	 * @return The game objects bounding box.
+	 */
+	Box getBox(void);
+
+	/**
+	 * Sets the bounding box.
+	 * @param box The bounding box.
+	 */
+	void setBox(Box box);
 };
 
 #endif

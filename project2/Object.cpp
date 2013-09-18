@@ -471,13 +471,17 @@ void Object::setSprite(Sprite *p_sprite)
 /**
  * Sets the sprite.
  * @param p_sprite The sprite to associate.
- * @param setBox Indicates whether the boundig box is set to
+ * @param useBox Indicates whether the boundig box is set to
  *               the size of the sprite.
  */
-void Object::setSprite(Sprite *p_sprite, bool setBox)
+void Object::setSprite(Sprite *p_sprite, bool useBox)
 {
 	_p_sprite = p_sprite;
-	// TODO: do something with setBox param !!!
+	
+	if (useBox)
+		setBox(Box(getPosition(), // TODO: check getPosition() when centered or not
+			p_sprite->getWidth(),
+			p_sprite->getHeight()));
 }
 
 /**
@@ -591,4 +595,22 @@ void Object::setSpriteSlowdownCount(int value)
 int Object::getSpriteSlowdownCount(void)
 {
 	return _spriteSlowdownCount;
+}
+
+/**
+ * Gets the bounding box.
+ * @return The game objects bounding box.
+ */
+Box Object::getBox(void)
+{
+	return _box;
+}
+
+/**
+ * Sets the bounding box.
+ * @param box The bounding box.
+ */
+void Object::setBox(Box box)
+{
+	_box = box;
 }

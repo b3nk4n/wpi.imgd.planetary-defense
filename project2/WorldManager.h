@@ -106,10 +106,10 @@ public:
 	/**
 	 * Gets the list of objects colliding with an objects at the given position.
 	 * @param p_object The object to check, no matter if its solid or not.
-	 * @param position The position to check.
+	 * @param box The box to check.
 	 * @return Returns list of objects collided with at given position.
 	 */
-	ObjectList isCollision(Object *p_object, Position position);
+	ObjectList isCollision(Object *p_object, Box box);
 
 	/**
 	 * Tries to move the object to the designited position if possible.

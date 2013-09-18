@@ -213,10 +213,10 @@ void WorldManager::draw(void)
 /**
  * Gets the list of objects colliding with an objects at the given position.
  * @param p_object The object to check, no matter if its solid or not.
- * @param position The position to check.
+ * @param box The box to check.
  * @return Returns list of objects collided with at given position.
  */
-ObjectList WorldManager::isCollision(Object *p_object, Position position)
+ObjectList WorldManager::isCollision(Object *p_object, Box box)
 {
 	// create an empty list for collisions
 	ObjectList collisionList;
@@ -231,7 +231,7 @@ ObjectList WorldManager::isCollision(Object *p_object, Position position)
 		if (p_currentObject != p_object)
 		{
 			// verify same positin and same solidness
-			if (positionIntersect(p_currentObject->getPosition(), position) &&
+			if (boxIntersectsBox(p_currentObject->getBox(), box) &&
 				p_currentObject->isSolid())
 			{
 				collisionList.insert(p_currentObject);
@@ -254,7 +254,7 @@ int WorldManager::moveObject(Object *p_object, Position position)
 	if (p_object->isSolid())
 	{
 		// get collisions
-		ObjectList collisionList = isCollision(p_object, position);
+		ObjectList collisionList = isCollision(p_object, p_object->getBox());
 
 		if (!collisionList.isEmpty())
 		{
