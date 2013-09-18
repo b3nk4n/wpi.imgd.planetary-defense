@@ -11,6 +11,9 @@
 #include "utility.h"
 #include "Object.h"
 
+#define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
+#define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
+
 /**
  * Gets the current time as a string.
  * @return The current time string.
@@ -55,15 +58,21 @@ bool positionIntersect(Position position1, Position position2)
  */
 bool boxIntersectsBox(Box box1, Box box2)
 {
+	// fixed witdh/height for curses
+	int b1h = MAX(0, box1.getHorizontal() - 1);
+	int b1v = MAX(0, box1.getVertical() - 1);
+	int b2h = MAX(0, box2.getHorizontal() - 1);
+	int b2v = MAX(0, box2.getVertical() - 1);
+
 	// NOTE: The -1 for vertical/horizontal fixes curses colums representation
 	int ax1 = box1.getCorner().getX();
 	int ay1 = box1.getCorner().getY();
-	int ax2 = box1.getCorner().getX() + box1.getHorizontal() - 1;
-	int ay2 = box1.getCorner().getY() + box1.getVertical() - 1;
+	int ax2 = box1.getCorner().getX() + b1h;
+	int ay2 = box1.getCorner().getY() + b1v;
 	int bx1 = box2.getCorner().getX();
 	int by1 = box2.getCorner().getY();
-	int bx2 = box2.getCorner().getX() + box2.getHorizontal() - 1;
-	int by2 = box2.getCorner().getY() + box2.getVertical() - 1;
+	int bx2 = box2.getCorner().getX() + b2h;
+	int by2 = box2.getCorner().getY() + b2v;
 
 	// test honizontal overlap
 	bool overlapX = (bx1 <= ax1 && ax1 <= bx2) ||
@@ -106,35 +115,143 @@ Box getWorldBox(Object *p_object)
  */
 bool boxContainsPoint(Box box, Position position)
 {
+	// fixed witdh/height for curses
+	int bh = MAX(0, box.getHorizontal() - 1);
+	int bv = MAX(0, box.getVertical() - 1);
+
 	int boxX = box.getCorner().getX();
 	int boxY = box.getCorner().getY();
 
 	return position.getX() >= boxX &&
-		position.getX() <= boxX + box.getHorizontal() &&
+		position.getX() <= boxX + bh &&
 		position.getY() >= boxY &&
-		position.getY() <= boxY + box.getVertical();
+		position.getY() <= boxY + bv;
 }
 
 /**
  * Checks for intersection between two lines.
+ * @note codesource: http://stackoverflow.com/questions/9043805/
+ *                   test-if-two-lines-intersect-javascript-function
  * @param line1 The first line.
  * @param line2 The second line.
  * @param Returns TRUE if both lines intersects, else FALSE.
  */
-bool lineIntersectsLine(Line line1, Line Line2)
+bool lineIntersectsLine(Line line1, Line line2)
 {
-	return false; // TODO: implement
+	int x1 = line1.getPosition1().getX();
+	int y1 = line1.getPosition1().getY();
+	int x2 = line1.getPosition2().getX();
+	int y2 = line1.getPosition2().getY();
+	int x3 = line2.getPosition1().getX();
+	int y3 = line2.getPosition1().getY();
+	int x4 = line2.getPosition2().getX();
+	int y4 = line2.getPosition2().getY();
+
+	int overX = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4);
+	int underX = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+	int overY = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4);
+	int underY = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
+	// check for zero-division
+	if (underX == 0 || underY == 0)
+		return false;
+
+	float x = overX/underX;
+    float y = overY/underY;
+
+    if (x1>=x2) {
+        if (!(x2<=x&&x<=x1))
+        	return false;
+    }
+    else
+    {
+        if (!(x1<=x&&x<=x2)) 
+        	return false;
+    }
+
+    if (y1>=y2)
+    {
+        if (!(y2<=y&&y<=y1)) 
+        	return false;
+    } else {
+        if (!(y1<=y&&y<=y2))
+        	return false;
+    }
+
+    if (x3>=x4)
+    {
+        if (!(x4<=x&&x<=x3))
+        	return false;
+    } else
+    {
+        if (!(x3<=x&&x<=x4))
+        	return false;
+    }
+
+    if (y3>=y4)
+    {
+        if (!(y4<=y&&y<=y3))
+        	return false;
+    } else
+    {
+        if (!(y3<=y&&y<=y4))
+        	return false;
+    }
+
+    return true;
 }
 
 /**
- * Checks for intersection between line and box.
+ * Checks for intersection between line and box (incl. surface).
  * @param line The line.
  * @param box The box.
  * @param Returns TRUE if both intersects, else FALSE.
  */
 bool lineIntersectsBox(Line line, Box box)
 {
-	return false; // TODO: implement
+	// fixed witdh/height for curses
+	int bh = MAX(0, box.getHorizontal());
+	int bv = MAX(0, box.getVertical());
+
+	int px1 = line.getPosition1().getX();
+	int py1 = line.getPosition1().getY();
+	int px2 = line.getPosition2().getX();
+	int py2 = line.getPosition2().getY();
+
+	int bLeftX = box.getCorner().getX();
+	int bTopY = box.getCorner().getY();
+	int bRightX = box.getCorner().getX() + bh;
+	int bBottomY = box.getCorner().getY() + bv;
+
+	// check if both line positions are outside a edgle
+	if (py1 < bTopY && py2 < bTopY || // top
+		py1 > bRightX && py2 > bRightX || // right
+		py1 > bBottomY && py2 > bBottomY || // bottom
+		py1 < bLeftX && py2 < bLeftX) // left
+		return false;
+
+	// check of one line point is inside the box
+	if (boxContainsPoint(box, line.getPosition1()) ||
+		boxContainsPoint(box, line.getPosition2()))
+		return true;
+
+	// check line intersection with all four edges
+	return lineIntersectsLine(line, // top
+		Line(
+			Position(bLeftX, bTopY),
+			Position(bRightX, bTopY))) || 
+		lineIntersectsLine(line, // right
+		Line(
+			Position(bRightX, bTopY),
+			Position(bRightX, bBottomY))) ||
+		lineIntersectsLine(line, // bottom
+		Line(
+			Position(bLeftX, bBottomY),
+			Position(bRightX, bBottomY))) ||
+		lineIntersectsLine(line, // left
+		Line(
+			Position(bLeftX, bTopY),
+			Position(bLeftX, bBottomY)));
 }
 
 /**
@@ -145,7 +262,43 @@ bool lineIntersectsBox(Line line, Box box)
  */
 bool circleIntersectsBox(Circle circle, Box box)
 {
-	return false; // TODO: implement
+	// fixed witdh/height for curses
+	int bh = MAX(0, box.getHorizontal());
+	int bv = MAX(0, box.getVertical());
+
+	int cr = circle.getRadius();
+	Position cc = circle.getCenter();
+	Box higherBox(
+		Position(box.getCorner().getX(), box.getCorner().getY() - cr),
+		box.getHorizontal(),
+		box.getVertical() + 2 * cr);
+	Box widerBox(
+		Position(box.getCorner().getX() - cr, box.getCorner().getY()),
+		box.getHorizontal() + 2 * cr,
+		box.getVertical());
+
+	// check circle is inside the higher/wider box
+	if (boxContainsPoint(higherBox, cc) ||
+		boxContainsPoint(widerBox, cc))
+		return true;
+
+	// check corners
+	int crSquared = cr * cr;
+	Position topLeft(box.getCorner().getX(),
+		box.getCorner().getY());
+	Position topRight(box.getCorner().getX() + bh,
+		box.getCorner().getY());
+	Position bottomLeft(box.getCorner().getX(),
+		box.getCorner().getY() + bv);
+	Position bottomRight(box.getCorner().getX() + bh,
+		box.getCorner().getY() + bv);
+	if (distanceSquared(cc, topLeft) < crSquared ||
+		distanceSquared(cc, topRight) < crSquared ||
+		distanceSquared(cc, bottomLeft) < crSquared ||
+		distanceSquared(cc, bottomRight) < crSquared)
+		return true;
+
+	return false;
 }
 
 /**
@@ -156,7 +309,11 @@ bool circleIntersectsBox(Circle circle, Box box)
  */
 bool circleIntersectsCircle(Circle circle1, Circle circle2)
 {
-	return false; // TODO: implement
+	int r1 = circle1.getRadius();
+	int r2 = circle2.getRadius();
+
+	return (r1 + r2) * (r1 + r2) >=
+		distanceSquared(circle1.getCenter(), circle2.getCenter());
 }
 
 /**

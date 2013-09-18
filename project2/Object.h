@@ -119,6 +119,8 @@ private:
 
 	/**
 	 * The game objects bounding box for collision.
+	 * This box keeps located in the origin and just defines
+	 * the bounding box area.
 	 */
 	Box _box;
 

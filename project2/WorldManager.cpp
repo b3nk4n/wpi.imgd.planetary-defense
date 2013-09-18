@@ -218,6 +218,7 @@ void WorldManager::draw(void)
  */
 ObjectList WorldManager::isCollision(Object *p_object, Box box)
 {
+	LogManager &logManager = LogManager::getInstance();
 	// create an empty list for collisions
 	ObjectList collisionList;
 
@@ -230,10 +231,25 @@ ObjectList WorldManager::isCollision(Object *p_object, Box box)
 		// do not consider self
 		if (p_currentObject != p_object)
 		{
-			// verify same positin and same solidness
+			logManager.writeLog(LOG_DEBUG,
+				"WorldManager::isCollision()",
+				"Checking (x=%d,y=%d,h=%d,v=%d) and (x=%d,y=%d,h=%d,v=%d)\n",
+				p_currentObject->getBox().getCorner().getX(),
+				p_currentObject->getBox().getCorner().getY(),
+				p_currentObject->getBox().getHorizontal(),
+				p_currentObject->getBox().getVertical(),
+				box.getCorner().getX(),
+				box.getCorner().getY(),
+				box.getHorizontal(),
+				box.getVertical());
+
+			// verify same position and same solidness
 			if (boxIntersectsBox(p_currentObject->getBox(), box) &&
 				p_currentObject->isSolid())
 			{
+				logManager.writeLog(LOG_DEBUG,
+				"WorldManager::isCollision()",
+				"Collision!\n");
 				collisionList.insert(p_currentObject);
 			}
 		}
@@ -250,11 +266,21 @@ ObjectList WorldManager::isCollision(Object *p_object, Box box)
  */
 int WorldManager::moveObject(Object *p_object, Position position)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	// objct must be solid for collision
 	if (p_object->isSolid())
 	{
+		// calculate bounding box of probable next position
+		 Box nextBox = p_object->getBox();
+		 int dx = position.getX() - p_object->getPosition().getX();
+		 int dy = position.getY() - p_object->getPosition().getY();
+		 nextBox.setCorner(Position(
+		 	nextBox.getCorner().getX() + dx,
+		 	nextBox.getCorner().getY() + dy));
+
 		// get collisions
-		ObjectList collisionList = isCollision(p_object, p_object->getBox());
+		ObjectList collisionList = isCollision(p_object, nextBox);
 
 		if (!collisionList.isEmpty())
 		{
@@ -265,17 +291,22 @@ int WorldManager::moveObject(Object *p_object, Position position)
 			{
 				Object *p_currentObject = it.currentObject();
 
-				LogManager &logManager = LogManager::getInstance();
-				logManager.writeLog(LOG_DEBUG,
-					"WorldManager::moveObject()",
-					"Fireing collision event\n");
-
 				// send collision event to both
 				EventCollision eventCollision(p_object, p_currentObject, position);
 				if (p_object->isInterestedInEvent(eventCollision.getType()))
+				{
+					logManager.writeLog(LOG_DEBUG,
+						"WorldManager::moveObject()",
+						"Fireing first collision event\n");
 					p_object->eventHandler(&eventCollision);
+				}
 				if (p_currentObject->isInterestedInEvent(eventCollision.getType()))
+				{
+					logManager.writeLog(LOG_DEBUG,
+						"WorldManager::moveObject()",
+						"Fireing second collision event\n");
 					p_currentObject->eventHandler(&eventCollision);
+				}
 
 				// verify not moving when hard objects are colliding
 				if (p_object->getSolidness() == HARD &&
@@ -296,31 +327,31 @@ int WorldManager::moveObject(Object *p_object, Position position)
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 
 	// check if object was inside screen before move
-	bool insideBeforeMove = boxContainsPoint(
+	bool insideBeforeMove = boxIntersectsBox(
 		Box(Position(),
 			graphicsManager.getHorizontal(),
 			graphicsManager.getVertical()),
-		p_object->getPosition());
+		p_object->getBox());
 
 	// if here, no collision occued to move is allowed
 	p_object->setPosition(position);
 
 	// verify the object has left the screen.
 	if (insideBeforeMove &&
-		!boxContainsPoint(
+		!boxIntersectsBox(
 			Box(Position(),
 				graphicsManager.getHorizontal(),
 				graphicsManager.getVertical()),
-			position))
+			p_object->getBox()))
 	{
-		LogManager &logManager = LogManager::getInstance();
-				logManager.writeLog(LOG_DEBUG,
-					"WorldManager::moveObject()",
-					"Fireing out event\n");
-
 		EventOut eventOut;
 		if (p_object->isInterestedInEvent(eventOut.getType()))
+		{
+			logManager.writeLog(LOG_DEBUG,
+				"WorldManager::moveObject()",
+				"Fireing out event\n");
 			p_object->eventHandler(&eventOut);
+		}
 	}
 
 	return 0;

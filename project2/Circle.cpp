@@ -45,7 +45,7 @@ bool Circle::operator==(Circle otherCircle) const
  */
 bool Circle::operator!=(Circle otherCircle) const
 {
-	return !(*this != otherCircle);
+	return !(*this == otherCircle);
 }
 
 /**

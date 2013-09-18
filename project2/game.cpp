@@ -80,7 +80,7 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
-	TestObject *o1 = new TestObject();
+	/*TestObject *o1 = new TestObject();
 	o1->setSTL(10);
 	o1->setPosition(Position(10, 10));
 	o1->setVelocityX(0.25f);
@@ -102,7 +102,7 @@ void populateWorld(void)
 	o4->setPosition(Position(30, 20));
 	o4->setSolidness(HARD);
 	o4->registerInterest(KEYBOARD_EVENT);
-	o4->registerInterest(MOUSE_EVENT);
+	o4->registerInterest(MOUSE_EVENT);*/
 
 	// *** collision/solidness test:
 
@@ -112,7 +112,7 @@ void populateWorld(void)
 	hard1->setPosition(Position(40, 1));
 	hard1->setVelocityY(0.25);
 
-	TestObject *hard2 = new TestObject();
+	/*TestObject *hard2 = new TestObject();
 	hard2->setSolidness(HARD);
 	hard2->setPosition(Position(42, 1));
 	hard2->setVelocityY(0.25);
@@ -135,7 +135,7 @@ void populateWorld(void)
 	TestObject *spectral6 = new TestObject();
 	spectral6->setSolidness(SPECTRAL);
 	spectral6->setPosition(Position(50, 1));
-	spectral6->setVelocityY(0.25);
+	spectral6->setVelocityY(0.25);*/
 
 	// bottom row:
 	TestObject *hard_1 = new TestObject();
@@ -143,7 +143,7 @@ void populateWorld(void)
 	hard_1->setPosition(Position(40, 21));
 	hard_1->setVelocityY(-0.25);
 
-	TestObject *soft_2 = new TestObject();
+	/*TestObject *soft_2 = new TestObject();
 	soft_2->setSolidness(SOFT);
 	soft_2->setPosition(Position(42, 21));
 	soft_2->setVelocityY(-0.25);
@@ -166,10 +166,10 @@ void populateWorld(void)
 	TestObject *spectral_6 = new TestObject();
 	spectral_6->setSolidness(SPECTRAL);
 	spectral_6->setPosition(Position(50, 21));
-	spectral_6->setVelocityY(-0.25);
+	spectral_6->setVelocityY(-0.25);*/
 
 	// no soft:
-	TestObject *hard01 = new TestObject();
+	/*TestObject *hard01 = new TestObject();
 	hard01->setSolidness(HARD);
 	hard01->setPosition(Position(60, 1));
 	hard01->setVelocityY(0.25);
@@ -197,7 +197,7 @@ void populateWorld(void)
 
 	TestObject *hard06 = new TestObject();
 	hard06->setSolidness(HARD);
-	hard06->setPosition(Position(64, 21));
+	hard06->setPosition(Position(64, 21));*/
 
 	// Sprites/animations
 	/*TestObject *oa_fast = new TestAnimatedObject("test", 0);

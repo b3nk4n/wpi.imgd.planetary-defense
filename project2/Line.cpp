@@ -36,7 +36,7 @@ bool Line::operator==(Line otherLine) const
 	return _position1 == otherLine.getPosition1() &&
 		_position2 == otherLine.getPosition2() ||
 		_position1 == otherLine.getPosition2() &&
-		_position2 == otherLine.getPosition1() 
+		_position2 == otherLine.getPosition1();
 }
 
 /**

@@ -89,6 +89,21 @@ bool testBox_sameBoxesComparedIsTrue(void);
 bool testBox_differentBoxesComparedIsFalse(void);
 bool testBox_sameBoxesNotComparedIsFalse(void);
 bool testBox_differentBoxesNotComparedIsTrue(void);
+bool testCircle_createDefaultCircle(void);
+bool testCircle_createCustomCircle(void);
+bool testCircle_centerGetterSetter(void);
+bool testCircle_radiusGetterSetter(void);
+bool testCircle_sameCirclesComparedIsTrue(void);
+bool testCircle_differentCirclesComparedIsFalse(void);
+bool testCircle_sameCirclesNotComparedIsFalse(void);
+bool testCircle_differentCirclesNotComparedIsTrue(void);
+bool testLine_createDefaultLine(void);
+bool testLine_createCustomLine(void);
+bool testLine_positionGetterSetter(void);
+bool testLine_sameLinesComparedIsTrue(void);
+bool testLine_differentLinesComparedIsFalse(void);
+bool testLine_sameLinesNotComparedIsFalse(void);
+bool testLine_differentLinesNotComparedIsTrue(void);
 bool testObject_setAndGetPosition(void);
 bool testObject_setAndGetType(void);
 bool testObject_setAndGetHardSolidness(void);
@@ -133,8 +148,44 @@ bool testFrame_getterAndSetter(void);
 bool testSprite_createEmpty(void);
 bool testSprite_createSingleFrame(void);
 bool testSprite_frameOverflowReturnsError(void);
+bool testUtility_positionIntersectOverlappingTrue(void);
+bool testUtility_positionIntersectNoOverlappingLeftFalse(void);
+bool testUtility_positionIntersectNoOverlappingRightFalse(void);
+bool testUtility_positionIntersectNoOverlappingTopFalse(void);
+bool testUtility_positionIntersectNoOverlappingBottomFalse(void);
+bool testUtility_boxIntersectsBoxOverlappingTrue(void);
+bool testUtility_boxIntersectsBoxEmptyOverlappingTrue(void);
+bool testUtility_boxIntersectsBoxNoOverlappingLeftFalse(void);
+bool testUtility_boxIntersectsBoxNoOverlappingRightFalse(void);
+bool testUtility_boxIntersectsBoxNoOverlappingTopFalse(void);
+bool testUtility_boxIntersectsBoxNoOverlappingBottomFalse(void);
 bool testUtility_boxContainsPointInsideTrue(void);
 bool testUtility_boxContainsPointOutsideFalse(void);
+bool testUtility_valueInRangeInsideTrue(void);
+bool testUtility_valueInRangeOnLowerBorderTrue(void);
+bool testUtility_valueInRangeOnHigherBorderTrue(void);
+bool testUtility_valueInRangeOutsideFalse(void);
+bool testUtility_lineIntersectsLineOverlappingTrue(void);
+bool testUtility_lineIntersectsLineDiagonalOverlappingTrue(void);
+bool testUtility_lineIntersectsLineParallelOverlappingFalse(void);
+bool testUtility_lineIntersectsLineNotOverlappingFalse(void);
+bool testUtility_lineIntersectsBoxBothInsideTrue(void);
+bool testUtility_lineIntersectsBoxInAndOutsideTrue(void);
+bool testUtility_lineIntersectsBoxBothOutsideDiagonalCrossTrue(void);
+bool testUtility_lineIntersectsBoxBothOutsideDiagonalNotCrossFalse(void);
+bool testUtility_lineIntersectsBoxBothOutsideNotCrossFalse(void);
+bool testUtility_circleIntersectsBoxInsideTrue(void);
+bool testUtility_circleIntersectsBoxSideOverlappingTrue(void);
+bool testUtility_circleIntersectsBoxEdgeOverlappingTrue(void);
+bool testUtility_circleIntersectsBoxEdgeNotOverlappingFalse(void);
+bool testUtility_circleIntersectsBoxOutsideFalse(void);
+bool testUtility_circleIntersectsCircleInsideTrue(void);
+bool testUtility_circleIntersectsCircleOutsideOverlappingTrue(void);
+bool testUtility_circleIntersectsCircleOutsideNotOverlappingFalse(void);
+bool testUtility_distanceZero(void);
+bool testUtility_distanceSqrt2(void);
+bool testUtility_distanceSquaredZero(void);
+bool testUtility_distanceSquared2(void);
 
 // prototypes for helpers
 void objectListFillWithObject(ObjectList *p_objectList, int count);
@@ -218,6 +269,23 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testBox_sameBoxesNotComparedIsFalse", &testBox_sameBoxesNotComparedIsFalse);
 	unitTestManager.registerTestFunction("testBox_differentBoxesNotComparedIsTrue", &testBox_differentBoxesNotComparedIsTrue);
 
+	unitTestManager.registerTestFunction("testCircle_createDefaultCircle", &testCircle_createDefaultCircle);
+	unitTestManager.registerTestFunction("testCircle_createCustomCircle", &testCircle_createCustomCircle);
+	unitTestManager.registerTestFunction("testCircle_centerGetterSetter", &testCircle_centerGetterSetter);
+	unitTestManager.registerTestFunction("testCircle_radiusGetterSetter", &testCircle_radiusGetterSetter);
+	unitTestManager.registerTestFunction("testCircle_sameCirclesComparedIsTrue", &testCircle_sameCirclesComparedIsTrue);
+	unitTestManager.registerTestFunction("testCircle_differentCirclesComparedIsFalse", &testCircle_differentCirclesComparedIsFalse);
+	unitTestManager.registerTestFunction("testCircle_sameCirclesNotComparedIsFalse", &testCircle_sameCirclesNotComparedIsFalse);
+	unitTestManager.registerTestFunction("testCircle_differentCirclesNotComparedIsTrue", &testCircle_differentCirclesNotComparedIsTrue);
+
+	unitTestManager.registerTestFunction("testLine_createDefaultLine", &testLine_createDefaultLine);
+	unitTestManager.registerTestFunction("testLine_createCustomLine", &testLine_createCustomLine);
+	unitTestManager.registerTestFunction("testLine_positionGetterSetter", &testLine_positionGetterSetter);
+	unitTestManager.registerTestFunction("testLine_sameLinesComparedIsTrue", &testLine_sameLinesComparedIsTrue);
+	unitTestManager.registerTestFunction("testLine_differentLinesComparedIsFalse", &testLine_differentLinesComparedIsFalse);
+	unitTestManager.registerTestFunction("testLine_sameLinesNotComparedIsFalse", &testLine_sameLinesNotComparedIsFalse);
+	unitTestManager.registerTestFunction("testLine_differentLinesNotComparedIsTrue", &testLine_differentLinesNotComparedIsTrue);
+
 	unitTestManager.registerTestFunction("testObject_setAndGetPosition", &testObject_setAndGetPosition);
 	unitTestManager.registerTestFunction("testObject_setAndGetType", &testObject_setAndGetType);
 	unitTestManager.registerTestFunction("testObject_setAndGetHardSolidness", &testObject_setAndGetHardSolidness);
@@ -266,8 +334,44 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testSprite_createSingleFrame", &testSprite_createSingleFrame);
 	unitTestManager.registerTestFunction("testSprite_frameOverflowReturnsError", &testSprite_frameOverflowReturnsError);
 
+	unitTestManager.registerTestFunction("testUtility_positionIntersectOverlappingTrue", &testUtility_positionIntersectOverlappingTrue);
+	unitTestManager.registerTestFunction("testUtility_positionIntersectNoOverlappingLeftFalse", &testUtility_positionIntersectNoOverlappingLeftFalse);
+	unitTestManager.registerTestFunction("testUtility_positionIntersectNoOverlappingRightFalse", &testUtility_positionIntersectNoOverlappingRightFalse);
+	unitTestManager.registerTestFunction("testUtility_positionIntersectNoOverlappingTopFalse", &testUtility_positionIntersectNoOverlappingTopFalse);
+	unitTestManager.registerTestFunction("testUtility_positionIntersectNoOverlappingBottomFalse", &testUtility_positionIntersectNoOverlappingBottomFalse);
+	unitTestManager.registerTestFunction("testUtility_boxIntersectsBoxOverlappingTrue", &testUtility_boxIntersectsBoxOverlappingTrue);
+	unitTestManager.registerTestFunction("testUtility_boxIntersectsBoxEmptyOverlappingTrue", &testUtility_boxIntersectsBoxEmptyOverlappingTrue);
+	unitTestManager.registerTestFunction("testUtility_boxIntersectsBoxNoOverlappingLeftFalse", &testUtility_boxIntersectsBoxNoOverlappingLeftFalse);
+	unitTestManager.registerTestFunction("testUtility_boxIntersectsBoxNoOverlappingRightFalse", &testUtility_boxIntersectsBoxNoOverlappingRightFalse);
+	unitTestManager.registerTestFunction("testUtility_boxIntersectsBoxNoOverlappingTopFalse", &testUtility_boxIntersectsBoxNoOverlappingTopFalse);
+	unitTestManager.registerTestFunction("testUtility_boxIntersectsBoxNoOverlappingBottomFalse", &testUtility_boxIntersectsBoxNoOverlappingBottomFalse);
 	unitTestManager.registerTestFunction("testUtility_boxContainsPointInsideTrue", &testUtility_boxContainsPointInsideTrue);
 	unitTestManager.registerTestFunction("testUtility_boxContainsPointOutsideFalse", &testUtility_boxContainsPointOutsideFalse);
+	unitTestManager.registerTestFunction("testUtility_valueInRangeInsideTrue", &testUtility_valueInRangeInsideTrue);
+	unitTestManager.registerTestFunction("testUtility_valueInRangeOnLowerBorderTrue", &testUtility_valueInRangeOnLowerBorderTrue);
+	unitTestManager.registerTestFunction("testUtility_valueInRangeOnHigherBorderTrue", &testUtility_valueInRangeOnHigherBorderTrue);
+	unitTestManager.registerTestFunction("testUtility_valueInRangeOutsideFalse", &testUtility_valueInRangeOutsideFalse);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsLineOverlappingTrue", &testUtility_lineIntersectsLineOverlappingTrue);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsLineDiagonalOverlappingTrue", &testUtility_lineIntersectsLineDiagonalOverlappingTrue);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsLineParallelOverlappingFalse", &testUtility_lineIntersectsLineParallelOverlappingFalse);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsLineNotOverlappingFalse", &testUtility_lineIntersectsLineNotOverlappingFalse);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsBoxBothInsideTrue", &testUtility_lineIntersectsBoxBothInsideTrue);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsBoxInAndOutsideTrue", &testUtility_lineIntersectsBoxInAndOutsideTrue);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsBoxBothOutsideDiagonalCrossTrue", &testUtility_lineIntersectsBoxBothOutsideDiagonalCrossTrue);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsBoxBothOutsideDiagonalNotCrossFalse", &testUtility_lineIntersectsBoxBothOutsideDiagonalNotCrossFalse);
+	unitTestManager.registerTestFunction("testUtility_lineIntersectsBoxBothOutsideNotCrossFalse", &testUtility_lineIntersectsBoxBothOutsideNotCrossFalse);
+	unitTestManager.registerTestFunction("testUtility_circleIntersectsBoxInsideTrue", &testUtility_circleIntersectsBoxInsideTrue);
+	unitTestManager.registerTestFunction("testUtility_circleIntersectsBoxSideOverlappingTrue", &testUtility_circleIntersectsBoxSideOverlappingTrue);
+	unitTestManager.registerTestFunction("testUtility_circleIntersectsBoxEdgeOverlappingTrue", &testUtility_circleIntersectsBoxEdgeOverlappingTrue);
+	unitTestManager.registerTestFunction("testUtility_circleIntersectsBoxEdgeNotOverlappingFalse", &testUtility_circleIntersectsBoxEdgeNotOverlappingFalse);
+	unitTestManager.registerTestFunction("testUtility_circleIntersectsBoxOutsideFalse", &testUtility_circleIntersectsBoxOutsideFalse);
+	unitTestManager.registerTestFunction("testUtility_circleIntersectsCircleInsideTrue", &testUtility_circleIntersectsCircleInsideTrue);
+	unitTestManager.registerTestFunction("testUtility_circleIntersectsCircleOutsideOverlappingTrue", &testUtility_circleIntersectsCircleOutsideOverlappingTrue);
+	unitTestManager.registerTestFunction("testUtility_circleIntersectsCircleOutsideNotOverlappingFalse", &testUtility_circleIntersectsCircleOutsideNotOverlappingFalse);
+	unitTestManager.registerTestFunction("testUtility_distanceZero", &testUtility_distanceZero);
+	unitTestManager.registerTestFunction("testUtility_distanceSqrt2", &testUtility_distanceSqrt2);
+	unitTestManager.registerTestFunction("testUtility_distanceSquaredZero", &testUtility_distanceSquaredZero);
+	unitTestManager.registerTestFunction("testUtility_distanceSquared2", &testUtility_distanceSquared2);
 
 	// RUN UNIT TEST MANAGER
 	return unitTestManager.run(argc, argv);
@@ -914,6 +1018,165 @@ bool testBox_differentBoxesNotComparedIsTrue(void)
 	return box1 != box2;
 }
 
+bool testCircle_createDefaultCircle(void)
+{
+	Circle circle;
+
+	return circle.getCenter().getX() == 0 &&
+		circle.getCenter().getY() == 0 &&
+		circle.getRadius() == 0;
+}
+
+bool testCircle_createCustomCircle(void)
+{
+	int x = 4;
+	int y = 6;
+	int r = 2;
+	Circle circle(Position(x, y), r);
+
+	return circle.getCenter().getX() == x &&
+		circle.getCenter().getY() == y &&
+		circle.getRadius() == r;
+}
+
+bool testCircle_centerGetterSetter(void)
+{
+	int x = 4;
+	int y = 6;
+	Circle circle;
+	circle.setCenter(Position(x, y));
+
+	return circle.getCenter().getX() == x &&
+		circle.getCenter().getY() == y;
+}
+
+bool testCircle_radiusGetterSetter(void)
+{
+	int r = 2;
+	Circle circle;
+	circle.setRadius(r);
+
+	return circle.getRadius() == r;
+}
+
+bool testCircle_sameCirclesComparedIsTrue(void)
+{
+	int x = 1;
+	int y = 2;
+	int r = 3;
+	Circle circle1(Position(x, y), r);
+	Circle circle2(Position(x, y), r);
+	
+	return circle1 == circle2;
+}
+
+bool testCircle_differentCirclesComparedIsFalse(void)
+{
+	Circle circle1(Position(1, 2), 3);
+	Circle circle2(Position(2, 3), 4);
+	
+	return !(circle1 == circle2);
+}
+
+bool testCircle_sameCirclesNotComparedIsFalse(void)
+{
+	int x = 1;
+	int y = 2;
+	int r = 3;
+	Circle circle1(Position(x, y), r);
+	Circle circle2(Position(x, y), r);
+	
+	return !(circle1 != circle2);
+}
+
+bool testCircle_differentCirclesNotComparedIsTrue(void)
+{
+	Circle circle1(Position(1, 2), 3);
+	Circle circle2(Position(2, 3), 4);
+	
+	return circle1 != circle2;
+}
+
+bool testLine_createDefaultLine(void)
+{
+	Line line;
+
+	return line.getPosition1().getX() == 0 &&
+		line.getPosition1().getY() == 0 &&
+		line.getPosition2().getX() == 0 &&
+		line.getPosition2().getY() == 0;
+}
+
+bool testLine_createCustomLine(void)
+{
+	int x1 = 2;
+	int y1 = 3;
+	int x2 = 4;
+	int y2 = 5;
+	Line line(Position(x1, y1), Position(x2, y2));
+
+	return line.getPosition1().getX() == x1 &&
+		line.getPosition1().getY() == y1 &&
+		line.getPosition2().getX() == x2 &&
+		line.getPosition2().getY() == y2;
+}
+
+bool testLine_positionGetterSetter(void)
+{
+	int x1 = 2;
+	int y1 = 3;
+	int x2 = 4;
+	int y2 = 5;
+	Line line;
+	line.setPosition1(Position(x1, y1));
+	line.setPosition2(Position(x2, y2));
+
+	return line.getPosition1().getX() == x1 &&
+		line.getPosition1().getY() == y1 &&
+		line.getPosition2().getX() == x2 &&
+		line.getPosition2().getY() == y2;
+}
+
+bool testLine_sameLinesComparedIsTrue(void)
+{
+	int x1 = 2;
+	int y1 = 3;
+	int x2 = 4;
+	int y2 = 5;
+	Line line1(Position(x1, y1), Position(x2, y2));
+	Line line2(Position(x1, y1), Position(x2, y2));
+	
+	return line1 == line2;
+}
+
+bool testLine_differentLinesComparedIsFalse(void)
+{
+	Line line1(Position(1, 2), Position(3, 4));
+	Line line2(Position(2, 1), Position(3, 5));
+	
+	return !(line1 == line2);
+}
+
+bool testLine_sameLinesNotComparedIsFalse(void)
+{
+	int x1 = 2;
+	int y1 = 3;
+	int x2 = 4;
+	int y2 = 5;
+	Line line1(Position(x1, y1), Position(x2, y2));
+	Line line2(Position(x1, y1), Position(x2, y2));
+	
+	return !(line1 != line2);
+}
+
+bool testLine_differentLinesNotComparedIsTrue(void)
+{
+	Line line1(Position(1, 2), Position(3, 4));
+	Line line2(Position(2, 1), Position(3, 5));
+	
+	return line1 != line2;
+}
+
 bool testObject_setAndGetPosition(void)
 {
 	Object *obj = new Object();
@@ -1493,6 +1756,94 @@ bool testSprite_frameOverflowReturnsError(void)
 		s.getFrameCount() == 1;
 }
 
+bool testUtility_positionIntersectOverlappingTrue(void)
+{
+	Position position1(5, 5);
+	Position position2(5, 5);
+
+	return positionIntersect(position1, position2);
+}
+
+bool testUtility_positionIntersectNoOverlappingLeftFalse(void)
+{
+	Position position1(5, 5);
+	Position position2(4, 5);
+
+	return !positionIntersect(position1, position2);
+}
+
+bool testUtility_positionIntersectNoOverlappingRightFalse(void)
+{
+	Position position1(5, 5);
+	Position position2(6, 5);
+
+	return !positionIntersect(position1, position2);
+}
+
+bool testUtility_positionIntersectNoOverlappingTopFalse(void)
+{
+	Position position1(5, 5);
+	Position position2(5, 4);
+
+	return !positionIntersect(position1, position2);
+}
+
+bool testUtility_positionIntersectNoOverlappingBottomFalse(void)
+{
+	Position position1(5, 5);
+	Position position2(5, 6);
+
+	return !positionIntersect(position1, position2);
+}
+
+bool testUtility_boxIntersectsBoxOverlappingTrue(void)
+{
+	Box box1(Position(1 , 1), 4, 4);
+	Box box2(Position(2 , 2), 4, 4);
+
+	return boxIntersectsBox(box1, box2);
+}
+
+bool testUtility_boxIntersectsBoxEmptyOverlappingTrue(void)
+{
+	Box box1(Position(1 , 1), 0, 0);
+	Box box2(Position(1 , 1), 0, 0);
+
+	return boxIntersectsBox(box1, box2);
+}
+
+bool testUtility_boxIntersectsBoxNoOverlappingLeftFalse(void)
+{
+	Box box1(Position(2 , 2), 2, 2);
+	Box box2(Position(0 , 2), 2, 2);
+
+	return !boxIntersectsBox(box1, box2);
+}
+
+bool testUtility_boxIntersectsBoxNoOverlappingRightFalse(void)
+{
+	Box box1(Position(2 , 2), 2, 2);
+	Box box2(Position(4 , 2), 2, 2);
+
+	return !boxIntersectsBox(box1, box2);
+}
+
+bool testUtility_boxIntersectsBoxNoOverlappingTopFalse(void)
+{
+	Box box1(Position(2 , 2), 2, 2);
+	Box box2(Position(2 , 0), 2, 2);
+
+	return !boxIntersectsBox(box1, box2);
+}
+
+bool testUtility_boxIntersectsBoxNoOverlappingBottomFalse(void)
+{
+	Box box1(Position(2 , 2), 2, 2);
+	Box box2(Position(2 , 4), 2, 2);
+
+	return !boxIntersectsBox(box1, box2);
+}
+
 bool testUtility_boxContainsPointInsideTrue(void)
 {
 	Box box(Position(0, 0), 10, 10);
@@ -1507,6 +1858,210 @@ bool testUtility_boxContainsPointOutsideFalse(void)
 	Position position(15, 5);
 
 	return !boxContainsPoint(box, position);
+}
+
+bool testUtility_valueInRangeInsideTrue(void)
+{
+	return valueInRange(10.0f, 5.0f, 12.0f);
+}
+
+bool testUtility_valueInRangeOnLowerBorderTrue(void)
+{
+	return valueInRange(5.0f, 5.0f, 12.0f);
+}
+
+bool testUtility_valueInRangeOnHigherBorderTrue(void)
+{
+	return valueInRange(12.0f, 5.0f, 12.0f);
+}
+
+bool testUtility_valueInRangeOutsideFalse(void)
+{
+	return !valueInRange(16.0f, 5.0f, 12.0f);
+}
+
+bool testUtility_lineIntersectsLineOverlappingTrue(void)
+{
+	Line line1(Position(5, 5), Position(5, 0));
+	Line line2(Position(0, 2), Position(10, 2));
+
+	return lineIntersectsLine(line1, line2);
+}
+
+bool testUtility_lineIntersectsLineDiagonalOverlappingTrue(void)
+{
+	Line line1(Position(0, 0), Position(10, 10));
+	Line line2(Position(1, 0), Position(10, 11));
+
+	return lineIntersectsLine(line1, line2);
+}
+
+bool testUtility_lineIntersectsLineParallelOverlappingFalse(void)
+{
+	Line line1(Position(0, 0), Position(10, 10));
+	Line line2(Position(0, 1), Position(10, 11));
+
+	return !lineIntersectsLine(line1, line2);
+}
+
+bool testUtility_lineIntersectsLineNotOverlappingFalse(void)
+{
+	Line line1(Position(0, 0), Position(10, 10));
+	Line line2(Position(4, 3), Position(8, 6));
+
+	return !lineIntersectsLine(line1, line2);
+}
+
+bool testUtility_lineIntersectsBoxBothInsideTrue(void)
+{
+	Line line(Position(1, 1), Position(4, 4));
+	Box box(Position(0, 0), 5, 5);
+
+	return lineIntersectsBox(line, box);
+}
+
+bool testUtility_lineIntersectsBoxInAndOutsideTrue(void)
+{
+	Line line(Position(3, 3), Position(6, 4));
+	Box box(Position(0, 0), 5, 5);
+
+	return lineIntersectsBox(line, box);
+}
+
+bool testUtility_lineIntersectsBoxBothOutsideDiagonalCrossTrue(void)
+{
+	Line line(Position(3, 6), Position(6, 3));
+	Box box(Position(0, 0), 5, 5);
+
+	return lineIntersectsBox(line, box);
+}
+
+bool testUtility_lineIntersectsBoxBothOutsideDiagonalNotCrossFalse(void)
+{
+	Line line(Position(4, 9), Position(7, 4));
+	Box box(Position(0, 0), 5, 5);
+
+	return !lineIntersectsBox(line, box);
+}
+
+bool testUtility_lineIntersectsBoxBothOutsideNotCrossFalse(void)
+{
+	Line line(Position(1, 8), Position(7, 6));
+	Box box(Position(0, 0), 5, 5);
+
+	return !lineIntersectsBox(line, box);
+}
+
+bool testUtility_circleIntersectsBoxInsideTrue(void)
+{
+	Circle circle(Position(2, 2), 3);
+	Box box(Position(0, 0), 5, 5);
+
+	return circleIntersectsBox(circle, box);
+}
+
+bool testUtility_circleIntersectsBoxSideOverlappingTrue(void)
+{
+	Circle circle(Position(7, 2), 3);
+	Box box(Position(0, 0), 5, 5);
+
+	return circleIntersectsBox(circle, box);
+}
+
+bool testUtility_circleIntersectsBoxEdgeOverlappingTrue(void)
+{
+	Circle circle(Position(12, 12), 4);
+	Box box(Position(0, 0), 10, 10);
+
+	return circleIntersectsBox(circle, box);
+}
+
+bool testUtility_circleIntersectsBoxEdgeNotOverlappingFalse(void)
+{
+	Circle circle(Position(13, 13), 3);
+	Box box(Position(0, 0), 10, 10);
+
+	return !circleIntersectsBox(circle, box);
+}
+
+bool testUtility_circleIntersectsBoxOutsideFalse(void)
+{
+	Circle circle(Position(5, 16), 3);
+	Box box(Position(0, 0), 10, 10);
+
+	return !circleIntersectsBox(circle, box);
+}
+
+bool testUtility_circleIntersectsCircleInsideTrue(void)
+{
+	Circle circle1(Position(5, 5), 3);
+	Circle circle2(Position(5, 6), 3);
+
+	return circleIntersectsCircle(circle1, circle2);
+}
+
+bool testUtility_circleIntersectsCircleOutsideOverlappingTrue(void)
+{
+	Circle circle1(Position(5, 5), 3);
+	Circle circle2(Position(5, 10), 3);
+
+	return circleIntersectsCircle(circle1, circle2);
+}
+
+bool testUtility_circleIntersectsCircleOutsideNotOverlappingFalse(void)
+{
+	Circle circle1(Position(5, 5), 3);
+	Circle circle2(Position(5, 12), 3);
+
+	return !circleIntersectsCircle(circle1, circle2);
+}
+
+bool testUtility_distanceZero(void)
+{
+	float delta = 0.0001f;
+	float expacted = 0.0f;
+	Position position1(5, 5);
+	Position position2(5, 5);
+
+	float result = distance(position1, position2);
+
+	return expacted - delta <= result && result <= expacted + delta;
+}
+
+bool testUtility_distanceSqrt2(void)
+{
+	float delta = 0.0001f;
+	float expacted = 1.4142135624f;
+	Position position1(0, 0);
+	Position position2(1, 1);
+
+	float result = distance(position1, position2);
+
+	return expacted - delta <= result && result <= expacted + delta;
+}
+
+bool testUtility_distanceSquaredZero(void)
+{
+	float delta = 0.0001f;
+	float expacted = 0.0f;
+	Position position1(5, 5);
+	Position position2(5, 5);
+
+	float result = distanceSquared(position1, position2);
+
+	return expacted - delta <= result && result <= expacted + delta;
+}
+
+bool testUtility_distanceSquared2(void)
+{
+	float delta = 0.0001f;
+	float expacted = 2;
+	Position position1(0, 0);
+	Position position2(1, 1);
+
+	float result = distanceSquared(position1, position2);
+
+	return expacted - delta <= result && result <= expacted + delta;
 }
 
 /****************************************************************************

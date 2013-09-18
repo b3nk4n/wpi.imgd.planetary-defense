@@ -35,7 +35,7 @@ ENGSRC = Box.cpp \
 		 EventTest.cpp \
 		 Frame.cpp \
 		 InputManager.cpp \
-		 Line.h \
+		 Line.cpp \
 		 LogManager.cpp \
 		 Manager.cpp \
 		 Object.cpp \
@@ -98,6 +98,21 @@ EventOut.o: EventOut.h Event.h
 EventStep.o: EventStep.h Event.h
 EventTest.o: EventTest.h Event.h
 Frame.o: Frame.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h LogManager.h
+game.o: /usr/include/stdio.h /usr/include/sys/types.h
+game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
+game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+game.o: /usr/include/bits/wordsize.h Manager.h ObjectList.h Object.h
+game.o: Position.h Event.h Sprite.h Frame.h Box.h ObjectListIterator.h
+game.o: utility.h Line.h Circle.h GameManager.h /usr/include/time.h
+game.o: /usr/include/machine/time.h ResourceManager.h EventStep.h
+game.o: EventKeyboard.h EventMouse.h EventCollision.h EventOut.h TestObject.h
+game.o: TestCollidableObject.h TestAnimatedObject.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
 GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -112,7 +127,7 @@ GameManager.o: Manager.h ObjectList.h Object.h Position.h Event.h Sprite.h
 GameManager.o: Frame.h Box.h ObjectListIterator.h WorldManager.h
 GameManager.o: GraphicsManager.h /usr/include/curses.h
 GameManager.o: /usr/include/ncurses_dll.h /usr/include/unctrl.h
-GameManager.o: InputManager.h ResourceManager.h LogManager.h utility.h
+GameManager.o: InputManager.h ResourceManager.h LogManager.h utility.h Line.h
 GameManager.o: Circle.h Clock.h /usr/include/unistd.h
 GameManager.o: /usr/include/sys/unistd.h EventStep.h
 GraphicsManager.o: GraphicsManager.h /usr/include/curses.h
@@ -128,7 +143,7 @@ GraphicsManager.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 GraphicsManager.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
 GraphicsManager.o: Manager.h ObjectList.h Object.h Position.h Event.h
 GraphicsManager.o: Sprite.h Frame.h Box.h ObjectListIterator.h LogManager.h
-GraphicsManager.o: utility.h Circle.h
+GraphicsManager.o: utility.h Line.h Circle.h
 InputManager.o: InputManager.h Manager.h ObjectList.h Object.h Position.h
 InputManager.o: Event.h Sprite.h Frame.h Box.h ObjectListIterator.h
 InputManager.o: GraphicsManager.h /usr/include/curses.h
@@ -141,8 +156,9 @@ InputManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 InputManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
 InputManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 InputManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-InputManager.o: /usr/include/unctrl.h LogManager.h utility.h Circle.h
+InputManager.o: /usr/include/unctrl.h LogManager.h utility.h Line.h Circle.h
 InputManager.o: EventKeyboard.h EventMouse.h
+Line.o: Line.h Position.h
 LogManager.o: LogManager.h /usr/include/stdio.h /usr/include/_ansi.h
 LogManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 LogManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -153,7 +169,7 @@ LogManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
 LogManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 LogManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h Manager.h
 LogManager.o: ObjectList.h Object.h Position.h Event.h Sprite.h Frame.h Box.h
-LogManager.o: ObjectListIterator.h utility.h Circle.h
+LogManager.o: ObjectListIterator.h utility.h Line.h Circle.h
 Manager.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
 Manager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
 Manager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
@@ -177,8 +193,8 @@ Object.o: InputManager.h GraphicsManager.h /usr/include/curses.h
 Object.o: /usr/include/ncurses_dll.h /usr/include/stdio.h
 Object.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 Object.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-Object.o: /usr/include/unctrl.h LogManager.h utility.h Circle.h EventStep.h
-Object.o: EventKeyboard.h EventMouse.h
+Object.o: /usr/include/unctrl.h LogManager.h utility.h Line.h Circle.h
+Object.o: EventStep.h EventKeyboard.h EventMouse.h
 ObjectList.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 ObjectList.o: /usr/include/_ansi.h /usr/include/newlib.h
 ObjectList.o: /usr/include/sys/config.h /usr/include/sys/features.h
@@ -192,7 +208,7 @@ ObjectList.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 ObjectList.o: /usr/include/bits/wordsize.h /usr/include/string.h
 ObjectList.o: /usr/include/sys/string.h ObjectList.h Object.h Position.h
 ObjectList.o: Event.h Sprite.h Frame.h Box.h ObjectListIterator.h
-ObjectList.o: LogManager.h Manager.h utility.h Circle.h
+ObjectList.o: LogManager.h Manager.h utility.h Line.h Circle.h
 ObjectListIterator.o: ObjectListIterator.h ObjectList.h Object.h Position.h
 ObjectListIterator.o: Event.h Sprite.h Frame.h Box.h
 Position.o: Position.h
@@ -212,7 +228,8 @@ ResourceManager.o: ObjectListIterator.h GraphicsManager.h
 ResourceManager.o: /usr/include/curses.h /usr/include/ncurses_dll.h
 ResourceManager.o: /usr/include/stdio.h /usr/include/sys/types.h
 ResourceManager.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-ResourceManager.o: /usr/include/unctrl.h LogManager.h utility.h Circle.h
+ResourceManager.o: /usr/include/unctrl.h LogManager.h utility.h Line.h
+ResourceManager.o: Circle.h
 Sprite.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 Sprite.o: /usr/include/_ansi.h /usr/include/newlib.h
 Sprite.o: /usr/include/sys/config.h /usr/include/sys/features.h
@@ -226,7 +243,26 @@ Sprite.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 Sprite.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 Sprite.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h Manager.h
 Sprite.o: ObjectList.h Object.h Position.h Event.h Box.h ObjectListIterator.h
-Sprite.o: LogManager.h utility.h Circle.h
+Sprite.o: LogManager.h utility.h Line.h Circle.h
+test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+test.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+test.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
+test.o: /usr/include/stdio.h /usr/include/sys/types.h
+test.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
+test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+test.o: /usr/include/bits/wordsize.h LogManager.h Manager.h ObjectList.h
+test.o: Object.h Position.h Event.h Sprite.h Frame.h Box.h
+test.o: ObjectListIterator.h utility.h Line.h Circle.h Clock.h
+test.o: /usr/include/time.h /usr/include/machine/time.h /usr/include/unistd.h
+test.o: /usr/include/sys/unistd.h GameManager.h GraphicsManager.h
+test.o: /usr/include/curses.h /usr/include/ncurses_dll.h
+test.o: /usr/include/unctrl.h WorldManager.h InputManager.h TestObject.h
+test.o: TestCollidableObject.h UnitTestManager.h /usr/include/string.h
+test.o: /usr/include/sys/string.h EventStep.h EventTest.h EventKeyboard.h
+test.o: EventMouse.h EventOut.h EventCollision.h ResourceManager.h
 TestAnimatedObject.o: TestAnimatedObject.h TestObject.h Object.h Position.h
 TestAnimatedObject.o: Event.h Sprite.h Frame.h Box.h GraphicsManager.h
 TestAnimatedObject.o: /usr/include/curses.h /usr/include/ncurses_dll.h
@@ -241,7 +277,7 @@ TestAnimatedObject.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 TestAnimatedObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 TestAnimatedObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
 TestAnimatedObject.o: Manager.h ObjectList.h ObjectListIterator.h
-TestAnimatedObject.o: WorldManager.h LogManager.h utility.h Circle.h
+TestAnimatedObject.o: WorldManager.h LogManager.h utility.h Line.h Circle.h
 TestAnimatedObject.o: ResourceManager.h
 TestCollidableObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 TestCollidableObject.o: /usr/include/_ansi.h /usr/include/newlib.h
@@ -261,7 +297,7 @@ TestCollidableObject.o: /usr/include/stdio.h /usr/include/sys/stdio.h
 TestCollidableObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 TestCollidableObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
 TestCollidableObject.o: WorldManager.h EventCollision.h LogManager.h
-TestCollidableObject.o: utility.h Circle.h
+TestCollidableObject.o: utility.h Line.h Circle.h
 TestObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 TestObject.o: /usr/include/_ansi.h /usr/include/newlib.h
 TestObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
@@ -279,7 +315,7 @@ TestObject.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 TestObject.o: /usr/include/bits/wordsize.h /usr/include/unctrl.h
 TestObject.o: WorldManager.h EventStep.h EventTest.h EventKeyboard.h
 TestObject.o: EventMouse.h EventOut.h EventCollision.h LogManager.h utility.h
-TestObject.o: Circle.h
+TestObject.o: Line.h Circle.h
 UnitTestManager.o: /usr/include/unistd.h /usr/include/sys/unistd.h
 UnitTestManager.o: /usr/include/_ansi.h /usr/include/newlib.h
 UnitTestManager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
@@ -294,6 +330,17 @@ UnitTestManager.o: /usr/include/bits/wordsize.h /usr/include/sys/string.h
 UnitTestManager.o: /usr/include/stdlib.h /usr/include/machine/stdlib.h
 UnitTestManager.o: /usr/include/alloca.h /usr/include/stdio.h
 UnitTestManager.o: /usr/include/sys/stdio.h
+utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
+utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
+utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+utility.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+utility.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+utility.o: /usr/include/machine/time.h /usr/include/sys/types.h
+utility.o: /usr/include/machine/types.h /usr/include/stdio.h
+utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
+utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
+utility.o: /usr/include/math.h utility.h Position.h Box.h Line.h Circle.h
+utility.o: Object.h Event.h Sprite.h Frame.h
 WorldManager.o: WorldManager.h Manager.h ObjectList.h Object.h Position.h
 WorldManager.o: Event.h Sprite.h Frame.h Box.h ObjectListIterator.h
 WorldManager.o: GraphicsManager.h /usr/include/curses.h
@@ -306,51 +353,6 @@ WorldManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 WorldManager.o: /usr/include/sys/types.h /usr/include/machine/types.h
 WorldManager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 WorldManager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-WorldManager.o: /usr/include/unctrl.h LogManager.h utility.h Circle.h
+WorldManager.o: /usr/include/unctrl.h LogManager.h utility.h Line.h Circle.h
 WorldManager.o: EventStep.h EventCollision.h EventOut.h EventMouse.h
 WorldManager.o: EventKeyboard.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h LogManager.h
-game.o: /usr/include/stdio.h /usr/include/sys/types.h
-game.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-game.o: /usr/include/bits/wordsize.h Manager.h ObjectList.h Object.h
-game.o: Position.h Event.h Sprite.h Frame.h Box.h ObjectListIterator.h
-game.o: utility.h Circle.h GameManager.h /usr/include/time.h
-game.o: /usr/include/machine/time.h ResourceManager.h EventStep.h
-game.o: EventKeyboard.h EventMouse.h EventCollision.h EventOut.h TestObject.h
-game.o: TestCollidableObject.h TestAnimatedObject.h
-test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-test.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-test.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-test.o: /usr/include/stdio.h /usr/include/sys/types.h
-test.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-test.o: /usr/include/bits/wordsize.h LogManager.h Manager.h ObjectList.h
-test.o: Object.h Position.h Event.h Sprite.h Frame.h Box.h
-test.o: ObjectListIterator.h utility.h Circle.h Clock.h /usr/include/time.h
-test.o: /usr/include/machine/time.h /usr/include/unistd.h
-test.o: /usr/include/sys/unistd.h GameManager.h GraphicsManager.h
-test.o: /usr/include/curses.h /usr/include/ncurses_dll.h
-test.o: /usr/include/unctrl.h WorldManager.h InputManager.h TestObject.h
-test.o: TestCollidableObject.h UnitTestManager.h /usr/include/string.h
-test.o: /usr/include/sys/string.h EventStep.h EventTest.h EventKeyboard.h
-test.o: EventMouse.h EventOut.h EventCollision.h ResourceManager.h
-utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
-utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-utility.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-utility.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-utility.o: /usr/include/machine/time.h /usr/include/sys/types.h
-utility.o: /usr/include/machine/types.h /usr/include/stdio.h
-utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-utility.o: /usr/include/math.h utility.h Position.h Box.h Circle.h Object.h
-utility.o: Event.h Sprite.h Frame.h
