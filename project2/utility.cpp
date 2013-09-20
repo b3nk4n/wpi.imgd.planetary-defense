@@ -7,10 +7,13 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
+#include <sstream>
 
 #include "utility.h"
 #include "Object.h"
 #include "WorldManager.h"
+
+using std::stringstream;
 
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
 #define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
@@ -406,4 +409,16 @@ Position viewToWorld(Position viewPosition)
 	Position worldPosition(viewPosition.getX() + viewX,
 		viewPosition.getY() + viewY);
 	return worldPosition;
+}
+
+/**
+ * Converts an int value to a string.
+ * @param value The value to convert.
+ * @return The string converted value.
+ */
+string intToString(int value)
+{
+	stringstream ss;
+	ss << value;
+	return ss.str();
 }

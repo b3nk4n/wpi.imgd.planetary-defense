@@ -7,12 +7,15 @@
 #ifndef __UTILITY_H__
 #define __UTILITY_H__
 
+#include <string>
 #include <sstream>
 #include "Position.h"
 #include "Box.h"
 #include "Line.h"
 #include "Circle.h"
 #include "Object.h"
+
+ using std::string;
 
 /**
  * Gets the current time as a string.
@@ -130,5 +133,12 @@ Position worldToView(Position worldPosition);
  * @return The converted world position.
  */
 Position viewToWorld(Position viewPosition);
+
+/**
+ * Converts an int value to a string.
+ * @param value The value to convert.
+ * @return The string converted value.
+ */
+string intToString(int value);
 
 #endif

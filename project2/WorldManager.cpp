@@ -14,6 +14,7 @@
 #include "EventMouse.h"
 #include "EventKeyboard.h"
 #include "utility.h"
+#include "ViewObject.h"
 
 /**
  * Creates a world manager instance.
@@ -200,7 +201,7 @@ void WorldManager::update(float delta)
 void WorldManager::draw(void)
 {
 	// draw view layer by view layer
-	for (int a = MIN_ALTITUDE; a < MAX_ALTITUDE; ++a)
+	for (int a = MIN_ALTITUDE; a <= MAX_ALTITUDE; ++a)
 	{
 		ObjectListIterator it(&_updates);
 		for (it.first(); !it.isDone(); it.next())
@@ -213,7 +214,8 @@ void WorldManager::draw(void)
 				Box worldBox = getWorldBox(p_object);
 
 				// only draw if object is visible on screen
-				if (boxIntersectsBox(worldBox, _viewBoundary))
+				if (boxIntersectsBox(worldBox, _viewBoundary) ||
+					dynamic_cast<ViewObject *>(p_object))
 					p_object->draw();
 			}
 		}

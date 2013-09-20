@@ -19,6 +19,7 @@
 #include "UnitTestManager.h"
 #include "EventStep.h"
 #include "EventTest.h"
+#include "EventView.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
 #include "EventOut.h"
@@ -26,6 +27,7 @@
 #include "Frame.h"
 #include "Sprite.h"
 #include "ResourceManager.h"
+#include "ViewObject.h"
 #include "utility.h"
 
 using std::string;
@@ -148,6 +150,13 @@ bool testFrame_getterAndSetter(void);
 bool testSprite_createEmpty(void);
 bool testSprite_createSingleFrame(void);
 bool testSprite_frameOverflowReturnsError(void);
+bool testViewObject_ceateDefault();
+bool testViewObject_ceateRegistersToWorldManager();
+bool testViewObject_setAndGetBorder();
+bool testViewObject_setAndGetViewString();
+bool testViewObject_setAndGetValue();
+bool testViewObject_viewEventChangeValue();
+bool testViewObject_viewEventReplaceValue();
 bool testUtility_positionIntersectOverlappingTrue(void);
 bool testUtility_positionIntersectNoOverlappingLeftFalse(void);
 bool testUtility_positionIntersectNoOverlappingRightFalse(void);
@@ -198,6 +207,9 @@ bool testUtility_distanceZero(void);
 bool testUtility_distanceSqrt2(void);
 bool testUtility_distanceSquaredZero(void);
 bool testUtility_distanceSquared2(void);
+bool testUtility_intToStringZero(void);
+bool testUtility_intToStringPositive(void);
+bool testUtility_intToStringNegative(void);
 
 // prototypes for helpers
 void objectListFillWithObject(ObjectList *p_objectList, int count);
@@ -346,6 +358,13 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testSprite_createSingleFrame", &testSprite_createSingleFrame);
 	unitTestManager.registerTestFunction("testSprite_frameOverflowReturnsError", &testSprite_frameOverflowReturnsError);
 
+	unitTestManager.registerTestFunction("testViewObject_ceateRegistersToWorldManager", &testViewObject_ceateRegistersToWorldManager);
+	unitTestManager.registerTestFunction("testViewObject_setAndGetBorder", &testViewObject_setAndGetBorder);
+	unitTestManager.registerTestFunction("testViewObject_setAndGetViewString", &testViewObject_setAndGetViewString);
+	unitTestManager.registerTestFunction("testViewObject_setAndGetValue", &testViewObject_setAndGetValue);
+	unitTestManager.registerTestFunction("testViewObject_viewEventChangeValue", &testViewObject_viewEventChangeValue);
+	unitTestManager.registerTestFunction("testViewObject_viewEventReplaceValue", &testViewObject_viewEventReplaceValue);
+
 	unitTestManager.registerTestFunction("testUtility_positionIntersectOverlappingTrue", &testUtility_positionIntersectOverlappingTrue);
 	unitTestManager.registerTestFunction("testUtility_positionIntersectNoOverlappingLeftFalse", &testUtility_positionIntersectNoOverlappingLeftFalse);
 	unitTestManager.registerTestFunction("testUtility_positionIntersectNoOverlappingRightFalse", &testUtility_positionIntersectNoOverlappingRightFalse);
@@ -396,6 +415,9 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testUtility_distanceSqrt2", &testUtility_distanceSqrt2);
 	unitTestManager.registerTestFunction("testUtility_distanceSquaredZero", &testUtility_distanceSquaredZero);
 	unitTestManager.registerTestFunction("testUtility_distanceSquared2", &testUtility_distanceSquared2);
+	unitTestManager.registerTestFunction("testUtility_intToStringZero", &testUtility_intToStringZero);
+	unitTestManager.registerTestFunction("testUtility_intToStringPositive", &testUtility_intToStringPositive);
+	unitTestManager.registerTestFunction("testUtility_intToStringNegative", &testUtility_intToStringNegative);
 
 	// RUN UNIT TEST MANAGER
 	return unitTestManager.run(argc, argv);
@@ -1780,6 +1802,89 @@ bool testSprite_frameOverflowReturnsError(void)
 		s.getFrameCount() == 1;
 }
 
+bool testViewObject_ceateDefault()
+{
+	ViewObject *vo = new ViewObject();
+
+	return vo->getSolidness() == SPECTRAL &&
+		vo->getAltitude() == MAX_ALTITUDE &&
+		vo->getType() == TYPE_VIEW_OBJECT &&
+		vo->getBorder() == true &&
+		vo->getColor() == COLOR_DEFAULT &&
+		vo->getValue() == 0;
+}
+
+bool testViewObject_ceateRegistersToWorldManager()
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	ViewObject *vo = new ViewObject();
+	int objCount = worldManager.getAllObjects().getCount();
+
+	return objCount == 1;
+}
+
+bool testViewObject_setAndGetBorder()
+{
+	ViewObject *vo = new ViewObject();
+	vo->setBorder(false);
+
+	return vo->getBorder() == false;
+}
+
+bool testViewObject_setAndGetViewString()
+{
+	ViewObject *vo = new ViewObject();
+	string viewString = "Test123";
+	vo->setViewString(viewString);
+
+	return vo->getViewString() == viewString;
+}
+
+bool testViewObject_setAndGetValue()
+{
+	ViewObject *vo = new ViewObject();
+	int value = 123;
+	vo->setValue(value);
+
+	return vo->getValue() == value;
+}
+
+bool testViewObject_viewEventChangeValue()
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	ViewObject *vo = new ViewObject();
+	int valueBefore = 100;
+	int deltaValue = 10;
+	string viewString = "test";
+	vo->setValue(valueBefore);
+	vo->setViewString(viewString);
+
+	EventView ev(viewString, deltaValue, true);
+	worldManager.onEvent(&ev);
+
+	worldManager.update(DEFAULT_FRAME_TIME);
+
+	return vo->getValue() == valueBefore + deltaValue;
+}
+
+bool testViewObject_viewEventReplaceValue()
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	ViewObject *vo = new ViewObject();
+	int valueBefore = 100;
+	int deltaValue = 10;
+	string viewString = "test";
+	vo->setValue(valueBefore);
+	vo->setViewString(viewString);
+
+	EventView ev(viewString, deltaValue, false);
+	worldManager.onEvent(&ev);
+
+	worldManager.update(DEFAULT_FRAME_TIME);
+
+	return vo->getValue() == deltaValue;
+}
+
 bool testUtility_positionIntersectOverlappingTrue(void)
 {
 	Position position1(5, 5);
@@ -2223,6 +2328,27 @@ bool testUtility_distanceSquared2(void)
 	float result = distanceSquared(position1, position2);
 
 	return expacted - delta <= result && result <= expacted + delta;
+}
+
+bool testUtility_intToStringZero(void)
+{
+	int value = 0;
+
+	return intToString(value) == "0";
+}
+
+bool testUtility_intToStringPositive(void)
+{
+	int value = 2;
+
+	return intToString(value) == "2";
+}
+
+bool testUtility_intToStringNegative(void)
+{
+	int value = -2;
+
+	return intToString(value) == "-2";
 }
 
 /****************************************************************************

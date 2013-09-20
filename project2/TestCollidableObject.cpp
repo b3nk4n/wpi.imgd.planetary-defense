@@ -10,6 +10,7 @@
 #include "GraphicsManager.h"
 #include "WorldManager.h"
 #include "EventCollision.h"
+#include "EventView.h"
 #include "LogManager.h"
 
 /**
@@ -51,6 +52,11 @@ int TestCollidableObject::eventHandler(Event *p_event)
 			_id);
 
 		worldManager.markForDelete(this);
+
+		// notify view
+		EventView ev("ColObjCollisionCounter", 1, true);
+		worldManager.onEvent(&ev);
+
 		return 1;
 		
 	}

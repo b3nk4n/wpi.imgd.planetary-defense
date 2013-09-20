@@ -9,6 +9,7 @@
 #include "GameManager.h"
 #include "ResourceManager.h"
 #include "WorldManager.h"
+#include "GraphicsManager.h"
 #include "EventStep.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
@@ -17,6 +18,7 @@
 #include "TestObject.h"
 #include "TestCollidableObject.h"
 #include "TestAnimatedObject.h"
+#include "ViewObject.h"
 
 #define TEST_OBJECTS_COUNT 4
 
@@ -122,6 +124,22 @@ void populateWorld(void)
 	o4->setSolidness(HARD);
 	o4->registerInterest(KEYBOARD_EVENT);
 	o4->registerInterest(MOUSE_EVENT);
+
+	for (int i = 0; i < 100; ++i)
+	{
+		int x = random() % 80;
+		int y = random() % 48;
+
+		float vx = random() % 200 * 0.005f - 0.5f;
+		float vy = random() % 200 * 0.005f - 0.5f;  
+
+		TestObject *ox = new TestObject();
+		ox->setPosition(Position(x, y));
+		ox->setVelocityX(vx);
+		ox->setVelocityY(vy);
+		ox->setSolidness(HARD);
+		ox->registerInterest(OUT_EVENT);
+	}
 
 	// *** collision/solidness test:
 
@@ -233,4 +251,18 @@ void populateWorld(void)
 	oa_slow->setPosition(Position(20, 20));
 	oa_slow->setVelocityX(0.25f);
 	oa_slow->setVelocityY(-0.1f);
+
+	// view objects
+	// NOTE: only counts the interested objects
+	ViewObject *viewObject1 = new ViewObject();
+	viewObject1->setViewString("OutCounter");
+	viewObject1->setValue(0);
+	viewObject1->setLocation(TOP_LEFT);
+	viewObject1->setColor(COLOR_GREEN);
+
+	ViewObject *viewObject2 = new ViewObject();
+	viewObject2->setViewString("ColObjCollisionCounter");
+	viewObject2->setValue(0);
+	viewObject2->setLocation(TOP_RIGHT);
+	viewObject2->setColor(COLOR_MAGENTA);
 }

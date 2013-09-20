@@ -7,7 +7,10 @@
 
 #include "ViewObject.h"
 #include "GraphicsManager.h"
+#include "WorldManager.h"
+#include "LogManager.h"
 #include "EventView.h"
+#include "utility.h"
 
 /**
  * Creates a view object instance. These are always spectral
@@ -44,7 +47,23 @@ ViewObject::~ViewObject(void)
  */
 int ViewObject::eventHandler(Event *p_event)
 {
-	return -1;
+	if (p_event->getType() == VIEW_EVENT)
+	{
+		EventView *p_viewEvent = static_cast<EventView *>(p_event);
+
+		// see if this event is meant for this object
+		if (p_viewEvent->getTag() == getViewString())
+		{
+			if (p_viewEvent->getDelta()) // change
+				setValue(getValue() + p_viewEvent->getValue());
+			else // replace
+				setValue(p_viewEvent->getValue());
+		}
+
+		return 1;
+	}
+
+	return 0;
 }
 
 /**
@@ -52,7 +71,71 @@ int ViewObject::eventHandler(Event *p_event)
  */
 void ViewObject::draw(void)
 {
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+	string displayString;
 
+	// display viewsting and value
+	if (getBorder())
+		displayString = " " + getViewString() + " " + intToString(getValue()) + " ";
+	else
+		displayString = getViewString() + " " + intToString(getValue());
+
+	// render centered to position
+	Position pos = viewToWorld(getPosition());
+	graphicsManager.drawString(pos, displayString, CENTER_JUSTIFIED, getColor());
+
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"ViewObject::draw()",
+		"draw on pos x=%d, y=%d\n",
+		pos.getX(),
+		pos.getY());
+	logManager.writeLog(LOG_DEBUG,
+		"ViewObject::draw()",
+		"obj pos x=%d, y=%d\n",
+		getPosition().getX(),
+		getPosition().getY());
+
+	if (getBorder())
+	{
+		// render border
+		int textLength = displayString.length();
+		int leftHalf = displayString.length() / 2;
+		int rightHalf = textLength - leftHalf;
+		for (int i = 0; i < textLength; ++i)
+		{
+			graphicsManager.drawChar(
+				Position(
+					pos.getX() - leftHalf + i,
+					pos.getY() - 1),
+				'-',
+				getColor());
+		}
+
+		graphicsManager.drawChar(
+				Position(
+					pos.getX() - leftHalf - 1,
+					pos.getY()),
+				'|',
+				getColor());
+
+		graphicsManager.drawChar(
+				Position(
+					pos.getX() + rightHalf,
+					pos.getY()),
+				'|',
+				getColor());
+
+		for (int i = 0; i < textLength; ++i)
+		{
+			graphicsManager.drawChar(
+				Position(
+					pos.getX() - leftHalf + i,
+					pos.getY() + 1),
+				'-',
+				getColor());
+		}
+	}
 }
 
 /**
@@ -61,7 +144,53 @@ void ViewObject::draw(void)
  */
 void ViewObject::setLocation(ViewObjectLocation location)
 {
+	WorldManager &worldManager = WorldManager::getInstance();
+	Position pos;
+	int delta = 0;
 
+	// set new position based on location
+	switch (location)
+	{
+	case TOP_LEFT:
+		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 1/6.0f, 1);
+		if (!getBorder())
+			delta = -1;
+		break;
+	case TOP_CENTER:
+		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 3/6.0f, 1);
+		if (!getBorder())
+			delta = -1;
+		break;
+	case TOP_RIGHT:
+		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 5/6.0f, 1);
+		if (!getBorder())
+			delta = -1;
+		break;
+	case BOTTOM_LEFT:
+		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 1/6.0f,
+			worldManager.getViewBoundary().getHorizontal() - 1);
+		if (!getBorder())
+			delta = 1;
+		break;
+	case BOTTOM_CENTER:
+		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 3/6.0f,
+			worldManager.getViewBoundary().getHorizontal() - 1);
+		if (!getBorder())
+			delta = 1;
+		break;
+	case BOTTOM_RIGHT:
+		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 5/6.0f,
+			worldManager.getViewBoundary().getHorizontal() - 1);
+		if (!getBorder())
+			delta = 1;
+		break;
+	}
+
+	// shift, as needed, based on border
+	pos.setY(pos.getY() + delta);
+
+	// set view object position
+	setPosition(pos);
 }
 
 /**
@@ -70,7 +199,7 @@ void ViewObject::setLocation(ViewObjectLocation location)
  */
 void ViewObject::setValue(int value)
 {
-
+	_value = value;
 }
 
 /**
@@ -79,7 +208,7 @@ void ViewObject::setValue(int value)
  */
 int ViewObject::getValue(void)
 {
-	return -1;
+	return _value;
 }
 
 /**
@@ -88,7 +217,7 @@ int ViewObject::getValue(void)
  */
 void ViewObject::setBorder(bool value)
 {
-
+	_border = value;
 }
 
 /**
@@ -97,7 +226,7 @@ void ViewObject::setBorder(bool value)
  */
 bool ViewObject::getBorder(void)
 {
-	return false;
+	return _border;
 }
 
 /**
@@ -106,7 +235,7 @@ bool ViewObject::getBorder(void)
  */
 void ViewObject::setColor(int value)
 {
-
+	_color = value;
 }
 
 /**
@@ -115,7 +244,7 @@ void ViewObject::setColor(int value)
  */
 int ViewObject::getColor(void)
 {
-	return -1;
+	return _color;
 }
 
 /**
@@ -124,7 +253,7 @@ int ViewObject::getColor(void)
  */
 void ViewObject::setViewString(string value)
 {
-
+	_viewString = value;
 }
 
 /**
@@ -133,5 +262,5 @@ void ViewObject::setViewString(string value)
  */
 string ViewObject::getViewString(void)
 {
-	return NULL;
+	return _viewString;
 }

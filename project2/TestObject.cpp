@@ -14,6 +14,7 @@
 #include "EventKeyboard.h"
 #include "EventMouse.h"
 #include "EventOut.h"
+#include "EventView.h"
 #include "EventCollision.h"
 #include "LogManager.h"
 
@@ -141,6 +142,11 @@ int TestObject::eventHandler(Event *p_event)
 			_id);
 
 		worldManager.markForDelete(this);
+
+		// notify view
+		EventView ev("OutCounter", 1, true);
+		worldManager.onEvent(&ev);
+
 		return 1;
 	}
 
