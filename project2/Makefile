@@ -33,6 +33,7 @@ ENGSRC = Box.cpp \
 		 EventOut.cpp \
 		 EventStep.cpp \
 		 EventTest.cpp \
+		 EventView.cpp \
 		 Frame.cpp \
 		 InputManager.cpp \
 		 Line.cpp \
@@ -48,6 +49,7 @@ ENGSRC = Box.cpp \
 		 TestAnimatedObject.cpp \
 		 TestObject.cpp \
 		 utility.cpp \
+		 ViewObject.cpp \
 		 WorldManager.cpp 
 GAMESRC = game.cpp
 TESTSRC = test.cpp
@@ -97,6 +99,7 @@ EventMouse.o: EventMouse.h Event.h Position.h
 EventOut.o: EventOut.h Event.h
 EventStep.o: EventStep.h Event.h
 EventTest.o: EventTest.h Event.h
+EventView.o: EventView.h Event.h
 Frame.o: Frame.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
@@ -110,9 +113,9 @@ game.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 game.o: /usr/include/bits/wordsize.h Manager.h ObjectList.h Object.h
 game.o: Position.h Event.h Sprite.h Frame.h Box.h ObjectListIterator.h
 game.o: utility.h Line.h Circle.h GameManager.h /usr/include/time.h
-game.o: /usr/include/machine/time.h ResourceManager.h EventStep.h
-game.o: EventKeyboard.h EventMouse.h EventCollision.h EventOut.h TestObject.h
-game.o: TestCollidableObject.h TestAnimatedObject.h
+game.o: /usr/include/machine/time.h ResourceManager.h WorldManager.h
+game.o: EventStep.h EventKeyboard.h EventMouse.h EventCollision.h EventOut.h
+game.o: TestObject.h TestCollidableObject.h TestAnimatedObject.h
 GameManager.o: /usr/include/stdio.h /usr/include/_ansi.h
 GameManager.o: /usr/include/newlib.h /usr/include/sys/config.h
 GameManager.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
@@ -340,7 +343,9 @@ utility.o: /usr/include/machine/types.h /usr/include/stdio.h
 utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
 utility.o: /usr/include/math.h utility.h Position.h Box.h Line.h Circle.h
-utility.o: Object.h Event.h Sprite.h Frame.h
+utility.o: Object.h Event.h Sprite.h Frame.h WorldManager.h Manager.h
+utility.o: ObjectList.h ObjectListIterator.h
+ViewObject.o: ViewObject.h Object.h Position.h Event.h Sprite.h Frame.h Box.h
 WorldManager.o: WorldManager.h Manager.h ObjectList.h Object.h Position.h
 WorldManager.o: Event.h Sprite.h Frame.h Box.h ObjectListIterator.h
 WorldManager.o: GraphicsManager.h /usr/include/curses.h
