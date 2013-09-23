@@ -33,7 +33,7 @@ int SceneGraph::insertObject(Object *p_object)
 	LogManager &logManager = LogManager::getInstance();
 
 	// add object to list
-	if (_objects.insert(p_object))
+	if (_objects[_level].insert(p_object))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"SceneGraph::insertObject()",
@@ -44,7 +44,7 @@ int SceneGraph::insertObject(Object *p_object)
 	// check adding to solidness list
 	if (p_object->isSolid())
 	{
-		if(_solidObjects.insert(p_object))
+		if(_solidObjects[_level].insert(p_object))
 		{
 			logManager.writeLog(LOG_ERROR,
 				"SceneGraph::insertObject()",
@@ -62,7 +62,7 @@ int SceneGraph::insertObject(Object *p_object)
 			p_object->getAltitude());
 		return -1;
 	}
-	if(_visibleObjects[p_object->getAltitude()].insert(p_object))
+	if(_visibleObjects[_level][p_object->getAltitude()].insert(p_object))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"SceneGraph::insertObject()",
@@ -76,13 +76,13 @@ int SceneGraph::insertObject(Object *p_object)
 /**
  * Removes an object from the scene graph.
  * @param p_object The object to remove.
- * @return Returns 0 in case of success, else -1.
+ * @return Returns 0 in case of succcgess, else -1.
  */
 int SceneGraph::removeObject(Object *p_object)
 {
 	LogManager &logManager = LogManager::getInstance();
 
-	if (_objects.remove(p_object))
+	if (_objects[_level].remove(p_object))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"SceneGraph::removeObject()",
@@ -90,7 +90,7 @@ int SceneGraph::removeObject(Object *p_object)
 		return -1;
 	}
 
-	if (_solidObjects.remove(p_object))
+	if (_solidObjects[_level].remove(p_object))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"SceneGraph::removeObject()",
@@ -107,7 +107,7 @@ int SceneGraph::removeObject(Object *p_object)
 			p_object->getAltitude());
 		return -1;
 	}
-	if (_visibleObjects[p_object->getAltitude()].remove(p_object))
+	if (_visibleObjects[_level][p_object->getAltitude()].remove(p_object))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"SceneGraph::removeObject()",
@@ -123,10 +123,10 @@ int SceneGraph::removeObject(Object *p_object)
  */
 void SceneGraph::clearAllObjects(void)
 {
-	_objects.clear();
-	_solidObjects.clear();
+	_objects[_level].clear();
+	_solidObjects[_level].clear();
 	for (int i = MIN_ALTITUDE; i <= MAX_ALTITUDE; ++i)
-		_visibleObjects[i].clear();
+		_visibleObjects[_level][i].clear();
 }
 
 /**
@@ -135,7 +135,7 @@ void SceneGraph::clearAllObjects(void)
  */
 ObjectList SceneGraph::allObjects(void)
 {
-	return _objects;
+	return _objects[_level];
 }
 
 /**
@@ -144,7 +144,7 @@ ObjectList SceneGraph::allObjects(void)
  */
 ObjectList SceneGraph::solidObjects(void)
 {
-	return _solidObjects;
+	return _solidObjects[_level];
 }
 
 /**
@@ -165,7 +165,7 @@ ObjectList SceneGraph::visibleObjects(int altitude)
 		ObjectList empty;
 		return empty;
 	}
-	return _visibleObjects[altitude];
+	return _visibleObjects[_level][altitude];
 }
 
 /**
@@ -200,7 +200,7 @@ int SceneGraph::updateAltitude(Object *p_object, int altitude)
 	}
 
 	// remove from old altitude
-	if (_visibleObjects[p_object->getAltitude()].remove(p_object))
+	if (_visibleObjects[_level][p_object->getAltitude()].remove(p_object))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"SceneGraph::updateAltitude()",
@@ -209,7 +209,7 @@ int SceneGraph::updateAltitude(Object *p_object, int altitude)
 	}
 
 	// add to new altitude
-	if (_visibleObjects[altitude].insert(p_object))
+	if (_visibleObjects[_level][altitude].insert(p_object))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"SceneGraph::updateAltitude()",
@@ -234,12 +234,12 @@ int SceneGraph::updateSolidness(Object *p_object, Solidness solidness)
 	// try remove it from the list if it was solid before
 	if (p_object->isSolid())
 	{
-		_solidObjects.remove(p_object);
+		_solidObjects[_level].remove(p_object);
 	}
 
 	if (solidness == HARD || solidness == SOFT)
 	{
-		if (_solidObjects.insert(p_object))
+		if (_solidObjects[_level].insert(p_object))
 		{
 			logManager.writeLog(LOG_ERROR,
 				"SceneGraph::updateSolidness()",
@@ -249,4 +249,35 @@ int SceneGraph::updateSolidness(Object *p_object, Solidness solidness)
 	}
 
 	return 0;
+}
+
+/**
+ * Sets the games current level.
+ * @param level The level to set.
+ * @return Returns 0 if ok, else -1.
+ */
+int SceneGraph::setLevel(int level)
+{
+	LogManager &logManager = LogManager::getInstance();
+
+	if (!valueInRange(level, 0, MAX_LEVEL))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"SceneGraph::setLevel()",
+			"Level value %d is not in the allowed range.\n",
+			level);
+		return -1;
+	}
+
+	_level = level;
+	return 0;
+}
+
+/**
+ * Gets the games current level.
+ * @return The current level.
+ */
+int SceneGraph::getLevel(void)
+{
+	return _level;
 }

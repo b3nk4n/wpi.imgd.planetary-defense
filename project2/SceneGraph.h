@@ -14,6 +14,9 @@
 #define MIN_ALTITUDE 0
 #define MAX_ALTITUDE 4
 
+// NOTE: objects on level 0 are persistent
+#define MAX_LEVEL 100
+
 /**
  * Representing a scene graph.
  */
@@ -21,19 +24,24 @@ class SceneGraph
 {
 private:
 	/**
+	 * The games current level.
+	 */
+	int _level;
+
+	/**
 	 * All game objects.
 	 */
-	ObjectList _objects;
+	ObjectList _objects[MAX_LEVEL + 1];
 
 	/**
 	 * All solid game objects.
 	 */
-	ObjectList _solidObjects;
+	ObjectList _solidObjects[MAX_LEVEL + 1];
 
 	/**
 	 * All visible game objects.
 	 */
-	ObjectList _visibleObjects[MAX_ALTITUDE + 1];
+	ObjectList _visibleObjects[MAX_LEVEL + 1][MAX_ALTITUDE + 1];
 
 public:
 	/**
@@ -101,6 +109,19 @@ public:
 	 * @return Returns 0 in case of success, else -1.
 	 */
 	int updateSolidness(Object *p_object, Solidness solidness);
+
+	/**
+	 * Sets the games current level.
+	 * @param level The level to set.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int setLevel(int level);
+
+	/**
+	 * Gets the games current level.
+	 * @return The current level.
+	 */
+	int getLevel(void);
 };
 
  #endif

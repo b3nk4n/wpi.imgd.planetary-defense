@@ -194,6 +194,13 @@ void WorldManager::update(float delta)
 
 	// clear deletion list for next update
 	_deletions.clear();
+
+	// change level if it was requested
+	if (_nextLevel)
+	{
+		_sceneGraph.setLevel(_nextLevel);
+		_nextLevel = 0;
+	}
 }
 
 /**
@@ -453,38 +460,69 @@ int WorldManager::setViewFollowing(Object *p_viewFollowing)
 	return -1;
 }
 
- /**
-  * Gets the world boundary.
-  * @return The world boundary.
-  */
- Box WorldManager::getWorldBoundary(void)
- {
- 	return _worldBoundary;
- }
+/**
+ * Gets the world boundary.
+ * @return The world boundary.
+ */
+Box WorldManager::getWorldBoundary(void)
+{
+	return _worldBoundary;
+}
 
- /**
-  * Sets the world boundary.
-  * @param world The world boundary.
-  */
- void WorldManager::setWorldBoundary(Box world)
- {
- 	_worldBoundary = world;
- }
+/**
+ * Sets the world boundary.
+ * @param world The world boundary.
+ */
+void WorldManager::setWorldBoundary(Box world)
+{
+	_worldBoundary = world;
+}
 
- /**
-  * Gets the view boundary.
-  * @return The view boundary.
-  */
- Box WorldManager::getViewBoundary(void)
- {
- 	return _viewBoundary;
- }
+/**
+ * Gets the view boundary.
+ * @return The view boundary.
+ */
+Box WorldManager::getViewBoundary(void)
+{
+	return _viewBoundary;
+}
 
- /**
-  * Sets the view boundary.
-  * @param view The view boundary.
-  */
- void WorldManager::setViewBoundary(Box view)
- {
+/**
+ * Sets the view boundary.
+ * @param view The view boundary.
+ */
+void WorldManager::setViewBoundary(Box view)
+{
  	_viewBoundary = view;
- }
+}
+
+/**
+ * Gets the current game level.
+ * @return The current game level.
+ */
+int WorldManager::getLevel(void)
+{
+ 	return _sceneGraph.getLevel();
+}
+
+/**
+ * Sets the current game level at the end of world managers update.
+ * @param level The new game level.
+ * @return Returns 0 if ok, else -1.
+ */
+int WorldManager::setLevel(int level)
+{
+	LogManager &logManager = LogManager::getInstance();
+
+	if (!valueInRange(level, 0, MAX_LEVEL))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"WorldManager::setLevel()",
+			"Level value %d is not in the allowed range.\n",
+			level);
+		return -1;
+	}
+
+	_nextLevel = level;
+	return 0;
+}

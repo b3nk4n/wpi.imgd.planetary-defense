@@ -20,6 +20,11 @@ class WorldManager : public Manager
 {
 private:
 	/**
+	 * Next level to assign (0 means no change).
+	 */
+	int _nextLevel;
+
+	/**
 	 * Storage for all objects.
 	 */
 	SceneGraph _sceneGraph;
@@ -186,6 +191,19 @@ public:
 	  * @param view The view boundary.
 	  */
 	 void setViewBoundary(Box view);
+
+	 /**
+	  * Gets the current game level.
+	  * @return The current game level.
+	  */
+	 int getLevel(void);
+
+	 /**
+	  * Sets the current game level at the end of world managers update.
+	  * @param level The new game level.
+	  * @return Returns 0 if ok, else -1.
+	  */
+	 int setLevel(int level);
 };
 
 #endif
