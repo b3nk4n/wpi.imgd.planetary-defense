@@ -12,6 +12,7 @@
 #include "InputManager.h"
 #include "GraphicsManager.h"
 #include "LogManager.h"
+#include "SceneGraph.h"
 #include "EventStep.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
@@ -391,8 +392,20 @@ int Object::getVelocityYStep(void)
  */
 int Object::setAltitude(int value)
 {
+	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
+
 	if (value < MIN_ALTITUDE || MAX_ALTITUDE < value)
 		return -1;
+
+	SceneGraph &sceneGraph = worldManager.getSceneGraph();
+	if (sceneGraph.updateAltitude(this, value))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"Object::setAltitude()",
+			"Updating altitude failed.\n");
+		return -1;
+	}
 
 	_altitude = value;
 	return 0;
@@ -423,10 +436,22 @@ bool Object::isSolid(void)
  */
 int Object::setSolidness(Solidness value)
 {
+	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
+
 	if (value != HARD &&
 		value != SOFT &&
 		value != SPECTRAL)
 		return -1;
+
+	SceneGraph &sceneGraph = worldManager.getSceneGraph();
+	if (sceneGraph.updateSolidness(this, value))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"Object::setSolidness()",
+			"Updating solidness failed.\n");
+		return -1;
+	}
 
 	_solidness = value;
 	return 0;

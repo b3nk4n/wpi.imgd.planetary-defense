@@ -10,6 +10,7 @@
 
 #include "Manager.h"
 #include "ObjectList.h"
+#include "SceneGraph.h"
 #include "Box.h"
 
 /**
@@ -19,9 +20,9 @@ class WorldManager : public Manager
 {
 private:
 	/**
-	 * List of all world objects to be updated.
+	 * Storage for all objects.
 	 */
-	ObjectList _updates;
+	SceneGraph _sceneGraph;
 
 	/**
 	 * List of all world objects to be deferred deleted.
@@ -141,6 +142,12 @@ public:
 	 * @return Returns TRUE if event is handled, else FALSE.
 	 */
 	virtual bool isValid(string eventType);
+
+	/**
+	 * Gets a reference to the screne graph.
+	 * @return The worlds screne graph.
+	 */
+	SceneGraph &getSceneGraph(void);
 
 	 /**
 	  * Sets the view to center screen on position the specified position

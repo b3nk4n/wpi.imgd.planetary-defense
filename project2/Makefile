@@ -44,6 +44,7 @@ ENGSRC = Box.cpp \
 		 ObjectListIterator.cpp \
 		 Position.cpp \
 		 ResourceManager.cpp \
+		 SceneGraph.cpp \
 		 Sprite.cpp \
 		 TestCollidableObject.cpp \
 		 TestAnimatedObject.cpp \

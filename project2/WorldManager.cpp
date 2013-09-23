@@ -84,7 +84,7 @@ void WorldManager::shutDown(void)
  */
 int WorldManager::insertObject(Object *p_object)
 {
-	return _updates.insert(p_object);
+	return _sceneGraph.insertObject(p_object);
 }
 
 /**
@@ -94,7 +94,7 @@ int WorldManager::insertObject(Object *p_object)
  */
 int WorldManager::removeObject(Object *p_object)
 {
-	return _updates.remove(p_object);
+	return _sceneGraph.removeObject(p_object);
 }
 
 /**
@@ -103,7 +103,7 @@ int WorldManager::removeObject(Object *p_object)
  */
 ObjectList WorldManager::getAllObjects(void)
 {
-	return _updates;
+	return _sceneGraph.allObjects();
 }
 
 /**
@@ -111,10 +111,10 @@ ObjectList WorldManager::getAllObjects(void)
  */
 void WorldManager::clearAllObjects(void)
 {
-	// NOTE: create a copy of the _updates list here, because each time 'delete obj'
-	//       is called in the game objects desctructor the original _updates list 
+	// NOTE: create a copy of the  list here, because each time 'delete obj'
+	//       is called in the game objects desctructor the original list 
 	//       will be manipulated (causes iterator problems)
-	ObjectList updatesListCopy = _updates;
+	ObjectList updatesListCopy = _sceneGraph.allObjects();
 	
 	ObjectListIterator it(&updatesListCopy);
 	for (it.first(); !it.isDone(); it.next())
@@ -122,7 +122,7 @@ void WorldManager::clearAllObjects(void)
 		delete it.currentObject();
 	}
 
-	_updates.clear();
+	_sceneGraph.clearAllObjects();
 	_deletions.clear();
 }
 
@@ -165,7 +165,8 @@ void WorldManager::update(float delta)
 	LogManager &logManager = LogManager::getInstance();
 
 	// update positions based on their velocities
-	ObjectListIterator itVelocity(&_updates);
+	ObjectList allObjects = _sceneGraph.allObjects();
+	ObjectListIterator itVelocity(&allObjects);
 	for (itVelocity.first(); !itVelocity.isDone(); itVelocity.next())
 	{
 		Object *p_currentObject = itVelocity.currentObject();
@@ -203,21 +204,19 @@ void WorldManager::draw(void)
 	// draw view layer by view layer
 	for (int a = MIN_ALTITUDE; a <= MAX_ALTITUDE; ++a)
 	{
-		ObjectListIterator it(&_updates);
+		ObjectList visibleObjects = _sceneGraph.visibleObjects(a);
+		ObjectListIterator it(&visibleObjects);
 		for (it.first(); !it.isDone(); it.next())
 		{
 			Object *p_object = it.currentObject();
 			
-			if (p_object->getAltitude() == a)
-			{
-				// convert bounding box to world coordinates
-				Box worldBox = getWorldBox(p_object);
+			// convert bounding box to world coordinates
+			Box worldBox = getWorldBox(p_object);
 
-				// only draw if object is visible on screen
-				if (boxIntersectsBox(worldBox, _viewBoundary) ||
-					dynamic_cast<ViewObject *>(p_object))
-					p_object->draw();
-			}
+			// only draw if object is visible on screen
+			if (boxIntersectsBox(worldBox, _viewBoundary) ||
+				dynamic_cast<ViewObject *>(p_object))
+				p_object->draw();
 		}
 	}
 }
@@ -234,7 +233,8 @@ ObjectList WorldManager::isCollision(Object *p_object, Box box)
 	ObjectList collisionList;
 
 	// check all objects for collision
-	ObjectListIterator it(&_updates);
+	ObjectList solidObjects = _sceneGraph.solidObjects();
+	ObjectListIterator it(&solidObjects);
 	for (it.first(); !it.isDone(); it.next())
 	{
 		Object *p_currentObject = it.currentObject();
@@ -370,6 +370,15 @@ bool WorldManager::isValid(string eventType)
  		eventType != MOUSE_EVENT &&
  		eventType != KEYBOARD_EVENT;
  }
+
+ /**
+ * Gets a reference to the screne graph.
+ * @return The worlds screne graph.
+ */
+SceneGraph &WorldManager::getSceneGraph(void)
+{
+	return _sceneGraph;
+}
 
   /**
   * Sets the view to center screen on position the specified position
