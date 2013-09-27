@@ -4,7 +4,9 @@
  * @description The core game management unit, which handles the game loop.
  ******************************************************************************/
 
+#include <stdlib.h>
 #include <stdio.h>
+#include <signal.h>
 #include "GameManager.h"
 #include "WorldManager.h"
 #include "GraphicsManager.h"
@@ -14,6 +16,9 @@
 #include "LogManager.h"
 #include "Clock.h"
 #include "EventStep.h"
+
+//prototypes
+void doShutDown(int sig);
 
 /**
  * Creates a game manager instance.
@@ -77,6 +82,21 @@ int GameManager::startUp(bool flush)
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 	InputManager &inputManager = InputManager::getInstance();
 	ResourceManager &resourceManager = ResourceManager::getInstance();
+
+	// catch ctrl+c (SIGINT) and shutdown
+	struct sigaction action;
+	// set signal handler
+	action.sa_handler = doShutDown;
+	// clear signal set
+	sigemptyset(&action.sa_mask);
+	// no special modification to behavior
+	action.sa_flags = 0;
+	// enable the signal handler
+	if (sigaction(SIGINT, &action, NULL))
+	{
+		perror("Registration of signal handerl failed.");
+		return -1;
+	}
 
 	if (logManager.startUp(flush))
 	{
@@ -302,4 +322,22 @@ void GameManager::setGameOver(bool gameOver)
 int GameManager::getFrameTime(void)
 {
 	return _frameTime;
+}
+
+/**
+ * Shuts down the game manager for CTRL+C signal handling.
+ * @param sig The received signal.
+ */
+void doShutDown(int sig)
+{
+	LogManager &logManager = LogManager::getInstance();
+	GameManager &gameManager = GameManager::getInstance();
+
+	logManager.writeLog(LOG_INFO,
+		"GameManager::doShutDown()",
+		"Signal received: %d\n",
+		sig);
+
+	gameManager.shutDown();
+	exit(sig);
 }
