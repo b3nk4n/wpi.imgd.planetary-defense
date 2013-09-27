@@ -77,6 +77,17 @@ int GameManager::startUp(void)
  */
 int GameManager::startUp(bool flush)
 {
+	return startUp(flush, time(NULL));
+}
+
+/**
+ * Starts up all game manager services.
+ * @param flush Configures log file flushing.
+ * @param seed The seed value for the random numbers.
+ * @return Returns 0 if start up was successfull, else negative.
+ */
+int GameManager::startUp(bool flush, time_t seed)
+{
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
 	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
@@ -97,6 +108,9 @@ int GameManager::startUp(bool flush)
 		perror("Registration of signal handerl failed.");
 		return -1;
 	}
+
+	// set seed value
+	srandom(seed);
 
 	if (logManager.startUp(flush))
 	{

@@ -69,6 +69,14 @@ public:
 	int startUp(bool flush);
 
 	/**
+	 * Starts up all game manager services.
+	 * @param flush Configures log file flushing.
+	 * @param seed The seed value for the random numbers.
+	 * @return Returns 0 if start up was successfull, else negative.
+	 */
+	int startUp(bool flush, time_t seed);
+
+	/**
 	 * Shuts down all game manager services.
 	 */
 	virtual void shutDown(void);
