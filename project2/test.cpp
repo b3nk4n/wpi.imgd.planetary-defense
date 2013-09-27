@@ -28,6 +28,7 @@
 #include "Sprite.h"
 #include "ResourceManager.h"
 #include "ViewObject.h"
+#include "SceneGraph.h"
 #include "utility.h"
 
 using std::string;
@@ -44,6 +45,7 @@ bool testGameManager_runAndGameOverNoHang(void);
 bool testGameManager_changedFrameTimeHasEffect(void);
 bool testGameManager_stepEventIsValid(void);
 bool testGameManager_testEventIsNotValid(void);
+bool testGameManager_registerInvalidEvent(void);
 bool testGraphicsManager_verifyIsStarted(void);
 bool testWorldManager_markOneObjectForDelete(void);
 bool testWorldManager_markOneObjectForDeleteTwice(void);
@@ -52,7 +54,9 @@ bool testWorldManager_verifyIsStarted(void);
 bool testWorldManager_insertAndRemoveObject(void);
 bool testWorldManager_stepEventIsNotValid(void);
 bool testWorldManager_testEventIsValid(void);
-bool testGameManager_registerInvalidEvent(void);
+bool testWorldManager_checkDefaultLevel(void);
+bool testWorldManager_setLevelShouldNotChangeWithoutUpdate(void);
+bool testWorldManager_setLevelShouldChangeAfterUpdate(void);
 bool testLogManager_verifyIsStarted(void);
 bool testLogManager_writeLogNoParam(void);
 bool testLogManager_writeLogMixedParam(void);
@@ -129,6 +133,8 @@ bool testObject_collisionEventIsFiredForSoftToSoft(void);
 bool testObject_collisionEventIsNotFiredForSpectralToSoft(void);
 bool testObject_collisionEventIsNotFiredForSoftToSpectral(void);
 bool testObject_collisionEventIsNotFiredForSpectralToSpectral(void);
+bool testObject_updateVisiblilty(void);
+bool testObject_updatePersistence(void);
 bool testObjectList_emptyListIsEmpty(void);
 bool testObjectList_emptyListNotFull(void);
 bool testObjectList_emptyListCountZero(void);
@@ -144,6 +150,11 @@ bool testObjectList_operatorPlusEmptyListPlusEmptyListIsZero(void);
 bool testObjectList_operatorPlusEmptyListPlusFilledListIsFilled(void);
 bool testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList(void);
 bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void);
+bool testSceneGraph_createDefault(void);
+bool testSceneGraph_insertAndRemoveOneSolidObject(void);
+bool testSceneGraph_insertAndRemoveOneNonSolidObject(void);
+bool testSceneGraph_insertAndRemoveMultipleMixedObject(void);
+bool testSceneGraph_insertAndRemoveWithLevelChange(void);
 bool testFrame_ceateDefault(void);
 bool testFrame_createCustom(void);
 bool testFrame_getterAndSetter(void);
@@ -248,6 +259,9 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testWorldManager_clearAllObjects", &testWorldManager_clearAllObjects);
 	unitTestManager.registerTestFunction("testWorldManager_stepEventIsNotValid", &testWorldManager_stepEventIsNotValid);
 	unitTestManager.registerTestFunction("testWorldManager_testEventIsValid", &testWorldManager_testEventIsValid);
+	unitTestManager.registerTestFunction("testWorldManager_checkDefaultLevel", &testWorldManager_checkDefaultLevel);
+	unitTestManager.registerTestFunction("testWorldManager_setLevelShouldNotChangeWithoutUpdate", &testWorldManager_setLevelShouldNotChangeWithoutUpdate);
+	unitTestManager.registerTestFunction("testWorldManager_setLevelShouldChangeAfterUpdate", &testWorldManager_setLevelShouldChangeAfterUpdate);
 
 	unitTestManager.registerTestFunction("testLogManager_verifyIsStarted", &testLogManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testLogManager_writeLogNoParam", &testLogManager_writeLogNoParam);
@@ -310,6 +324,22 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testLine_sameLinesNotComparedIsFalse", &testLine_sameLinesNotComparedIsFalse);
 	unitTestManager.registerTestFunction("testLine_differentLinesNotComparedIsTrue", &testLine_differentLinesNotComparedIsTrue);
 
+	unitTestManager.registerTestFunction("testObjectList_emptyListIsEmpty", &testObjectList_emptyListIsEmpty);
+	unitTestManager.registerTestFunction("testObjectList_emptyListNotFull", &testObjectList_emptyListNotFull);
+	unitTestManager.registerTestFunction("testObjectList_emptyListCountZero", &testObjectList_emptyListCountZero);
+	unitTestManager.registerTestFunction("testObjectList_singleListCountOne", &testObjectList_singleListCountOne);
+	unitTestManager.registerTestFunction("testObjectList_singleListNotEmpty", &testObjectList_singleListNotEmpty);
+	unitTestManager.registerTestFunction("testObjectList_singleListNotFull", &testObjectList_singleListNotFull);
+	unitTestManager.registerTestFunction("testObjectList_fullListIsFull", &testObjectList_fullListIsFull);
+	unitTestManager.registerTestFunction("testObjectList_removeInsertedObject", &testObjectList_removeInsertedObject);
+	unitTestManager.registerTestFunction("testObjectList_removeNotInsertedObject", &testObjectList_removeNotInsertedObject);
+	unitTestManager.registerTestFunction("testObjectList_realloc", &testObjectList_realloc);
+	unitTestManager.registerTestFunction("testObjectList_countZeroAfterClear", &testObjectList_countZeroAfterClear);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusEmptyListIsZero", &testObjectList_operatorPlusEmptyListPlusEmptyListIsZero);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusFilledListIsFilled", &testObjectList_operatorPlusEmptyListPlusFilledListIsFilled);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList", &testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList);
+	unitTestManager.registerTestFunction("testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc", &testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc);
+
 	unitTestManager.registerTestFunction("testObject_setAndGetPosition", &testObject_setAndGetPosition);
 	unitTestManager.registerTestFunction("testObject_setAndGetType", &testObject_setAndGetType);
 	unitTestManager.registerTestFunction("testObject_setAndGetHardSolidness", &testObject_setAndGetHardSolidness);
@@ -333,22 +363,14 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testObject_collisionEventIsNotFiredForSpectralToSoft", &testObject_collisionEventIsNotFiredForSpectralToSoft);
 	unitTestManager.registerTestFunction("testObject_collisionEventIsNotFiredForSoftToSpectral", &testObject_collisionEventIsNotFiredForSoftToSpectral);
 	unitTestManager.registerTestFunction("testObject_collisionEventIsNotFiredForSpectralToSpectral", &testObject_collisionEventIsNotFiredForSpectralToSpectral);
+	unitTestManager.registerTestFunction("testObject_updateVisiblilty", &testObject_updateVisiblilty);
+	unitTestManager.registerTestFunction("testObject_updatePersistence", &testObject_updatePersistence);
 
-	unitTestManager.registerTestFunction("testObjectList_emptyListIsEmpty", &testObjectList_emptyListIsEmpty);
-	unitTestManager.registerTestFunction("testObjectList_emptyListNotFull", &testObjectList_emptyListNotFull);
-	unitTestManager.registerTestFunction("testObjectList_emptyListCountZero", &testObjectList_emptyListCountZero);
-	unitTestManager.registerTestFunction("testObjectList_singleListCountOne", &testObjectList_singleListCountOne);
-	unitTestManager.registerTestFunction("testObjectList_singleListNotEmpty", &testObjectList_singleListNotEmpty);
-	unitTestManager.registerTestFunction("testObjectList_singleListNotFull", &testObjectList_singleListNotFull);
-	unitTestManager.registerTestFunction("testObjectList_fullListIsFull", &testObjectList_fullListIsFull);
-	unitTestManager.registerTestFunction("testObjectList_removeInsertedObject", &testObjectList_removeInsertedObject);
-	unitTestManager.registerTestFunction("testObjectList_removeNotInsertedObject", &testObjectList_removeNotInsertedObject);
-	unitTestManager.registerTestFunction("testObjectList_realloc", &testObjectList_realloc);
-	unitTestManager.registerTestFunction("testObjectList_countZeroAfterClear", &testObjectList_countZeroAfterClear);
-	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusEmptyListIsZero", &testObjectList_operatorPlusEmptyListPlusEmptyListIsZero);
-	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusFilledListIsFilled", &testObjectList_operatorPlusEmptyListPlusFilledListIsFilled);
-	unitTestManager.registerTestFunction("testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList", &testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList);
-	unitTestManager.registerTestFunction("testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc", &testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc);
+	unitTestManager.registerTestFunction("testSceneGraph_createDefault", &testSceneGraph_createDefault);
+	unitTestManager.registerTestFunction("testSceneGraph_insertAndRemoveOneSolidObject", &testSceneGraph_insertAndRemoveOneSolidObject);
+	unitTestManager.registerTestFunction("testSceneGraph_insertAndRemoveOneNonSolidObject", &testSceneGraph_insertAndRemoveOneNonSolidObject);
+	unitTestManager.registerTestFunction("testSceneGraph_insertAndRemoveMultipleMixedObject", &testSceneGraph_insertAndRemoveMultipleMixedObject);
+	unitTestManager.registerTestFunction("testSceneGraph_insertAndRemoveWithLevelChange", &testSceneGraph_insertAndRemoveWithLevelChange);
 
 	unitTestManager.registerTestFunction("testFrame_ceateDefault", &testFrame_ceateDefault);
 	unitTestManager.registerTestFunction("testFrame_createCustom", &testFrame_createCustom);
@@ -464,9 +486,14 @@ void testBefore(void)
 {
 	LogManager &logManager = LogManager::getInstance();
 	GameManager &gameManager = GameManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
 	
 	logManager.setVerbosity(LOG_DEBUG);
 	gameManager.setGameOver(false);
+
+	// reset level
+	worldManager.setLevel(DEFAULT_LEVEL);
+	worldManager.update(DEFAULT_FRAME_TIME);
 }
 
 /**
@@ -678,6 +705,53 @@ bool testWorldManager_testEventIsValid(void)
 	bool res = worldManager.isValid(TEST_EVENT);
 
 	return res;
+}
+
+bool testWorldManager_checkDefaultLevel(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	int level = worldManager.getLevel();
+
+	return level == DEFAULT_LEVEL;
+}
+
+bool testWorldManager_setLevelShouldNotChangeWithoutUpdate(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	int level = 10;
+	int res = worldManager.setLevel(level);
+
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"testWorldManager_setLevelShouldNotChangeWithoutUpdate()",
+		"res=%d, level=%d",
+		res,
+		worldManager.getLevel());
+
+	return res == 0 &&
+		worldManager.getLevel() != level;
+}
+
+bool testWorldManager_setLevelShouldChangeAfterUpdate(void)
+{
+	WorldManager &worldManager = WorldManager::getInstance();
+	int level = 10;
+	int res = worldManager.setLevel(level);
+	int levelBefore = worldManager.getLevel();
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int levelAfter = worldManager.getLevel();
+
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"testWorldManager_setLevelShouldNotChangeWithoutUpdate()",
+		"res=%d, levelBefore=%d, levelAfter=%d",
+		res,
+		levelBefore,
+		levelAfter);
+
+	return res == 0 &&
+		levelBefore != level &&
+		levelAfter == level;
 }
 
 bool testLogManager_verifyIsStarted(void)
@@ -1521,6 +1595,78 @@ bool testObject_collisionEventIsNotFiredForSpectralToSpectral(void)
 	return countBeforeCollision == countAfterCollision;
 }
 
+bool testObject_updateVisiblilty(void)
+{
+	Object *p_object = new Object();
+	p_object->setAltitude(2);
+
+	WorldManager &worldManager = WorldManager::getInstance();
+	SceneGraph &sceneGraph = worldManager.getSceneGraph();
+	int countBefore = sceneGraph.visibleObjects(2).getCount();
+	p_object->setAltitude(3);
+	int countOldAfter = sceneGraph.visibleObjects(2).getCount();
+	int countNewAfter = sceneGraph.visibleObjects(3).getCount();
+
+	return countBefore == 1 &&
+		countOldAfter == 0 &&
+		countNewAfter == 1;
+}
+
+bool testObject_updatePersistence(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
+	SceneGraph &sceneGraph = worldManager.getSceneGraph();
+	sceneGraph.setLevel(1);
+	Object *p_object1 = new TestObject();
+	p_object1->setPersistence(false);
+	Object *p_object2 = new TestObject();
+	p_object2->setPersistence(false);
+	sceneGraph.setLevel(2);
+	Object *p_object3 = new TestObject();
+	p_object3->setPersistence(false);
+	sceneGraph.setLevel(1);
+
+	worldManager.setLevel(1);
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countBefore = worldManager.getAllObjects().getCount();
+	worldManager.setLevel(2);
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfter1 =  worldManager.getAllObjects().getCount();
+	worldManager.setLevel(1);
+	worldManager.update(DEFAULT_FRAME_TIME);
+	p_object1->setPersistence(true);
+	int countAfter2 =  worldManager.getAllObjects().getCount();
+	p_object2->setPersistence(true);
+	int countAfter3 =  worldManager.getAllObjects().getCount();
+	worldManager.setLevel(2);
+	worldManager.update(DEFAULT_FRAME_TIME); // switch because obj3 is on level 2
+	p_object3->setPersistence(true);
+	int countAfter4 =  worldManager.getAllObjects().getCount();
+	worldManager.setLevel(1);
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int countAfter5 =  worldManager.getAllObjects().getCount();
+	ObjectList all = worldManager.getAllObjects();
+	ObjectListIterator it(&all);
+
+	logManager.writeLog(LOG_DEBUG,
+		"testObject_updatePersistence",
+		"Results: %d, %d, %d, %d, %d, %d\n",
+		countBefore,
+		countAfter1,
+		countAfter2,
+		countAfter3,
+		countAfter4,
+		countAfter5);
+
+	return countBefore == 2 &&
+		countAfter1 == 1 &&
+		countAfter2 == 2 &&
+		countAfter3 == 2 &&
+		countAfter4 == 3 &&
+		countAfter5 == 3;
+}
+
 bool testObjectList_emptyListIsEmpty(void)
 {
 	ObjectList list;
@@ -1671,7 +1817,9 @@ bool testObjectList_operatorPlusEmptyListPlusEmptyListIsZero(void)
 
 	ObjectList addedList = firstList + secondList;
 
-	return addedList.getCount() == 0;
+	return addedList.getCount() == 0 &&
+		firstList.getCount() == 0 &&
+		secondList.getCount() == 0;
 }
 
 bool testObjectList_operatorPlusEmptyListPlusFilledListIsFilled(void)
@@ -1684,7 +1832,9 @@ bool testObjectList_operatorPlusEmptyListPlusFilledListIsFilled(void)
 
 	ObjectList addedList = firstList + secondList;
 
-	return addedList.getCount() == fullSize;
+	return addedList.getCount() == fullSize &&
+		firstList.getCount() == 0 &&
+		secondList.getCount() == fullSize;
 }
 
 bool testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList(void)
@@ -1698,7 +1848,9 @@ bool testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList(void)
 
 	ObjectList addedList = firstList + secondList;
 
-	return addedList.getCount() == 2 * fullSize;
+	return addedList.getCount() == 2 * fullSize &&
+		firstList.getCount() == fullSize &&
+		secondList.getCount() == fullSize;
 }
 
 bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void)
@@ -1712,7 +1864,179 @@ bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void)
 
 	ObjectList addedList = firstList + secondList;
 
-	return addedList.getCount() == 2 * fullSize;
+	return addedList.getCount() == 2 * fullSize &&
+		firstList.getCount() == INIT_LIST_SIZE &&
+		secondList.getCount() == INIT_LIST_SIZE;
+}
+
+bool testSceneGraph_createDefault(void)
+{
+	SceneGraph sceneGraph;
+
+	return sceneGraph.getLevel() == DEFAULT_LEVEL;
+}
+
+bool testSceneGraph_insertAndRemoveOneSolidObject(void)
+{
+	SceneGraph sceneGraph;
+	Object *p_object = new Object();
+	p_object->setSolidness(HARD);
+
+	int countAllBeforeInsert = sceneGraph.allObjects().getCount();
+	int res1 = sceneGraph.insertObject(p_object);
+	int countAllAfterInsert = sceneGraph.allObjects().getCount();
+	int countSolidAfterInsert = sceneGraph.solidObjects().getCount();
+	int res2 = sceneGraph.removeObject(p_object);
+	int countAllAfterRemove = sceneGraph.allObjects().getCount();
+	int countSolidAfterRemove = sceneGraph.solidObjects().getCount();
+
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+			"testSceneGraph_insertAndRemoveOneSolidObject()",
+			"%d, %d : %d, %d, %d, %d, %d\n",
+			res1,
+			res2,
+			countAllBeforeInsert,
+			countAllAfterInsert,
+			countSolidAfterInsert,
+			countAllAfterRemove,
+			countSolidAfterRemove);
+
+	return res1 == 0 &&
+		res2 == 0 &&
+		countAllBeforeInsert == 0 &&
+		countAllAfterInsert == 1 &&
+		countSolidAfterInsert == 1 &&
+		countAllAfterRemove == 0 &&
+		countSolidAfterRemove == 0;
+}
+
+bool testSceneGraph_insertAndRemoveOneNonSolidObject(void)
+{
+	SceneGraph sceneGraph;
+	Object *p_object = new Object();
+	p_object->setSolidness(SPECTRAL);
+
+	int countAllBeforeInsert = sceneGraph.allObjects().getCount();
+	int res1 = sceneGraph.insertObject(p_object);
+	int countAllAfterInsert = sceneGraph.allObjects().getCount();
+	int countSolidAfterInsert = sceneGraph.solidObjects().getCount();
+	int res2 = sceneGraph.removeObject(p_object);
+	int countAllAfterRemove = sceneGraph.allObjects().getCount();
+	int countSolidAfterRemove = sceneGraph.solidObjects().getCount();
+
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+			"testSceneGraph_insertAndRemoveOneNonSolidObject()",
+			"%d, %d : %d, %d, %d, %d, %d\n",
+			res1,
+			res2,
+			countAllBeforeInsert,
+			countAllAfterInsert,
+			countSolidAfterInsert,
+			countAllAfterRemove,
+			countSolidAfterRemove);
+
+	return res1 == 0 &&
+		res2 == 0 &&
+		countAllBeforeInsert == 0 &&
+		countAllAfterInsert == 1 &&
+		countSolidAfterInsert == 0 &&
+		countAllAfterRemove == 0 &&
+		countSolidAfterRemove == 0;
+}
+
+bool testSceneGraph_insertAndRemoveMultipleMixedObject(void)
+{
+	SceneGraph sceneGraph;
+	int altitude = 2;
+	Object *p_object1 = new Object();
+	p_object1->setSolidness(SPECTRAL);
+	p_object1->setAltitude(altitude);
+	Object *p_object2 = new Object();
+	p_object2->setSolidness(SOFT);
+	p_object2->setAltitude(altitude);
+	Object *p_object3 = new Object();
+	p_object3->setSolidness(HARD);
+	p_object3->setAltitude(altitude);
+	p_object3->setPersistence(true);
+	Object *p_object4 = new Object();
+	p_object4->setSolidness(SOFT);
+	p_object4->setAltitude(altitude);
+	p_object4->setVisibility(false);
+
+	int res1 = sceneGraph.insertObject(p_object1);
+	int res2 = sceneGraph.insertObject(p_object2);
+	int res3 = sceneGraph.insertObject(p_object3);
+	int res4 = sceneGraph.insertObject(p_object4);
+	int countAllAfterInsert = sceneGraph.allObjects().getCount();
+	int countSolidAfterInsert = sceneGraph.solidObjects().getCount();
+	int countVisibleAfterInsert = sceneGraph.visibleObjects(altitude).getCount();
+	int res5 = sceneGraph.removeObject(p_object1);
+	int res6 = sceneGraph.removeObject(p_object3);
+	int countAllAfterRemove = sceneGraph.allObjects().getCount();
+	int countSolidAfterRemove = sceneGraph.solidObjects().getCount();
+	int countVisibleAfterRemove = sceneGraph.visibleObjects(altitude).getCount();
+
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+			"testSceneGraph_insertAndRemoveOneNonSolidObject()",
+			"%d, %d, %d, %d, %d, %d : %d, %d, %d, %d, %d\n",
+			res1,
+			res2,
+			res3,
+			res4,
+			res5,
+			res6,
+			countAllAfterInsert,
+			countSolidAfterInsert,
+			countAllAfterRemove,
+			countAllAfterRemove,
+			countSolidAfterRemove,
+			countVisibleAfterRemove);
+
+	return res1 == 0 &&
+		res2 == 0 &&
+		res3 == 0 &&
+		res4 == 0 &&
+		res5 == 0 &&
+		res6 == 0 &&
+		countAllAfterInsert == 4 &&
+		countSolidAfterInsert == 3 &&
+		countVisibleAfterInsert == 3 &&
+		countAllAfterRemove == 2 &&
+		countSolidAfterRemove == 2 &&
+		countVisibleAfterRemove == 1;
+}
+
+bool testSceneGraph_insertAndRemoveWithLevelChange(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+	SceneGraph sceneGraph;
+	Object *p_object1 = new Object();
+	Object *p_object11 = new Object();
+	Object *p_object2 = new Object();
+	
+	sceneGraph.setLevel(1);
+	sceneGraph.insertObject(p_object1);
+	sceneGraph.insertObject(p_object11);
+	int countAll1AfterInsert = sceneGraph.allObjects().getCount();
+	sceneGraph.setLevel(2);
+	sceneGraph.insertObject(p_object2);
+	int countAll2AfterInsert = sceneGraph.allObjects().getCount();
+	sceneGraph.setLevel(1);
+	int countAll1AfterLevelRevert = sceneGraph.allObjects().getCount();
+	int res1 = sceneGraph.removeObject(p_object1);
+	int countAll1AfterRemove = sceneGraph.allObjects().getCount();
+	sceneGraph.setLevel(2);
+	int countAll2AfterRemove = sceneGraph.allObjects().getCount();
+
+	return res1 == 0 &&
+		countAll1AfterInsert == 2 &&
+		countAll2AfterInsert == 1 &&
+		countAll1AfterLevelRevert == 2 &&
+		countAll1AfterRemove == 1 &&
+		countAll2AfterRemove == 1;
 }
 
 bool testFrame_ceateDefault(void)

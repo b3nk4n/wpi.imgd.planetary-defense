@@ -65,6 +65,12 @@ public:
 	 * Sets the steps to live.
 	 */
 	void setSTL(int value);
+
+	/**
+	 * Gets the test objects id for identificatoin
+	 * @return The objects unique id.
+	 */
+	int getId(void);
 };
 
 #endif

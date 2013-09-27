@@ -124,6 +124,16 @@ private:
 	 */
 	Box _box;
 
+	/**
+	 * Indicates whether the object is visible on all levels.
+	 */
+	bool _isPersistent;
+
+	/**
+	 * Indicates whether object is drawn or not.
+	 */
+	bool _isVisible;
+
 public:
 	/**
 	* Creates a game object instance.
@@ -355,6 +365,32 @@ public:
 	 * @param box The bounding box.
 	 */
 	void setBox(Box box);
+
+	/**
+	 * Sets the persistence of the game object.
+	 * @param persistent The new game object persistence.
+	 * @return Returns 0 for success, else -1.
+	 */
+	int setPersistence(bool persistent);
+
+	/**
+	 * Gets whether the game object is persistent or not.
+	 * @return The game objects persistence.
+	 */
+	bool isPersistent(void);
+
+	/**
+	 * Sets the visibility of the game object.
+	 * @param visible Whether the objects is now visible or not.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int setVisibility(bool visible);
+
+	/**
+	 * Gets whether the game object is visible or not.
+	 * @return The game objects visibility.
+	 */
+	bool isVisible(void);
 };
 
 #endif

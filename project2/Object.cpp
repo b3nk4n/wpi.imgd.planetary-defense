@@ -45,6 +45,9 @@ Object::Object(void)
 	_spriteIndex = 0;
 	setSpriteSlowdown(1);
 
+	_isPersistent = false;
+	_isVisible = true;
+
 	// add itself to the world manager
 	if (worldManager.insertObject(this))
 	{
@@ -395,7 +398,7 @@ int Object::setAltitude(int value)
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &worldManager = WorldManager::getInstance();
 
-	if (value < MIN_ALTITUDE || MAX_ALTITUDE < value)
+	if (!valueInRange(value, MIN_ALTITUDE, MAX_ALTITUDE))
 		return -1;
 
 	SceneGraph &sceneGraph = worldManager.getSceneGraph();
@@ -638,4 +641,65 @@ Box Object::getBox(void)
 void Object::setBox(Box box)
 {
 	_box = box;
+}
+
+/**
+ * Sets the persistence of the game object.
+ * @param persistence The new game object persistence.
+ * @return Returns 0 for success, else -1.
+ */
+int Object::setPersistence(bool persistent)
+{
+	// update scene graph
+	WorldManager &worldManager = WorldManager::getInstance();
+	SceneGraph &sceneGraph = worldManager.getSceneGraph();
+	
+	if (sceneGraph.updatePersistence(this, persistent))
+	{
+		return -1;
+	}
+
+	// set persistence value
+	_isPersistent = persistent;
+
+	return 0;
+}
+
+/**
+ * Gets whether the game object is persistent or not.
+ * @return The game objects persistence.
+ */
+bool Object::isPersistent(void)
+{
+	return _isPersistent;
+}
+
+/**
+ * Sets the visibility of the game object.
+ * @param visible Whether the objects is now visible or not.
+ * @return Returns 0 if ok, else -1.
+ */
+int Object::setVisibility(bool visible)
+{
+	// update scene graph
+	WorldManager &worldManager = WorldManager::getInstance();
+	SceneGraph &sceneGraph = worldManager.getSceneGraph();
+	if (sceneGraph.updateVisibility(this, visible))
+	{
+		return -1;
+	}
+
+	// set visibility value
+	_isVisible = visible;
+
+	return 0;
+}
+
+/**
+ * Gets whether the game object is visible or not.
+ * @return The game objects visibility.
+ */
+bool Object::isVisible(void)
+{
+	return _isVisible;
 }

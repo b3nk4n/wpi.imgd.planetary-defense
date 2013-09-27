@@ -181,11 +181,13 @@ bool ObjectList::isFull(void)
  */
 ObjectList ObjectList::operator+(ObjectList otherList)
 {
+	ObjectList addedList = *this;
+
 	// verify other list is not empty
 	if (otherList.isEmpty())
-		return *this;
+		return addedList;
 	
-	Object **_pp_newData;
+	Object **pp_newData;
 	int resizeFactor = 2;
 
 	// find best power-of-two resize factor
@@ -193,26 +195,26 @@ ObjectList ObjectList::operator+(ObjectList otherList)
 		resizeFactor *= 2;
 
 	// reallocate the memory
-	_pp_newData = (Object **)realloc(_pp_data, resizeFactor * sizeof(Object *) * _capacity);
+	pp_newData = (Object **)realloc(addedList._pp_data, resizeFactor * sizeof(Object *) * _capacity);
 	
 	// verify memory allocation was successful
-	if (_pp_newData == NULL)
+	if (pp_newData == NULL)
 	{
 		perror("Memory reallocation of object list failed.");
-		return *this;
+		return addedList;
 	}
 
 	// use the new reallocated memory
-	_pp_data = _pp_newData;
+	addedList._pp_data = pp_newData;
 
 	// append the other lists objects
-	memcpy(_pp_data + _count, otherList._pp_data, sizeof(Object *) * otherList._count);
+	memcpy(addedList._pp_data + _count, otherList._pp_data, sizeof(Object *) * otherList._count);
 
 	// adjust capacity and count
-	_capacity *= resizeFactor;
-	_count += otherList._count;
+	addedList._capacity *= resizeFactor;
+	addedList._count += otherList._count;
 
-	return *this;
+	return addedList;
 }
 
 /**

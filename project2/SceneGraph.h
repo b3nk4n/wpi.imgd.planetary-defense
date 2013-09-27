@@ -17,6 +17,8 @@
 // NOTE: objects on level 0 are persistent
 #define MAX_LEVEL 100
 
+#define DEFAULT_LEVEL 1
+
 /**
  * Representing a scene graph.
  */
@@ -69,24 +71,30 @@ public:
 	int removeObject(Object *p_object);
 
 	/**
-	 * Clears all objects from the screne graph.
+	 * Clears all objects from the scene graph of the current level.
 	 */
 	void clearAllObjects(void);
 
 	/**
-	 * Gets all game objects from the scene graph.
+	 * Gets all game objects from the scene graph of ALL levels.
+	 * @return All game objects or an empty list.
+	 */
+	ObjectList allObjectsOfAllLevels(void);
+
+	/**
+	 * Gets all game objects from the scene graph of the current level.
 	 * @return All game objects or an empty list.
 	 */
 	ObjectList allObjects(void);
 
 	/**
-	 * Gets all solid game objects from the scene graph.
+	 * Gets all solid game objects from the scene graph of the current level.
 	 * @return All solid game objects or an empty list.
 	 */
 	ObjectList solidObjects(void);
 
 	/**
-	 * Gets all visible game objects from the scene graph.
+	 * Gets all visible game objects from the scene graph of the current level.
 	 * @param altitude The altitude of the objects.
 	 * @return All visible game objects or an empty list.
 	 */
@@ -109,6 +117,22 @@ public:
 	 * @return Returns 0 in case of success, else -1.
 	 */
 	int updateSolidness(Object *p_object, Solidness solidness);
+
+	/**
+	 * Reposition game object in scene graph based on its persistence.
+	 * @param p_object The object to update.
+	 * @param persistent The game objects new persistence.
+	 * @return Returns 0 if succeeded, else -1.
+	 */
+	int updatePersistence(Object *p_object, bool persistent);
+
+	/**
+	 * Reposition game object in scene graph based on its visibility.
+	 * @param p_object The object to update.
+	 * @param visibility The game objects new visibility.
+	 * @return Returns 0 if succeeded, else -1.
+	 */
+	int updateVisibility(Object *p_object, bool visibility);
 
 	/**
 	 * Sets the games current level.

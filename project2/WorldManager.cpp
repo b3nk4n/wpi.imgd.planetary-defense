@@ -26,6 +26,8 @@ WorldManager::WorldManager(void)
 	_worldBoundary.setVertical(0);
 	_viewBoundary.setHorizontal(0);
 	_viewBoundary.setVertical(0);
+
+	_nextLevel = 0;
 }
 
 /**
@@ -72,7 +74,7 @@ void WorldManager::shutDown(void)
 		return;
 	
 	// cleanup world objects
-	clearAllObjects();
+	clearAllObjects(); // TODO: reinclude code
 
 	_isStarted = false;
 }
@@ -107,14 +109,14 @@ ObjectList WorldManager::getAllObjects(void)
 }
 
 /**
- * Clears all game objects in the world.
+ * Clears all game objects in the world of all levels.
  */
 void WorldManager::clearAllObjects(void)
 {
 	// NOTE: create a copy of the  list here, because each time 'delete obj'
 	//       is called in the game objects desctructor the original list 
 	//       will be manipulated (causes iterator problems)
-	ObjectList updatesListCopy = _sceneGraph.allObjects();
+	ObjectList updatesListCopy = _sceneGraph.allObjectsOfAllLevels();
 	
 	ObjectListIterator it(&updatesListCopy);
 	for (it.first(); !it.isDone(); it.next())
@@ -122,7 +124,15 @@ void WorldManager::clearAllObjects(void)
 		delete it.currentObject();
 	}
 
-	_sceneGraph.clearAllObjects();
+	// clear all levels
+	int oldLevel = _sceneGraph.getLevel();
+	for (int i = 0; i <= MAX_LEVEL; ++i)
+	{
+		_sceneGraph.setLevel(i);
+		_sceneGraph.clearAllObjects();
+	}
+	_sceneGraph.setLevel(oldLevel);
+
 	_deletions.clear();
 }
 

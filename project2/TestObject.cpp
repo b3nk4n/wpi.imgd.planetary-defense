@@ -186,3 +186,12 @@ void TestObject::setSTL(int value)
 {
 	_stl = value;
 }
+
+/**
+ * Gets the test objects id for identificatoin
+ * @return The objects unique id.
+ */
+int TestObject::getId(void)
+{
+	return _id;
+}
