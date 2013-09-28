@@ -121,7 +121,7 @@ int Splash::eventHandler(Event *p_event)
 		}
 
 		// splash screen over?
-		if (_countdown == -95)
+		if (_countdown == -100)
 		{
 			gameManager.setGameOver(true);
 			worldManager.markForDelete(this);

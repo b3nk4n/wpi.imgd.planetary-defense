@@ -88,9 +88,6 @@ int SceneGraph::insertObject(Object *p_object)
 int SceneGraph::removeObject(Object *p_object)
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::removeObject()",
-		"enter\n");
 
 	if (_objects[_level].remove(p_object))
 	{
@@ -138,10 +135,6 @@ int SceneGraph::removeObject(Object *p_object)
  */
 void SceneGraph::clearAllObjects(void)
 {
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::clearAllObjects()",
-		"enter\n");
 	_objects[_level].clear();
 	_solidObjects[_level].clear();
 	for (int i = MIN_ALTITUDE; i <= MAX_ALTITUDE; ++i)
@@ -156,11 +149,6 @@ void SceneGraph::clearAllObjects(void)
  */
 ObjectList SceneGraph::allObjectsOfAllLevels(void)
 {
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::allObjectsOfAllLevels()",
-		"enter\n");
-
 	ObjectList _total;
 	for (int i = 0; i <= MAX_LEVEL; ++i)
 		_total + _objects[i];
@@ -174,10 +162,6 @@ ObjectList SceneGraph::allObjectsOfAllLevels(void)
  */
 ObjectList SceneGraph::allObjects(void)
 {
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::allObjects()",
-		"enter\n");
 	// return all objects and all persistent objects
 	return _objects[_level] + _objects[0];
 }
@@ -188,10 +172,6 @@ ObjectList SceneGraph::allObjects(void)
  */
 ObjectList SceneGraph::solidObjects(void)
 {
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::solidObjects()",
-		"enter\n");
 	// return all solid objects and all persistent objects
 	return _solidObjects[_level] + _objects[0];
 }
@@ -204,9 +184,6 @@ ObjectList SceneGraph::solidObjects(void)
 ObjectList SceneGraph::visibleObjects(int altitude)
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::visibleObjects()",
-		"enter\n");
 
 	if (!valueInRange(altitude, MIN_ALTITUDE, MAX_ALTITUDE))
 	{
@@ -230,9 +207,6 @@ ObjectList SceneGraph::visibleObjects(int altitude)
 int SceneGraph::updateAltitude(Object *p_object, int altitude)
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::updateAltitude()",
-		"enter\n");
 
 	// check if new altitude in valid range
 	if (!valueInRange(altitude, MIN_ALTITUDE, MAX_ALTITUDE))
@@ -289,9 +263,6 @@ int SceneGraph::updateAltitude(Object *p_object, int altitude)
 int SceneGraph::updateSolidness(Object *p_object, Solidness solidness)
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::updateSolidness()",
-		"enter\n");
 
 	// try remove it from the list if it was solid before
 	if (p_object->isSolid())
@@ -322,9 +293,6 @@ int SceneGraph::updateSolidness(Object *p_object, Solidness solidness)
 int SceneGraph::updatePersistence(Object *p_object, bool persistent)
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::updatePersistence()",
-		"enter\n");
 	int oldLevel;
 	int newLevel;
 
@@ -396,10 +364,6 @@ int SceneGraph::updatePersistence(Object *p_object, bool persistent)
 int SceneGraph::updateVisibility(Object *p_object, bool visibility)
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::updateVisibility()",
-		"enter\n");
-
 	// verify visibility has changed
 	if (p_object->isVisible() == visibility)
 		return 0;
@@ -442,10 +406,7 @@ int SceneGraph::updateVisibility(Object *p_object, bool visibility)
 int SceneGraph::setLevel(int level)
 {
 	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::setLevel()",
-		"enter\n");
-
+	
 	if (!valueInRange(level, 0, MAX_LEVEL))
 	{
 		logManager.writeLog(LOG_ERROR,
@@ -465,9 +426,5 @@ int SceneGraph::setLevel(int level)
  */
 int SceneGraph::getLevel(void)
 {
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::getLevel()",
-		"enter\n");
 	return _level;
 }

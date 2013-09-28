@@ -148,7 +148,7 @@ int SplashDragonfly::eventHandler(Event *p_event)
 		}
 
 		// splash screen over
-		if (_countdown == -65)
+		if (_countdown == -70)
 		{
 			worldManager.markForDelete(this);
 		}
@@ -171,7 +171,7 @@ void SplashDragonfly::draw(void)
 		GraphicsManager &graphicsManager = GraphicsManager::getInstance();
 		Position pos(getPosition().getX() - 47, getPosition().getY() + 2);
 		graphicsManager.drawString(pos,
-			"Because eveything with an X sound cool!",
+			"Because eveything with an X sound awesome!",
 			LEFT_JUSTIFIED,
 			COLOR_WHITE);
 	}
