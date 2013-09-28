@@ -73,11 +73,6 @@ int SceneGraph::insertObject(Object *p_object)
 		}
 	}
 
-	logManager.writeLog(LOG_ERROR,
-		"SceneGraph::insertObject()",
-		"Inserting into list (level %d) succcessful =).\n",
-	_level);
-
 	return 0;
 }
 
@@ -165,14 +160,6 @@ ObjectList SceneGraph::allObjectsOfAllLevels(void)
 ObjectList SceneGraph::allObjects(void)
 {
 	// return all objects and all persistent objects
-	LogManager &logManager = LogManager::getInstance();
-
-	logManager.writeLog(LOG_DEBUG,
-		"SceneGraph::allObjects()",
-		"Obj: %d, Obj-pers: %d\n",
-		_objects[_level].getCount(),
-		_objects[0].getCount());
-
 	return _objects[_level] + _objects[0];
 }
 

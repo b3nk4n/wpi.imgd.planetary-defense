@@ -13,7 +13,7 @@
 #include "Manager.h"
 #include "utility.h"
 
-#define LOGFILE_NAME "dragonfly.log"
+#define LOGFILE_NAME "enginex.log"
 
 #define LOG_OFF 0
 #define LOG_ERROR 1

@@ -222,6 +222,7 @@ void WorldManager::draw(void)
 	for (int a = MIN_ALTITUDE; a <= MAX_ALTITUDE; ++a)
 	{
 		ObjectList visibleObjects = _sceneGraph.visibleObjects(a);
+
 		ObjectListIterator it(&visibleObjects);
 		for (it.first(); !it.isDone(); it.next())
 		{

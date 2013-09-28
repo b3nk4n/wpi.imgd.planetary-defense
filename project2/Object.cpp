@@ -507,7 +507,7 @@ void Object::setSprite(Sprite *p_sprite, bool useBox)
 	_p_sprite = p_sprite;
 	
 	if (useBox)
-		setBox(Box(getPosition(),
+		setBox(Box(Position(),
 			p_sprite->getWidth(),
 			p_sprite->getHeight()));
 }

@@ -267,6 +267,9 @@ long int GameManager::run(int frameTime)
 	// set custom frame time
 	_frameTime = frameTime;
 
+	// reset game over flag
+	_gameOver = false;
+
 	while (!_gameOver)
 	{
 		float lastDelta = loopTime / 1000000.0f;

@@ -12,6 +12,9 @@
 #include "utility.h"
 #include "Object.h"
 #include "WorldManager.h"
+#include "Splash.h"
+#include "SplashDragonfly.h"
+#include "LogManager.h"
 
 using std::stringstream;
 
@@ -421,4 +424,20 @@ string intToString(int value)
 	stringstream ss;
 	ss << value;
 	return ss.str();
+}
+
+/**
+ * Launch the splash screen.
+ * @return Returns 0 if ok, else -1.
+ */
+int splash(void)
+{
+	GameManager &gameManager = GameManager::getInstance();
+	
+	if (!gameManager.isStarted())
+		return -1;
+
+	new Splash();
+	gameManager.run();
+	return 0;
 }

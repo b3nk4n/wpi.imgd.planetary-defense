@@ -84,18 +84,6 @@ void ViewObject::draw(void)
 	Position pos = viewToWorld(getPosition());
 	graphicsManager.drawString(pos, displayString, CENTER_JUSTIFIED, getColor());
 
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_DEBUG,
-		"ViewObject::draw()",
-		"draw on pos x=%d, y=%d\n",
-		pos.getX(),
-		pos.getY());
-	logManager.writeLog(LOG_DEBUG,
-		"ViewObject::draw()",
-		"obj pos x=%d, y=%d\n",
-		getPosition().getX(),
-		getPosition().getY());
-
 	if (getBorder())
 	{
 		// render border

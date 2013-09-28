@@ -14,6 +14,8 @@
 #include "Line.h"
 #include "Circle.h"
 #include "Object.h"
+#include "Splash.h"
+#include "GameManager.h"
 
  using std::string;
 
@@ -140,5 +142,11 @@ Position viewToWorld(Position viewPosition);
  * @return The string converted value.
  */
 string intToString(int value);
+
+/**
+ * Launch the splash screen.
+ * @return Returns 0 if ok, else -1.
+ */
+int splash(void);
 
 #endif
