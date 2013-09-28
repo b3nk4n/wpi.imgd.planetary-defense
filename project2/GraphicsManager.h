@@ -22,6 +22,7 @@
 using std::string;
 
 #define COLOR_DEFAULT COLOR_WHITE
+#define TRANSPARENT_CHAR '%'
 
 /**
  * The supported text justifications.

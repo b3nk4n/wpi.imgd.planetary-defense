@@ -356,11 +356,16 @@ int GraphicsManager::drawFrame(Position worldPosition, Frame frame, bool centere
 	{
 		for (int x = 0; x < frame.getWidth(); ++x)
 		{
-			Position tempPos(worldPosition.getX() - offsetX + x,
-				worldPosition.getY() - offsetY + y);
-			drawChar(tempPos,
-				frameData.at(y * frame.getWidth() + x),
-				color);
+			char drawData = frameData.at(y * frame.getWidth() + x);
+
+			if (drawData != TRANSPARENT_CHAR)
+			{
+				Position tempPos(worldPosition.getX() - offsetX + x,
+					worldPosition.getY() - offsetY + y);
+				drawChar(tempPos,
+					drawData,
+					color);
+			}
 		}
 	}
 }
