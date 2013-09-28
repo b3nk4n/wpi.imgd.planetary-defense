@@ -115,7 +115,7 @@ void populateWorld(void)
 	TestObject *o3 = new TestObject();
 	o3->setPosition(Position(80, 10));
 	o3->setVelocityX(-0.5f);
-	o3->setStepsToGameOver(150);
+	o3->setStepsToGameOver(180);
 	o3->registerInterest(STEP_EVENT);
 	// follow this object
 	WorldManager &worldManager = WorldManager::getInstance();
@@ -212,19 +212,19 @@ void populateWorld(void)
 	hard01->setSolidness(HARD);
 	hard01->setPosition(Position(60, 1));
 	hard01->setVelocityY(0.25);
-	hard01->setNoSoft(true);
+	//hard01->setNoSoft(true);
 
 	TestObject *soft02 = new TestObject();
 	soft02->setSolidness(SOFT);
 	soft02->setPosition(Position(62, 1));
 	soft02->setVelocityY(0.25);
-	soft02->setNoSoft(true);
+	//soft02->setNoSoft(true);
 
 	TestObject *soft03 = new TestObject();
 	soft03->setSolidness(SOFT);
 	soft03->setPosition(Position(64, 1));
 	soft03->setVelocityY(0.25);
-	soft03->setNoSoft(true);
+	//soft03->setNoSoft(true);
 
 	TestObject *soft04 = new TestObject();
 	soft04->setSolidness(SOFT);

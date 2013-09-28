@@ -135,6 +135,7 @@ bool testObject_collisionEventIsNotFiredForSoftToSpectral(void);
 bool testObject_collisionEventIsNotFiredForSpectralToSpectral(void);
 bool testObject_updateVisiblilty(void);
 bool testObject_updatePersistence(void);
+bool testObject_updateSolidness(void);
 bool testObjectList_emptyListIsEmpty(void);
 bool testObjectList_emptyListNotFull(void);
 bool testObjectList_emptyListCountZero(void);
@@ -365,6 +366,7 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testObject_collisionEventIsNotFiredForSpectralToSpectral", &testObject_collisionEventIsNotFiredForSpectralToSpectral);
 	unitTestManager.registerTestFunction("testObject_updateVisiblilty", &testObject_updateVisiblilty);
 	unitTestManager.registerTestFunction("testObject_updatePersistence", &testObject_updatePersistence);
+	unitTestManager.registerTestFunction("testObject_updateSolidness", &testObject_updateSolidness);
 
 	unitTestManager.registerTestFunction("testSceneGraph_createDefault", &testSceneGraph_createDefault);
 	unitTestManager.registerTestFunction("testSceneGraph_insertAndRemoveOneSolidObject", &testSceneGraph_insertAndRemoveOneSolidObject);
@@ -1665,6 +1667,74 @@ bool testObject_updatePersistence(void)
 		countAfter3 == 2 &&
 		countAfter4 == 3 &&
 		countAfter5 == 3;
+}
+
+bool testObject_updateSolidness(void)
+{
+	LogManager &logManager = LogManager::getInstance();
+	WorldManager &worldManager = WorldManager::getInstance();
+	SceneGraph &sceneGraph = worldManager.getSceneGraph();
+	Object *p_object1 = new TestObject();
+	p_object1->setSolidness(HARD);
+	Object *p_object2 = new TestObject();
+	p_object2->setSolidness(SOFT);
+	Object *p_object3 = new TestObject();
+	p_object3->setSolidness(SPECTRAL);
+
+	int all0 = worldManager.getAllObjects().getCount();
+	int solid0 = sceneGraph.solidObjects().getCount();
+	p_object1->setSolidness(SOFT);
+	int all1 = worldManager.getAllObjects().getCount();
+	int solid1 = sceneGraph.solidObjects().getCount();
+	p_object2->setSolidness(SPECTRAL);
+	int all2 = worldManager.getAllObjects().getCount();
+	int solid2 = sceneGraph.solidObjects().getCount();
+	p_object3->setSolidness(HARD);
+	int all3 = worldManager.getAllObjects().getCount();
+	int solid3 = sceneGraph.solidObjects().getCount();
+	p_object2->setSolidness(SOFT);
+	int all4 = worldManager.getAllObjects().getCount();
+	int solid4 = sceneGraph.solidObjects().getCount();
+
+	// remove all:
+	worldManager.markForDelete(p_object1);
+	worldManager.markForDelete(p_object2);
+	worldManager.markForDelete(p_object3);
+	worldManager.update(DEFAULT_FRAME_TIME);
+	int all5 = worldManager.getAllObjects().getCount();
+	int solid5 = sceneGraph.solidObjects().getCount();
+	
+	logManager.writeLog(LOG_DEBUG,
+		"testObject_updateSolidness",
+		"Results: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n",
+		all0,
+		solid0,
+		all1,
+		solid1,
+		all2,
+		solid2,
+		all3,
+		solid3,
+		all4,
+		solid4,
+		all5,
+		solid5);
+
+	// Results: 3, 5, 3, 5, 3, 4, 3, 5, 3, 6, 0, 3
+	// result: 3, 3, 3, 3, 3, 2, 3, 2, 3, 3, 0, 0
+
+	return all0 == 3 &&
+		solid0 == 2 &&
+		all1 == 3 &&
+		solid1 == 2 &&
+		all2 == 3 &&
+		solid2 == 1 &&
+		all3 == 3 &&
+		solid3 == 2 &&
+		all4 == 3 &&
+		solid4 == 3 &&
+		all5 == 0 &&
+		solid5 == 0;
 }
 
 bool testObjectList_emptyListIsEmpty(void)

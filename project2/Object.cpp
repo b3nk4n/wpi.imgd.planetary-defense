@@ -27,26 +27,17 @@ Object::Object(void)
 	WorldManager &worldManager = WorldManager::getInstance();
 	LogManager &logManager = LogManager::getInstance();
 
-	setType(TYPE_OBJECT);
-	setSolidness(HARD);
+	_isPersistent = false;
+	_isVisible = true;
+	_noSoft = false;
 
 	_velocityX = 0;
 	_velocityXCountdown = 0;
 	_velocityY = 0;
 	_velocityYCountdown = 0;
 
-	_noSoft = false;
-
 	_eventCount = 0;
 	_altitude = MAX_ALTITUDE / 2;
-
-	_p_sprite = NULL;
-	_spriteCentered = true;
-	_spriteIndex = 0;
-	setSpriteSlowdown(1);
-
-	_isPersistent = false;
-	_isVisible = true;
 
 	// add itself to the world manager
 	if (worldManager.insertObject(this))
@@ -55,6 +46,15 @@ Object::Object(void)
 			"Object::Object()",
 			"Objects could not be registered to the world\n");
 	}
+	
+	setType(TYPE_OBJECT);
+	setSolidness(HARD);
+
+	// sprite
+	_p_sprite = NULL;
+	_spriteCentered = true;
+	_spriteIndex = 0;
+	setSpriteSlowdown(1);
 }
 
 /**

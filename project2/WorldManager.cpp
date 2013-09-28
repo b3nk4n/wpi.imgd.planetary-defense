@@ -247,6 +247,11 @@ void WorldManager::draw(void)
  */
 ObjectList WorldManager::isCollision(Object *p_object, Box box)
 {
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"WorldManager::isCollision()",
+		"enter\n");
+
 	// create an empty list for collisions
 	ObjectList collisionList;
 
@@ -268,6 +273,10 @@ ObjectList WorldManager::isCollision(Object *p_object, Box box)
 			}
 		}
 	}
+
+	logManager.writeLog(LOG_DEBUG,
+		"WorldManager::isCollision()",
+		"out\n");
 
 	return collisionList;
 }
@@ -300,10 +309,34 @@ int WorldManager::moveObject(Object *p_object, Position position)
 		{
 			bool canMove = true;
 
+			logManager.writeLog(LOG_DEBUG,
+				"WorldManager::moveObject()",
+				"box: x=%d, y=%d, h=%d, v=%d\n",
+				nextBox.getCorner().getX(),
+				nextBox.getCorner().getY(),
+				nextBox.getHorizontal(),
+				nextBox.getVertical());
+			logManager.writeLog(LOG_DEBUG,
+				"WorldManager::moveObject()",
+				"list count: %d\n",
+				collisionList.getCount());
+
 			ObjectListIterator it(&collisionList);
 			for (it.first(); !it.isDone(); it.next())
 			{
 				Object *p_currentObject = it.currentObject();
+
+				logManager.writeLog(LOG_DEBUG,
+				"WorldManager::moveObject()",
+				"coll list iterating\n");
+				logManager.writeLog(LOG_DEBUG,
+				"WorldManager::moveObject()",
+				"is solid: %s\n",
+				p_currentObject->isSolid() ? "true" : "false");
+				logManager.writeLog(LOG_DEBUG,
+				"WorldManager::moveObject()",
+				"type: %s\n",
+				p_currentObject->getType().c_str());
 
 				// send collision event to both
 				EventCollision eventCollision(p_object, p_currentObject, position);
@@ -361,9 +394,6 @@ int WorldManager::moveObject(Object *p_object, Position position)
 		EventOut eventOut;
 		if (p_object->isInterestedInEvent(eventOut.getType()))
 		{
-			logManager.writeLog(LOG_DEBUG,
-				"WorldManager::moveObject()",
-				"Fireing out event\n");
 			p_object->eventHandler(&eventOut);
 		}
 	}
