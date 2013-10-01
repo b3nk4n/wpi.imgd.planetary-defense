@@ -304,15 +304,15 @@ bool circleIntersectsBox(Circle circle, Box box)
 	int bh = MAX(0, box.getHorizontal() - 1);
 	int bv = MAX(0, box.getVertical() - 1);
 
-	int cr = circle.getRadius();
+	float cr = circle.getRadius();
 	Position cc = circle.getCenter();
 	Box higherBox(
-		Position(box.getCorner().getX(), box.getCorner().getY() - cr),
+		Position(box.getCorner().getX(), (int)(box.getCorner().getY() - cr)),
 		bh,
-		bv + 2 * cr);
+		(int)(bv + 2 * cr));
 	Box widerBox(
-		Position(box.getCorner().getX() - cr, box.getCorner().getY()),
-		bh + 2 * cr,
+		Position((int)(box.getCorner().getX() - cr), box.getCorner().getY()),
+		(int)(bh + 2 * cr),
 		bv);
 
 	// check circle is inside the higher/wider box
@@ -321,7 +321,7 @@ bool circleIntersectsBox(Circle circle, Box box)
 		return true;
 
 	// check corners
-	int crSquared = cr * cr;
+	float crSquared = cr * cr;
 	Position topLeft(box.getCorner().getX(),
 		box.getCorner().getY());
 	Position topRight(box.getCorner().getX() + bh,
@@ -347,8 +347,8 @@ bool circleIntersectsBox(Circle circle, Box box)
  */
 bool circleIntersectsCircle(Circle circle1, Circle circle2)
 {
-	int r1 = circle1.getRadius();
-	int r2 = circle2.getRadius();
+	float r1 = circle1.getRadius();
+	float r2 = circle2.getRadius();
 
 	return (r1 + r2) * (r1 + r2) >=
 		distanceSquared(circle1.getCenter(), circle2.getCenter());

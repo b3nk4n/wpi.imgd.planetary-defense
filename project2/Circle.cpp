@@ -70,7 +70,7 @@ void Circle::setCenter(Position center)
  * Gets the radius of the circle.
  * @return The radius.
  */
-int Circle::getRadius(void)
+float Circle::getRadius(void)
 {
 	return _radius;
 }

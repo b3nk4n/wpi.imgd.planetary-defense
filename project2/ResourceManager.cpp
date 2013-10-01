@@ -521,3 +521,4 @@ void discardCR(string &text)
 	if (text.at(text.length() - 1) == '\r')
 		text.erase(text.length() - 1);
 }
+

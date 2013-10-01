@@ -1,9 +1,9 @@
 ################################################################################
 ### Name: Benjamin Sautermeister                                             ###
 ### Login: bsautermeister                                                    ###
-### Date: 09/28/2013                                                         ###
+### Date: 09/15/2013                                                         ###
 ################################################################################
-###              IMGD 3000 - PROJECT 2c (Milestone: Dragonfly)               ###
+###           IMGD 3000 - PROJECT 2b (Milestone: Dragonfly Naiad)            ###
 ################################################################################
 
 ################################################################################
@@ -27,17 +27,19 @@
 
 ### 1.1 Implementation Details
 
-In project 2c, all additional features like additional utility functions, the
-scene graph (incl. layers and visibility), signal handling, seeds for random
-number generator and a splash screen were implemented.
+All additional features like drawing layers or disallowing movement onto soft
+objects were implemented.
 Additionally, following is also implemented:
-- Added an transparency character (%) for sprite files to allow transparent
-  color to remove some weird visual effects
+- printf()-like rendering for the GraphicsManagers drawString()-method
+- Instead of calling the out/collision eventHandler functions directly (like in
+  [DFL, p.128/130]), a second onEvent() method was implemented in the managers
+  base class to ensure that events are only called for objects which are really
+  registered/interested in OUT or COLLISION events.
 
 
 ### 1.2 Plattform
 
-The final part of the game engine for project 2 was developed using Cygwin on
+The second part of the game engine for project 2 was developed using Cygwin on
 Windows 8, Debian KDE 12.04 Linux and GIT. The engine will not run on a MacOS
 machine, because of the different time-API, which is not implemented because
 it couldn't be tested without owning a MacOS system.
@@ -91,7 +93,7 @@ run all tests. Example:
 ### 3.2 Unit Tests
 
 The implemented ligh-weight unit-testing framework is still used (currently
-with about 180 unit tests), but was refactored a little bit. Most of the output
+with about 80 unit tests), but was refactored a little bit. Most of the output
 is now redirected to a file called 'unittests.log', because sind the use of
 the graphics device manager and its startup dependecies to the input manager
 there were problems with mixing both outputs to the terminal window.
@@ -99,16 +101,13 @@ there were problems with mixing both outputs to the terminal window.
 
 ### 3.3 Test Game
 
-To test the visual stuff, a test game was implemeted which shows the collisions
-many randomly placed objects, which solidness is HARD(red), SOFT(yellow) or 
-SPECTRAL(green). Objects wich react to collisions are blue.
+To test the visual stuff, a test game was implemeted wich shows the collisions
+some objects, which solidness is HARD(red), SOFT(yellow) or SPECTRAL(green).
+Objects wich react to collisions are blue.
 To start the game, simply compile the game and run it. It end automaticly after
-about 10-15 seconds seconds.
+about 5 seconds.
 
 	$ ./game
-
-Also it tests the automated following camera of an object, sprites and the
-splash screen.
 
 
 ################################################################################
@@ -118,13 +117,12 @@ splash screen.
 The project folder should be look like the following:
 
 	./
-	|- README             # this file here :)
-	|- project2/          # contains all project2 specific code and header
-	       |              # including the unit test manager
+	|- README            # this file here :)
+	|- project2/         # contains all project2 specific code and header
+	       |             # including the unit test manager
 	       |- MAKEFILE
-               |- enginex.log # The games log file
-	       |- game.cpp    # the test game
-	       |- test.cpp    # the unit test application
+	       |- game.cpp   # the test game
+	       |- test.cpp   # the unit test application
 	       |- Object.cpp
 	       |- Object.h
 	       |- Position.cpp

@@ -140,34 +140,34 @@ void ViewObject::setLocation(ViewObjectLocation location)
 	switch (location)
 	{
 	case TOP_LEFT:
-		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 1/6.0f, 1);
+		pos.setXY((int)(worldManager.getViewBoundary().getHorizontal() * 1/6.0f), 1);
 		if (!getBorder())
 			delta = -1;
 		break;
 	case TOP_CENTER:
-		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 3/6.0f, 1);
+		pos.setXY((int)(worldManager.getViewBoundary().getHorizontal() * 3/6.0f), 1);
 		if (!getBorder())
 			delta = -1;
 		break;
 	case TOP_RIGHT:
-		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 5/6.0f, 1);
+		pos.setXY((int)(worldManager.getViewBoundary().getHorizontal() * 5/6.0f), 1);
 		if (!getBorder())
 			delta = -1;
 		break;
 	case BOTTOM_LEFT:
-		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 1/6.0f,
+		pos.setXY((int)(worldManager.getViewBoundary().getHorizontal() * 1/6.0f),
 			worldManager.getViewBoundary().getHorizontal() - 1);
 		if (!getBorder())
 			delta = 1;
 		break;
 	case BOTTOM_CENTER:
-		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 3/6.0f,
+		pos.setXY((int)(worldManager.getViewBoundary().getHorizontal() * 3/6.0f),
 			worldManager.getViewBoundary().getHorizontal() - 1);
 		if (!getBorder())
 			delta = 1;
 		break;
 	case BOTTOM_RIGHT:
-		pos.setXY(worldManager.getViewBoundary().getHorizontal() * 5/6.0f,
+		pos.setXY((int)(worldManager.getViewBoundary().getHorizontal() * 5/6.0f),
 			worldManager.getViewBoundary().getHorizontal() - 1);
 		if (!getBorder())
 			delta = 1;

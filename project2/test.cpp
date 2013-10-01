@@ -2497,22 +2497,22 @@ bool testUtility_getWorldBoxObjectMovedObjectMovedBoxNotCentered(void)
 
 bool testUtility_valueInRangeInsideTrue(void)
 {
-	return valueInRange(10.0f, 5.0f, 12.0f);
+	return valueInRange(10, 5, 12);
 }
 
 bool testUtility_valueInRangeOnLowerBorderTrue(void)
 {
-	return valueInRange(5.0f, 5.0f, 12.0f);
+	return valueInRange(5, 5, 12);
 }
 
 bool testUtility_valueInRangeOnHigherBorderTrue(void)
 {
-	return valueInRange(12.0f, 5.0f, 12.0f);
+	return valueInRange(12, 5, 12);
 }
 
 bool testUtility_valueInRangeOutsideFalse(void)
 {
-	return !valueInRange(16.0f, 5.0f, 12.0f);
+	return !valueInRange(16, 5, 12);
 }
 
 bool testUtility_clipValueInside(void)

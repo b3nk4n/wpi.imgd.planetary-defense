@@ -70,7 +70,7 @@ public:
 	 * Gets the radius of the circle.
 	 * @return The radius.
 	 */
-	int getRadius(void);
+	float getRadius(void);
 
 	/**
 	 * Sets the radius of the circle.
