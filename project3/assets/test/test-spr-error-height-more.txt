@@ -1,0 +1,13 @@
+frames 2
+width 4
+height 4
+color blue
+\--%
+~==>
+/--%
+end
+\--%
+ ==>
+/--%
+end
+eof
