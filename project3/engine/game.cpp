@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	GameManager &gameManager = GameManager::getInstance();
 	
 	// startup the game manager
-	if (gameManager.startUp(true))
+	if (gameManager.startUp(true, 12345))
 	{
 		logManager.writeLog(LOG_ERROR,
 			"main()",
