@@ -9,8 +9,12 @@
 
 //Engine Includes
  #include "Object.h"
+ #include "Position.h"
 
-
+//Possible Enemies
+#define ORK_BOSS 1
+#define ORK 2
+#define GOBLIN 3
 
 /*
 * Base Class for all enemy units
@@ -24,31 +28,26 @@
  	int _health;
 
  	/**
+ 	 * Type of enemy
+ 	 */
+ 	int _enemyIndex;
+
+ 	/**
  	 * Speed of the enemy
- 	 * 1 for slow, 2 for average, 3 for fast
  	 */
- 	int _speedIndex;
+ 	float _speed;
 
  	/**
- 	 * cell that the enemy is on
+ 	 * Waypoint for enemy to approach
  	 */
- 	// Cell _currentCell;
-
- 	/**
- 	 * Last cell the enemy was on
- 	 */
- 	// Cell _lastCell
-
-
+ 	Position _currentWaypoint;
 
  public:
 	/**
-	 * Creates a new enemy object instance with speed and health set
-	 * @param int health
-	 * @param int speedIndex
+	 * Creates a new enemy object with a certain type of enemy
+	 * @param int enemy index
 	 */
-	Enemy(int health, int speedIndex);
-
+	Enemy(int enemyIndex);
 
 	/**
 	 * Cleans up the enemy object.
@@ -56,20 +55,32 @@
 	virtual ~Enemy(void);
 
 	/**
-	 * Gets the speed index of the Enemy.
-	 * @return speed index of the enemy.
+	 * Handle events
+	 * @return int 1 if event was handled, else 0
 	 */
-	int getSpeed(void);
+	int eventHandler(Event *p_e);
+	 
+	/**
+	 * Move to next waypoint
+	 * @param Position of next waypoint
+	 */
+	void move(Position waypoint);
+
+	/** 
+	 * Gets the speed index of the Enemy.
+	 * @return float speed of the enemy.
+	 */
+	float getSpeed(void);
 
 	/**
 	 * Set the speed index of the Enemy.
-	 * @param int speed you want the enemy to go.
+	 * @param float speed you want the enemy to go.
 	 */
-	int setSpeed(int speedIndex);
+	void setSpeed(float speed);
 
 	/**
 	 * Gets the current health of the Enemy.
-	 * @return the health of the enemy.
+	 * @return int the health of the enemy.
 	 */
 	int getHealth(void);
 
@@ -77,19 +88,21 @@
 	 * Set the health of the Enemy.
 	 * @param int health you want the enemy to have.
 	 */
-	int setHealth(int health);
+	void setHealth(int health);
 
 	/**
-	 * Move the enemy to the next open path cell
+	 * Set the next waypoint for the enemy to approach
+	 * @param Position of the waypoint the enemy is heading towards
 	 */
-	 void move(void);
+	void setWaypoint(Position waypoint);
 
-	 /**
-	  * Check cells around the enemy for possible move
-	  * @return Cell that is next in path
-	  */
-	//cell checkCells(cell current);
-
+	/**
+	 * Sets up the enemy based on enemyIndex
+	 * @param int enemyIndex
+	 * NOTE: Library for enemies,
+	 * You can add more enemies here
+	 */
+	void setEnemy(int enemyIndex);
 
 };
 

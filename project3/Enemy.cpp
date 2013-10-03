@@ -9,13 +9,11 @@
 
 /**
  * Creates a new enemy object instance with speed and health set
- * @param int health
- * @param int speedIndex
+ * @param int enemyIndex
  */
-Enemy::Enemy(int health, int speedIndex)
+Enemy::Enemy(int enemyIndex)
 {
-	_speedIndex = speedIndex;
-	_health = health;
+	setEnemy(enemyIndex);
 }
 
 /**
@@ -28,21 +26,39 @@ virtual Enemy::~Enemy(void)
 }
 
 /**
- * Gets the speed index of the Enemy.
- * @return speed index of the enemy.
+ * Handle events
+ * @return int 1 if event was handled, else 0
  */
-int Enemy::getSpeed(void)
+int Enemy::eventHandler(Event *p_e) {
+
+  if (p_e->getType() == STEP_EVENT) {
+    if (this.getPosition() == _currentWaypoint){
+    		//move(Waypoint.next);
+    		return 1;
+		}
+	}
+  //ignore this event
+  return 0;
+}
+
+
+
+/**
+ * Gets the speed index of the Enemy.
+ * @return float speed index of the enemy.
+ */
+float Enemy::getSpeed(void)
 {
-	return _speedIndex;
+	return _speed;
 }
 
 /**
  * Set the speed index of the Enemy.
- * @param int speed you want the enemy to go.
+ * @param float speed you want the enemy to go.
  */
-int Enemy::setSpeed(int speedIndex)
+void Enemy::setSpeed(float speed)
 {
-	_speedIndex = speedIndex;
+	_speed = speed;
 }
 
 /**
@@ -64,46 +80,31 @@ int Enemy::setHealth(int health)
 }
 
 /**
- * Move to the next cell on path
+ * Sets up the enemy based on enemyIndex
+ * @param int enemyIndex
+ * NOTE: Library for enemies,
+ * You can add more enemies here
  */
-void Enemy::move(void)
+void Enemy::setEnemy(int enemyIndex)
 {	
-	/*
-	Cell next = checkCells();
-	if (next != _currentCell){
-		_lastCell = _currentCell;
-		_currentCell = next;
+	// ORK BOSS 1
+	if (enemyIndex == ORK_BOSS){
+		setType("Ork Boss");
+		_speed = 0.25;
+		_health = 500;
 	}
-	else{
-		WorldManager &world_manager = WorldManager::getInstance();
-    	world_manager.markForDelete(this);
-	}
-	*/
-}
 
-/**
- * Check cells around the enemy for possible move
- * @return Cell that is next in path
- */
-/*
-cell Enemy::checkCells(void)
-{	
-	cell possible = _currentCell.up
-	if (possible != _lastCell && possible.isPath == true){
-		return possible
+	// ORK 2
+	if (enemyIndex == ORK){
+		setType("Ork");
+		_speed = 0.5;
+		_health = 50;
 	}
-	cell possible = _currentCell.down
-	if (possible != _lastCell && possible.isPath == true){
-		return possible
+
+	// GOBLIN 3
+ 	if (enemyIndex == GOBLIN){
+ 		setType("Goblin");
+		_speed = 1.0;
+		_health = 10;
 	}
-	cell possible = _currentCell.left
-	if (possible != _lastCell && possible.isPath == true){
-		return possible
-	}
-	cell possible = _currentCell.right
-	if (possible != _lastCell && possible.isPath == true){
-		return possible
-	}
-	return _currentCell;
 }
-*/
