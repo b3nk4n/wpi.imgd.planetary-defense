@@ -24,17 +24,17 @@ VirtualCursor::VirtualCursor(Position position)
 
 	// frame 1
 	string frameData1;
-	frameData1 += "/%-%\\";
+	frameData1 += "/%%%\\";
 	frameData1 += "%%%%%";
-	frameData1 += "\\%-%/";
+	frameData1 += "\\%%%/";
 	Frame frame1(width, height, frameData1);
 	p_tempSprite->addFrame(frame1);
 
 	// frame 2
 	string frameData2;
-	frameData2 += "%%%%%";
-	frameData2 += "%%%%%";
-	frameData2 += "%%%%%";
+	frameData2 += "%%-%%";
+	frameData2 += "|%%%|";
+	frameData2 += "%%-%%";
 	Frame frame2(width, height, frameData2);
 	p_tempSprite->addFrame(frame2);
 
@@ -44,6 +44,7 @@ VirtualCursor::VirtualCursor(Position position)
 	setType(TYPE_CURSOR);
 	setSolidness(SPECTRAL);
 	setAltitude(MAX_ALTITUDE);
+	setCentered(false);
 
 	// start and end position
 	setPosition(position);

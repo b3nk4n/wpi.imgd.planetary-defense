@@ -41,7 +41,11 @@ private:
 	 * The virtual cursor on the map
 	 */
 	VirtualCursor *_p_cursor;
-	
+
+	/**
+	 * The relative index position of the selected cell.
+	 */
+	Position _selectedCell;
 	
 public:
 	/**
@@ -81,6 +85,26 @@ public:
 	 * @return Returns 0 if ok, else -1.
 	 */
 	int loadMap(string mapLabel);
+
+	/**
+	 * Gets the selected relative cell index position.
+	 * @return The selected cell index position.
+	 */
+	Position getSelectedCell(void);
+
+	/**
+	 * Tries to selects the cell at the given relative index position
+	 * with the cursor.
+	 * @param position The selected cell index position. 
+	 */
+	void setSelectedCell(Position position);
+
+	/**
+	 * Tries to oves the cursor by the given amount of cells.
+	 * @param deltaX The delta x to move in cells.
+	 * @param deltaY The delta y to move in cells.
+	 */
+	void moveCursor(int deltaX, int deltaY);
 
 	/**
 	 * Gets the maps width in cells.
