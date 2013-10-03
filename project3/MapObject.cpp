@@ -18,7 +18,8 @@
 MapObject::MapObject(void)
 {
 	//_p_instance = NULL;
-	_p_cursor = new VirtualCursor(Position(2,2));
+	_selectedCell = Position(0, 0);
+	_p_cursor = new VirtualCursor(_selectedCell);
 	_p_currentMapData = NULL;
 
 	setCentered(false);
@@ -56,6 +57,8 @@ MapObject::~MapObject(void)
  */
 int MapObject::eventHandler(Event *p_event)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		EventKeyboard *p_eventKeyboard = static_cast<EventKeyboard *>(p_event);
@@ -63,16 +66,25 @@ int MapObject::eventHandler(Event *p_event)
 		switch(p_eventKeyboard->getKey())
 		{
 		case LEFT_KEY:
-			// TODO: move cursor left
+			moveCursor(-1, 0);
+			logManager.writeLog(LOG_DEBUG,
+				"MapObject::eventHandler()",
+				"Cursor moved left by keyboard.\n");
 			break;
 		case RIGHT_KEY:
-			// TODO: move cursor right
+			moveCursor(1, 0);
 			break;
 		case UP_KEY:
-			// TODO: move cursor up
+			moveCursor(0, -1);
 			break;
 		case DOWN_KEY:
-			// TODO: move cursor down
+			moveCursor(0, 1);
+			break;
+		default:
+			logManager.writeLog(LOG_DEBUG,
+				"MapObject::eventHandler()",
+				"Unknown key pressed: %d\n",
+				p_eventKeyboard->getKey());
 			break;
 		}
 	}
@@ -146,6 +158,65 @@ int MapObject::loadMap(string mapLabel)
 	}
 
 	return 0;
+}
+
+/**
+ * Gets the selected relative cell index position.
+ * @return The selected cell index position.
+ */
+Position MapObject::getSelectedCell(void)
+{
+	return _selectedCell;
+}
+
+/**
+ * Tries to selects the cell at the given relative index position
+ * with the cursor.
+ * @param position The selected cell index position. 
+ */
+void MapObject::setSelectedCell(Position position)
+{
+	LogManager &logManager = LogManager::getInstance();
+	int x = position.getX();
+	int y = position.getY();
+
+	logManager.writeLog(LOG_DEBUG,
+		"MapObject::setSelectedCell()",
+		"New pos: x=%d, y=%d\n",
+		x,
+		y);
+
+	if (_p_currentMapData == NULL ||
+		x < 0 || x > _p_currentMapData->getCellsHorizontal() - 1 ||
+		y < 0 || y > _p_currentMapData->getCellsVertical() - 1)
+		return;
+
+	_selectedCell = position;
+
+	Position cellViewPosition(getPosition().getX() + x * _p_currentMapData->getCellWidth(),
+		getPosition().getY() + y * _p_currentMapData->getCellHeight());
+
+	logManager.writeLog(LOG_DEBUG,
+		"MapObject::setSelectedCell()",
+		"Moved to: x=%d, y=%d\n",
+		cellViewPosition.getX(),
+		cellViewPosition.getY());
+
+	_p_cursor->setPosition(cellViewPosition);
+}
+
+/**
+	 * Tries to oves the cursor by the given amount of cells.
+	 * @param deltaX The delta x to move in cells.
+	 * @param deltaY The delta y to move in cells.
+	 */
+void MapObject::moveCursor(int deltaX, int deltaY)
+{
+	Position tempSelected = getSelectedCell();
+	tempSelected.setX(tempSelected.getX() + deltaX);
+	tempSelected.setY(tempSelected.getY() + deltaY);
+
+	setSelectedCell(tempSelected);
 }
 
 /**

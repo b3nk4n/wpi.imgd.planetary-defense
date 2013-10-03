@@ -51,10 +51,6 @@ int SceneGraph::insertObject(Object *p_object)
 				"Inserting of solid object failed.\n");
 			return -1;
 		}
-		logManager.writeLog(LOG_ERROR,
-				"SceneGraph::insertObject()",
-				"Inserting to solid list with count: %d!\n",
-				_solidObjects[_level].getCount());
 	}
 
 	// check adding to altitude list
@@ -312,12 +308,6 @@ int SceneGraph::updatePersistence(Object *p_object, bool persistent)
 		oldLevel = _level;
 		newLevel = 0;
 	}
-
-	logManager.writeLog(LOG_ERROR,
-				"SceneGraph::updatePersistence()",
-				"From %d to %d\n",
-				oldLevel,
-				newLevel);
 
 	// do neccessary upkeep
 	if (_objects[oldLevel].remove(p_object))
