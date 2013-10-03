@@ -62,3 +62,48 @@ int Enemy::setHealth(int health)
 {
 	_health = health;
 }
+
+/**
+ * Move to the next cell on path
+ */
+void Enemy::move(void)
+{	
+	/*
+	Cell next = checkCells();
+	if (next != _currentCell){
+		_lastCell = _currentCell;
+		_currentCell = next;
+	}
+	else{
+		WorldManager &world_manager = WorldManager::getInstance();
+    	world_manager.markForDelete(this);
+	}
+	*/
+}
+
+/**
+ * Check cells around the enemy for possible move
+ * @return Cell that is next in path
+ */
+/*
+cell Enemy::checkCells(void)
+{	
+	cell possible = _currentCell.up
+	if (possible != _lastCell && possible.isPath == true){
+		return possible
+	}
+	cell possible = _currentCell.down
+	if (possible != _lastCell && possible.isPath == true){
+		return possible
+	}
+	cell possible = _currentCell.left
+	if (possible != _lastCell && possible.isPath == true){
+		return possible
+	}
+	cell possible = _currentCell.right
+	if (possible != _lastCell && possible.isPath == true){
+		return possible
+	}
+	return _currentCell;
+}
+*/

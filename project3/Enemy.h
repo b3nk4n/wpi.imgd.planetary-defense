@@ -29,6 +29,18 @@
  	 */
  	int _speedIndex;
 
+ 	/**
+ 	 * cell that the enemy is on
+ 	 */
+ 	// Cell _currentCell;
+
+ 	/**
+ 	 * Last cell the enemy was on
+ 	 */
+ 	// Cell _lastCell
+
+
+
  public:
 	/**
 	 * Creates a new enemy object instance with speed and health set
@@ -67,7 +79,18 @@
 	 */
 	int setHealth(int health);
 
+	/**
+	 * Move the enemy to the next open path cell
+	 */
+	 void move(void);
 
- };
+	 /**
+	  * Check cells around the enemy for possible move
+	  * @return Cell that is next in path
+	  */
+	//cell checkCells(cell current);
+
+
+};
 
 #endif // __ENEMY_H__
