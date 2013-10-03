@@ -43,6 +43,7 @@ ENGSRC = Box.cpp \
 		 Line.cpp \
 		 LogManager.cpp \
 		 Manager.cpp \
+		 MapData.cpp \
 		 Object.cpp \
 		 ObjectList.cpp \
 		 ObjectListIterator.cpp \

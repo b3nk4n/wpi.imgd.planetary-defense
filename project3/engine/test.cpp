@@ -76,6 +76,9 @@ bool testResourceManager_loadErrorLessWidthSpriteReturnsError(void);
 bool testResourceManager_loadErrorMoreWidthSpriteReturnsError(void);
 bool testResourceManager_loadErrorUnknownFileReturnsError(void);
 bool testResourceManager_getAndUnloadSprite(void);
+bool testResourceManager_loadCorrectMapReturnsSuccess(void);
+bool testResourceManager_loadCorrectMapWithCorrectData(void);
+bool testResourceManager_loadCorrectMapWithCorrectBackgroundSprite(void);
 bool testClock_1SecSleep(void);
 bool testClock_deltaRestsTime(void);
 bool testClock_splitNotRestsTime(void);
@@ -285,6 +288,9 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testResourceManager_loadErrorMoreWidthSpriteReturnsError", &testResourceManager_loadErrorMoreWidthSpriteReturnsError);
 	unitTestManager.registerTestFunction("testResourceManager_loadErrorUnknownFileReturnsError", &testResourceManager_loadErrorUnknownFileReturnsError);
 	unitTestManager.registerTestFunction("testResourceManager_getAndUnloadSprite", &testResourceManager_getAndUnloadSprite);
+	unitTestManager.registerTestFunction("testResourceManager_loadCorrectMapReturnsSuccess", &testResourceManager_loadCorrectMapReturnsSuccess);
+	unitTestManager.registerTestFunction("testResourceManager_loadCorrectMapWithCorrectData", &testResourceManager_loadCorrectMapWithCorrectData);
+	unitTestManager.registerTestFunction("testResourceManager_loadCorrectMapWithCorrectBackgroundSprite", &testResourceManager_loadCorrectMapWithCorrectBackgroundSprite);
 
 	unitTestManager.registerTestFunction("testClock_1SecSleep", &testClock_1SecSleep);
 	unitTestManager.registerTestFunction("testClock_deltaRestsTime", &testClock_deltaRestsTime);
@@ -933,6 +939,40 @@ bool testResourceManager_getAndUnloadSprite(void)
 
 	return res1 == 0 && p_sprite1 != NULL &&
 		res2 == 0 && p_sprite2 == NULL;
+}
+
+bool testResourceManager_loadCorrectMapReturnsSuccess(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "map1";
+	int res = resourceManager.loadMap("maps/test-map.txt", label);
+
+	return res == 0;
+}
+
+bool testResourceManager_loadCorrectMapWithCorrectData(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "map2";
+	resourceManager.loadMap("maps/test-map.txt", label);
+	MapData *p_map = resourceManager.getMap(label);
+
+	return p_map->getCellsHorizontal() == 10 &&
+		p_map->getCellsVertical() == 10 &&
+		p_map->getCellWidth() == 5 &&
+		p_map->getCellHeight() == 3;
+}
+
+bool testResourceManager_loadCorrectMapWithCorrectBackgroundSprite(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "map3";
+	resourceManager.loadMap("maps/test-map.txt", label);
+	Sprite *p_sprite = resourceManager.getMap(label)->getBackground();
+
+	return p_sprite->getWidth() == 50 &&
+		p_sprite->getHeight() == 30 &&
+		p_sprite->getColor() == COLOR_YELLOW;
 }
 
 bool testClock_1SecSleep(void)

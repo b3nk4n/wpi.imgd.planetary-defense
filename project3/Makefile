@@ -23,10 +23,11 @@ LDFLAGS = -lncurses -lrt -lm
   endif
 endif
 ENG = engine/lib/libenginex.a
-GAMESRC = # CPP FILES HERE
+GAMESRC = VirtualCursor.cpp \
+          MapObject.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
-OBJECTS = $(ENGSRC:.cpp=.o)
+OBJECTS = $(GAMESRC:.cpp=.o)
 
 .PHONE: all clean depend start
 
@@ -43,6 +44,7 @@ clean:
 
 depend: 
 	makedepend *.cpp 2> /dev/null
+
 # DO NOT DELETE
 
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
@@ -50,4 +52,7 @@ game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
 game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
 game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h MapObject.h
+game.o: VirtualCursor.h
+MapObject.o: MapObject.h VirtualCursor.h
+VirtualCursor.o: VirtualCursor.h

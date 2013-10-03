@@ -18,6 +18,7 @@ using std::ifstream;
 int readLineInt(ifstream *p_file, int *p_lineNumber, const char *tag);
 string readLineString(ifstream *p_file, int* p_lineNumber, const char *tag);
 Frame readFrame(ifstream *p_file, int *p_lineNumber, int width, int height);
+int parseStringPath(string stringPath, MapData *p_map);
 void discardCR(string &text);
 
 
@@ -182,7 +183,7 @@ int ResourceManager::loadSprite(string filename, string label)
 		catch(ifstream::failure e)
 		{
 			logManager.writeLog(LOG_ERROR,
-				"ResouceManager.readLineString()",
+				"ResouceManager::loadSprite()",
 				"Error line %d: Reading line failed with error: %s\n",
 				lineNumber,
 				e.what());
@@ -236,7 +237,7 @@ int ResourceManager::loadSprite(string filename, string label)
  */
 int ResourceManager::unloadSprite(string label)
 {
-	for (int i = 0; i < _spriteCount; ++i)
+	for (int i = _spriteCount - 1; i >= 0; --i)
 	{
 		if (label == _p_sprites[i]->getLabel())
 		{
@@ -267,6 +268,218 @@ Sprite *ResourceManager::getSprite(string label)
 	{
 		if (label == _p_sprites[i]->getLabel())
 			return _p_sprites[i];
+	}
+
+	return NULL;
+}
+
+/**
+ * Loads the map from a file.
+ * @param filename The file name.
+ * @param label The label to identify the map.
+ * @return Returns 0 if ok, else -1.
+ */
+int ResourceManager::loadMap(string filename, string label)
+{
+	LogManager &logManager = LogManager::getInstance();
+
+	// verify maps limit not reached
+	if (_mapCount == MAX_MAPS)
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager::loadMap()",
+			"The map limit of %d maps is reached. Loading map failed.\n",
+			MAX_MAPS);
+		return -1;
+	}
+
+	int lineNumber = 1;
+	bool parsingError = false;
+
+	// open map file
+	ifstream mapfile(filename.c_str());
+
+	if (mapfile.is_open())
+	{
+		logManager.writeLog(LOG_INFO,
+			"ResouceManager::loadMap()",
+			"Opened map file '%s'.\n",
+			filename.c_str());
+	}
+	else
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager::loadMap()",
+			"Map file '%s' could not be opened.\n",
+			filename.c_str());
+		return -1;
+	}
+
+	// read map file header
+	int cellsHorizontal = readLineInt(&mapfile, &lineNumber, CELLS_HORIZONTAL_TOKEN);
+	int cellsVertical = readLineInt(&mapfile, &lineNumber, CELLS_VERTICAL_TOKEN);
+	int cellWidth = readLineInt(&mapfile, &lineNumber, CELL_WIDTH_TOKEN);
+	int cellHeight = readLineInt(&mapfile, &lineNumber, CELL_HEIGHT_TOKEN);
+	string colorString = readLineString(&mapfile, &lineNumber, COLOR_TOKEN);
+	int bgColor = GraphicsManager::getColorByString(colorString);
+	string pathString = readLineString(&mapfile, &lineNumber, PATH_TOKEN);
+
+	// verify header parsing was successful
+	if (cellsHorizontal == -1 || cellsVertical == -1 || cellWidth == -1 || cellHeight == -1 || bgColor == -1)
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager::loadMap()",
+			"Parsing the header of the map file '%s' failed.\n",
+			filename.c_str());
+		return -1;
+	}
+
+	// create map
+	bool success = false;
+	MapData *p_map = new MapData(
+		cellsHorizontal,
+		cellsVertical,
+		cellWidth,
+		cellHeight);
+	Sprite *p_background = new Sprite(1);
+
+	// LOAD PASSABLE MAP
+	string line;
+	// uses a frame as container for the passable map
+	Frame passableMap = readFrame(&mapfile, &lineNumber, cellsHorizontal, cellsVertical);
+
+	// an error occured when an empty frame was received
+	if (!passableMap.isEmpty())
+	{
+		// verify adding frame did not failed
+		if(p_map->setPassableMap(passableMap))
+		{
+			logManager.writeLog(LOG_ERROR,
+				"ResouceManager::loadMap()",
+				"Adding setting up passable map failed.\n");
+			return -1;
+		}
+
+		// read background image sprite
+		Frame mapBackground = readFrame(&mapfile,
+			&lineNumber,
+			cellsHorizontal * cellWidth,
+			cellsVertical * cellHeight);
+
+		// an error occured when an empty frame was received
+		if (!mapBackground.isEmpty())
+		{
+			// verify adding frame did not failed
+			if(p_background->addFrame(mapBackground))
+			{
+				logManager.writeLog(LOG_ERROR,
+					"ResouceManager::loadMap()",
+					"Adding setting up passable map failed.\n");
+				return -1;
+			}
+		}
+
+		// verify EOF token is reached
+		int currentLine;
+		try
+		{
+			currentLine = mapfile.tellg();
+			getline(mapfile, line);
+			discardCR(line);
+		}
+		catch(ifstream::failure e)
+		{
+			logManager.writeLog(LOG_ERROR,
+				"ResouceManager::loadMap()",
+				"Error line %d: Reading line failed with error: %s\n",
+				lineNumber,
+				e.what());
+			return -1;
+		}
+
+		if (line.compare(END_SPRITE_TOKEN) == 0)
+		{
+			success = true;
+		}
+
+		mapfile.seekg(currentLine ,std::ios_base::beg);
+	}
+	
+
+	// close map file
+	mapfile.close();
+
+	// ensure there was no error while parsing the file
+	if (!success)
+		return -1;
+
+	// configure map background
+	p_background->setLabel(label);
+	p_background->setWidth(cellsHorizontal * cellWidth);
+	p_background->setHeight(cellsVertical * cellHeight);
+	p_background->setColor(bgColor);
+
+	// config map
+	p_map->setLabel(label);
+	p_map->setBackground(p_background);
+	// parse path
+	if (parseStringPath(pathString, p_map))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager::loadMap()",
+			"Parsing the string path failed.\n");
+		return -1;
+	}
+
+	// store the map
+	_p_maps[_mapCount++] = p_map;
+
+	return 0;
+}
+
+/**
+ * Unloads the map.
+ * @param label The label to identify the map.
+ * @return Returns 0 if ok, else -1.
+ */
+int ResourceManager::unloadMap(string label)
+{
+	for (int i = _mapCount - 1; i >= 0; --i)
+	{
+		if (label == _p_maps[i]->getLabel())
+		{
+			// unload its assigned background sprite
+			Sprite *p_background = _p_maps[i]->getBackground();
+			if (p_background != NULL)
+				delete p_background;
+
+			// clean up memory
+			delete _p_maps[i];
+
+			// scoot over other maps
+			for (int j = i; j < _mapCount - 1; ++j)
+				_p_maps[j] = _p_maps[j + 1];
+
+			--_mapCount;
+
+			return 0;
+		}
+	}
+
+	return -1;
+}
+
+/**
+ * Gets the map.
+ * @param label The label to identify the map.
+ * @return Returns the found map, else NULL.
+ */
+MapData *ResourceManager::getMap(string label)
+{
+	for (int i = 0; i < _mapCount; ++i)
+	{
+		if (label == _p_maps[i]->getLabel())
+			return _p_maps[i];
 	}
 
 	return NULL;
@@ -510,6 +723,21 @@ Frame readFrame(ifstream *p_file, int *p_lineNumber, int width, int height)
 	// create and return frame
 	Frame frame(width, height, frameString);
 	return frame;
+}
+
+/**
+ * Parses the path in the format 'tag x,y;x,y;x,y;...'.
+ * @param stringPath The path as string.
+ * @param p_map The map to add the path positions.
+ * @return Returns 0 for success, else -1.
+ */
+int parseStringPath(string stringPath, MapData *p_map)
+{
+	// p_map->addPathPosition(p); ... TODO
+	p_map->addPathPosition(Position(5,0));
+	p_map->addPathPosition(Position(5,6));
+	p_map->addPathPosition(Position(9,6));
+	return 0;
 }
 
 /**

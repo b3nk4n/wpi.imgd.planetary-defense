@@ -39,6 +39,8 @@ Object::Object(void)
 	_eventCount = 0;
 	_altitude = MAX_ALTITUDE / 2;
 
+	_solidness = HARD;
+
 	// add itself to the world manager
 	if (worldManager.insertObject(this))
 	{
@@ -48,7 +50,6 @@ Object::Object(void)
 	}
 	
 	setType(TYPE_OBJECT);
-	setSolidness(HARD);
 
 	// sprite
 	_p_sprite = NULL;
@@ -236,6 +237,11 @@ bool Object::isInterestedInEvent(string eventType)
 void Object::draw(void)
 {
 	GraphicsManager &graphcisManager = GraphicsManager::getInstance();
+
+	// verify sprite is set
+	if (_p_sprite == NULL)
+		return;
+	
 	int index = getSpriteIndex();
 
 	// render the current frame

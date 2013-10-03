@@ -9,6 +9,7 @@
 #include "GameManager.h"
 #include "ResourceManager.h"
 #include "WorldManager.h"
+#include "MapObject.h"
 
 // prototypes
 void configureGame(void);
@@ -76,8 +77,11 @@ void loadResources(void)
 {
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 
-	// load games txt sprite sheets
-	//resourceManager.loadSprite("assets/file.txt", "test");
+	// load sprite sheets
+	//resourceManager.loadSprite("assets/sprites/file.txt", "test");
+
+	// load maps
+	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");
 }
 
 /**
@@ -85,5 +89,6 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
-	// TODO
+	MapObject *mapObject = new MapObject();
+	mapObject->loadMap("map1");
 }
