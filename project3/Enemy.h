@@ -42,6 +42,11 @@
  	 */
  	Position _currentWaypoint;
 
+ 	/**
+ 	 * Position index
+ 	 */
+ 	int _pathIndex
+
  public:
 	/**
 	 * Creates a new enemy object with a certain type of enemy
@@ -62,9 +67,8 @@
 	 
 	/**
 	 * Move to next waypoint
-	 * @param Position of next waypoint
 	 */
-	void move(Position waypoint);
+	void move();
 
 	/** 
 	 * Gets the speed index of the Enemy.
@@ -89,12 +93,6 @@
 	 * @param int health you want the enemy to have.
 	 */
 	void setHealth(int health);
-
-	/**
-	 * Set the next waypoint for the enemy to approach
-	 * @param Position of the waypoint the enemy is heading towards
-	 */
-	void setWaypoint(Position waypoint);
 
 	/**
 	 * Sets up the enemy based on enemyIndex

@@ -24,7 +24,8 @@ LDFLAGS = -lncurses -lrt -lm
 endif
 ENG = engine/lib/libenginex.a
 GAMESRC = VirtualCursor.cpp \
-          MapObject.cpp
+          MapObject.cpp \
+          Enemy.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)

@@ -10,6 +10,7 @@
 #include "ResourceManager.h"
 #include "WorldManager.h"
 #include "MapObject.h"
+#include "Enemy.h"
 
 // prototypes
 void configureGame(void);
@@ -79,6 +80,7 @@ void loadResources(void)
 
 	// load sprite sheets
 	//resourceManager.loadSprite("assets/sprites/file.txt", "test");
+	resourceManager.loadSprite("assets/sprites/saucer-spr.txt", "saucer");
 
 	// load maps
 	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");
@@ -91,4 +93,5 @@ void populateWorld(void)
 {
 	MapObject *mapObject = new MapObject();
 	mapObject->loadMap("map1");
+	new enemy(1);
 }

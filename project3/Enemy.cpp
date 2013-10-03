@@ -5,15 +5,34 @@
  * @lastEdit 	10/3/2013
  ******************************************************************************/
 
- #include "Enemy.h"
+#include "EventStep.h"
+#include "EventView.h"
+#include "GraphicsManager.h"
+#include "LogManager.h"
+#include "ResourceManager.h"
+#include "WorldManager.h"
+#include "Enemy.h"
+#include "MapObject.h"
 
 /**
  * Creates a new enemy object instance with speed and health set
  * @param int enemyIndex
  */
 Enemy::Enemy(int enemyIndex)
-{
+{	
+	LogManager &log_manager = LogManager::getInstance();
+  	ResourceManager &resource_manager = ResourceManager::getInstance();
+  	Sprite *p_temp_sprite = resource_manager.getSprite("saucer"); // eventually getType();
+
+    setSprite(p_temp_sprite);
+    setSpriteSlowdown(4);		
+  	
+	_pathIndex = 0;
+	MapObject *mapObject = new MapObject();
 	setEnemy(enemyIndex);
+	_currentWaypoint = mapObject->getPathPosition(_pathIndex);
+	_pathIndex++;
+	move();
 }
 
 /**
@@ -29,7 +48,8 @@ int Enemy::eventHandler(Event *p_e) {
 
   if (p_e->getType() == STEP_EVENT) {
     if (this.getPosition() == _currentWaypoint){
-    		//move(Waypoint.next);
+    		_pathIndex++;
+    		move();
     		return 1;
 		}
 	}
@@ -39,26 +59,30 @@ int Enemy::eventHandler(Event *p_e) {
 
 /**
  * Move to next waypoint
- * @param Position of next waypoint
  */
-void Enemy::move(Position waypoint)
+void Enemy::move()
 {
-	int next_x = waypoint.getX();
-	int next_y = waypoint.getY();
+	int next_x = getPathPosition(_pathIndex).getX();
+	int next_y = getPathPosition(_pathIndex).getY();
 	int cur_x = _currentWaypoint.getX();
 	int cur_y = _currentWaypoint.getY();
 	if (next_y > cur_y){
 		setVelocityY(_speed);
+		setVelocityX(0);
 	}
 	else if (next_y < cur_y){
 		setVelocityY(-_speed);
+		setVelocityX(0);
 	}
 	else if (next_x > cur_x){
 		setVelocityX(_speed);
+		setVelocityY(0);
 	}
 	else {
 		setVelocityX(-_speed);
+		setVelocityX(0);
 	}
+
 }
 
 /**
@@ -110,6 +134,7 @@ void Enemy::setEnemy(int enemyIndex)
 		setType("Ork Boss");
 		_speed = 0.25;
 		_health = 500;
+
 	}
 
 	// ORK 2
