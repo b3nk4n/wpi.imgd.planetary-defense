@@ -19,11 +19,7 @@ Enemy::Enemy(int enemyIndex)
 /**
  * Cleans up the enemy object.
  */
-virtual Enemy::~Enemy(void)
-{
-	_health = 0;
-	_speedIndex = 0;
-}
+virtual Enemy::~Enemy(void){}
 
 /**
  * Handle events
@@ -41,7 +37,29 @@ int Enemy::eventHandler(Event *p_e) {
   return 0;
 }
 
-
+/**
+ * Move to next waypoint
+ * @param Position of next waypoint
+ */
+void Enemy::move(Position waypoint)
+{
+	int next_x = waypoint.getX();
+	int next_y = waypoint.getY();
+	int cur_x = _currentWaypoint.getX();
+	int cur_y = _currentWaypoint.getY();
+	if (next_y > cur_y){
+		setVelocityY(_speed);
+	}
+	else if (next_y < cur_y){
+		setVelocityY(-_speed);
+	}
+	else if (next_x > cur_x){
+		setVelocityX(_speed);
+	}
+	else {
+		setVelocityX(-_speed);
+	}
+}
 
 /**
  * Gets the speed index of the Enemy.
@@ -63,7 +81,7 @@ void Enemy::setSpeed(float speed)
 
 /**
  * Gets the health of the Enemy.
- * @return the health of the enemy.
+ * @return int the health of the enemy.
  */
 int Enemy::getHealth(void)
 {
@@ -71,10 +89,10 @@ int Enemy::getHealth(void)
 }
 
 /**
- * Set the speed index of the Enemy.
- * @param int speed you want the enemy to go.
+ * Set the health of the enemy
+ * @param int health
  */
-int Enemy::setHealth(int health)
+void Enemy::setHealth(int health)
 {
 	_health = health;
 }
