@@ -441,3 +441,19 @@ int splash(void)
 	gameManager.run();
 	return 0;
 }
+
+/**
+ * Splites the string with the given delimiter.
+ * @param s The string to split.
+ * @param delim The delimiter.
+ * @param elements The reference to the elements list as input parameter.
+ */
+void split(const string &text, char delimiter, vector<string> &elements) 
+{
+    stringstream ss(text+' ');
+    string item;
+    while(std::getline(ss, item, delimiter)) 
+    {
+        elements.push_back(item);
+    }
+}

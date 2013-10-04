@@ -3,7 +3,7 @@ cells-vertical 10
 cell-width 5
 cell-height 3
 color yellow
-path 5,0;5,8;9,8
+path 4,0;4,8;9,8
 OOOOXOOOOO
 OOOOXOOOOO
 OOOOXOOOOO

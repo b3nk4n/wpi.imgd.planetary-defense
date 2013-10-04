@@ -9,6 +9,7 @@
 
 #include <string>
 #include <sstream>
+#include <vector>
 #include "Position.h"
 #include "Box.h"
 #include "Line.h"
@@ -17,7 +18,8 @@
 #include "Splash.h"
 #include "GameManager.h"
 
- using std::string;
+using std::string;
+using std::vector;
 
 /**
  * Gets the current time as a string.
@@ -148,5 +150,13 @@ string intToString(int value);
  * @return Returns 0 if ok, else -1.
  */
 int splash(void);
+
+/**
+ * Splites the string with the given delimiter.
+ * @param s The string to split.
+ * @param delim The delimiter.
+ * @param elements The reference to the elements list as input parameter.
+ */
+void split(const string &text, char delimiter, vector<string> &elements);
 
 #endif

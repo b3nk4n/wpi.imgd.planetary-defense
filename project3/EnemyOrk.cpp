@@ -10,7 +10,7 @@
  * Creates a new ork enemy object instance.
  */
 EnemyOrk::EnemyOrk(void)
-	: Enemy("saucer", 50, 0.5f)
+	: Enemy("saucer", 50, 0.25f)
 {
 
 }

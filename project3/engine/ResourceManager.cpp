@@ -13,6 +13,7 @@
 #include "LogManager.h"
 
 using std::ifstream;
+using std::vector;
 
 // prototypes
 int readLineInt(ifstream *p_file, int *p_lineNumber, const char *tag);
@@ -733,10 +734,24 @@ Frame readFrame(ifstream *p_file, int *p_lineNumber, int width, int height)
  */
 int parseStringPath(string stringPath, MapData *p_map)
 {
-	// p_map->addPathPosition(p); ... TODO
-	p_map->addPathPosition(Position(0,0));
-	p_map->addPathPosition(Position(0,9));
-	p_map->addPathPosition(Position(9,9));
+	vector<string> pathList;
+	split(stringPath, ';', pathList);
+
+	for (vector<string>::iterator it = pathList.begin(); it != pathList.end(); ++it)
+	{
+		vector<string> positionList;
+		split(*it, ',', positionList);
+
+		// verify position might be correct
+		if (positionList.size() != 2)
+			return -1;
+
+		int x = atoi(positionList.at(0).c_str());
+		int y = atoi(positionList.at(1).c_str());
+
+		p_map->addPathPosition(Position(x,y));
+	}
+
 	return 0;
 }
 

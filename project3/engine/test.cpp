@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
+#include <vector>
 #include "LogManager.h"
 #include "Clock.h"
 #include "GameManager.h"
@@ -32,6 +33,7 @@
 #include "utility.h"
 
 using std::string;
+using std::vector;
 
 // prototypes for setup
 void testSetup(void);
@@ -225,6 +227,7 @@ bool testUtility_distanceSquared2(void);
 bool testUtility_intToStringZero(void);
 bool testUtility_intToStringPositive(void);
 bool testUtility_intToStringNegative(void);
+bool testUtility_splitValues(void);
 
 // prototypes for helpers
 void objectListFillWithObject(ObjectList *p_objectList, int count);
@@ -448,6 +451,7 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testUtility_intToStringZero", &testUtility_intToStringZero);
 	unitTestManager.registerTestFunction("testUtility_intToStringPositive", &testUtility_intToStringPositive);
 	unitTestManager.registerTestFunction("testUtility_intToStringNegative", &testUtility_intToStringNegative);
+	unitTestManager.registerTestFunction("testUtility_splitValues", &testUtility_splitValues);
 
 	// RUN UNIT TEST MANAGER
 	return unitTestManager.run(argc, argv);
@@ -2783,6 +2787,27 @@ bool testUtility_intToStringNegative(void)
 	int value = -2;
 
 	return intToString(value) == "-2";
+}
+
+bool testUtility_splitValues(void)
+{
+	string text = "1,2,3,4";
+
+	vector<string> list;
+	split(text, ',', list);
+
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"testUtility_splitValues()",
+		"split count: %d, first: %s, last %s\n",
+		list.size(),
+		list.at(0).c_str(),
+		list.at(3).c_str());
+
+	return atoi(list.at(0).c_str()) == 1 &&
+		atoi(list.at(1).c_str()) == 2 &&
+		atoi(list.at(2).c_str()) == 3 &&
+		atoi(list.at(3).c_str()) == 4;
 }
 
 /****************************************************************************
