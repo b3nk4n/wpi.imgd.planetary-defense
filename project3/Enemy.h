@@ -57,7 +57,7 @@
 	/**
 	 * Cleans up the enemy object.
 	 */
-	virtual ~Enemy(void);
+	virtual ~Enemy(void){}
 
 	/**
 	 * Handle events

@@ -26,8 +26,8 @@ ENG = engine/lib/libenginex.a
 GAMESRC = Cell.cpp \
 		  Grid.cpp \
 		  VirtualCursor.cpp \
-          MapObject.cpp
-          #Enemy.cpp
+          MapObject.cpp \
+          Enemy.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)

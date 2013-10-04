@@ -27,18 +27,15 @@ Enemy::Enemy(int enemyIndex)
     setSprite(p_temp_sprite);
     setSpriteSlowdown(4);		
   	
-	_pathIndex = 0;
-	MapObject *mapObject = new MapObject();
+	_pathIndex = 1;
+	MapObject* mapObject = MapObject::Instance();
 	setEnemy(enemyIndex);
 	_currentWaypoint = mapObject->getPathPosition(_pathIndex);
 	_pathIndex++;
+	setPosition(_currentWaypoint);
 	move();
 }
 
-/**
- * Cleans up the enemy object.
- */
-virtual Enemy::~Enemy(void){}
 
 /**
  * Handle events
@@ -47,7 +44,7 @@ virtual Enemy::~Enemy(void){}
 int Enemy::eventHandler(Event *p_e) {
 
   if (p_e->getType() == STEP_EVENT) {
-    if (this.getPosition() == _currentWaypoint){
+    if (this->getPosition() == _currentWaypoint){
     		_pathIndex++;
     		move();
     		return 1;
@@ -61,9 +58,10 @@ int Enemy::eventHandler(Event *p_e) {
  * Move to next waypoint
  */
 void Enemy::move()
-{
-	int next_x = getPathPosition(_pathIndex).getX();
-	int next_y = getPathPosition(_pathIndex).getY();
+{	
+	MapObject* mapObject = MapObject::Instance();
+	int next_x = mapObject->getPathPosition(_pathIndex).getX();
+	int next_y = mapObject->getPathPosition(_pathIndex).getY();
 	int cur_x = _currentWaypoint.getX();
 	int cur_y = _currentWaypoint.getY();
 	if (next_y > cur_y){
