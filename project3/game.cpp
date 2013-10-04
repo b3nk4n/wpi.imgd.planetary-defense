@@ -90,7 +90,7 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
-	MapObject* mapObject = MapObject::Instance();
+	MapObject* mapObject = MapObject::getInstance();
 	mapObject->loadMap("map1");
 	new EnemyOrk();
 }

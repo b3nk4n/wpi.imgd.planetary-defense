@@ -36,7 +36,7 @@ private:
 	 * instance variable instead of a local static variable, because 
 	 * each object must be created with 'new'.
 	 */
-	//static MapObject *_p_instance;
+	static MapObject *_p_instance;
 
 	/**
 	 * The virtual cursor on the map
@@ -53,23 +53,27 @@ private:
 	 */
 	Grid _grid;
 
-   //MapObject(void);  // Private so that it can  not be called
-   MapObject(MapObject const&){};             // copy constructor is private
-   MapObject& operator=(MapObject const&){};  // assignment operator is private
-   static MapObject* m_oInstance;
-
-public:
-	static MapObject* Instance(); 
-
-	/**
+    /**
 	 * Creates a map object instance.
 	 */
 	MapObject(void);
 
 	/**
+	 * Hides copy constrctor.
+	 */
+	MapObject(MapObject const&);
+
+	/**
+	 * Hides assignment operator.
+	 */
+	MapObject& operator=(MapObject const&);
+
+public:
+
+	/**
 	 * Cleans up the map manager allocated resources.
 	 */
-	~MapObject(void);
+	virtual ~MapObject(void);
 
 	/**
 	 * Gets the singleton map object instance.
@@ -77,7 +81,7 @@ public:
 	 *       access to the map object properties.
 	 * @return The singleton map object instance.
 	 */
-	//static MapObject* getInstance(void);
+	static MapObject* getInstance(void);
 
 	/**
 	 * Handles all events.

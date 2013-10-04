@@ -13,16 +13,9 @@
 #include "GraphicsManager.h"
 #include "EventKeyboard.h"
 
-MapObject* MapObject::m_oInstance = NULL;  // Global static pointer used to ensure a single instance of the class.
+// Static pointer used to ensure a single instance of the class.
+MapObject* MapObject::_p_instance = NULL;
 
-
-MapObject* MapObject::Instance()
-{
-   if (!m_oInstance)   // Only allow one instance of class to be generated.
-      m_oInstance = new MapObject;
-
-   return m_oInstance;
-}
 /**
  * Creates a map object instance.
  */
@@ -40,6 +33,20 @@ MapObject::MapObject(void)
 }
 
 /**
+ * Hides copy constrctor.
+ */
+MapObject::MapObject(MapObject const &mo)
+{
+}
+
+/**
+ * Hides assignment operator.
+ */
+MapObject& MapObject::operator=(MapObject const &mo)
+{
+}
+
+/**
  * Cleans up the map manager allocated resources.
  */
 MapObject::~MapObject(void)
@@ -54,12 +61,12 @@ MapObject::~MapObject(void)
  *       access to the map object properties.
  * @return The singleton map object instance.
  */
-/*MapObject* MapObject::getInstance(void)
+MapObject* MapObject::getInstance(void)
 {
-	//if (_p_instance == NULL)
+	if (!_p_instance)
 		_p_instance = new MapObject();
 	return _p_instance;
-}*/
+}
 
 /**
  * Handles all events.

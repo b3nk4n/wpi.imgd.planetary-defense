@@ -42,7 +42,7 @@ Enemy::Enemy(string spriteName, int health, float speed)
   	}
 
 	_pathIndex = 0;
-	MapObject* mapObject = MapObject::Instance();
+	MapObject* mapObject = MapObject::getInstance();
 	_currentTarget = mapObject->getPathPosition(_pathIndex);
 	setPosition(_currentTarget);
 
@@ -91,7 +91,7 @@ void Enemy::move(void)
  */
 int Enemy::nextTarget(void)
 {
-	MapObject* mapObject = MapObject::Instance();
+	MapObject* mapObject = MapObject::getInstance();
 
 	++_pathIndex;
 	
