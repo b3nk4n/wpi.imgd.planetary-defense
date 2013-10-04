@@ -51,7 +51,7 @@ Building::Building(string name, string spriteName, int cost, int energy)
 Building::~Building(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	EventBuildingChanged event(_cost * SELL_FACTOR, _energy);
+	EventBuildingChanged event(_cost * SELL_FACTOR, -_energy);
 	worldManager.onEvent(&event);
 }
 

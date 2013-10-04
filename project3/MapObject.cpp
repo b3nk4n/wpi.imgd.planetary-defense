@@ -12,6 +12,7 @@
 #include "LogManager.h"
 #include "GraphicsManager.h"
 #include "EventKeyboard.h"
+#include "SolarBuilding.h"
 
 // Static pointer used to ensure a single instance of the class.
 MapObject* MapObject::_p_instance = NULL;
@@ -75,6 +76,8 @@ MapObject* MapObject::getInstance(void)
  */
 int MapObject::eventHandler(Event *p_event)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		EventKeyboard *p_eventKeyboard = static_cast<EventKeyboard *>(p_event);
@@ -92,6 +95,14 @@ int MapObject::eventHandler(Event *p_event)
 			break;
 		case DOWN_KEY:
 			moveCursor(0, 1);
+			break;
+		case SPACE_KEY:
+			Cell *p_cell = _grid.getCell(_selectedCell);
+			if (p_cell->isConstructionPossible())
+				logManager.writeLog(LOG_WARNING,
+					"MapObject::eventHandler()",
+					"Construction Possible\n");
+				p_cell->setBuilding(new SolarBuilding());
 			break;
 		}
 	}

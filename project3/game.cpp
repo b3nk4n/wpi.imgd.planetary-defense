@@ -81,6 +81,7 @@ void loadResources(void)
 
 	// load sprite sheets
 	resourceManager.loadSprite("assets/sprites/saucer-spr.txt", "saucer");
+	resourceManager.loadSprite("assets/sprites/solar-spr.txt", "solar");
 
 	// load maps
 	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");

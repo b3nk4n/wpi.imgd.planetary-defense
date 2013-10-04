@@ -1,0 +1,21 @@
+count 10
+delay 30
+type ORK
+end
+count 10
+delay 40
+type GOBLIN
+end
+count 10
+delay 30
+type ORK
+end
+count 10
+delay 40
+type GOBLIN
+end
+count 1
+delay 0
+type BOSS
+end
+eof
