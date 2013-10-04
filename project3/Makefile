@@ -28,7 +28,8 @@ GAMESRC = Cell.cpp \
 		  VirtualCursor.cpp \
           MapObject.cpp \
           Enemy.cpp \
-          EnemyOrk.cpp
+          EnemyOrk.cpp \
+          Player.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -56,6 +57,7 @@ Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
 Grid.o: Grid.h Cell.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h
+Player.o: Player.h
 VirtualCursor.o: VirtualCursor.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
