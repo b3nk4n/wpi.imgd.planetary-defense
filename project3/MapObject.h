@@ -14,6 +14,7 @@
 #include "Sprite.h"
 #include "Object.h"
 #include "VirtualCursor.h"
+#include "Grid.h"
 
 using std::string;
 
@@ -26,16 +27,16 @@ class MapObject : public Object
 {
 private:
 	/**
+	 * The map data.
+	 */
+	MapData *_p_currentMapData;
+
+	/**
 	 * The singleton instance variable. Implemented this way with an 
 	 * instance variable instead of a local static variable, because 
 	 * each object must be created with 'new'.
 	 */
 	//static MapObject *_p_instance;
-
-	/**
-	 * The map data of the current map.
-	 */
-	MapData *_p_currentMapData;
 
 	/**
 	 * The virtual cursor on the map
@@ -46,6 +47,11 @@ private:
 	 * The relative index position of the selected cell.
 	 */
 	Position _selectedCell;
+
+	/**
+	 * The worlds grid.
+	 */
+	Grid _grid;
 	
 public:
 	/**
@@ -71,12 +77,6 @@ public:
 	 * @return Return 0 if ignored, else 1 if event was handled.
 	 */
 	virtual int eventHandler(Event *p_event);
-
-	/**
-	 * Renders the map objects sprite frame. Drawing accounts for: centering,
-	 * slowdown, advancing sprite frame.
-	 */
-	virtual void draw(void);
 
 	/**
 	 * Loads a new map from the resource manager.

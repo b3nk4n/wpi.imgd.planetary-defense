@@ -45,7 +45,7 @@
  	/**
  	 * Position index
  	 */
- 	int _pathIndex
+ 	int _pathIndex;
 
  public:
 	/**

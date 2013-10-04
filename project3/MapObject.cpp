@@ -18,9 +18,9 @@
 MapObject::MapObject(void)
 {
 	//_p_instance = NULL;
+	_p_currentMapData = NULL;
 	_selectedCell = Position(0, 0);
 	_p_cursor = new VirtualCursor(_selectedCell);
-	_p_currentMapData = NULL;
 
 	setCentered(false);
 
@@ -91,19 +91,6 @@ int MapObject::eventHandler(Event *p_event)
 }
 
 /**
- * Renders the map objects sprite frame. Drawing accounts for: centering,
- * slowdown, advancing sprite frame.
- */
-void MapObject::draw(void)
-{
-	Object::draw();
-
-	//GraphicsManager &graphicsManager = GraphicsManager::getInstance();
-	// TODO: render map, if not drawn using the objects sprite file
-	// border arround the map?
-}
-
-/**
  * Loads a new map from the resource manager.
  * @note The map must be loaded in resource manager previously.
  * @param mapLabel The label name of the map to load.
@@ -113,18 +100,6 @@ int MapObject::loadMap(string mapLabel)
 {
 	LogManager &logManager = LogManager::getInstance();
 	ResourceManager &resourceManager = ResourceManager::getInstance();
-	// unload old map
-	if (_p_currentMapData != NULL)
-	{
-		if (resourceManager.unloadMap(_p_currentMapData->getLabel()))
-		{
-			logManager.writeLog(LOG_WARNING,
-			"MapObject::loadMap()",
-				"Previous map with label '%s' could not be unloaded.\n",
-				_p_currentMapData->getLabel().c_str());
-			return -1;
-		}
-	}
 
 	// load new map
 	MapData *p_tempMap = resourceManager.getMap(mapLabel);
@@ -138,9 +113,10 @@ int MapObject::loadMap(string mapLabel)
 	}
 
 	_p_currentMapData = p_tempMap;
+	_grid.setup(p_tempMap);
 
 	// set map background as the map object's sprite image
-	Sprite *p_background = _p_currentMapData->getBackground();
+	Sprite *p_background = p_tempMap->getBackground();
 	if (p_background != NULL)
 	{
 		setSprite(p_background);
@@ -176,31 +152,17 @@ Position MapObject::getSelectedCell(void)
  */
 void MapObject::setSelectedCell(Position position)
 {
-	LogManager &logManager = LogManager::getInstance();
 	int x = position.getX();
 	int y = position.getY();
 
-	logManager.writeLog(LOG_DEBUG,
-		"MapObject::setSelectedCell()",
-		"New pos: x=%d, y=%d\n",
-		x,
-		y);
-
-	if (_p_currentMapData == NULL ||
-		x < 0 || x > _p_currentMapData->getCellsHorizontal() - 1 ||
-		y < 0 || y > _p_currentMapData->getCellsVertical() - 1)
+	if (x < 0 || x > _grid.getWidth() - 1 ||
+		y < 0 || y > _grid.getHeight() - 1)
 		return;
 
 	_selectedCell = position;
 
-	Position cellViewPosition(getPosition().getX() + x * _p_currentMapData->getCellWidth(),
-		getPosition().getY() + y * _p_currentMapData->getCellHeight());
-
-	logManager.writeLog(LOG_DEBUG,
-		"MapObject::setSelectedCell()",
-		"Moved to: x=%d, y=%d\n",
-		cellViewPosition.getX(),
-		cellViewPosition.getY());
+	Position cellViewPosition(getPosition().getX() + x * _grid.getCellWidth(),
+		getPosition().getY() + y * _grid.getCellHeight());
 
 	_p_cursor->setPosition(cellViewPosition);
 }
@@ -225,11 +187,7 @@ void MapObject::moveCursor(int deltaX, int deltaY)
  */
 int MapObject::getCellsHorizontal(void)
 {
-	// verify map has been loaded
-	if (_p_currentMapData == NULL)
-		return 0;
-
-	return _p_currentMapData->getCellsHorizontal();
+	return _grid.getWidth();
 }
 
 /**
@@ -238,11 +196,7 @@ int MapObject::getCellsHorizontal(void)
  */
 int MapObject::getCellsVertical(void)
 {
-	// verify map has been loaded
-	if (_p_currentMapData == NULL)
-		return 0;
-
-	return _p_currentMapData->getCellsVertical();
+	return _grid.getWidth();
 }
 
 /**
@@ -251,11 +205,7 @@ int MapObject::getCellsVertical(void)
  */
 int MapObject::getCellWidth(void)
 {
-	// verify map has been loaded
-	if (_p_currentMapData == NULL)
-		return 0;
-
-	return _p_currentMapData->getCellWidth();
+	return _grid.getCellWidth();
 }
 
 /**
@@ -264,11 +214,7 @@ int MapObject::getCellWidth(void)
  */
 int MapObject::getCellHeight(void)
 {
-	// verify map has been loaded
-	if (_p_currentMapData == NULL)
-		return 0;
-
-	return _p_currentMapData->getCellHeight();
+	return _grid.getHeight();
 }
 
 /**
@@ -291,11 +237,11 @@ Sprite *MapObject::getBackground(void)
  */
 bool MapObject::isPassable(Position cellPosition)
 {
-	// verify map has been loaded
-	if (_p_currentMapData == NULL)
+	// verify cell position
+	if (!_grid.isValidCellPosition(cellPosition))
 		return false;
 
-	return _p_currentMapData->isPassable(cellPosition);
+	return _grid.getCell(cellPosition)->isPassable();
 }
 
 /**

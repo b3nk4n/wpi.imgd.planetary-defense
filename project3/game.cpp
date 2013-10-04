@@ -93,5 +93,5 @@ void populateWorld(void)
 {
 	MapObject *mapObject = new MapObject();
 	mapObject->loadMap("map1");
-	new enemy(1);
+	//new enemy(1);
 }
