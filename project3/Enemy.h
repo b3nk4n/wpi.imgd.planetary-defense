@@ -68,7 +68,13 @@
 	/**
 	 * Move to next waypoint
 	 */
-	void move();
+	void move(void);
+
+	/**
+	 * Changes the target to the next path position.
+	 * @return Returns 0 if ok and -1 if there is no target left.
+	 */
+	int nextTarget(void);
 
 	/** 
 	 * Gets the speed index of the Enemy.

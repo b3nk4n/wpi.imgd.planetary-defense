@@ -27,13 +27,15 @@ Enemy::Enemy(int enemyIndex)
     setSprite(p_temp_sprite);
     setSpriteSlowdown(4);		
   	
-	_pathIndex = 1;
+	_pathIndex = 0;
 	MapObject* mapObject = MapObject::Instance();
-	setEnemy(enemyIndex);
 	_currentWaypoint = mapObject->getPathPosition(_pathIndex);
-	_pathIndex++;
+
+	setEnemy(enemyIndex);
 	setPosition(_currentWaypoint);
-	move();
+
+	// register for events
+	registerInterest(STEP_EVENT);
 }
 
 
@@ -41,14 +43,21 @@ Enemy::Enemy(int enemyIndex)
  * Handle events
  * @return int 1 if event was handled, else 0
  */
-int Enemy::eventHandler(Event *p_e) {
+int Enemy::eventHandler(Event *p_e)
+{
 
-  if (p_e->getType() == STEP_EVENT) {
-    if (this->getPosition() == _currentWaypoint){
-    		_pathIndex++;
-    		move();
-    		return 1;
-		}
+  if (p_e->getType() == STEP_EVENT)
+  {
+  	LogManager &logManager = LogManager::getInstance();
+  	logManager.writeLog(LOG_DEBUG,
+		"Enemy::eventHandler()",
+		"pos: x=%d, y=%d | currentWaypoint: x=%d, y=%d\n",
+		getPosition().getX(),
+		getPosition().getY(),
+		_currentWaypoint.getX(),
+		_currentWaypoint.getY());
+
+  		move();
 	}
   //ignore this event
   return 0;
@@ -59,20 +68,47 @@ int Enemy::eventHandler(Event *p_e) {
  */
 void Enemy::move()
 {	
+	// check target reached
+	if (this->getPosition() == _currentWaypoint){
+		nextTarget();
+	}
+}
+
+/**
+ * Changes the target to the next path position.
+ * @return Returns 0 if ok and -1 if there is no target left.
+ */
+int Enemy::nextTarget(void)
+{
 	MapObject* mapObject = MapObject::Instance();
-	int next_x = mapObject->getPathPosition(_pathIndex).getX();
-	int next_y = mapObject->getPathPosition(_pathIndex).getY();
-	int cur_x = _currentWaypoint.getX();
-	int cur_y = _currentWaypoint.getY();
-	if (next_y > cur_y){
+
+	++_pathIndex;
+	
+	// verify target reached
+	if (_pathIndex == mapObject->getPathPositionsCount())
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
+		return -1;
+	}
+
+	_currentWaypoint = mapObject->getPathPosition(_pathIndex);
+
+	// adjust velocity/direction
+	int currentX = getPosition().getX();
+	int currentY = getPosition().getY();
+	int nextX = _currentWaypoint.getX();
+	int nextY = _currentWaypoint.getY();
+
+	if (nextY > currentY){
 		setVelocityY(_speed);
 		setVelocityX(0);
 	}
-	else if (next_y < cur_y){
+	else if (nextY < currentY){
 		setVelocityY(-_speed);
 		setVelocityX(0);
 	}
-	else if (next_x > cur_x){
+	else if (nextX > currentX){
 		setVelocityX(_speed);
 		setVelocityY(0);
 	}
@@ -81,6 +117,7 @@ void Enemy::move()
 		setVelocityX(0);
 	}
 
+	return 0;
 }
 
 /**

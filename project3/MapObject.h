@@ -152,9 +152,16 @@ public:
 	bool isPassable(Position cellPosition);
 
 	/**
-	 * Gets the maps enemy's path position at the given index.
+	 * Gets the maps enemy's path cell index position at the given index.
 	 * @param index The index of the path.
-	 * @return The position of the enemy path of the map, or (-1, -1) if out of bounds.
+	 * @return The index position of the enemy path of the map, or (-1, -1) if out of bounds.
+	 */
+	Position getPathCellPosition(int index);
+
+	/**
+	 * Gets the maps enemy's path world position at the given index.
+	 * @param index The index of the path.
+	 * @return The world position of the enemy path of the map, or (-1, -1) if out of bounds.
 	 */
 	Position getPathPosition(int index);
 

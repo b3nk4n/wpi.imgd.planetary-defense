@@ -256,17 +256,34 @@ bool MapObject::isPassable(Position cellPosition)
 }
 
 /**
- * Gets the maps enemy's path position at the given index.
+ * Gets the maps enemy's path cell index position at the given index.
  * @param index The index of the path.
- * @return The position of the enemy path of the map, or (-1, -1) if out of bounds.
+ * @return The index position of the enemy path of the map, or (-1, -1) if out of bounds.
  */
-Position MapObject::getPathPosition(int index)
+Position MapObject::getPathCellPosition(int index)
 {
 	// verify map has been loaded
 	if (_p_currentMapData == NULL)
 		return Position(-1, -1);
 
 	return _p_currentMapData->getPathPosition(index);
+}
+
+/**
+ * Gets the maps enemy's path world position at the given index.
+ * @param index The index of the path.
+ * @return The world position of the enemy path of the map, or (-1, -1) if out of bounds.
+ */
+Position MapObject::getPathPosition(int index)
+{
+	if (_p_currentMapData == NULL)
+		return Position(-1, -1);
+
+	Position pathPosition = getPathCellPosition(index);
+	Position cellViewPosition(getPosition().getX() + 2 + pathPosition.getX() * _grid.getCellWidth(),
+		getPosition().getY() + 1 + pathPosition.getY()  * _grid.getCellHeight());
+
+	return cellViewPosition;
 }
 
 /**

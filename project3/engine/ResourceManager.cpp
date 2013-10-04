@@ -734,9 +734,9 @@ Frame readFrame(ifstream *p_file, int *p_lineNumber, int width, int height)
 int parseStringPath(string stringPath, MapData *p_map)
 {
 	// p_map->addPathPosition(p); ... TODO
-	p_map->addPathPosition(Position(5,0));
-	p_map->addPathPosition(Position(5,6));
-	p_map->addPathPosition(Position(9,6));
+	p_map->addPathPosition(Position(0,0));
+	p_map->addPathPosition(Position(0,9));
+	p_map->addPathPosition(Position(9,9));
 	return 0;
 }
 

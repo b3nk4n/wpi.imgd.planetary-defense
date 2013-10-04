@@ -247,11 +247,6 @@ void WorldManager::draw(void)
  */
 ObjectList WorldManager::isCollision(Object *p_object, Box box)
 {
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_DEBUG,
-		"WorldManager::isCollision()",
-		"enter\n");
-
 	// create an empty list for collisions
 	ObjectList collisionList;
 
@@ -273,10 +268,6 @@ ObjectList WorldManager::isCollision(Object *p_object, Box box)
 			}
 		}
 	}
-
-	logManager.writeLog(LOG_DEBUG,
-		"WorldManager::isCollision()",
-		"out\n");
 
 	return collisionList;
 }

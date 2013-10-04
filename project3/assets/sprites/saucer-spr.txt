@@ -1,20 +1,25 @@
 frames 5
-width 6
-height 2
+width 5
+height 3
 color green
- ____ 
-/____\
+EEEEE
+EE1EE
+EEEEE
 end
- ____ 
-/___o\
+EEEEE
+EE2EE
+EEEEE
 end
- ____ 
-/__o_\
+EEEEE
+EE3EE
+EEEEE
 end
- ____ 
-/_o__\
+EEEEE
+EE4EE
+EEEEE
 end
- ____ 
-/o___\
+EEEEE
+EE5EE
+EEEEE
 end
 eof
