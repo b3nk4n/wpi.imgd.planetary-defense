@@ -6,6 +6,12 @@
 ******************************************************************************/
 
 #include "Player.h"
+#include "WorldManager.h"
+#include "LogManager.h"
+#include "EventEnemyInvasion.h"
+#include "EventEnemyKilled.h"
+#include "EventPlayerKilled.h"
+#include "EventBuildingChanged.h"
 
 // Static pointer used to ensure a single instance of the class.
 Player* Player::_p_instance = NULL;
@@ -20,6 +26,11 @@ Player::Player(void)
 	_lifes = INIT_LIFES;
 	_credits = INIT_CREDITS;
 	_energy = INIT_ENERGY;
+
+	// register for events
+	registerInterest(ENEMY_INVASION_EVENT);
+	registerInterest(ENEMY_KILLED_EVENT);
+	registerInterest(BUILDING_CHANGED_EVENT);
 }
 
 /**
@@ -63,7 +74,58 @@ Player* Player::getInstance(void)
  */
 int Player::eventHandler(Event *p_event)
 {
+	LogManager &logManager = LogManager::getInstance();
+	
+	if (p_event->getType() == ENEMY_INVASION_EVENT)
+	{
+		if (_lifes > 0)
+			--_lifes;
 
+		if (_lifes)
+		{
+			WorldManager &worldManager = WorldManager::getInstance();
+			EventPlayerKilled eventKilled;
+			worldManager.onEvent(&eventKilled);
+		}
+
+		logManager.writeLog(LOG_DEBUG,
+			"Player::eventHandler()",
+			"Enemy invasion event received. Remaining lifes: %d\n",
+			_lifes);
+
+		return 1;
+	}
+
+	if (p_event->getType() == ENEMY_KILLED_EVENT)
+	{
+		EventEnemyKilled *p_eventEnemyKilled = static_cast<EventEnemyKilled *>(p_event);
+		_credits += p_eventEnemyKilled->getCredits();
+
+		logManager.writeLog(LOG_DEBUG,
+			"Player::eventHandler()",
+			"Enemy killed event received. Current credits: %d\n",
+			_credits);
+
+		return 1;
+	}
+
+	if (p_event->getType() == BUILDING_CHANGED_EVENT)
+	{
+		EventBuildingChanged *p_eventBuildingChanged = static_cast<EventBuildingChanged *>(p_event);
+		
+		_credits += p_eventBuildingChanged->getCreditsDelta();
+		_energy += p_eventBuildingChanged->getEnergyDelta();
+
+		logManager.writeLog(LOG_DEBUG,
+			"Player::eventHandler()",
+			"Building changed event received. Current credits: %d and energy: %d\n",
+			_credits,
+			_energy);
+
+		return 1;
+	}
+
+	return 0;
 }
 
 /**

@@ -29,7 +29,11 @@ GAMESRC = Cell.cpp \
           MapObject.cpp \
           Enemy.cpp \
           EnemyOrk.cpp \
-          Player.cpp
+          Player.cpp \
+          EventEnemyInvasion.cpp \
+          EventPlayerKilled.cpp \
+          EventEnemyKilled.cpp \
+          EventBuildingChanged.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -49,15 +53,20 @@ clean:
 
 depend: 
 	makedepend *.cpp 2> /dev/null
-
 # DO NOT DELETE
 
 Cell.o: Cell.h
 Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h
+Enemy.o: EventEnemyInvasion.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
+EventBuildingChanged.o: EventBuildingChanged.h
+EventEnemyInvasion.o: EventEnemyInvasion.h
+EventEnemyKilled.o: EventEnemyKilled.h
+EventPlayerKilled.o: EventPlayerKilled.h
 Grid.o: Grid.h Cell.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h
-Player.o: Player.h
+Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
+Player.o: EventPlayerKilled.h EventBuildingChanged.h
 VirtualCursor.o: VirtualCursor.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h

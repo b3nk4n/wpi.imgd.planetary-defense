@@ -12,6 +12,7 @@
 #include "WorldManager.h"
 #include "Enemy.h"
 #include "MapObject.h"
+#include "EventEnemyInvasion.h"
 
 /**
  * Creates a new enemy object instance with speed and health set
@@ -98,8 +99,18 @@ int Enemy::nextTarget(void)
 	// verify target reached
 	if (_pathIndex == mapObject->getPathPositionsCount())
 	{
+		LogManager &logManager = LogManager::getInstance();
+		logManager.writeLog(LOG_DEBUG,
+			"Enemy::nextTarget()",
+			"Final target reached.\n");
+
+		// delete itself
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
+
+		EventEnemyInvasion eventInvasion;
+		worldManager.onEvent(&eventInvasion);
+
 		return -1;
 	}
 
@@ -179,37 +190,3 @@ void Enemy::setHealth(int health)
 {
 	_health = health;
 }
-
-/**
- * Sets up the enemy based on enemyIndex
- * @param int enemyIndex
- * NOTE: Library for enemies,
- * You can add more enemies here
- */
-/*void Enemy::setEnemy(int enemyIndex)
-{	
-	// ORK BOSS 1
-	if (enemyIndex == ORK_BOSS)
-	{
-		setType("Ork Boss");
-		_speed = 0.25;
-		_health = 500;
-
-	}
-
-	// ORK 2
-	if (enemyIndex == ORK)
-	{
-		setType("Ork");
-		_speed = 0.5;
-		_health = 50;
-	}
-
-	// GOBLIN 3
- 	if (enemyIndex == GOBLIN)
- 	{
- 		setType("Goblin");
-		_speed = 1.0;
-		_health = 10;
-	}
-}*/

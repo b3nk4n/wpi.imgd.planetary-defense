@@ -11,6 +11,7 @@
 #include "WorldManager.h"
 #include "MapObject.h"
 #include "EnemyOrk.h"
+#include "Player.h"
 
 // prototypes
 void configureGame(void);
@@ -90,7 +91,10 @@ void loadResources(void)
  */
 void populateWorld(void)
 {
+	Player *player = Player::getInstance();
+
 	MapObject* mapObject = MapObject::getInstance();
 	mapObject->loadMap("map1");
+	
 	new EnemyOrk();
 }
