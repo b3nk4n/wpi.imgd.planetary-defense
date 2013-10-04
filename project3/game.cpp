@@ -10,7 +10,7 @@
 #include "ResourceManager.h"
 #include "WorldManager.h"
 #include "MapObject.h"
-#include "Enemy.h"
+#include "EnemyOrk.h"
 
 // prototypes
 void configureGame(void);
@@ -79,7 +79,6 @@ void loadResources(void)
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 
 	// load sprite sheets
-	//resourceManager.loadSprite("assets/sprites/file.txt", "test");
 	resourceManager.loadSprite("assets/sprites/saucer-spr.txt", "saucer");
 
 	// load maps
@@ -93,5 +92,5 @@ void populateWorld(void)
 {
 	MapObject* mapObject = MapObject::Instance();
 	mapObject->loadMap("map1");
-	new Enemy(1);
+	new EnemyOrk();
 }

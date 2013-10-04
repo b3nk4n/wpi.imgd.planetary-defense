@@ -68,8 +68,6 @@ MapObject::~MapObject(void)
  */
 int MapObject::eventHandler(Event *p_event)
 {
-	LogManager &logManager = LogManager::getInstance();
-
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		EventKeyboard *p_eventKeyboard = static_cast<EventKeyboard *>(p_event);
@@ -78,9 +76,6 @@ int MapObject::eventHandler(Event *p_event)
 		{
 		case LEFT_KEY:
 			moveCursor(-1, 0);
-			logManager.writeLog(LOG_DEBUG,
-				"MapObject::eventHandler()",
-				"Cursor moved left by keyboard.\n");
 			break;
 		case RIGHT_KEY:
 			moveCursor(1, 0);
@@ -90,12 +85,6 @@ int MapObject::eventHandler(Event *p_event)
 			break;
 		case DOWN_KEY:
 			moveCursor(0, 1);
-			break;
-		default:
-			logManager.writeLog(LOG_DEBUG,
-				"MapObject::eventHandler()",
-				"Unknown key pressed: %d\n",
-				p_eventKeyboard->getKey());
 			break;
 		}
 	}

@@ -1,8 +1,7 @@
 /*******************************************************************************
  * @file        Enemy.cpp
  * @author      kcbryant
- * @description Enemy Base Class Functions
- * @lastEdit 	10/3/2013
+ * @description Enemy base class Functions
  ******************************************************************************/
 
 #include "EventStep.h"
@@ -16,26 +15,46 @@
 
 /**
  * Creates a new enemy object instance with speed and health set
- * @param int enemyIndex
+ * @param spriteName The name of the sprite asset.
+ * @param health The enemies initial health.
+ * @param speed The enemies speed.
  */
-Enemy::Enemy(int enemyIndex)
+Enemy::Enemy(string spriteName, int health, float speed)
 {	
-	LogManager &log_manager = LogManager::getInstance();
-  	ResourceManager &resource_manager = ResourceManager::getInstance();
-  	Sprite *p_temp_sprite = resource_manager.getSprite("saucer"); // eventually getType();
+	LogManager &logManager = LogManager::getInstance();
+  	ResourceManager &resourceManager = ResourceManager::getInstance();
 
-    setSprite(p_temp_sprite);
-    setSpriteSlowdown(4);		
-  	
+  	setType(TYPE_ENEMY);
+  	_health = health;
+  	_speed = speed;
+
+  	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
+  	if (!p_tempSprite)
+  	{
+  		logManager.writeLog(LOG_ERROR,
+  			"Enemy::Enemy()",
+  			"Loading sprite failed.\n");
+  	}
+  	else
+  	{
+  		setSprite(p_tempSprite);
+    	setSpriteSlowdown(4);	
+  	}
+
 	_pathIndex = 0;
 	MapObject* mapObject = MapObject::Instance();
-	_currentWaypoint = mapObject->getPathPosition(_pathIndex);
-
-	setEnemy(enemyIndex);
-	setPosition(_currentWaypoint);
+	_currentTarget = mapObject->getPathPosition(_pathIndex);
+	setPosition(_currentTarget);
 
 	// register for events
 	registerInterest(STEP_EVENT);
+}
+
+/**
+ * Cleans up the enemy object.
+ */
+Enemy::~Enemy(void)
+{
 }
 
 
@@ -45,31 +64,23 @@ Enemy::Enemy(int enemyIndex)
  */
 int Enemy::eventHandler(Event *p_e)
 {
-
-  if (p_e->getType() == STEP_EVENT)
-  {
-  	LogManager &logManager = LogManager::getInstance();
-  	logManager.writeLog(LOG_DEBUG,
-		"Enemy::eventHandler()",
-		"pos: x=%d, y=%d | currentWaypoint: x=%d, y=%d\n",
-		getPosition().getX(),
-		getPosition().getY(),
-		_currentWaypoint.getX(),
-		_currentWaypoint.getY());
-
+	if (p_e->getType() == STEP_EVENT)
+	{
   		move();
+  		return 1;
 	}
-  //ignore this event
+
   return 0;
 }
 
 /**
  * Move to next waypoint
  */
-void Enemy::move()
+void Enemy::move(void)
 {	
 	// check target reached
-	if (this->getPosition() == _currentWaypoint){
+	if (getPosition() == _currentTarget)
+	{
 		nextTarget();
 	}
 }
@@ -92,32 +103,45 @@ int Enemy::nextTarget(void)
 		return -1;
 	}
 
-	_currentWaypoint = mapObject->getPathPosition(_pathIndex);
+	_currentTarget = mapObject->getPathPosition(_pathIndex);
 
 	// adjust velocity/direction
 	int currentX = getPosition().getX();
 	int currentY = getPosition().getY();
-	int nextX = _currentWaypoint.getX();
-	int nextY = _currentWaypoint.getY();
+	int nextX = _currentTarget.getX();
+	int nextY = _currentTarget.getY();
 
-	if (nextY > currentY){
+	if (nextY > currentY)
+	{
 		setVelocityY(_speed);
 		setVelocityX(0);
 	}
-	else if (nextY < currentY){
+	else if (nextY < currentY)
+	{
 		setVelocityY(-_speed);
 		setVelocityX(0);
 	}
-	else if (nextX > currentX){
+	else if (nextX > currentX)
+	{
 		setVelocityX(_speed);
 		setVelocityY(0);
 	}
-	else {
+	else
+	{
 		setVelocityX(-_speed);
 		setVelocityX(0);
 	}
 
 	return 0;
+}
+
+/**
+ * Gets the current target position.
+ * @return The current target position.
+ */
+Position Enemy::getCurrentTarget(void)
+{
+	return _currentTarget;
 }
 
 /**
@@ -162,10 +186,11 @@ void Enemy::setHealth(int health)
  * NOTE: Library for enemies,
  * You can add more enemies here
  */
-void Enemy::setEnemy(int enemyIndex)
+/*void Enemy::setEnemy(int enemyIndex)
 {	
 	// ORK BOSS 1
-	if (enemyIndex == ORK_BOSS){
+	if (enemyIndex == ORK_BOSS)
+	{
 		setType("Ork Boss");
 		_speed = 0.25;
 		_health = 500;
@@ -173,16 +198,18 @@ void Enemy::setEnemy(int enemyIndex)
 	}
 
 	// ORK 2
-	if (enemyIndex == ORK){
+	if (enemyIndex == ORK)
+	{
 		setType("Ork");
 		_speed = 0.5;
 		_health = 50;
 	}
 
 	// GOBLIN 3
- 	if (enemyIndex == GOBLIN){
+ 	if (enemyIndex == GOBLIN)
+ 	{
  		setType("Goblin");
 		_speed = 1.0;
 		_health = 10;
 	}
-}
+}*/
