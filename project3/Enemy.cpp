@@ -61,11 +61,12 @@ Enemy::~Enemy(void)
 
 /**
  * Handle events
- * @return int 1 if event was handled, else 0
+ * @param p_event The event.
+ * @return Returns 1 if event was handled, else 0.
  */
-int Enemy::eventHandler(Event *p_e)
+int Enemy::eventHandler(Event *p_event)
 {
-	if (p_e->getType() == STEP_EVENT)
+	if (p_event->getType() == STEP_EVENT)
 	{
   		move();
   		return 1;

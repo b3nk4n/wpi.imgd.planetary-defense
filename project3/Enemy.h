@@ -53,9 +53,10 @@ class Enemy : public Object
 
 	/**
 	 * Handle events
-	 * @return int 1 if event was handled, else 0
+	 * @param p_event The event.
+	 * @return Returns 1 if event was handled, else 0.
 	 */
-	int eventHandler(Event *p_e);
+	virtual int eventHandler(Event *p_event);
 	 
 	/**
 	 * Move to next waypoint
