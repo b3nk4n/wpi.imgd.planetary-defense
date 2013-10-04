@@ -22,10 +22,12 @@ Cell::Cell(void)
  * @return Returns 0 for success or else -1 if not possible or
  *         there is already an assigned building.
  */
-int Cell::setBuilding(Object *p_building)
+int Cell::setBuilding(Building *p_building)
 {
 	if (!isConstructionPossible())
 		return -1;
+
+	p_building->setPosition(getCenter());
 
 	_p_building = p_building;
 }
@@ -34,7 +36,7 @@ int Cell::setBuilding(Object *p_building)
  * Gets the assigned building.
  * @return Returns the assigned building or NULL.
  */
-Object *Cell::getBuilding(void)
+Building *Cell::getBuilding(void)
 {
 	return _p_building;
 }
@@ -74,4 +76,14 @@ bool Cell::isPassable(void)
 bool Cell::isConstructionPossible(void)
 {
 	return _isPassable && _p_building == NULL;
+}
+
+Position Cell::getCenter(void)
+{
+	return _center;
+}
+
+void Cell::setCenter(Position position)
+{
+	_center = position;
 }

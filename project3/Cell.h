@@ -8,7 +8,8 @@
 #ifndef __CELL_H__
 #define __CELL_H__
 
-#include "Object.h"
+#include "Building.h"
+#include "Position.h"
 
 /**
  * Represents a cell in a 2D grid system.
@@ -19,12 +20,17 @@ private:
 	/**
 	 * The assigned game object (building).
 	 */
-	Object *_p_building;
+	Building *_p_building;
 
 	/**
 	 * Indicates whether the cell is not blocked for buildings.
 	 */
 	bool _isPassable;
+
+	/**
+	 * The center position of the cell.
+	 */
+	Position _center;
 
 public:
 	/**
@@ -38,13 +44,13 @@ public:
 	 * @return Returns 0 for success or else -1 if not possible or
 	 *         there is already an assigned building.
 	 */
-	int setBuilding(Object *p_building);
+	int setBuilding(Building *p_building);
 
 	/**
 	 * Gets the assigned building.
 	 * @return Returns the assigned building or NULL.
 	 */
-	Object *getBuilding(void);
+	Building *getBuilding(void);
 
 	/**
 	 * Clears the cell by deleting the assigned building.
@@ -70,6 +76,10 @@ public:
 	 *         no placed building, else FALSE.
 	 */
 	bool isConstructionPossible(void);
+
+	Position getCenter(void);
+
+	void setCenter(Position position);
 };
 
 #endif

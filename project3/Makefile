@@ -57,30 +57,3 @@ clean:
 
 depend: 
 	makedepend *.cpp 2> /dev/null
-# DO NOT DELETE
-
-Building.o: Building.h EventBuildingChanged.h
-Cell.o: Cell.h
-Enemy.o: Enemy.h /usr/include/Position.h MapObject.h VirtualCursor.h Grid.h
-Enemy.o: Cell.h EventEnemyInvasion.h
-EnemyOrk.o: EnemyOrk.h Enemy.h /usr/include/Position.h
-EventBuildingChanged.o: EventBuildingChanged.h
-EventEnemyInvasion.o: EventEnemyInvasion.h
-EventEnemyKilled.o: EventEnemyKilled.h
-EventPlayerKilled.o: EventPlayerKilled.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h MapObject.h
-game.o: VirtualCursor.h Grid.h Cell.h EnemyOrk.h Enemy.h
-game.o: /usr/include/Position.h Player.h
-Grid.o: Grid.h Cell.h
-MachineGunTower.o: MachineGunTower.h Tower.h Building.h
-MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h
-Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
-Player.o: EventPlayerKilled.h EventBuildingChanged.h
-SolarBuilding.o: SolarBuilding.h Building.h
-Tower.o: Tower.h Building.h
-VirtualCursor.o: VirtualCursor.h

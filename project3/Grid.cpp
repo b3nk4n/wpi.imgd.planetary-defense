@@ -46,6 +46,9 @@ void Grid::setup(MapData *p_mapData)
 			Cell *cell = getCell(x, y);
 			bool isPassable = p_mapData->isPassable(Position(x,y));
 			cell->setPassable(isPassable);
+			Position centerCell(x * _cellWidth + _cellWidth / 2,
+				y * _cellHeight + _cellHeight / 2);
+			cell->setCenter(centerCell);
 		}
 	}
 }
