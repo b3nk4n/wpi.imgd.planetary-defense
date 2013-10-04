@@ -99,6 +99,12 @@ Clock.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 Clock.o: /usr/include/sys/types.h /usr/include/machine/types.h
 Clock.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
 Clock.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
 GameManager.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 GameManager.o: /usr/include/_ansi.h /usr/include/newlib.h
 GameManager.o: /usr/include/sys/config.h /usr/include/sys/features.h
@@ -136,6 +142,7 @@ ObjectList.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 ObjectList.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 ObjectList.o: /usr/include/bits/wordsize.h /usr/include/string.h
 ObjectList.o: /usr/include/sys/string.h
+Position.o: /usr/include/Position.h
 ResourceManager.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 ResourceManager.o: /usr/include/_ansi.h /usr/include/newlib.h
 ResourceManager.o: /usr/include/sys/config.h /usr/include/sys/features.h
@@ -153,6 +160,16 @@ Sprite.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
 Sprite.o: /usr/include/machine/_types.h /usr/include/machine/_default_types.h
 Sprite.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
 Sprite.o: /usr/include/alloca.h
+test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+test.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+test.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
+test.o: /usr/include/stdio.h /usr/include/sys/types.h
+test.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
+test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
+test.o: /usr/include/bits/wordsize.h
 TestCollidableObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 TestCollidableObject.o: /usr/include/_ansi.h /usr/include/newlib.h
 TestCollidableObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
@@ -176,22 +193,6 @@ UnitTestManager.o: /usr/include/machine/_types.h
 UnitTestManager.o: /usr/include/machine/_default_types.h
 UnitTestManager.o: /usr/include/sys/_types.h /usr/include/sys/lock.h
 UnitTestManager.o: /usr/include/machine/types.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-test.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-test.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-test.o: /usr/include/stdio.h /usr/include/sys/types.h
-test.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-test.o: /usr/include/bits/wordsize.h
 utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
 utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
 utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
