@@ -46,12 +46,20 @@ private:
 	 * The relative index position of the selected cell.
 	 */
 	Position _selectedCell;
+
+   //MapObject(void);  // Private so that it can  not be called
+   MapObject(MapObject const&){};             // copy constructor is private
+   MapObject& operator=(MapObject const&){};  // assignment operator is private
+   static MapObject* m_oInstance;
 	
 public:
+	static MapObject* Instance(); 
+
 	/**
 	 * Creates a map object instance.
 	 */
 	MapObject(void);
+
 	/**
 	 * Cleans up the map manager allocated resources.
 	 */

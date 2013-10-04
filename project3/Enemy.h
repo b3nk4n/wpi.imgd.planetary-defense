@@ -45,7 +45,7 @@
  	/**
  	 * Position index
  	 */
- 	int _pathIndex
+ 	int _pathIndex;
 
  public:
 	/**
@@ -57,7 +57,7 @@
 	/**
 	 * Cleans up the enemy object.
 	 */
-	virtual ~Enemy(void);
+	virtual ~Enemy(void){}
 
 	/**
 	 * Handle events

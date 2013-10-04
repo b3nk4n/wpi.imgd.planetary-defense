@@ -6,12 +6,23 @@
  *              manager class.
  ******************************************************************************/
 
+#include <stddef.h>  // defines NULL
 #include "MapObject.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
 #include "GraphicsManager.h"
 #include "EventKeyboard.h"
 
+MapObject* MapObject::m_oInstance = NULL;  // Global static pointer used to ensure a single instance of the class.
+
+
+MapObject* MapObject::Instance()
+{
+   if (!m_oInstance)   // Only allow one instance of class to be generated.
+      m_oInstance = new MapObject;
+
+   return m_oInstance;
+}
 /**
  * Creates a map object instance.
  */
