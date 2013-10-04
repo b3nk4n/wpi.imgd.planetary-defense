@@ -32,6 +32,7 @@ GAMESRC = Cell.cpp \
           Player.cpp \
           Building.cpp \
           Tower.cpp \
+          Solar.cpp \
           EventEnemyInvasion.cpp \
           EventPlayerKilled.cpp \
           EventEnemyKilled.cpp \
@@ -70,7 +71,8 @@ Grid.o: Grid.h Cell.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
-Tower.o: Tower.h
+Solar.o: Solar.h Building.h
+Tower.o: Tower.h Building.h
 VirtualCursor.o: VirtualCursor.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
