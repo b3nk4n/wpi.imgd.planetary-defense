@@ -31,8 +31,9 @@ GAMESRC = Cell.cpp \
           EnemyOrk.cpp \
           Player.cpp \
           Building.cpp \
+          SolarBuilding.cpp \
           Tower.cpp \
-          Solar.cpp \
+          MachineGunTower.cpp \
           EventEnemyInvasion.cpp \
           EventPlayerKilled.cpp \
           EventEnemyKilled.cpp \
@@ -68,10 +69,11 @@ EventEnemyInvasion.o: EventEnemyInvasion.h
 EventEnemyKilled.o: EventEnemyKilled.h
 EventPlayerKilled.o: EventPlayerKilled.h
 Grid.o: Grid.h Cell.h
+MachineGunTower.o: MachineGunTower.h Tower.h Building.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
-Solar.o: Solar.h Building.h
+SolarBuilding.o: SolarBuilding.h Building.h
 Tower.o: Tower.h Building.h
 VirtualCursor.o: VirtualCursor.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h

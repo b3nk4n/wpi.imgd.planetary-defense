@@ -1,15 +1,15 @@
 /*******************************************************************************
- * @file        Solar.h
+ * @file        SolarBuilding.cpp
  * @author      bsautermeister
  * @description The solar building to get some energy at constructin time.
  ******************************************************************************/
 
-#include "Solar.h"
+#include "SolarBuilding.h"
 
 /**
  * Creates a new solar building object.
  */
-Solar::Solar(void)
+SolarBuilding::SolarBuilding(void)
 	: Building(BUILDING_SOLAR, "assets/sprites/solar-spr.txt", 100, 5)
 {
 }

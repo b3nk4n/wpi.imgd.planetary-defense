@@ -1,10 +1,11 @@
 /*******************************************************************************
- * @file        Solar.h
+ * @file        SolarBuilding.h
  * @author      bsautermeister
  * @description The solar building to get some energy at constructin time.
  ******************************************************************************/
-#ifndef __SOLAR_H__
-#define __SOLAR_H__
+
+#ifndef __SOLAR_BUILDING_H__
+#define __SOLAR_BUILDING_H__
 
 #include "Building.h"
 
@@ -13,13 +14,13 @@
 /*
 * Represents a solar panel to get energy.
 */
-class Solar : public Building
+class SolarBuilding : public Building
 {
 public:
  	/**
  	 * Creates a new solar building object.
  	 */
- 	Solar(void);
+ 	SolarBuilding(void);
 };
 
 #endif
