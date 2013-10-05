@@ -10,6 +10,7 @@
 #include "ResourceManager.h"
 #include "LogManager.h"
 #include "GraphicsManager.h"
+#include "WorldManager.h"
 #include "EventKeyboard.h"
 #include "Player.h"
 #include "SolarBuilding.h"
@@ -82,6 +83,7 @@ int MapObject::eventHandler(Event *p_event)
 		Cell *p_cell;
 		EventKeyboard *p_eventKeyboard = static_cast<EventKeyboard *>(p_event);
 		Player *p_player = Player::getInstance();
+		WorldManager &worldManager = WorldManager::getInstance();
 
 		switch(p_eventKeyboard->getKey())
 		{
@@ -109,7 +111,14 @@ int MapObject::eventHandler(Event *p_event)
 				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN)
 				p_cell->setBuilding(new MachineGunTower());
 			break;
+		case 's':
+			p_cell = _grid.getCell(_selectedCell);
+			Object *p_object = p_cell->getBuilding();
+			p_cell->clear();
+			worldManager.markForDelete(p_object);
+			break;
 		}
+
 	}
 }
 
