@@ -108,7 +108,8 @@ int MapObject::eventHandler(Event *p_event)
 		case '2':
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
-				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN)
+				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN &&
+				p_player->getEnergy() >= INIT_ENERGY_MACHINE_GUN)
 				p_cell->setBuilding(new MachineGunTower());
 			break;
 		case 's':

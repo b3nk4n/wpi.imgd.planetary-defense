@@ -11,6 +11,7 @@
 
 #define TOWER_MACHINE_GUN "machine_gun"
 #define INIT_PRICE_MACHINE_GUN 150
+#define INIT_ENERGY_MACHINE_GUN 3
 
 /*
 * Represents a solar panel to get energy.
