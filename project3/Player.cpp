@@ -1,13 +1,14 @@
 /*******************************************************************************
-* @file        Player.cpp
-* @author      bsautermeister
-* @description Manages the player instance and contains all the players
-*              attributes like scoring, lifes, energy,...
-******************************************************************************/
+ * @file        Player.cpp
+ * @author      bsautermeister
+ * @description Manages the player instance and contains all the players
+ *              attributes like scoring, lifes, energy,...
+ ******************************************************************************/
 
 #include "Player.h"
 #include "WorldManager.h"
 #include "LogManager.h"
+#include "GraphicsManager.h"
 #include "EventEnemyInvasion.h"
 #include "EventEnemyKilled.h"
 #include "EventPlayerKilled.h"
@@ -26,6 +27,8 @@ Player::Player(void)
 	_lifes = INIT_LIFES;
 	_credits = INIT_CREDITS;
 	_energy = INIT_ENERGY;
+
+	setPosition(Position(52, 2));
 
 	// register for events
 	registerInterest(ENEMY_INVASION_EVENT);
@@ -134,6 +137,15 @@ int Player::eventHandler(Event *p_event)
 void Player::draw(void)
 {
 	// TODO: sidebar rendering here ???
+	GraphicsManager &graphcisManager = GraphicsManager::getInstance();
+
+	Position pos = getPosition();
+	pos.setY(pos.getY() + 2);
+	graphcisManager.drawStringFormat(pos, "Lifes: %d", _lifes);
+	pos.setY(pos.getY() + 2);
+	graphcisManager.drawStringFormat(pos, "Credits: %d", _credits);
+	pos.setY(pos.getY() + 2);
+	graphcisManager.drawStringFormat(pos, "Energy: %d", _energy);
 }
 
 /**
