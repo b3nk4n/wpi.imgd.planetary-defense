@@ -14,6 +14,7 @@
 #include "EventKeyboard.h"
 #include "Player.h"
 #include "SolarBuilding.h"
+#include "Building.h"
 #include "MachineGunTower.h"
 
 // Static pointer used to ensure a single instance of the class.
@@ -115,9 +116,21 @@ int MapObject::eventHandler(Event *p_event)
 		case 's':
 			p_cell = _grid.getCell(_selectedCell);
 			Object *p_object = p_cell->getBuilding();
+			//If there is a building on this cell,
+			if (p_object != NULL){
+			Building *p_building = p_cell->getBuilding();
+			//check if it is solar, and player has sufficient amount to sell
+			if (p_building->getName() == "solar" &&
+				p_player->getEnergy() < 5){
+				return 1;
+			}
 			p_cell->clear();
 			worldManager.markForDelete(p_object);
 			break;
+			}
+			else{
+				return 1;
+			}
 		}
 
 	}
