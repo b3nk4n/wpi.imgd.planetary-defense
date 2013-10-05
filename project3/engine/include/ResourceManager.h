@@ -11,26 +11,33 @@
 #include "Manager.h"
 #include "Sprite.h"
 #include "MapData.h"
+#include "LevelData.h"
+#include "WaveData.h"
 
 using std::string;
 
 #define MAX_SPRITES 128
 #define MAX_MAPS 32
+#define MAX_LEVELS 100
 
-// delimiters used to parse sprite files -
-// the resourece manager 'knows' file format
+// delimiters used to parse sprite files
 #define FRAMES_TOKEN "frames"
 #define HEIGHT_TOKEN "height"
 #define WIDTH_TOKEN "width"
 #define COLOR_TOKEN "color"
-#define END_FRAME_TOKEN "end"
-#define END_SPRITE_TOKEN "eof"
-// map delemitters
+#define END_TOKEN "end"
+#define EOF_TOKEN "eof"
+// map delimitters
 #define CELLS_HORIZONTAL_TOKEN "cells-horizontal"
 #define CELLS_VERTICAL_TOKEN "cells-vertical"
 #define CELL_WIDTH_TOKEN "cell-width"
 #define CELL_HEIGHT_TOKEN "cell-height"
 #define PATH_TOKEN "path"
+// level delimitters
+#define WAVES_COUNT_TOKEN "waves-count"
+#define ENEMY_TYPE_TOKEN "type"
+#define ENEMY_COUNT_TOKEN "count"
+#define ENEMY_DELAY_TOKEN "delay"
 
 /**
  * Represents the manager for the game resources.
@@ -57,6 +64,16 @@ private:
 	 * The number of loaded maps.
 	 */
 	int _mapCount;
+
+	/**
+	 * The array of levels.
+	 */
+	LevelData *_p_levels[MAX_LEVELS];
+
+	/**
+	 * The number of loaded levels.
+	 */
+	int _levelCount;
 
 	/**
 	 * Creates a resource manager instance.
@@ -139,6 +156,28 @@ public:
 	 * @return Returns the found map, else NULL.
 	 */
 	MapData *getMap(string label);
+
+	/**
+	 * Loads the level from a file.
+	 * @param filename The file name.
+	 * @param label The label to identify the level.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int loadLevel(string filename, string label);
+
+	/**
+	 * Unloads the level.
+	 * @param label The label to identify the level.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int unloadLevel(string label);
+
+	/**
+	 * Gets the level.
+	 * @param label The label to identify the level.
+	 * @return Returns the found map, else NULL.
+	 */
+	LevelData *getLevel(string label);
 };
 
 #endif

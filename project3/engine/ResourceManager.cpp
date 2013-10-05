@@ -19,9 +19,9 @@ using std::vector;
 int readLineInt(ifstream *p_file, int *p_lineNumber, const char *tag);
 string readLineString(ifstream *p_file, int* p_lineNumber, const char *tag);
 Frame readFrame(ifstream *p_file, int *p_lineNumber, int width, int height);
+WaveData readWave(ifstream *p_file, int *p_lineNumber);
 int parseStringPath(string stringPath, MapData *p_map);
 void discardCR(string &text);
-
 
 /**
  * Creates a resource manager instance.
@@ -191,7 +191,7 @@ int ResourceManager::loadSprite(string filename, string label)
 			return -1;
 		}
 
-		if (line.compare(END_SPRITE_TOKEN) == 0)
+		if (line.compare(EOF_TOKEN) == 0)
 		{
 			success = true;
 			break;
@@ -398,7 +398,7 @@ int ResourceManager::loadMap(string filename, string label)
 			return -1;
 		}
 
-		if (line.compare(END_SPRITE_TOKEN) == 0)
+		if (line.compare(EOF_TOKEN) == 0)
 		{
 			success = true;
 		}
@@ -481,6 +481,177 @@ MapData *ResourceManager::getMap(string label)
 	{
 		if (label == _p_maps[i]->getLabel())
 			return _p_maps[i];
+	}
+
+	return NULL;
+}
+
+/**
+ * Loads the level from a file.
+ * @param filename The file name.
+ * @param label The label to identify the level.
+ * @return Returns 0 if ok, else -1.
+ */
+int ResourceManager::loadLevel(string filename, string label)
+{
+	LogManager &logManager = LogManager::getInstance();
+
+	// verify levels limit not reached
+	if (_levelCount == MAX_LEVELS)
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager::loadLevel()",
+			"The level limit of %d levels is reached. Loading level failed.\n",
+			MAX_LEVELS);
+		return -1;
+	}
+
+	int lineNumber = 1;
+	bool parsingError = false;
+
+	// open level file
+	ifstream levelfile(filename.c_str());
+
+	if (levelfile.is_open())
+	{
+		logManager.writeLog(LOG_INFO,
+			"ResouceManager::loadLevel()",
+			"Opened level file '%s'.\n",
+			filename.c_str());
+	}
+	else
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager::loadLevel()",
+			"Level file '%s' could not be opened.\n",
+			filename.c_str());
+		return -1;
+	}
+
+	// read sprite file header
+	int wavesCount = readLineInt(&levelfile, &lineNumber, WAVES_COUNT_TOKEN);
+
+	// verify header parsing was successful
+	if (wavesCount == -1)
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager::loadLevel()",
+			"Parsing the header of the level file '%s' failed.\n",
+			filename.c_str());
+		return -1;
+	}
+
+	// create sprite
+	bool success = false;
+	LevelData *p_level = new LevelData(wavesCount);
+
+	while (levelfile.good())
+	{
+		string line;
+		WaveData wave = readWave(&levelfile, &lineNumber);
+
+		// verify adding a wave did not failed
+		if(p_level->addWave(wave))
+		{
+			logManager.writeLog(LOG_ERROR,
+				"ResouceManager::loadLevel()",
+				"Adding wave failed.\n");
+			break;
+		}
+
+		// verify EOF token is reached
+		int currentLine;
+		try
+		{
+			currentLine = levelfile.tellg();
+			getline(levelfile, line);
+			discardCR(line);
+		}
+		catch(ifstream::failure e)
+		{
+			logManager.writeLog(LOG_ERROR,
+				"ResouceManager::loadLevel()",
+				"Error line %d: Reading line failed with error: %s\n",
+				lineNumber,
+				e.what());
+			return -1;
+		}
+
+		if (line.compare(EOF_TOKEN) == 0)
+		{
+			success = true;
+			break;
+		}
+
+		levelfile.seekg(currentLine ,std::ios_base::beg);
+	}
+
+	// close level file
+	levelfile.close();
+
+	// ensure there was no error while parsing the file
+	if (!success)
+		return -1;
+
+	// verify frames number
+	if (wavesCount != p_level->getWavesCount())
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager::loadLevel()",
+			"Missmatch in number of defined waves in '%s'. Expacted %d, but was %d.\n",
+			filename.c_str(),
+			wavesCount,
+			p_level->getWavesCount());
+		return -1;
+	}
+
+	// configure level
+	p_level->setLabel(label);
+
+	// store the level
+	_p_levels[_levelCount++] = p_level;
+
+	return 0;
+}
+
+/**
+ * Unloads the level.
+ * @param label The label to identify the level.
+ * @return Returns 0 if ok, else -1.
+ */
+int ResourceManager::unloadLevel(string label)
+{
+	for (int i = _levelCount - 1; i >= 0; --i)
+	{
+		if (label == _p_levels[i]->getLabel())
+		{
+			// clean up memory
+			delete _p_levels[i];
+
+			// scoot over other levels
+			for (int j = i; j < _levelCount - 1; ++j)
+				_p_levels[j] = _p_levels[j + 1];
+
+			--_levelCount;
+
+			return 0;
+		}
+	}
+
+	return -1;
+}
+
+/**
+ * Gets the level.
+ * @param label The label to identify the level.
+ * @return Returns the found map, else NULL.
+ */
+LevelData *ResourceManager::getLevel(string label)
+{
+	for (int i = 0; i < _levelCount; ++i)
+	{
+		if (label == _p_levels[i]->getLabel())
+			return _p_levels[i];
 	}
 
 	return NULL;
@@ -699,13 +870,13 @@ Frame readFrame(ifstream *p_file, int *p_lineNumber, int width, int height)
 				error = true;
 			}
 
-			if (line != END_FRAME_TOKEN)
+			if (line != END_TOKEN)
 			{
 				logManager.writeLog(LOG_ERROR,
 					"ResouceManager.readFrame()",
 					"Error line %d: The expected end token '%s' was not found\n",
 					(*p_lineNumber),
-					END_FRAME_TOKEN);
+					END_TOKEN);
 				Frame emptyFrame;
 				return emptyFrame;
 			}
@@ -724,6 +895,84 @@ Frame readFrame(ifstream *p_file, int *p_lineNumber, int width, int height)
 	// create and return frame
 	Frame frame(width, height, frameString);
 	return frame;
+}
+
+/**
+ * Reads a wave until 'eof' is reached.
+ * @param p_file the input stream.
+ * @param p_lineNumber Points to the line number.
+ * @return The read level wave.
+ */
+WaveData readWave(ifstream *p_file, int *p_lineNumber)
+{
+	LogManager &logManager = LogManager::getInstance();
+	string line, frameString;
+	bool error = false;
+	
+	string type = readLineString(p_file, p_lineNumber, ENEMY_TYPE_TOKEN);
+	int count = readLineInt(p_file, p_lineNumber, ENEMY_COUNT_TOKEN);
+	int delay = readLineInt(p_file, p_lineNumber, ENEMY_DELAY_TOKEN);
+
+	// verify header parsing was successful
+	if (count == -1 || count == -1 || delay == -1)
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager.readWave()",
+			"Parsing the wave failed.\n");
+		WaveData empty;
+		return empty;
+	}
+
+	// verify reading from file is possible
+	if (!p_file->good())
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager.readWave()",
+			"Error line %d: Reading a line from file is not possible\n",
+			(*p_lineNumber));
+		error = true;
+	}
+	else
+	{
+		try
+		{
+			getline(*p_file, line);
+			discardCR(line);
+		}
+		catch(ifstream::failure e)
+		{
+			logManager.writeLog(LOG_ERROR,
+				"ResouceManager.readWave()",
+				"Error line %d: Reading line failed with error: %s\n",
+				(*p_lineNumber),
+				e.what());
+			error = true;
+		}
+
+		if (line != END_TOKEN)
+		{
+			logManager.writeLog(LOG_ERROR,
+				"ResouceManager.readWave()",
+				"Error line %d: The expected end token '%s' was not found\n",
+				(*p_lineNumber),
+				END_TOKEN);
+			WaveData empty;
+			return empty;
+		}
+
+		++(*p_lineNumber);
+	}
+
+	// return an empty wave data on error
+	if (error)
+	{
+		WaveData empty;
+		return empty;
+	}
+
+	// create and return frame
+	WaveData wave(type, count, delay);
+	return wave;
 }
 
 /**

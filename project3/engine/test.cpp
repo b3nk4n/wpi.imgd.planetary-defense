@@ -30,6 +30,7 @@
 #include "ResourceManager.h"
 #include "ViewObject.h"
 #include "SceneGraph.h"
+#include "LevelData.h"
 #include "utility.h"
 
 using std::string;
@@ -81,6 +82,7 @@ bool testResourceManager_getAndUnloadSprite(void);
 bool testResourceManager_loadCorrectMapReturnsSuccess(void);
 bool testResourceManager_loadCorrectMapWithCorrectData(void);
 bool testResourceManager_loadCorrectMapWithCorrectBackgroundSprite(void);
+bool testResourceManager_loadCorrectLevelWithCorrectData(void);
 bool testClock_1SecSleep(void);
 bool testClock_deltaRestsTime(void);
 bool testClock_splitNotRestsTime(void);
@@ -294,6 +296,7 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testResourceManager_loadCorrectMapReturnsSuccess", &testResourceManager_loadCorrectMapReturnsSuccess);
 	unitTestManager.registerTestFunction("testResourceManager_loadCorrectMapWithCorrectData", &testResourceManager_loadCorrectMapWithCorrectData);
 	unitTestManager.registerTestFunction("testResourceManager_loadCorrectMapWithCorrectBackgroundSprite", &testResourceManager_loadCorrectMapWithCorrectBackgroundSprite);
+	unitTestManager.registerTestFunction("testResourceManager_loadCorrectLevelWithCorrectData", &testResourceManager_loadCorrectLevelWithCorrectData);
 
 	unitTestManager.registerTestFunction("testClock_1SecSleep", &testClock_1SecSleep);
 	unitTestManager.registerTestFunction("testClock_deltaRestsTime", &testClock_deltaRestsTime);
@@ -977,6 +980,19 @@ bool testResourceManager_loadCorrectMapWithCorrectBackgroundSprite(void)
 	return p_sprite->getWidth() == 50 &&
 		p_sprite->getHeight() == 30 &&
 		p_sprite->getColor() == COLOR_YELLOW;
+}
+
+bool testResourceManager_loadCorrectLevelWithCorrectData(void)
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	string label = "level1";
+	resourceManager.loadLevel("levels/test-level.txt", label);
+	LevelData *p_level = resourceManager.getLevel(label);
+
+	return p_level->getWavesCount() == 5 &&
+		p_level->getWave(0).getCount() == 10 &&
+		p_level->getWave(1).getType() == ENEMY_TYPE_GOBLIN &&
+		p_level->getWave(2).getDelay() == 30;
 }
 
 bool testClock_1SecSleep(void)

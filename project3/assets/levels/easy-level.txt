@@ -1,21 +1,22 @@
+waves-count 5
+type ork
 count 10
 delay 30
-type ORK
 end
+type goblin
 count 10
 delay 40
-type GOBLIN
 end
+type ork
 count 10
 delay 30
-type ORK
 end
+type goblin
 count 10
 delay 40
-type GOBLIN
 end
+type boss
 count 1
 delay 0
-type BOSS
 end
 eof

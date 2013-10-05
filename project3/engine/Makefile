@@ -40,6 +40,7 @@ ENGSRC = Box.cpp \
 		 EventView.cpp \
 		 Frame.cpp \
 		 InputManager.cpp \
+		 LevelData.cpp \
 		 Line.cpp \
 		 LogManager.cpp \
 		 Manager.cpp \
@@ -58,6 +59,7 @@ ENGSRC = Box.cpp \
 		 TestObject.cpp \
 		 utility.cpp \
 		 ViewObject.cpp \
+		 WaveData.cpp \
 		 WorldManager.cpp 
 GAMESRC = game.cpp
 TESTSRC = test.cpp
@@ -142,7 +144,6 @@ ObjectList.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
 ObjectList.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
 ObjectList.o: /usr/include/bits/wordsize.h /usr/include/string.h
 ObjectList.o: /usr/include/sys/string.h
-Position.o: /usr/include/Position.h
 ResourceManager.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 ResourceManager.o: /usr/include/_ansi.h /usr/include/newlib.h
 ResourceManager.o: /usr/include/sys/config.h /usr/include/sys/features.h
