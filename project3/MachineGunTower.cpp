@@ -10,7 +10,8 @@
  * Creates a new machine gun tower object.
  */
 MachineGunTower::MachineGunTower(void)
-	: Tower(TOWER_MACHINE_GUN, "assets/sprites/machinegun-spr.txt", 150, -3, 30, 2, 5)
+	: Tower(TOWER_MACHINE_GUN, "machinegun",
+		INIT_PRICE_MACHINE_GUN, -3, 30, 2, 5)
 {
 
 }

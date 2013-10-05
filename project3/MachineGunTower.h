@@ -10,6 +10,7 @@
 #include "Tower.h"
 
 #define TOWER_MACHINE_GUN "machine_gun"
+#define INIT_PRICE_MACHINE_GUN 150
 
 /*
 * Represents a solar panel to get energy.

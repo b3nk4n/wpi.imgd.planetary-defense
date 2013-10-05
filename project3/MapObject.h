@@ -11,6 +11,7 @@
 
 #include <string>
 #include "MapData.h"
+#include "LevelData.h"
 #include "Sprite.h"
 #include "Object.h"
 #include "VirtualCursor.h"
@@ -26,10 +27,6 @@ using std::string;
 class MapObject : public Object
 {
 private:
-	/**
-	 * The map data.
-	 */
-	MapData *_p_currentMapData;
 
 	/**
 	 * The singleton instance variable. Implemented this way with an 
@@ -37,6 +34,16 @@ private:
 	 * each object must be created with 'new'.
 	 */
 	static MapObject *_p_instance;
+
+	/**
+	 * The map data.
+	 */
+	MapData *_p_currentMapData;
+
+	/**
+	 * The level data.
+	 */
+	LevelData *_p_currentLevelData;
 
 	/**
 	 * The virtual cursor on the map
@@ -97,6 +104,14 @@ public:
 	 * @return Returns 0 if ok, else -1.
 	 */
 	int loadMap(string mapLabel);
+
+	/**
+	 * Loads a new level from the resource manager.
+	 * @note The level must be loaded in resource manager previously.
+	 * @param levelLabel The label name of the level to load.
+	 * @return Returns 0 if ok, else -1.
+	 */
+	int loadLevel(string levelLabel);
 
 	/**
 	 * Gets the selected relative cell index position.

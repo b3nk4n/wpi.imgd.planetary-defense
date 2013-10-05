@@ -80,11 +80,16 @@ void loadResources(void)
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 
 	// load sprite sheets
-	resourceManager.loadSprite("assets/sprites/saucer-spr.txt", "saucer");
+	resourceManager.loadSprite("assets/sprites/goblin-spr.txt", "goblin");
+	resourceManager.loadSprite("assets/sprites/ork-spr.txt", "ork");
 	resourceManager.loadSprite("assets/sprites/solar-spr.txt", "solar");
+	resourceManager.loadSprite("assets/sprites/machinegun-spr.txt", "machinegun");
 
 	// load maps
 	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");
+
+	// load levels
+	resourceManager.loadLevel("assets/levels/easy-map.txt", "level1");
 }
 
 /**
@@ -96,6 +101,7 @@ void populateWorld(void)
 
 	MapObject* mapObject = MapObject::getInstance();
 	mapObject->loadMap("map1");
+	mapObject->loadLevel("level1");
 	
 	new EnemyOrk();
 }

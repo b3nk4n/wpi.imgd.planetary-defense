@@ -6,13 +6,14 @@
  *              manager class.
  ******************************************************************************/
 
-#include <stddef.h>  // defines NULL
 #include "MapObject.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
 #include "GraphicsManager.h"
 #include "EventKeyboard.h"
+#include "Player.h"
 #include "SolarBuilding.h"
+#include "MachineGunTower.h"
 
 // Static pointer used to ensure a single instance of the class.
 MapObject* MapObject::_p_instance = NULL;
@@ -22,8 +23,8 @@ MapObject* MapObject::_p_instance = NULL;
  */
 MapObject::MapObject(void)
 {
-	//_p_instance = NULL;
 	_p_currentMapData = NULL;
+	_p_currentLevelData = NULL;
 	_selectedCell = Position(0, 0);
 	_p_cursor = new VirtualCursor(_selectedCell);
 
@@ -76,11 +77,11 @@ MapObject* MapObject::getInstance(void)
  */
 int MapObject::eventHandler(Event *p_event)
 {
-	LogManager &logManager = LogManager::getInstance();
-
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
+		Cell *p_cell;
 		EventKeyboard *p_eventKeyboard = static_cast<EventKeyboard *>(p_event);
+		Player *p_player = Player::getInstance();
 
 		switch(p_eventKeyboard->getKey())
 		{
@@ -96,13 +97,17 @@ int MapObject::eventHandler(Event *p_event)
 		case DOWN_KEY:
 			moveCursor(0, 1);
 			break;
-		case SPACE_KEY:
-			Cell *p_cell = _grid.getCell(_selectedCell);
-			if (p_cell->isConstructionPossible())
-				logManager.writeLog(LOG_WARNING,
-					"MapObject::eventHandler()",
-					"Construction Possible\n");
+		case '1':
+			p_cell = _grid.getCell(_selectedCell);
+			if (p_cell->isConstructionPossible() &&
+				p_player->getCredits() >= INIT_PRICE_SOLAR)
 				p_cell->setBuilding(new SolarBuilding());
+			break;
+		case '2':
+			p_cell = _grid.getCell(_selectedCell);
+			if (p_cell->isConstructionPossible() &&
+				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN)
+				p_cell->setBuilding(new MachineGunTower());
 			break;
 		}
 	}
@@ -151,6 +156,32 @@ int MapObject::loadMap(string mapLabel)
 		return -1;
 	}
 
+	return 0;
+}
+
+/**
+ * Loads a new level from the resource manager.
+ * @note The level must be loaded in resource manager previously.
+ * @param levelLabel The label name of the level to load.
+ * @return Returns 0 if ok, else -1.
+ */
+int MapObject::loadLevel(string levelLabel)
+{
+	LogManager &logManager = LogManager::getInstance();
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+
+	// load new level
+	LevelData *p_tempLevel = resourceManager.getLevel(levelLabel);
+	if (!p_tempLevel)
+	{
+		logManager.writeLog(LOG_WARNING,
+			"MapObject::loadLevel()",
+			"Level with label '%s' not found.\n",
+			levelLabel.c_str());
+		return -1;
+	}
+
+	_p_currentLevelData = p_tempLevel;
 	return 0;
 }
 

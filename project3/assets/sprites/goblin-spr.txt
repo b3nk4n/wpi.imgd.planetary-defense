@@ -1,0 +1,25 @@
+frames 5
+width 5
+height 3
+color cyan
+EEEEE
+EE1EE
+EEEEE
+end
+EEEEE
+EE2EE
+EEEEE
+end
+EEEEE
+EE3EE
+EEEEE
+end
+EEEEE
+EE4EE
+EEEEE
+end
+EEEEE
+EE5EE
+EEEEE
+end
+eof

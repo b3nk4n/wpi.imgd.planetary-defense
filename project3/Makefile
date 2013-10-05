@@ -77,8 +77,8 @@ game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h MapObject.h
 game.o: VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h Enemy.h Player.h
 Grid.o: Grid.h Cell.h Building.h
 MachineGunTower.o: MachineGunTower.h Tower.h Building.h
-MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
-MapObject.o: SolarBuilding.h
+MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h Player.h
+MapObject.o: SolarBuilding.h MachineGunTower.h Tower.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 SolarBuilding.o: SolarBuilding.h Building.h
