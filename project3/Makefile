@@ -37,7 +37,8 @@ GAMESRC = Cell.cpp \
           EventEnemyInvasion.cpp \
           EventPlayerKilled.cpp \
           EventEnemyKilled.cpp \
-          EventBuildingChanged.cpp
+          EventBuildingChanged.cpp \
+          Bullet.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)

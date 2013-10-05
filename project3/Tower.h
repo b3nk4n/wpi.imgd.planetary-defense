@@ -7,6 +7,7 @@
 #define __TOWER_H__
 
 #include "Building.h"
+#include "Enemy.h"
 
 /*
 * Represents the base for all tower units.
@@ -42,6 +43,18 @@
  	 */
  	Tower(string name, string spriteName, int cost, int energy,
  		int fireRate, int firePower, int fireRange);
+
+ 	/**  PROTOTYPE
+ 	 * Shoots a bullet at the enemy
+	 * @param string, type of bullet it shoots
+	 */
+	void shoot(string type);
+
+	/** PROTOTYPE
+	 * Finds the closest enemy to the tower
+	 * @return Enemy, the target enemy
+	 */
+	Enemy findTarget();
 
  	/**
  	 * Cleans the tower object.

@@ -23,6 +23,7 @@ public:
  	 * Creates a new machine gun tower object.
  	 */
  	MachineGunTower(void);
+
 };
 
 #endif

@@ -84,6 +84,7 @@ void loadResources(void)
 	resourceManager.loadSprite("assets/sprites/ork-spr.txt", "ork");
 	resourceManager.loadSprite("assets/sprites/solar-spr.txt", "solar");
 	resourceManager.loadSprite("assets/sprites/machinegun-spr.txt", "machinegun");
+	resourceManager.loadSprite("assets/sprites/bullet_1-spr.txt", "bullet_1");
 
 	// load maps
 	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");

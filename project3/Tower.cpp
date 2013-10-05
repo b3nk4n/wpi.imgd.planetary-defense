@@ -6,6 +6,7 @@
 
 #include "Tower.h"
 #include "EventStep.h"
+#include "Bullet.h"
 
 /**
  * Creates a new tower object.
@@ -29,6 +30,23 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
 	registerInterest(STEP_EVENT);
 }
 
+/** 
+ * Shoots a bullet at the enemy
+ * @param string, type of bullet it shoots
+ */
+void Tower::shoot(string type)
+{	
+	new Bullet(type, 2, 0, _firePower, this);
+}
+/**
+ * Finds the closest enemy to the tower
+ * @return Enemy, the target enemy
+ */
+Enemy Tower::findTarget()
+{
+
+}
+
 /**
  * Cleans the tower object.
  */
@@ -43,7 +61,11 @@ Tower::~Tower(void)
 */
 int Tower::eventHandler(Event *p_event)
 {
-	// TODO: handle STEP...
+	if (p_event->getType() == STEP_EVENT)
+	{
+  		shoot("bullet_1");
+  		return 1;
+	}
 }
 
 /**
