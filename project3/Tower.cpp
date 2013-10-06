@@ -7,6 +7,10 @@
 #include "Tower.h"
 #include "EventStep.h"
 #include "Bullet.h"
+#include "Spawner.h"
+#include "Object.h"
+#include "ObjectList.h"
+#include "ObjectListIterator.h"
 
 /**
  * Creates a new tower object.
@@ -25,6 +29,7 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
 	_fireRate = fireRate;
 	_firePower = firePower;
 	_fireRange = fireRange;
+	_coolDown = 0;
 
 	// register events
 	registerInterest(STEP_EVENT);
@@ -36,16 +41,45 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
  */
 void Tower::shoot(string type)
 {	
-	new Bullet(type, 2, 0, _firePower, this);
+	new Bullet(type, 5, 0, _firePower, this, findTarget()); //5 firerate = machine gun
 }
+
 /**
- * Finds the closest enemy to the tower
+ * Finds the next target of tower
  * @return Enemy, the target enemy
  */
-Enemy Tower::findTarget()
-{
+Object* Tower::findTarget()
+{	
+	Object* enemy_best; 
+ 	ObjectList* enemies;
 
+	Spawner* sp = Spawner::Instance();
+	enemies = sp->getEnemies();
+	ObjectListIterator enemyIt = ObjectListIterator(enemies);
+	enemyIt.first();
+	enemy_best = enemyIt.currentObject();
+	while (enemyIt.isDone() != true){
+		if (isClose(enemyIt.currentObject()) < isClose(enemy_best)){
+			enemy_best = enemyIt.currentObject();
+		}
+		enemyIt.next();
+	}
+
+	return enemy_best;
 }
+
+/**
+ * gives a closeness value
+ * @param Enemy, that you are deciding whether or not to target
+ * @return int, closeness value of enemy
+ */
+int Tower::isClose(Object *enemy)
+{	
+
+	return 0;
+}
+
+
 
 /**
  * Cleans the tower object.
@@ -62,8 +96,13 @@ Tower::~Tower(void)
 int Tower::eventHandler(Event *p_event)
 {
 	if (p_event->getType() == STEP_EVENT)
-	{
-  		shoot("bullet_1");
+	{	
+		_coolDown = _coolDown + _fireRate;
+		if (_coolDown >= 250){
+			shoot("bullet_1");
+			_coolDown = 0;
+		}
+  		
   		return 1;
 	}
 }

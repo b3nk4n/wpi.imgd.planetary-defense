@@ -8,6 +8,7 @@
 
 #include "Building.h"
 #include "Enemy.h"
+#include "Object.h"
 
 /*
 * Represents the base for all tower units.
@@ -29,6 +30,11 @@
  	 * The fire radius around the tower.
  	 */
  	int _fireRange;
+
+ 	/**
+ 	 * Cooldown rate
+ 	 */
+ 	int _coolDown;
 
  public:
  	/**
@@ -54,7 +60,14 @@
 	 * Finds the closest enemy to the tower
 	 * @return Enemy, the target enemy
 	 */
-	Enemy findTarget();
+	Object* findTarget();
+
+	/**
+ 	 * gives a closeness value
+ 	 * @param Enemy, that you are deciding whether or not to target
+ 	 * @return int, closeness value of enemy
+ 	 */
+	int isClose(Object *enemy);
 
  	/**
  	 * Cleans the tower object.

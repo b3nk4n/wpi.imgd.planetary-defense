@@ -12,6 +12,7 @@
 #include "MapObject.h"
 #include "EnemyOrk.h"
 #include "Player.h"
+#include "Spawner.h"
 
 // prototypes
 void configureGame(void);
@@ -103,6 +104,6 @@ void populateWorld(void)
 	MapObject* mapObject = MapObject::getInstance();
 	mapObject->loadMap("map1");
 	mapObject->loadLevel("level1");
-	
-	new EnemyOrk();
+	Spawner* sp = Spawner::Instance();
+
 }
