@@ -37,7 +37,7 @@ public:
 	//void startWave(Wavedata data);
 
 	//Handle enemy killed event -> activecounter-- --> EventWaveOver-> captured by mapObject();
-	//void eventHandler(Event *p_e);
+	int eventHandler(Event *p_event);
 
 };
 
