@@ -14,6 +14,7 @@
 #include "MapObject.h"
 #include "EventEnemyInvasion.h"
 #include "EventEnemyKilled.h"
+#include "Spawner.h"
 
 /**
  * Creates a new enemy object instance with speed and health set
@@ -170,7 +171,9 @@ void Enemy::addDamage(int damage)
 	_health -= damage;
 
 	if (_health <= 0)
-	{
+	{	
+		Spawner* sp = Spawner::Instance();
+		sp->removeEnemy(this);
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
 	}

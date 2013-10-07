@@ -9,8 +9,10 @@
 #include "ObjectList.h"
 #include "Position.h"
 #include "Enemy.h"
+#include "LevelData.h"
+#include "Object.h"
 
-class Spawner
+class Spawner : public Object
 {
 
 private:
@@ -21,11 +23,13 @@ private:
 
 	int _activeEnemies;
 
+	int _waves;
+
 	ObjectList *_enemyList;
 
 	Position *_position;
 
-	//Wavedata *_data;
+	LevelData *_data;
 
 public:
 	static Spawner* Instance(); //create a singleton instance of the WorldManager
@@ -38,6 +42,8 @@ public:
 
 	//Handle enemy killed event -> activecounter-- --> EventWaveOver-> captured by mapObject();
 	int eventHandler(Event *p_event);
+
+	void removeEnemy(Enemy *enemy);
 
 };
 

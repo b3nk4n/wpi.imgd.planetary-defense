@@ -9,8 +9,14 @@
 #include "Enemy.h"
 #include "Spawner.h"
 #include "EnemyOrk.h"
+#include "EventStep.h"
 #include "EventEnemyKilled.h"
 #include "EventEnemyInvasion.h"
+#include "Event.h"
+#include "EventView.h"
+#include "LevelData.h"
+#include "ResourceManager.h"
+#include "WorldManager.h"
 
 Spawner* Spawner::s_Instance = NULL;  // Global static pointer used to ensure a single instance of the class.
 
@@ -24,9 +30,21 @@ Spawner* Spawner::Instance()
 }
 
 Spawner::Spawner()
-{	_activeEnemies = 0;
+{
+	ResourceManager &resourceManager = ResourceManager::getInstance();
+	_data = resourceManager.getLevel("level1");
+	_activeEnemies = 0;
 	_enemyList = new ObjectList;
+	//_waves = _data->getWavesCount(); Causes seg fault
+	registerInterest(STEP_EVENT);
+	registerInterest(ENEMY_KILLED_EVENT);
+	registerInterest(ENEMY_INVASION_EVENT);
 	spawnEnemy();
+}
+
+void Spawner::removeEnemy(Enemy *enemy)
+{
+	_enemyList->remove(enemy);
 }
 
 ObjectList* Spawner::getEnemies(void)
@@ -50,6 +68,8 @@ int Spawner::eventHandler(Event *p_event)
 	if (p_event->getType() == ENEMY_KILLED_EVENT || p_event->getType() == ENEMY_INVASION_EVENT)
 	{
   		--_activeEnemies;
+  		//_enemyList
+  		spawnEnemy();
   		return 1;
 	}
 
