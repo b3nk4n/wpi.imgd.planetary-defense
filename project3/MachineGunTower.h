@@ -24,6 +24,12 @@ public:
  	 */
  	MachineGunTower(void);
 
+ 	/**
+ 	 * Fires a projectile at the enemy object.
+	 * @param p_object The enemy object. 
+	 */
+	virtual void fire(Object *p_object);
+
 };
 
 #endif

@@ -5,12 +5,10 @@
 ******************************************************************************/
 
 #include "Tower.h"
+#include "LogManager.h"
 #include "EventStep.h"
-#include "Bullet.h"
 #include "Spawner.h"
 #include "Object.h"
-#include "ObjectList.h"
-#include "ObjectListIterator.h"
 
 /**
  * Creates a new tower object.
@@ -29,31 +27,24 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
 	_fireRate = fireRate;
 	_firePower = firePower;
 	_fireRange = fireRange;
-	_coolDown = 0;
+	_coolDown = _fireRate;
 
 	// register events
 	registerInterest(STEP_EVENT);
 }
 
-/** 
- * Shoots a bullet at the enemy
- * @param string, type of bullet it shoots
- */
-void Tower::shoot(string type)
-{	
-	new Bullet(type, 5, 0, _firePower, this, findTarget()); //5 firerate = machine gun
-}
-
 /**
- * Finds the next target of tower
- * @return Enemy, the target enemy
+ * Finds the closest enemy to the tower, which is in its range
+ * @return The closest enemy in its range or NULL, if no enemy found.
  */
-Object* Tower::findTarget()
+Object* Tower::findTarget(void)
 {	
 	Object* enemy_best; 
  	ObjectList* enemies;
 
-	Spawner* sp = Spawner::Instance();
+	Spawner* sp = Spawner::Instance(); // TODO: use worldManager::solidObjects/allObjects and filter
+	                                   //       for the enemies (getType() == TYPE_ENEMY) 
+									   //       --> spawner not needed here!
 	enemies = sp->getEnemies();
 	ObjectListIterator enemyIt = ObjectListIterator(enemies);
 	enemyIt.first();
@@ -75,11 +66,9 @@ Object* Tower::findTarget()
  */
 int Tower::isClose(Object *enemy)
 {	
-
+	// todo: use distance() function of utility.cpp ;-)
 	return 0;
 }
-
-
 
 /**
  * Cleans the tower object.
@@ -95,16 +84,31 @@ Tower::~Tower(void)
 */
 int Tower::eventHandler(Event *p_event)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	if (p_event->getType() == STEP_EVENT)
 	{	
-		_coolDown = _coolDown + _fireRate;
-		if (_coolDown >= 250){
-			shoot("bullet_1");
-			_coolDown = 0;
+		_coolDown--;
+		if (_coolDown <= 0)
+		{
+			Object *p_target = findTarget(); // TODO: store the last found target, check if the last found
+	                                         //       is still close enough and fire the that one
+			
+			if (p_target != NULL)
+			{
+				logManager.writeLog(
+		            LOG_DEBUG,
+		            "Tower::eventHandler()",
+		            "Tower is fireing to enemy!\n");
+				fire(p_target);
+				_coolDown = _fireRate;
+			}
 		}
   		
   		return 1;
 	}
+
+	return 0;
 }
 
 /**

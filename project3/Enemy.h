@@ -28,9 +28,19 @@ class Enemy : public Object
  	float _speed;
 
  	/**
+ 	 * The value the player gains for killing this enemy.
+ 	 */
+ 	int _killCredits;
+
+ 	/**
  	 * Target for enemy to approach.
  	 */
  	Position _currentTarget;
+
+ 	/**
+ 	 * Indicates whether the target was reached or not.
+ 	 */
+ 	bool _targetReached;
 
  	/**
  	 * Path position index.
@@ -43,8 +53,9 @@ class Enemy : public Object
 	 * @param spriteName The name of the sprite asset.
 	 * @param health The enemies initial health.
 	 * @param speed The enemies speed.
+	 * @param killCredits The value the player gains for killing this enemy.
 	 */
-	Enemy(string spriteName, int health, float speed);
+	Enemy(string spriteName, int health, float speed, int killCredits);
 
 	/**
 	 * Cleans up the enemy object.
@@ -70,6 +81,12 @@ class Enemy : public Object
 	int nextTarget(void);
 
 	/**
+	 * Adds damage to the enemy and deletes it, if destroyed.
+	 * @param damage The damage to add.
+	 */
+	void addDamage(int damage);
+
+	/**
 	 * Gets the current target position.
 	 * @return The current target position.
 	 */
@@ -82,22 +99,16 @@ class Enemy : public Object
 	float getSpeed(void);
 
 	/**
-	 * Set the speed index of the Enemy.
-	 * @param float speed you want the enemy to go.
-	 */
-	void setSpeed(float speed);
-
-	/**
 	 * Gets the current health of the Enemy.
 	 * @return int the health of the enemy.
 	 */
 	int getHealth(void);
 
 	/**
-	 * Set the health of the Enemy.
-	 * @param int health you want the enemy to have.
+	 * Gets the credits the player gains for killing this enemy.
+	 * @return The credits the player gains for killing this enemy.
 	 */
-	void setHealth(int health);
+	int getKillCredits(void);
 };
 
 #endif

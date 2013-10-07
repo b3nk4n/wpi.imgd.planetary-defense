@@ -1,118 +1,49 @@
 /*******************************************************************************
-* @file        Bullet.cpp
-* @author      kcbryant
-* @description The base class for all bullets, no matter the kind.
-******************************************************************************/
+ * @file        Bullet.cpp
+ * @author      kcbryant
+ * @description The base class for all bullets, no matter the kind.
+ ******************************************************************************/
 
-#include <string>
-#include "LogManager.h"
 #include "Bullet.h"
-#include "ResourceManager.h"
 #include "WorldManager.h"
 #include "Enemy.h"
-#include "Tower.h"
-#include "EventStep.h"
-#include "Object.h"
-#include "EventCollision.h"
-#include "EventOut.h"
 
 /**
- * Creates a new bullet that fires at specified enemy
- * @param string, the bullet type
- * @param float, speed of the bullet
- * @param int, radius of the explosion
- * @param int, damage the bullet causes
- * @param Tower, that spawned bullet
- * @param Enemy, target enemy of bullet
+ * Creates a new bullet instance.
+ * @param origin The origin of the the shot.
+ * @param target The target where to shot.
  */
-Bullet::Bullet(string type, float speed, int radius, int damage, Tower *spawner, Object *target)
+Bullet::Bullet(Position origin, Position target)
+  : Projectile("bullet", origin, target, 0.02f, 5)
 {
-	LogManager &logManager = LogManager::getInstance();
-	ResourceManager &resourceManager = ResourceManager::getInstance();
 
-	setType(TYPE_BULLET);
-	_type = type;
-	_speed = speed;
-	_radius = radius;
-  _damage = damage;
-	_spawner = spawner;
-	_target = target;
-
-	Sprite *p_tempSprite = resourceManager.getSprite(type);
-  	if (!p_tempSprite)
-  	{
-  		logManager.writeLog(LOG_ERROR,
-  			"Bullet::Bullet()",
-  			"Loading sprite failed.\n");
-  	}
-  	else
-  	{
-  		setSprite(p_tempSprite);
-    	setSpriteSlowdown(10);	
-  	}
-  	setPosition(spawner->getPosition());
-    flyTo();
-    // register for events
-    registerInterest(STEP_EVENT);
 }
 
-void Bullet::flyTo(void)
-{
-    // adjust velocity/direction
-  int currentX = getPosition().getX();
-  int currentY = getPosition().getY();
-  int nextX = _target->getPosition().getX();
-  int nextY = _target->getPosition().getY();
 
-  if (nextY > currentY)
+/**
+ * Is called when a collusion occured.
+ * @param p_collisionEvent The collision event.
+ */
+void Bullet::hit(EventCollision *p_collisionEvent)
+{
+  // verify that the collision was with an enemy.
+  if (p_collisionEvent->getObject1()->getType() != TYPE_ENEMY &&
+    p_collisionEvent->getObject2()->getType() != TYPE_ENEMY)
+    return;
+
+  // add damage to enemy
+  Enemy *p_enemy;
+  if (p_collisionEvent->getObject1()->getType() == TYPE_ENEMY)
   {
-    setVelocityY(_speed);
-  }
-  else if (nextY < currentY)
-  {
-    setVelocityY(-_speed);
-  }
-  if (nextX > currentX)
-  {
-    setVelocityX(_speed);
+    p_enemy = static_cast<Enemy *>(p_collisionEvent->getObject1());
   }
   else
   {
-    setVelocityX(-_speed);
+    p_enemy = static_cast<Enemy *>(p_collisionEvent->getObject2());
   }
-}
-
-/**
- * Handle events
- * @param p_event The event.
- * @return Returns 1 if event was handled, else 0.
- */
-int Bullet::eventHandler(Event *p_event)
-{
-  if (p_event->getType() == STEP_EVENT)
-  {   
-      flyTo();
-      return 1;
-  }
-
-  if (p_event->getType() == COLLISION_EVENT)
-  {
-    WorldManager &world_manager = WorldManager::getInstance();
-    world_manager.markForDelete(_target);
-    world_manager.markForDelete(this);
-    //EventCollision *p_collision_event = static_cast <EventCollision *> (p_event);
-    //hit(p_collision_event);
-    return 1;
-  }
-
-  return 0;
-}
-
-
-// if saucer and player collide, mark both for deletion
-void Bullet::hit(EventCollision *p_c) {
-
-        WorldManager &world_manager = WorldManager::getInstance();
-        world_manager.markForDelete(_target);
-        world_manager.markForDelete(this);
+  p_enemy->addDamage(getDamage());
+  
+  // delete bullet
+  WorldManager &worldManager = WorldManager::getInstance();
+  worldManager.markForDelete(this);
 }

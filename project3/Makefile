@@ -38,6 +38,7 @@ GAMESRC = Cell.cpp \
           EventPlayerKilled.cpp \
           EventEnemyKilled.cpp \
           EventBuildingChanged.cpp \
+          Projectile.cpp \
           Bullet.cpp \
           Spawner.cpp
 GAME = game.cpp
@@ -62,9 +63,10 @@ depend:
 # DO NOT DELETE
 
 Building.o: Building.h EventBuildingChanged.h
+Bullet.o: Bullet.h Projectile.h Enemy.h
 Cell.o: Cell.h Building.h
 Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
-Enemy.o: EventEnemyInvasion.h
+Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
 EventBuildingChanged.o: EventBuildingChanged.h
 EventEnemyInvasion.o: EventEnemyInvasion.h
@@ -77,12 +79,17 @@ game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h MapObject.h
 game.o: VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h Enemy.h Player.h
+game.o: Spawner.h
 Grid.o: Grid.h Cell.h Building.h
-MachineGunTower.o: MachineGunTower.h Tower.h Building.h
+MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
+MachineGunTower.o: Projectile.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h Player.h
-MapObject.o: SolarBuilding.h MachineGunTower.h Tower.h
+MapObject.o: SolarBuilding.h MachineGunTower.h Tower.h Enemy.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
+Projectile.o: Projectile.h
 SolarBuilding.o: SolarBuilding.h Building.h
-Tower.o: Tower.h Building.h
+Spawner.o: Enemy.h Spawner.h EnemyOrk.h EventEnemyKilled.h
+Spawner.o: EventEnemyInvasion.h
+Tower.o: Tower.h Building.h Enemy.h Spawner.h
 VirtualCursor.o: VirtualCursor.h

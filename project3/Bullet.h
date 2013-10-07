@@ -1,82 +1,34 @@
 /*******************************************************************************
  * @file        Bullet.h
  * @author      kcbryant
- * @description Bullets that hit enemies
+ * @description Machinegun bullet that hits the enemies with slight damage.
  ******************************************************************************/
 
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
-#include <string>
-#include "Object.h"
-#include "Enemy.h"
-#include "Tower.h"
-#include "EventCollision.h"
+#include "Projectile.h"
 
-#define TYPE_BULLET "bullet"
-
-/*
-* Bullet base class
-*/
-class Bullet : public Object
+/**
+ *Represents a machinge gun fired bullet.
+ */
+class Bullet : public Projectile
 {
-private:
-	/**
-	 * Speed of the bullet
-	 */
-	float _speed;
-
-	/**
-	 * radius of the explosion, 0 if none
-	 */
-	int _radius;
-
-	/**
-	 * Damage the bullet does
-	 */
-	int _damage;
-
-	/**
-	 * Type of bullet
-	 */
-	string _type;
-
-	/**
-	 * Target enemy of the bullet
-	 */
-	Object *_target;
-
-	/**
-	 * Tower that spawned this bullet
-	 */
-	Tower *_spawner;
-
 public:
  	/**
- 	 * Creates a new bullet that fires at specified enemy
- 	 * @param string, the bullet type
-	 * @param float, speed of the bullet
-	 * @param int, radius of the explosion
-	 * @param int, Damage the bullet causes
-	 * @param Tower, that spawned this bullet
- 	 * @param Enemy, target enemy of bullet
- 	 */
- 	Bullet(string type, float speed, int radius, int damage, Tower *spawner, Object *target);
-
- 	/**
- 	 * Bullet move towards object
- 	 */
- 	void flyTo(void);
-
- 	/**
-	 * Handle events
-	 * @param p_event The event.
-	 * @return Returns 1 if event was handled, else 0.
+	 * Creates a new bullet instance.
+	 * @param origin The origin of the the shot.
+	 * @param target The target where to shot.
 	 */
-	virtual int eventHandler(Event *p_event);
+ 	Bullet(Position origin, Position target);
 
-	void hit(EventCollision *p_c);
+
+ 	/**
+     * Is called when a collusion occured.
+     * @param p_collisionEvent The collision event.
+     */
+	virtual void hit(EventCollision *p_collisionEvent);
 
 };
 
-#endif //__BULLET_H__
+#endif

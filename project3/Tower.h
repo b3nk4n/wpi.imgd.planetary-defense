@@ -36,6 +36,13 @@
  	 */
  	int _coolDown;
 
+ 	/**
+ 	 * gives a closeness value
+ 	 * @param Enemy, that you are deciding whether or not to target
+ 	 * @return int, closeness value of enemy
+ 	 */
+	int isClose(Object *enemy);
+
  public:
  	/**
  	 * Creates a new tower object.
@@ -50,24 +57,17 @@
  	Tower(string name, string spriteName, int cost, int energy,
  		int fireRate, int firePower, int fireRange);
 
- 	/**  PROTOTYPE
- 	 * Shoots a bullet at the enemy
-	 * @param string, type of bullet it shoots
+ 	/**
+ 	 * Fires a projectile at the enemy object.
+	 * @param p_object The enemy object. 
 	 */
-	void shoot(string type);
-
-	/** PROTOTYPE
-	 * Finds the closest enemy to the tower
-	 * @return Enemy, the target enemy
-	 */
-	Object* findTarget();
+	virtual void fire(Object *p_object) = 0;
 
 	/**
- 	 * gives a closeness value
- 	 * @param Enemy, that you are deciding whether or not to target
- 	 * @return int, closeness value of enemy
- 	 */
-	int isClose(Object *enemy);
+	 * Finds the closest enemy to the tower, which is in its range
+	 * @return The closest enemy in its range or NULL, if no enemy found.
+	 */
+	Object* findTarget(void);
 
  	/**
  	 * Cleans the tower object.

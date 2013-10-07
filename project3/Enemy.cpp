@@ -13,14 +13,16 @@
 #include "Enemy.h"
 #include "MapObject.h"
 #include "EventEnemyInvasion.h"
+#include "EventEnemyKilled.h"
 
 /**
  * Creates a new enemy object instance with speed and health set
  * @param spriteName The name of the sprite asset.
  * @param health The enemies initial health.
  * @param speed The enemies speed.
+ * @param killCredits The value the player gains for killing this enemy.
  */
-Enemy::Enemy(string spriteName, int health, float speed)
+Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
 {	
 	LogManager &logManager = LogManager::getInstance();
   	ResourceManager &resourceManager = ResourceManager::getInstance();
@@ -28,6 +30,8 @@ Enemy::Enemy(string spriteName, int health, float speed)
   	setType(TYPE_ENEMY);
   	_health = health;
   	_speed = speed;
+  	_killCredits = killCredits;
+  	_targetReached = false;
 
   	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
   	if (!p_tempSprite)
@@ -56,6 +60,18 @@ Enemy::Enemy(string spriteName, int health, float speed)
  */
 Enemy::~Enemy(void)
 {
+	WorldManager &worldManager = WorldManager::getInstance();
+	
+	if (_targetReached)
+	{
+		EventEnemyInvasion eventInvasion;
+		worldManager.onEvent(&eventInvasion);
+	}
+	else
+	{
+		EventEnemyKilled event(_killCredits);
+		worldManager.onEvent(&event);
+	}
 }
 
 
@@ -109,9 +125,7 @@ int Enemy::nextTarget(void)
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
 
-		EventEnemyInvasion eventInvasion;
-		worldManager.onEvent(&eventInvasion);
-
+		_targetReached = true;
 		return -1;
 	}
 
@@ -148,6 +162,21 @@ int Enemy::nextTarget(void)
 }
 
 /**
+ * Adds damage to the enemy and deletes it, if destroyed.
+ * @param damage The damage to add.
+ */
+void Enemy::addDamage(int damage)
+{
+	_health -= damage;
+
+	if (_health <= 0)
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
+	}
+}
+
+/**
  * Gets the current target position.
  * @return The current target position.
  */
@@ -166,15 +195,6 @@ float Enemy::getSpeed(void)
 }
 
 /**
- * Set the speed index of the Enemy.
- * @param float speed you want the enemy to go.
- */
-void Enemy::setSpeed(float speed)
-{
-	_speed = speed;
-}
-
-/**
  * Gets the health of the Enemy.
  * @return int the health of the enemy.
  */
@@ -184,10 +204,10 @@ int Enemy::getHealth(void)
 }
 
 /**
- * Set the health of the enemy
- * @param int health
+ * Gets the credits the player gains for killing this enemy.
+ * @return The credits the player gains for killing this enemy.
  */
-void Enemy::setHealth(int health)
+int Enemy::getKillCredits(void)
 {
-	_health = health;
+	return _killCredits;
 }
