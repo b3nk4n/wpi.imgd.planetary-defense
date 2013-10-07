@@ -123,6 +123,8 @@ int Enemy::nextTarget(void)
 			"Final target reached.\n");
 
 		// delete itself
+		Spawner* sp = Spawner::Instance();
+		sp->removeEnemy(this);
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
 
