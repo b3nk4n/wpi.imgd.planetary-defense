@@ -10,6 +10,7 @@
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "EventOut.h"
+#include "EventStep.h"
 #include "EventCollision.h"
 
 using std::string;
@@ -51,13 +52,13 @@ Projectile::Projectile(string spriteName, Position origin, Position target, floa
         setSprite(p_tempSprite);
         setSpriteSlowdown(5);
     }
-
     // calculate velocity to fly to the enemy
-    int dx = _target.getX() - getPosition().getX();
-    int dy = _target.getY() - getPosition().getY();
-    float mag = distance(_target, getPosition());
-    setVelocityX(dx / mag * _speed);
-    setVelocityY(dy / mag * _speed);
+    flyTo();
+
+    // register for events
+    //registerInterest(STEP_EVENT);
+    registerInterest(COLLISION_EVENT);
+
 }
 
 /**
@@ -68,6 +69,20 @@ void Projectile::out(void)
     WorldManager &worldManager = WorldManager::getInstance();
     worldManager.markForDelete(this);
 }
+
+/**
+ * Fly towards the enemy target
+ */
+void Projectile::flyTo(void)
+{
+        // calculate velocity to fly to the enemy
+    int dx = _target.getX() - getPosition().getX();
+    int dy = _target.getY() - getPosition().getY();
+    float mag = distance(_target, getPosition());
+    setVelocityX(dx / mag * (_speed * 200));
+    setVelocityY(dy / mag * (_speed * 200));
+}
+
 
 /**
  * Handles the projectile events.

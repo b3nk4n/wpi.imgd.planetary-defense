@@ -42,9 +42,15 @@ protected:
     void out(void);
 
     /**
+     * Fly towards enemy target
+     */
+    void flyTo(void);
+
+    /**
      * Is called when a collusion occured.
      */
     virtual void hit(EventCollision * p_collisionEvent) = 0;
+
 
 public:
 	/**
