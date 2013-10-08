@@ -40,7 +40,10 @@ GAMESRC = Cell.cpp \
           EventBuildingChanged.cpp \
           Projectile.cpp \
           Bullet.cpp \
-          Spawner.cpp
+          Spawner.cpp \
+          Explosion.cpp \
+          ExplosionSmall.cpp \
+          ExplosionBig.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -66,12 +69,15 @@ Building.o: Building.h EventBuildingChanged.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
 Cell.o: Cell.h Building.h
 Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
-Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h
+Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h Spawner.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
 EventBuildingChanged.o: EventBuildingChanged.h
 EventEnemyInvasion.o: EventEnemyInvasion.h
 EventEnemyKilled.o: EventEnemyKilled.h
 EventPlayerKilled.o: EventPlayerKilled.h
+Explosion.o: Explosion.h
+ExplosionBig.o: ExplosionBig.h Explosion.h
+ExplosionSmall.o: ExplosionSmall.h Explosion.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
 game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
@@ -82,7 +88,7 @@ game.o: VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h Enemy.h Player.h
 game.o: Spawner.h
 Grid.o: Grid.h Cell.h Building.h
 MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
-MachineGunTower.o: Projectile.h
+MachineGunTower.o: Projectile.h MapObject.h VirtualCursor.h Grid.h Cell.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h Player.h
 MapObject.o: SolarBuilding.h MachineGunTower.h Tower.h Enemy.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
