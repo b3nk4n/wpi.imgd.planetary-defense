@@ -91,7 +91,7 @@ void loadResources(void)
 	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");
 
 	// load levels
-	resourceManager.loadLevel("assets/levels/easy-map.txt", "level1");
+	resourceManager.loadLevel("assets/levels/easy-level.txt", "level1");
 }
 
 /**

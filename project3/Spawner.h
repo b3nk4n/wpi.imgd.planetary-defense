@@ -10,6 +10,7 @@
 #include "Position.h"
 #include "Enemy.h"
 #include "LevelData.h"
+#include "WaveData.h"
 #include "Object.h"
 
 class Spawner : public Object
@@ -25,11 +26,21 @@ private:
 
 	int _waves;
 
+	int _enemyCounter;
+
+	int _waveCounter;
+
+	int _delay;
+
+	int _coolDown;
+
 	ObjectList *_enemyList;
 
 	Position *_position;
 
 	LevelData *_data;
+
+	WaveData _currentWave;
 
 public:
 	static Spawner* Instance(); //create a singleton instance of the WorldManager

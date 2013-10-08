@@ -123,10 +123,7 @@ int Enemy::nextTarget(void)
 			"Final target reached.\n");
 
 		// delete itself
-		Spawner* sp = Spawner::Instance();
-		sp->removeEnemy(this);
-		WorldManager &worldManager = WorldManager::getInstance();
-		worldManager.markForDelete(this);
+		killSelf();
 
 		_targetReached = true;
 		return -1;
@@ -174,10 +171,7 @@ void Enemy::addDamage(int damage)
 
 	if (_health <= 0)
 	{	
-		Spawner* sp = Spawner::Instance();
-		sp->removeEnemy(this);
-		WorldManager &worldManager = WorldManager::getInstance();
-		worldManager.markForDelete(this);
+		killSelf();
 	}
 }
 
@@ -215,4 +209,15 @@ int Enemy::getHealth(void)
 int Enemy::getKillCredits(void)
 {
 	return _killCredits;
+}
+
+/**
+ * Removes the enemy from spawner and world
+ */
+void Enemy::killSelf(void)
+{
+	Spawner* sp = Spawner::Instance();
+	sp->removeEnemy(this);
+	WorldManager &worldManager = WorldManager::getInstance();
+	worldManager.markForDelete(this);
 }

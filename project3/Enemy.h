@@ -109,6 +109,11 @@ class Enemy : public Object
 	 * @return The credits the player gains for killing this enemy.
 	 */
 	int getKillCredits(void);
+
+	/**
+	 * Removes the enemy from spawner and world
+	 */
+	void killSelf(void);
 };
 
 #endif
