@@ -1,12 +1,12 @@
 /*******************************************************************************
- * @file        Cannon.h
+ * @file        FragmentationGrenade.h
  * @author      bsautermeister
  * @description Cannon bullet that releases a detonation
  *              on hot or reached target.
  ******************************************************************************/
 
-#ifndef __CANNON_H__
-#define __CANNON_H__
+#ifndef __FRAGMENTATION_GRENADE_H__
+#define __FRAGMENTATION_GRENADE_H__
 
 #include "Projectile.h"
 
@@ -14,17 +14,17 @@
 #define DETONATION_RADIUS 5.0f
 
 /**
- *Represents a cannon fired bullet with detonation.
+ *Represents a frag fired bullet with detonation.
  */
-class Cannon : public Projectile
+class FragmentationGrenade : public Projectile
 {
 public:
  	/**
-	 * Creates a new cannon instance.
+	 * Creates a new frag instance.
 	 * @param origin The origin of the the shot.
 	 * @param target The target where to shot.
 	 */
- 	Cannon(Position origin, Position target);
+ 	FragmentationGrenade(Position origin, Position target);
 
  	/**
      * Is called when a collusion occured.

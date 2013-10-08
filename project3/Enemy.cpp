@@ -14,8 +14,9 @@
 #include "MapObject.h"
 #include "EventEnemyInvasion.h"
 #include "EventEnemyKilled.h"
+#include "EventDetonation.h"
 #include "Spawner.h"
-#include "ExplosionBig.h"
+#include "ExplosionSmall.h"
 
 /**
  * Creates a new enemy object instance with speed and health set
@@ -55,6 +56,7 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
 
 	// register for events
 	registerInterest(STEP_EVENT);
+	registerInterest(DETONATION_EVENT);
 }
 
 /**
@@ -74,7 +76,7 @@ Enemy::~Enemy(void)
 		EventEnemyKilled event(_killCredits);
 		worldManager.onEvent(&event);
 
-		new ExplosionBig(getPosition());
+		new ExplosionSmall(getPosition());
 	}
 }
 
@@ -88,23 +90,35 @@ int Enemy::eventHandler(Event *p_event)
 {
 	if (p_event->getType() == STEP_EVENT)
 	{
-  		move();
+  		// check target reached
+		if (getPosition() == _currentTarget)
+		{
+			nextTarget();
+		}
+  		return 1;
+	}
+
+	if (p_event->getType() == DETONATION_EVENT)
+	{
+		EventDetonation *p_eventDetonation = static_cast<EventDetonation *>(p_event);
+		float dist = distance(p_eventDetonation->getCircle().getCenter(), getPosition());
+
+  		// check if in range
+		if (dist < p_eventDetonation->getCircle().getRadius())
+		{
+			// ensure distance is not zero
+			if (dist == 0)
+				dist = 1;
+
+			// add linear decreasing splash damage
+			float rangeDamage = p_eventDetonation->getDamage() / dist;
+			addDamage(rangeDamage);
+		}
+
   		return 1;
 	}
 
   return 0;
-}
-
-/**
- * Move to next waypoint
- */
-void Enemy::move(void)
-{	
-	// check target reached
-	if (getPosition() == _currentTarget)
-	{
-		nextTarget();
-	}
 }
 
 /**

@@ -16,6 +16,7 @@
 #include "SolarBuilding.h"
 #include "Building.h"
 #include "MachineGunTower.h"
+#include "GrenadeTower.h"
 
 // Static pointer used to ensure a single instance of the class.
 MapObject* MapObject::_p_instance = NULL;
@@ -118,6 +119,13 @@ int MapObject::eventHandler(Event *p_event)
 				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN &&
 				p_player->getEnergy() >= INIT_ENERGY_MACHINE_GUN)
 				p_cell->setBuilding(new MachineGunTower());
+			break;
+		case '3':
+			p_cell = _grid.getCell(_selectedCell);
+			if (p_cell->isConstructionPossible() &&
+				p_player->getCredits() >= INIT_PRICE_GRENADE &&
+				p_player->getEnergy() >= INIT_ENERGY_GRENADE)
+				p_cell->setBuilding(new GrenadeTower());
 			break;
 		case 's':
 			p_cell = _grid.getCell(_selectedCell);

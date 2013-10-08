@@ -34,6 +34,7 @@ GAMESRC = Cell.cpp \
           SolarBuilding.cpp \
           Tower.cpp \
           MachineGunTower.cpp \
+          GrenadeTower.cpp \
           EventEnemyInvasion.cpp \
           EventPlayerKilled.cpp \
           EventEnemyKilled.cpp \
@@ -41,6 +42,7 @@ GAMESRC = Cell.cpp \
           EventDetonation.cpp \
           Projectile.cpp \
           Bullet.cpp \
+          FragmentationGrenade.cpp \
           Spawner.cpp \
           Explosion.cpp \
           ExplosionSmall.cpp \
@@ -70,10 +72,9 @@ depend:
 
 Building.o: Building.h EventBuildingChanged.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
-Cannon.o: Cannon.h Projectile.h EventDetonation.h
 Cell.o: Cell.h Building.h
 Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
-Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h Spawner.h ExplosionBig.h
+Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h Spawner.h ExplosionSmall.h
 Enemy.o: Explosion.h
 EnemyGoblin.o: EnemyGoblin.h Enemy.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
@@ -85,6 +86,8 @@ EventPlayerKilled.o: EventPlayerKilled.h
 Explosion.o: Explosion.h
 ExplosionBig.o: ExplosionBig.h Explosion.h
 ExplosionSmall.o: ExplosionSmall.h Explosion.h
+FragmentationGrenade.o: FragmentationGrenade.h Projectile.h EventDetonation.h
+FragmentationGrenade.o: Enemy.h ExplosionBig.h Explosion.h
 game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
 game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
@@ -93,11 +96,14 @@ game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h MapObject.h
 game.o: VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h Enemy.h Player.h
 game.o: Spawner.h
+GrenadeTower.o: GrenadeTower.h Tower.h Building.h Enemy.h
+GrenadeTower.o: FragmentationGrenade.h Projectile.h MapObject.h
+GrenadeTower.o: VirtualCursor.h Grid.h Cell.h
 Grid.o: Grid.h Cell.h Building.h
 MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
 MachineGunTower.o: Projectile.h MapObject.h VirtualCursor.h Grid.h Cell.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h Player.h
-MapObject.o: SolarBuilding.h MachineGunTower.h Tower.h Enemy.h
+MapObject.o: SolarBuilding.h MachineGunTower.h Tower.h Enemy.h GrenadeTower.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 Projectile.o: Projectile.h

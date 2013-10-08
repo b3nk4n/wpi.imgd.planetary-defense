@@ -1,29 +1,32 @@
 /*******************************************************************************
- * @file        Cannon.cpp
+ * @file        FragmentationGrenade.cpp
  * @author      bsautermeister
- * @description Cannon bullet that releases a detonation
+ * @description Fragmentation grenade bullet that releases a detonation
  *              on hot or reached target.
  ******************************************************************************/
 
-#include "Cannon.h"
+#include "FragmentationGrenade.h"
 #include "EventDetonation.h"
+#include "WorldManager.h"
+#include "Enemy.h"
+#include "ExplosionBig.h"
 
 /**
- * Creates a new cannon instance.
+ * Creates a new frag granate instance.
  * @param origin The origin of the the shot.
  * @param target The target where to shot.
  */
-Cannon::Cannon(Position origin, Position target)
-    : Projectile("bullet", origin, target, 1.5f, 1)
+FragmentationGrenade::FragmentationGrenade(Position origin, Position target)
+    : Projectile("grenade", origin, target, 1.5f, 1)
 {
 
 }
 
-	/**
+/**
  * Is called when a collusion occured.
  * @param p_collisionEvent The collision event.
  */
-void Cannon::onHit(EventCollision *p_collisionEvent)
+void FragmentationGrenade::onHit(EventCollision *p_collisionEvent)
 {
     WorldManager &worldManager = WorldManager::getInstance();
 
@@ -44,6 +47,8 @@ void Cannon::onHit(EventCollision *p_collisionEvent)
     }
     p_enemy->addDamage(getDamage());
 
+    new ExplosionBig(getPosition());
+
     // splash damage
     EventDetonation event(Circle(getPosition(), DETONATION_RADIUS), DETONATION_DAMAGE);
     worldManager.onEvent(&event);
@@ -56,9 +61,12 @@ void Cannon::onHit(EventCollision *p_collisionEvent)
  * Is called when a projectile reached the target position without
  * hitting an enemy.
  */
-void Cannon::onTargetReached(void)
+void FragmentationGrenade::onTargetReached(void)
 {
+    WorldManager &worldManager = WorldManager::getInstance();
     EventDetonation event(Circle(getPosition(), DETONATION_RADIUS),
         DETONATION_DAMAGE);
     worldManager.onEvent(&event);
+
+    new ExplosionBig(getPosition());
 }

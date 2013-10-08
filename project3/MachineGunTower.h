@@ -14,7 +14,7 @@
 #define INIT_ENERGY_MACHINE_GUN 3
 
 /*
-* Represents a solar panel to get energy.
+* Represents a machine gun tower that fires bullets.
 */
 class MachineGunTower : public Tower
 {

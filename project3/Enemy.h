@@ -68,11 +68,6 @@ class Enemy : public Object
 	 * @return Returns 1 if event was handled, else 0.
 	 */
 	virtual int eventHandler(Event *p_event);
-	 
-	/**
-	 * Move to next waypoint
-	 */
-	void move(void);
 
 	/**
 	 * Changes the target to the next path position.

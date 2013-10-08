@@ -84,8 +84,10 @@ void loadResources(void)
 	resourceManager.loadSprite("assets/sprites/goblin-spr.txt", "goblin");
 	resourceManager.loadSprite("assets/sprites/ork-spr.txt", "ork");
 	resourceManager.loadSprite("assets/sprites/solar-spr.txt", "solar");
-	resourceManager.loadSprite("assets/sprites/machinegun-spr.txt", "machinegun");
+	resourceManager.loadSprite("assets/sprites/machinegun-spr.txt", "mgtower");
+	resourceManager.loadSprite("assets/sprites/grenadetower-spr.txt", "grenadetower");
 	resourceManager.loadSprite("assets/sprites/bullet-spr.txt", "bullet");
+	resourceManager.loadSprite("assets/sprites/grenade-spr.txt", "grenade");
 	resourceManager.loadSprite("assets/sprites/explosion-spr.txt", "explosion_small");
 	resourceManager.loadSprite("assets/sprites/explosionbig-spr.txt", "explosion_big");
 
