@@ -22,7 +22,6 @@ public:
 	 */
  	Bullet(Position origin, Position target);
 
-
  	/**
      * Is called when a collusion occured.
      * @param p_collisionEvent The collision event.

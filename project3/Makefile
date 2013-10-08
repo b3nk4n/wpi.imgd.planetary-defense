@@ -38,6 +38,7 @@ GAMESRC = Cell.cpp \
           EventPlayerKilled.cpp \
           EventEnemyKilled.cpp \
           EventBuildingChanged.cpp \
+          EventDetonation.cpp \
           Projectile.cpp \
           Bullet.cpp \
           Spawner.cpp \

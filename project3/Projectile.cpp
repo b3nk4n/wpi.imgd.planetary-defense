@@ -51,7 +51,7 @@ Projectile::Projectile(string spriteName, Position origin, Position target, floa
     else
     {
         setSprite(p_tempSprite);
-        setSpriteSlowdown(5);
+        setSpriteSlowdown(3);
     }
 
     flyTo(_target);
