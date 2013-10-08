@@ -272,8 +272,6 @@ int Enemy::getKillCredits(void)
  */
 void Enemy::killSelf(void)
 {
-	Spawner* sp = Spawner::Instance();
-	sp->removeEnemy(this);
 	WorldManager &worldManager = WorldManager::getInstance();
 	worldManager.markForDelete(this);
 }

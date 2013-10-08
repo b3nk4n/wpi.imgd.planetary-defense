@@ -37,8 +37,6 @@ private:
 
 	int _coolDown;
 
-	ObjectList *_enemyList;
-
 	Position *_position;
 
 	LevelData *_data;
@@ -50,14 +48,11 @@ public:
 
 	void spawnEnemy();
 
-	ObjectList* getEnemies(void); //gets list of active enemies
-
 	//void startWave(Wavedata data);
 
 	//Handle enemy killed event -> activecounter-- --> EventWaveOver-> captured by mapObject();
 	int eventHandler(Event *p_event);
 
-	void removeEnemy(Enemy *enemy);
 
 };
 

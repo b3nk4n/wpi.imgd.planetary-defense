@@ -1,25 +1,21 @@
-frames 5
+frames 4
 width 5
 height 3
 color cyan
-EEEEE
-EE1EE
-EEEEE
+%%o%%
+%/|\%
+%/%\%
 end
-EEEEE
-EE2EE
-EEEEE
+%%o%%
+%/|>%
+%<%\%
 end
-EEEEE
-EE3EE
-EEEEE
+%%o%%
+%/|\%
+%/%\%
 end
-EEEEE
-EE4EE
-EEEEE
-end
-EEEEE
-EE5EE
-EEEEE
+%%o%%
+%<|\%
+%/%>%
 end
 eof

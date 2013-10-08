@@ -24,9 +24,5 @@ GrenadeTower::GrenadeTower(void)
  */
 void GrenadeTower::fire(Object *p_object)
 {
-	MapObject* mapObject = MapObject::getInstance();
-	if (mapObject->isPassable(p_object->getPosition()) == false) // <---- TODO: why this check?
-	{
-		new FragmentationGrenade(getPosition(), p_object->getPosition());
-	}
+	new FragmentationGrenade(getPosition(), p_object->getPosition());
 }

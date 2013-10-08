@@ -17,7 +17,7 @@
  * @param target The target where to shot.
  */
 FragmentationGrenade::FragmentationGrenade(Position origin, Position target)
-    : Projectile("grenade", origin, target, 1.5f, 1)
+    : Projectile("grenade", origin, target, 2.0f, 5)
 {
 
 }

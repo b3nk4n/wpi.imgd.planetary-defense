@@ -10,8 +10,8 @@
 
 #include "Projectile.h"
 
-#define DETONATION_DAMAGE 10
-#define DETONATION_RADIUS 5.0f
+#define DETONATION_DAMAGE 15
+#define DETONATION_RADIUS 10.0f
 
 /**
  *Represents a frag fired bullet with detonation.

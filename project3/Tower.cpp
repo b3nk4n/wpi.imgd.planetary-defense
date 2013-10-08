@@ -6,6 +6,7 @@
 
 #include "Tower.h"
 #include "LogManager.h"
+#include "worldManager.h"
 #include "EventStep.h"
 #include "Spawner.h"
 #include "Object.h"
@@ -39,23 +40,32 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
  */
 Object* Tower::findTarget(void)
 {	
-	Object* enemy_best; 
- 	ObjectList* enemies;
 
-	Spawner* sp = Spawner::Instance(); // TODO: use worldManager::solidObjects/allObjects and filter
+	 // TODO: use worldManager::solidObjects/allObjects and filter
 	                                   //       for the enemies (getType() == TYPE_ENEMY) 
 									   //       --> spawner not needed here!
 									   //  WARNING: causes sometimes SEG FAULTS...
-	enemies = sp->getEnemies();
-	ObjectListIterator enemyIt = ObjectListIterator(enemies);
-	enemyIt.first();
-	enemy_best = enemyIt.currentObject();
-	while (enemyIt.isDone() != true){
-		if (isClose(enemyIt.currentObject()) < isClose(enemy_best)){
+	LogManager &logManager = LogManager::getInstance();
+	WorldManager &world_manager = WorldManager::getInstance();
+	ObjectList All = world_manager.getAllObjects();
+	ObjectListIterator enemyIt = ObjectListIterator(&All);
+	Object* enemy_best = NULL;
+	for (enemyIt.first();!enemyIt.isDone();enemyIt.next())
+	{	
+		Object* curObj = enemyIt.currentObject();
+		if (curObj->getType() == TYPE_ENEMY && ((enemy_best == NULL) || (isClose(curObj) < isClose(enemy_best))))
+		{
+			logManager.writeLog(
+		            LOG_DEBUG,
+		            "Tower::findTarget()",
+		            "#1!\n");
 			enemy_best = enemyIt.currentObject();
 		}
-		enemyIt.next();
 	}
+	logManager.writeLog(
+        LOG_DEBUG,
+        "Tower::findTarget()",
+        "#2!\n");
 
 	return enemy_best;
 }
@@ -67,8 +77,7 @@ Object* Tower::findTarget(void)
  */
 int Tower::isClose(Object *enemy)
 {	
-	// todo: use distance() function of utility.cpp ;-)
-	return 0;
+	return distance(this->getPosition(), enemy->getPosition()) <= getFireRange();
 }
 
 /**

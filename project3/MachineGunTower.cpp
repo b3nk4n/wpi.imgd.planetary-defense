@@ -24,9 +24,5 @@ MachineGunTower::MachineGunTower(void)
  */
 void MachineGunTower::fire(Object *p_object)
 {	
-	MapObject* mapObject = MapObject::getInstance();
-	if (mapObject->isPassable(p_object->getPosition()) == false)
-	{
-		new Bullet(getPosition(), p_object->getPosition());
-	}
+	new Bullet(getPosition(), p_object->getPosition());
 }

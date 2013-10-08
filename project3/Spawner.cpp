@@ -38,28 +38,18 @@ Spawner::Spawner()
 	_data = resourceManager.getLevel("level1");
 	_activeEnemies = 0;
 	_waveCounter = 0;
-	_enemyList = new ObjectList;
 	_currentWave = _data->getWave(_waveCounter); 
 	_waves = _data->getWavesCount();
 	_waveType = _currentWave.getType();
 	_enemyCounter = _currentWave.getCount();
 	_delay = _currentWave.getDelay();
-	_coolDown = 10000;
+	_coolDown = _delay * 10;
 	registerInterest(STEP_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
 	registerInterest(ENEMY_INVASION_EVENT);
 	//spawnEnemy();
 }
 
-void Spawner::removeEnemy(Enemy *enemy)
-{
-	_enemyList->remove(enemy);
-}
-
-ObjectList* Spawner::getEnemies(void)
-{
-	return _enemyList;
-}
 
 void Spawner::spawnEnemy()
 {	_activeEnemies++;
@@ -68,13 +58,13 @@ void Spawner::spawnEnemy()
 	if (_waveType == "ork")
 	{
 		yo = new EnemyOrk();
+		
 	}
 	else if (_waveType == "goblin")
 	{
 		yo = new EnemyGoblin();
+		
 	}
-
-	_enemyList->insert(yo);
 }
 
 /**
@@ -90,7 +80,7 @@ int Spawner::eventHandler(Event *p_event)
 		{
 			spawnEnemy();
 			--_enemyCounter;
-			_coolDown = 2000;
+			_coolDown = _delay;
 
 		}
 		else if (_enemyCounter <= 0)
@@ -103,11 +93,11 @@ int Spawner::eventHandler(Event *p_event)
 				_enemyCounter = _currentWave.getCount();
 				_delay = _currentWave.getDelay();
 				_waveType = _currentWave.getType();
-				_coolDown = 10000;
+				_coolDown = _delay * 4;
 			}
 		}
 
-		_coolDown = _coolDown - _delay;
+		--_coolDown;
 		return 1;
 	}
 	if (p_event->getType() == ENEMY_KILLED_EVENT || p_event->getType() == ENEMY_INVASION_EVENT)
