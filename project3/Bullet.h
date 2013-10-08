@@ -27,8 +27,13 @@ public:
      * Is called when a collusion occured.
      * @param p_collisionEvent The collision event.
      */
-	virtual void hit(EventCollision *p_collisionEvent);
+	virtual void onHit(EventCollision *p_collisionEvent);
 
+	/**
+     * Is called when a projectile reached the target positoin without
+     * hitting an enemy.
+     */
+    virtual void onTargetReached(void);
 };
 
 #endif

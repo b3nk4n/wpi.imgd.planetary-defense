@@ -184,7 +184,7 @@ void InputManager::getInput(void)
 		LogManager &logManager = LogManager::getInstance();
 		logManager.writeLog(LOG_DEBUG,
 			"InputManager.getInput()",
-			"Input: %d\n",
+			"Got input: %d\n",
 			input);
 
 		MEVENT mEvent;
@@ -219,12 +219,6 @@ void InputManager::getInput(void)
 		}
 		else // keyboard interaction event 
 		{
-			LogManager &logManager = LogManager::getInstance();
-			logManager.writeLog(LOG_DEBUG,
-				"InputManager.getInput()",
-				"Fireing keyboard event with input: %d\n",
-				input);
-
 			EventKeyboard keyboardEvent;
 			keyboardEvent.setKey(input);
 			onEvent(&keyboardEvent);

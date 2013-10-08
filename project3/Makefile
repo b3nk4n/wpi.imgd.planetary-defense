@@ -65,6 +65,7 @@ clean:
 depend: 
 	makedepend *.cpp 2> /dev/null
 # DO NOT DELETE
+<<<<<<< HEAD
 
 Building.o: Building.h EventBuildingChanged.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
@@ -100,3 +101,41 @@ Spawner.o: Enemy.h Spawner.h EnemyOrk.h EventEnemyKilled.h
 Spawner.o: EventEnemyInvasion.h
 Tower.o: Tower.h Building.h Enemy.h Spawner.h
 VirtualCursor.o: VirtualCursor.h
+=======
+
+Building.o: Building.h EventBuildingChanged.h
+Bullet.o: Bullet.h Projectile.h Enemy.h
+Cell.o: Cell.h Building.h
+Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
+Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h Spawner.h ExplosionBig.h
+Enemy.o: Explosion.h
+EnemyOrk.o: EnemyOrk.h Enemy.h
+EventBuildingChanged.o: EventBuildingChanged.h
+EventEnemyInvasion.o: EventEnemyInvasion.h
+EventEnemyKilled.o: EventEnemyKilled.h
+EventPlayerKilled.o: EventPlayerKilled.h
+Explosion.o: Explosion.h
+ExplosionBig.o: ExplosionBig.h Explosion.h
+ExplosionSmall.o: ExplosionSmall.h Explosion.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h MapObject.h
+game.o: VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h Enemy.h Player.h
+game.o: Spawner.h
+Grid.o: Grid.h Cell.h Building.h
+MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
+MachineGunTower.o: Projectile.h MapObject.h VirtualCursor.h Grid.h Cell.h
+MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h Player.h
+MapObject.o: SolarBuilding.h MachineGunTower.h Tower.h Enemy.h
+Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
+Player.o: EventPlayerKilled.h EventBuildingChanged.h
+Projectile.o: Projectile.h
+SolarBuilding.o: SolarBuilding.h Building.h
+Spawner.o: Enemy.h Spawner.h EnemyOrk.h EventEnemyKilled.h
+Spawner.o: EventEnemyInvasion.h
+Tower.o: Tower.h Building.h Enemy.h Spawner.h
+VirtualCursor.o: VirtualCursor.h
+>>>>>>> 3dc9d6bbc7ad8da225a68e3e213c4d5853c92a79

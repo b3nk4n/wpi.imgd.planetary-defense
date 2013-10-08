@@ -75,7 +75,7 @@ Cell *Grid::getCell(Position position)
 	if (!isValidCellPosition(position))
 		return NULL;
 
-	return &(_p_cells[position.getX() + position.getY() * _height]);
+	return &(_p_cells[position.getX() + position.getY() * _width]);
 }
 
 /**

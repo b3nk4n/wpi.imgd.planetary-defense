@@ -35,22 +35,28 @@ private:
 	 */
 	Position _target;
 
-protected:
-	/**
-	 * Is called when the projectile has moved outside the world.
-	 */
-    void out(void);
+    /**
+     * Old squared distance to detect passing by the target.
+     */
+    float _oldDistanceSquared;
 
     /**
-     * Fly towards enemy target
+     * Fly towards the target position.
+     * @param target The target to fly to.
      */
-    void flyTo(void);
+    void flyTo(Position target);
 
+protected:
     /**
      * Is called when a collusion occured.
      */
-    virtual void hit(EventCollision * p_collisionEvent) = 0;
+    virtual void onHit(EventCollision * p_collisionEvent) = 0;
 
+    /**
+     * Is called when a projectile reached the target positoin without
+     * hitting an enemy.
+     */
+    virtual void onTargetReached(void) = 0;
 
 public:
 	/**
