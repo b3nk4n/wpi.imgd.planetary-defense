@@ -14,17 +14,16 @@
  * @param target The target where to shot.
  */
 Bullet::Bullet(Position origin, Position target)
-  : Projectile("bullet", origin, target, 0.02f, 5)
+  : Projectile("bullet", origin, target, 3.0f, 5)
 {
 
 }
-
 
 /**
  * Is called when a collusion occured.
  * @param p_collisionEvent The collision event.
  */
-void Bullet::hit(EventCollision *p_collisionEvent)
+void Bullet::onHit(EventCollision *p_collisionEvent)
 {
   // verify that the collision was with an enemy.
   if (p_collisionEvent->getObject1()->getType() != TYPE_ENEMY &&
@@ -46,4 +45,13 @@ void Bullet::hit(EventCollision *p_collisionEvent)
   // delete bullet
   WorldManager &worldManager = WorldManager::getInstance();
   worldManager.markForDelete(this);
+}
+
+/**
+ * Is called when a projectile reached the target positoin without
+ * hitting an enemy.
+ */
+void Bullet::onTargetReached(void)
+{
+  // do nothing
 }

@@ -36,6 +36,7 @@ Projectile::Projectile(string spriteName, Position origin, Position target, floa
     _target = target;
     _speed = speed;
     _damage = damage;
+    _oldDistanceSquared = 99999;
 
     // setup bullet sprite
     Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
@@ -52,53 +53,59 @@ Projectile::Projectile(string spriteName, Position origin, Position target, floa
         setSprite(p_tempSprite);
         setSpriteSlowdown(5);
     }
-    // calculate velocity to fly to the enemy
-    flyTo();
+
+    flyTo(_target);
 
     // register for events
-    //registerInterest(STEP_EVENT);
+    registerInterest(STEP_EVENT);
     registerInterest(COLLISION_EVENT);
-
 }
 
 /**
- * Is called when the projectile has moved outside the world.
+ * Fly towards the target position.
+ * @param target The target to fly to.
  */
-void Projectile::out(void)
-{
-    WorldManager &worldManager = WorldManager::getInstance();
-    worldManager.markForDelete(this);
-}
-
-/**
- * Fly towards the enemy target
- */
-void Projectile::flyTo(void)
+void Projectile::flyTo(Position target)
 {
         // calculate velocity to fly to the enemy
-    int dx = _target.getX() - getPosition().getX();
-    int dy = _target.getY() - getPosition().getY();
-    float mag = distance(_target, getPosition());
-    setVelocityX(dx / mag * (_speed * 200));
-    setVelocityY(dy / mag * (_speed * 200));
+    int dx = target.getX() - getPosition().getX();
+    int dy = target.getY() - getPosition().getY();
+    float mag = distance(target, getPosition());
+    setVelocityX(dx / mag * (_speed));
+    setVelocityY(dy / mag * (_speed));
 }
-
 
 /**
  * Handles the projectile events.
  */
 int Projectile::eventHandler(Event *p_event)
 {
+    WorldManager &worldManager = WorldManager::getInstance();
+
+    if (p_event->getType() == STEP_EVENT)
+    {
+        float newDistanceSquared = distanceSquared(getPosition(), getTarget());
+
+        if (getPosition() == getTarget() ||
+            newDistanceSquared > _oldDistanceSquared)
+        {
+            worldManager.markForDelete(this);
+            onTargetReached();
+        }
+        _oldDistanceSquared = newDistanceSquared;
+        return 1;
+    }
+
     if (p_event->getType() == OUT_EVENT)
     {
-        out();
+        worldManager.markForDelete(this);
         return 1;
     }
 
     if (p_event->getType() == COLLISION_EVENT)
     {
         EventCollision *p_collisionEvent = static_cast<EventCollision *>(p_event);
-        hit(p_collisionEvent);
+        onHit(p_collisionEvent);
         return 1;
     }
 

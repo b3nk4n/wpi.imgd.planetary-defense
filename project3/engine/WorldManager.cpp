@@ -309,16 +309,10 @@ int WorldManager::moveObject(Object *p_object, Position position)
 				EventCollision eventCollision(p_object, p_currentObject, position);
 				if (p_object->isInterestedInEvent(eventCollision.getType()))
 				{
-					logManager.writeLog(LOG_DEBUG,
-						"WorldManager::moveObject()",
-						"Fireing first collision event\n");
 					p_object->eventHandler(&eventCollision);
 				}
 				if (p_currentObject->isInterestedInEvent(eventCollision.getType()))
 				{
-					logManager.writeLog(LOG_DEBUG,
-						"WorldManager::moveObject()",
-						"Fireing second collision event\n");
 					p_currentObject->eventHandler(&eventCollision);
 				}
 

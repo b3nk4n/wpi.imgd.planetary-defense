@@ -85,6 +85,7 @@ int MapObject::eventHandler(Event *p_event)
 		EventKeyboard *p_eventKeyboard = static_cast<EventKeyboard *>(p_event);
 		Player *p_player = Player::getInstance();
 		WorldManager &worldManager = WorldManager::getInstance();
+		LogManager &logManager = LogManager::getInstance();
 
 		switch(p_eventKeyboard->getKey())
 		{
@@ -102,6 +103,11 @@ int MapObject::eventHandler(Event *p_event)
 			break;
 		case '1':
 			p_cell = _grid.getCell(_selectedCell);
+			logManager.writeLog(LOG_DEBUG,
+				"MapObject::eventHandler()",
+				"Build solar at: %d, %d\n",
+				_selectedCell.getX(),
+				_selectedCell.getY());
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_SOLAR)
 				p_cell->setBuilding(new SolarBuilding());
@@ -115,25 +121,26 @@ int MapObject::eventHandler(Event *p_event)
 			break;
 		case 's':
 			p_cell = _grid.getCell(_selectedCell);
-			Object *p_object = p_cell->getBuilding();
-			//If there is a building on this cell,
-			if (p_object != NULL){
 			Building *p_building = p_cell->getBuilding();
-			//check if it is solar, and player has sufficient amount to sell
-			if (p_building->getName() == "solar" &&
-				p_player->getEnergy() < 5){
-				return 1;
-			}
-			p_cell->clear();
-			worldManager.markForDelete(p_object);
-			break;
-			}
-			else{
-				return 1;
-			}
-		}
+			
+			// if there is a building on this cell,
+			if (p_building != NULL)
+			{
+				// check if it is solar, and player has sufficient energy
+				if (p_building->getName() == BUILDING_SOLAR &&
+					p_player->getEnergy() < p_building->getEnergy())
+					return 1;
 
+				p_cell->clear();
+				worldManager.markForDelete(p_building);
+				break;
+			}
+
+			return 1;
+		}
 	}
+
+	return 0;
 }
 
 /**

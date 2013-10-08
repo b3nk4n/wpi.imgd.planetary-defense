@@ -69,7 +69,8 @@ Building.o: Building.h EventBuildingChanged.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
 Cell.o: Cell.h Building.h
 Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
-Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h Spawner.h
+Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h Spawner.h ExplosionBig.h
+Enemy.o: Explosion.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
 EventBuildingChanged.o: EventBuildingChanged.h
 EventEnemyInvasion.o: EventEnemyInvasion.h
