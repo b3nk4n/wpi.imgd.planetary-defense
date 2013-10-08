@@ -19,6 +19,9 @@
 #include "Spawner.h"
 #include "ExplosionSmall.h"
 
+// initialize the static class variables
+bool Enemy::_showInfo = false;
+
 /**
  * Creates a new enemy object instance with speed and health set
  * @param spriteName The name of the sprite asset.
@@ -37,7 +40,6 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
   	_speed = speed;
   	_killCredits = killCredits;
   	_targetReached = false;
-  	_showInfoCountdown = 0;
 
   	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
   	if (!p_tempSprite)
@@ -100,10 +102,6 @@ int Enemy::eventHandler(Event *p_event)
 			nextTarget();
 		}
 
-		// update info overlay
-		if (_showInfoCountdown > 0)
-			--_showInfoCountdown;
-
   		return 1;
 	}
 
@@ -130,7 +128,7 @@ int Enemy::eventHandler(Event *p_event)
 	if (p_event->getType() == INFO_EVENT)
 	{
 		EventInfo *p_eventInfo = static_cast<EventInfo *>(p_event);
-  		_showInfoCountdown = p_eventInfo->getInfoTicks();
+		_showInfo = p_eventInfo->getShowInfo();
 	}
 
 	return 0;
@@ -143,7 +141,7 @@ void Enemy::draw(void)
 {
 	Object::draw();
 
-	if (_showInfoCountdown > 0)
+	if (_showInfo)
 	{
 		Position topCenter(getPosition().getX(),
 			getPosition().getY() - getBox().getVertical() / 2);

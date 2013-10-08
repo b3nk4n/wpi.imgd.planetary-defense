@@ -9,19 +9,19 @@
 
 /**
  * Creates a new info event instance.
- * @param infoTicks The number of ticks to show additional info.
+ * @param showInfo If additional info should be displayed.
  */
-EventInfo::EventInfo(int infoTicks)
+EventInfo::EventInfo(bool showInfo)
 {
 	setType(INFO_EVENT);
-	_infoTicks = infoTicks;
+	_showInfo = showInfo;
 }
 
 /**
- * Gets the duration in ticks to show the information.
- * @return The number of ticks to show additional info. 
+ * Gets whether additional info should be displayed or not.
+ * @return Returns TRUE if additional info should be displayed, else FALSE.
  */
-int EventInfo::getInfoTicks(void)
+bool EventInfo::getShowInfo(void)
 {
-	return _infoTicks;
+	return _showInfo;
 }

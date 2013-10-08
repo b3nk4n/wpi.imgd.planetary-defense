@@ -17,23 +17,24 @@
  */
 class EventInfo : public Event
 {
+private:
 	/**
-	 * The number of ticks to show additional information.
+	 * Indicates whether additional information should be displayed.
 	 */
-	int _infoTicks;
-
+	bool _showInfo;
+	
 public:
 	/**
 	 * Creates a new info event instance.
-	 * @param infoTicks The number of ticks to show additional info.
+	 * @param showInfo If additional info should be displayed.
 	 */
-	EventInfo(int infoTicks);
+	EventInfo(bool showInfo);
 
 	/**
-	 * Gets the duration in ticks to show the information.
-	 * @return The number of ticks to show additional info. 
+	 * Gets whether additional info should be displayed or not.
+	 * @return Returns TRUE if additional info should be displayed, else FALSE.
 	 */
-	int getInfoTicks(void);
+	bool getShowInfo(void);
 };
 
 #endif

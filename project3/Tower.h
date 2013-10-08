@@ -37,11 +37,24 @@
  	int _coolDown;
 
  	/**
- 	 * gives a closeness value
- 	 * @param Enemy, that you are deciding whether or not to target
- 	 * @return int, closeness value of enemy
+ 	 * The current enemy target, so the tower can follow that one as
+ 	 * long as it is in its range.
  	 */
-	int isClose(Object *enemy);
+ 	Object *_p_currentTarget;
+
+ 	/**
+	 * Checks whether the enemy is in the towers range.
+	 * @param enemy The enemy to check if it is in range.
+	 * @return Returns TRUE, if in range, else FALSE.
+	 */
+	bool isInRange(Object *enemy);
+
+	/**
+	 * Gets the distance to the tower
+	 * @param enemy The enemy to check the distance.
+	 * @return The distance to the tower or a high int if enemy is NULL.
+	 */
+	float distanceTo(Object *enemy);
 
  public:
  	/**
