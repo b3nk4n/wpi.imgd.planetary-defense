@@ -6,6 +6,7 @@
 
 #include "MachineGunTower.h"
 #include "Bullet.h"
+#include "MapObject.h"
 
 /**
  * Creates a new machine gun tower object.
@@ -22,6 +23,10 @@ MachineGunTower::MachineGunTower(void)
  * @param p_object The enemy object. 
  */
 void MachineGunTower::fire(Object *p_object)
-{
-	new Bullet(getPosition(), p_object->getPosition());
+{	
+	MapObject* mapObject = MapObject::getInstance();
+	if (mapObject->isPassable(p_object->getPosition()) == false)
+	{
+		new Bullet(getPosition(), p_object->getPosition());
+	}
 }

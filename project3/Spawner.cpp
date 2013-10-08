@@ -81,11 +81,7 @@ int Spawner::eventHandler(Event *p_event)
 
 		}
 		else if (_enemyCounter <= 0)
-		{	
-			if (_activeEnemies <= 0)
-			{
-				_enemyList->clear();
-			}
+		{				
 
 			if (_waveCounter < _waves)
 			{

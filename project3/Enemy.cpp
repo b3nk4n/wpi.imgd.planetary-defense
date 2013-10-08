@@ -122,10 +122,13 @@ int Enemy::nextTarget(void)
 			"Enemy::nextTarget()",
 			"Final target reached.\n");
 
-		// delete itself
-		killSelf();
+
 
 		_targetReached = true;
+
+		// delete itself
+		killSelf();
+		
 		return -1;
 	}
 
