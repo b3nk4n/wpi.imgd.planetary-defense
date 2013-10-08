@@ -48,7 +48,8 @@ GAMESRC = Cell.cpp \
           Explosion.cpp \
           ExplosionSmall.cpp \
           ExplosionBig.cpp \
-          EnemyGoblin.cpp
+          EnemyGoblin.cpp \
+          GameStart.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
