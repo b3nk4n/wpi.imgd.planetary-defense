@@ -30,6 +30,8 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
 	_fireRange = fireRange;
 	_coolDown = _fireRate;
 
+	_p_currentTarget = NULL;
+
 	// register events
 	registerInterest(STEP_EVENT);
 }
@@ -40,44 +42,52 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
  */
 Object* Tower::findTarget(void)
 {	
-
-	 // TODO: use worldManager::solidObjects/allObjects and filter
-	                                   //       for the enemies (getType() == TYPE_ENEMY) 
-									   //       --> spawner not needed here!
-									   //  WARNING: causes sometimes SEG FAULTS...
 	LogManager &logManager = LogManager::getInstance();
 	WorldManager &world_manager = WorldManager::getInstance();
+
 	ObjectList All = world_manager.getAllObjects();
 	ObjectListIterator enemyIt = ObjectListIterator(&All);
 	Object* enemy_best = NULL;
 	for (enemyIt.first();!enemyIt.isDone();enemyIt.next())
 	{	
 		Object* curObj = enemyIt.currentObject();
-		if (curObj->getType() == TYPE_ENEMY && ((enemy_best == NULL) || (isClose(curObj) < isClose(enemy_best))))
+		if (curObj->getType() == TYPE_ENEMY &&
+			isInRange(curObj) &&
+			(enemy_best == NULL || distanceTo(curObj) < distanceTo(enemy_best)))
 		{
-			logManager.writeLog(
-		            LOG_DEBUG,
-		            "Tower::findTarget()",
-		            "#1!\n");
-			enemy_best = enemyIt.currentObject();
+			enemy_best = curObj;
 		}
 	}
-	logManager.writeLog(
-        LOG_DEBUG,
-        "Tower::findTarget()",
-        "#2!\n");
 
 	return enemy_best;
 }
 
 /**
- * gives a closeness value
- * @param Enemy, that you are deciding whether or not to target
- * @return int, closeness value of enemy
+ * Checks whether the enemy is in the towers range.
+ * @param enemy The enemy to check if it is in range.
+ * @return Returns TRUE, if in range, else FALSE.
  */
-int Tower::isClose(Object *enemy)
+bool Tower::isInRange(Object *enemy)
 {	
-	return distance(this->getPosition(), enemy->getPosition()) <= getFireRange();
+	// verify enemy not NULL
+	if (!enemy)
+		return false;
+
+	return distanceTo(enemy) <= getFireRange();
+}
+
+/**
+ * Gets the distance to the tower
+ * @param enemy The enemy to check the distance.
+ * @return The distance to the tower or a high int if enemy is NULL.
+ */
+float Tower::distanceTo(Object *enemy)
+{	
+	// verify enemy not NULL
+	if (!enemy)
+		return 99999;
+
+	return distance(this->getPosition(), enemy->getPosition());
 }
 
 /**
@@ -101,16 +111,16 @@ int Tower::eventHandler(Event *p_event)
 		_coolDown--;
 		if (_coolDown <= 0)
 		{
-			Object *p_target = findTarget(); // TODO: store the last found target, check if the last found
-	                                         //       is still close enough and fire the that one
+			if (!isInRange(_p_currentTarget))
+				_p_currentTarget = findTarget();
 			
-			if (p_target != NULL)
+			if (_p_currentTarget != NULL)
 			{
 				logManager.writeLog(
 		            LOG_DEBUG,
 		            "Tower::eventHandler()",
 		            "Tower is fireing to enemy!\n");
-				fire(p_target);
+				fire(_p_currentTarget);
 				_coolDown = _fireRate;
 			}
 		}

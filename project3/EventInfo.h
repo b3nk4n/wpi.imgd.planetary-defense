@@ -22,6 +22,7 @@ private:
 	 * Indicates whether additional information should be displayed.
 	 */
 	bool _showInfo;
+	
 public:
 	/**
 	 * Creates a new info event instance.

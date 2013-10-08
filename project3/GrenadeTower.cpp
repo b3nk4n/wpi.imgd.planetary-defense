@@ -13,7 +13,7 @@
  */
 GrenadeTower::GrenadeTower(void)
 	: Tower(TOWER_GRENADE, "grenadetower",
-		INIT_PRICE_GRENADE, -INIT_ENERGY_GRENADE, 60, 1, 10)
+		INIT_PRICE_GRENADE, -INIT_ENERGY_GRENADE, 60, 1, 20)
 {
 
 }
