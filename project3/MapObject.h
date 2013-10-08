@@ -60,6 +60,11 @@ private:
 	 */
 	Grid _grid;
 
+	/**
+ 	 * Indicates whether specific objects display addition information.
+ 	 */
+ 	bool _showInfo;
+
     /**
 	 * Creates a map object instance.
 	 */

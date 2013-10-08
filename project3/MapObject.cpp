@@ -31,6 +31,7 @@ MapObject::MapObject(void)
 	_p_currentLevelData = NULL;
 	_selectedCell = Position(0, 0);
 	_p_cursor = new VirtualCursor(_selectedCell);
+	_showInfo = false;
 
 	setCentered(false);
 
@@ -160,7 +161,8 @@ int MapObject::eventHandler(Event *p_event)
 			break;
 
 		case 'i':
-			EventInfo eventInfo(60);
+			_showInfo = !_showInfo;
+			EventInfo eventInfo(_showInfo);
 			worldManager.onEvent(&eventInfo);
 			break;
 		}

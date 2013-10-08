@@ -53,9 +53,9 @@ class Enemy : public Object
  	int _pathIndex;
 
  	/**
- 	 * Additional enemy info (hud) is displayed, when counter is positive.
+ 	 * Indicates whether dditional enemy info (hud) is displayed.
  	 */
- 	int _showInfoCountdown;
+ 	static bool _showInfo;
 
  public:
 	/**

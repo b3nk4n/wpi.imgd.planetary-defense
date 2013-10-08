@@ -75,14 +75,15 @@ Building.o: Building.h EventBuildingChanged.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
 Cell.o: Cell.h Building.h
 Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
-Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h Spawner.h ExplosionSmall.h
-Enemy.o: Explosion.h
+Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h EventDetonation.h
+Enemy.o: EventInfo.h Spawner.h ExplosionSmall.h Explosion.h
 EnemyGoblin.o: EnemyGoblin.h Enemy.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
 EventBuildingChanged.o: EventBuildingChanged.h
 EventDetonation.o: EventDetonation.h
 EventEnemyInvasion.o: EventEnemyInvasion.h
 EventEnemyKilled.o: EventEnemyKilled.h
+EventInfo.o: EventInfo.h
 EventPlayerKilled.o: EventPlayerKilled.h
 Explosion.o: Explosion.h
 ExplosionBig.o: ExplosionBig.h Explosion.h
@@ -103,8 +104,9 @@ GrenadeTower.o: VirtualCursor.h Grid.h Cell.h
 Grid.o: Grid.h Cell.h Building.h
 MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
 MachineGunTower.o: Projectile.h MapObject.h VirtualCursor.h Grid.h Cell.h
-MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h Player.h
-MapObject.o: SolarBuilding.h MachineGunTower.h Tower.h Enemy.h GrenadeTower.h
+MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EventInfo.h
+MapObject.o: Player.h SolarBuilding.h MachineGunTower.h Tower.h Enemy.h
+MapObject.o: GrenadeTower.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 Projectile.o: Projectile.h
