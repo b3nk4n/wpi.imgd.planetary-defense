@@ -12,6 +12,7 @@
 #include "GraphicsManager.h"
 #include "WorldManager.h"
 #include "EventKeyboard.h"
+#include "EventInfo.h"
 #include "Player.h"
 #include "SolarBuilding.h"
 #include "Building.h"
@@ -83,6 +84,7 @@ int MapObject::eventHandler(Event *p_event)
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		Cell *p_cell;
+		Building *p_building;
 		EventKeyboard *p_eventKeyboard = static_cast<EventKeyboard *>(p_event);
 		Player *p_player = Player::getInstance();
 		WorldManager &worldManager = WorldManager::getInstance();
@@ -93,15 +95,19 @@ int MapObject::eventHandler(Event *p_event)
 		case LEFT_KEY:
 			moveCursor(-1, 0);
 			break;
+
 		case RIGHT_KEY:
 			moveCursor(1, 0);
 			break;
+
 		case UP_KEY:
 			moveCursor(0, -1);
 			break;
+
 		case DOWN_KEY:
 			moveCursor(0, 1);
 			break;
+
 		case '1':
 			p_cell = _grid.getCell(_selectedCell);
 			logManager.writeLog(LOG_DEBUG,
@@ -111,25 +117,34 @@ int MapObject::eventHandler(Event *p_event)
 				_selectedCell.getY());
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_SOLAR)
+			{
 				p_cell->setBuilding(new SolarBuilding());
+			}
 			break;
+
 		case '2':
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN &&
 				p_player->getEnergy() >= INIT_ENERGY_MACHINE_GUN)
+			{
 				p_cell->setBuilding(new MachineGunTower());
+			}
 			break;
+
 		case '3':
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_GRENADE &&
 				p_player->getEnergy() >= INIT_ENERGY_GRENADE)
+			{
 				p_cell->setBuilding(new GrenadeTower());
+			}
 			break;
+
 		case 's':
 			p_cell = _grid.getCell(_selectedCell);
-			Building *p_building = p_cell->getBuilding();
+			p_building = p_cell->getBuilding();
 			
 			// if there is a building on this cell,
 			if (p_building != NULL)
@@ -137,15 +152,20 @@ int MapObject::eventHandler(Event *p_event)
 				// check if it is solar, and player has sufficient energy
 				if (p_building->getName() == BUILDING_SOLAR &&
 					p_player->getEnergy() < p_building->getEnergy())
-					return 1;
+					break;
 
 				p_cell->clear();
 				worldManager.markForDelete(p_building);
-				break;
 			}
+			break;
 
-			return 1;
+		case 'i':
+			EventInfo eventInfo(60);
+			worldManager.onEvent(&eventInfo);
+			break;
 		}
+
+		return 1;
 	}
 
 	return 0;

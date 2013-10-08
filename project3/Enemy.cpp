@@ -15,6 +15,7 @@
 #include "EventEnemyInvasion.h"
 #include "EventEnemyKilled.h"
 #include "EventDetonation.h"
+#include "EventInfo.h"
 #include "Spawner.h"
 #include "ExplosionSmall.h"
 
@@ -32,9 +33,11 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
 
   	setType(TYPE_ENEMY);
   	_health = health;
+  	_initHealth = health;
   	_speed = speed;
   	_killCredits = killCredits;
   	_targetReached = false;
+  	_showInfoCountdown = 0;
 
   	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
   	if (!p_tempSprite)
@@ -57,6 +60,7 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
 	// register for events
 	registerInterest(STEP_EVENT);
 	registerInterest(DETONATION_EVENT);
+	registerInterest(INFO_EVENT);
 }
 
 /**
@@ -95,6 +99,11 @@ int Enemy::eventHandler(Event *p_event)
 		{
 			nextTarget();
 		}
+
+		// update info overlay
+		if (_showInfoCountdown > 0)
+			--_showInfoCountdown;
+
   		return 1;
 	}
 
@@ -118,7 +127,34 @@ int Enemy::eventHandler(Event *p_event)
   		return 1;
 	}
 
-  return 0;
+	if (p_event->getType() == INFO_EVENT)
+	{
+		EventInfo *p_eventInfo = static_cast<EventInfo *>(p_event);
+  		_showInfoCountdown = p_eventInfo->getInfoTicks();
+	}
+
+	return 0;
+}
+
+/**
+ * Renders the enemys sprite frame with an optional info overlay.
+ */
+void Enemy::draw(void)
+{
+	Object::draw();
+
+	if (_showInfoCountdown > 0)
+	{
+		Position topCenter(getPosition().getX(),
+			getPosition().getY() - getBox().getVertical() / 2);
+
+		GraphicsManager &graphcisManager = GraphicsManager::getInstance();
+		graphcisManager.drawStringFormat(topCenter,
+			CENTER_JUSTIFIED,
+			"%d%%",
+			(int)(100.0f * _health / _initHealth));
+	}
+	
 }
 
 /**

@@ -23,6 +23,11 @@ class Enemy : public Object
  	int _health;
 
  	/**
+ 	 * The initial health.
+ 	 */
+ 	int _initHealth;
+
+ 	/**
  	 * Speed of the enemy.
  	 */
  	float _speed;
@@ -47,6 +52,11 @@ class Enemy : public Object
  	 */
  	int _pathIndex;
 
+ 	/**
+ 	 * Additional enemy info (hud) is displayed, when counter is positive.
+ 	 */
+ 	int _showInfoCountdown;
+
  public:
 	/**
 	 * Creates a new enemy object instance with speed and health set
@@ -68,6 +78,11 @@ class Enemy : public Object
 	 * @return Returns 1 if event was handled, else 0.
 	 */
 	virtual int eventHandler(Event *p_event);
+
+	/**
+	 * Renders the enemys sprite frame with an optional info overlay.
+	 */
+	virtual void draw(void);
 
 	/**
 	 * Changes the target to the next path position.

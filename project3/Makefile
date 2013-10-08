@@ -40,6 +40,7 @@ GAMESRC = Cell.cpp \
           EventEnemyKilled.cpp \
           EventBuildingChanged.cpp \
           EventDetonation.cpp \
+          EventInfo.cpp \
           Projectile.cpp \
           Bullet.cpp \
           FragmentationGrenade.cpp \
