@@ -56,6 +56,12 @@
 	 */
 	float distanceTo(Object *enemy);
 
+	/**
+	 * Faces the object to a given object.
+	 * @param p_object The object to face to.
+	 */
+	void faceTo(Object *p_object);
+
  public:
  	/**
  	 * Creates a new tower object.

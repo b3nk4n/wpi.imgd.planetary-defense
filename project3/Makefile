@@ -113,5 +113,10 @@ Projectile.o: Projectile.h
 SolarBuilding.o: SolarBuilding.h Building.h
 Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EventEnemyKilled.h
 Spawner.o: EventEnemyInvasion.h
+Tower.o: /usr/include/math.h /usr/include/sys/reent.h /usr/include/_ansi.h
+Tower.o: /usr/include/newlib.h /usr/include/sys/config.h
+Tower.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
+Tower.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+Tower.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 Tower.o: Tower.h Building.h Enemy.h Spawner.h
 VirtualCursor.o: VirtualCursor.h

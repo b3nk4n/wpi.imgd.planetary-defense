@@ -4,6 +4,7 @@
 * @description Base class for offensive tower buildings.
 ******************************************************************************/
 
+#include <math.h>
 #include "Tower.h"
 #include "LogManager.h"
 #include "worldManager.h"
@@ -32,8 +33,55 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
 
 	_p_currentTarget = NULL;
 
+	// disable sprite animatin because the tower should face to the enemy
+	setSpriteSlowdown(0);
+
 	// register events
 	registerInterest(STEP_EVENT);
+}
+
+/**
+ * Cleans the tower object.
+ */
+Tower::~Tower(void)
+{
+}
+
+/**
+* Handle the tower events, like selecting the appropriate frame index,
+* seeking or attacking enemies.
+* @return Returns 1 if event was handled, else 0.
+*/
+int Tower::eventHandler(Event *p_event)
+{
+	LogManager &logManager = LogManager::getInstance();
+
+	if (p_event->getType() == STEP_EVENT)
+	{	
+		_coolDown--;
+		if (_coolDown <= 0)
+		{
+			if (!isInRange(_p_currentTarget))
+				_p_currentTarget = findTarget();
+			
+			if (_p_currentTarget != NULL)
+			{
+				logManager.writeLog(
+		            LOG_DEBUG,
+		            "Tower::eventHandler()",
+		            "Tower is fireing to enemy!\n");
+				fire(_p_currentTarget);
+				_coolDown = _fireRate;
+			}
+		}
+
+		if (_p_currentTarget != NULL)
+			faceTo(_p_currentTarget);
+  		
+  		return 1;
+	}
+
+	return 0;
 }
 
 /**
@@ -91,44 +139,20 @@ float Tower::distanceTo(Object *enemy)
 }
 
 /**
- * Cleans the tower object.
+ * Faces the object to a given object.
+ * @param p_object The object to face to.
  */
-Tower::~Tower(void)
+void Tower::faceTo(Object *p_object)
 {
-}
+	int dx = p_object->getPosition().getX() - getPosition().getX();
+	int dy = p_object->getPosition().getY() - getPosition().getY();
 
-/**
-* Handle the tower events, like selecting the appropriate frame index,
-* seeking or attacking enemies.
-* @return Returns 1 if event was handled, else 0.
-*/
-int Tower::eventHandler(Event *p_event)
-{
-	LogManager &logManager = LogManager::getInstance();
+	// get angle of the vector.
+	// @note: add 45°/2 so that the regions can be caluculated
+	int angle = (int)(atan2(dy, dx) * 180 / M_PI + + 360 + 45.0 / 2);
+	int index = (angle % 360) / 45;
 
-	if (p_event->getType() == STEP_EVENT)
-	{	
-		_coolDown--;
-		if (_coolDown <= 0)
-		{
-			if (!isInRange(_p_currentTarget))
-				_p_currentTarget = findTarget();
-			
-			if (_p_currentTarget != NULL)
-			{
-				logManager.writeLog(
-		            LOG_DEBUG,
-		            "Tower::eventHandler()",
-		            "Tower is fireing to enemy!\n");
-				fire(_p_currentTarget);
-				_coolDown = _fireRate;
-			}
-		}
-  		
-  		return 1;
-	}
-
-	return 0;
+	setSpriteIndex(index);
 }
 
 /**
