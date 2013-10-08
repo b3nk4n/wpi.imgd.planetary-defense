@@ -26,9 +26,10 @@ public:
 	/**
 	 * Creates a new explosion instance.
 	 * @param spriteName The name of the sprite resource.
+	 * @param position The explosion center.
 	 * @param slowdown The animation slowdown to adjust the effect speed.
 	 */
-	Explosion(string spriteName, int slowdown);
+	Explosion(string spriteName, Position position, int slowdown);
 
 	/**
 	 * Handles the explosions events.

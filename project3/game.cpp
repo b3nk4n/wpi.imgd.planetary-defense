@@ -91,6 +91,7 @@ void loadResources(void)
 
 	// load maps
 	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");
+	resourceManager.loadMap("assets/maps/big-map.txt", "map2");
 
 	// load levels
 	resourceManager.loadLevel("assets/levels/easy-level.txt", "level1");
@@ -104,7 +105,7 @@ void populateWorld(void)
 	Player *player = Player::getInstance();
 
 	MapObject* mapObject = MapObject::getInstance();
-	mapObject->loadMap("map1");
+	mapObject->loadMap("map2");
 	mapObject->loadLevel("level1");
 	Spawner* sp = Spawner::Instance();
 

@@ -13,9 +13,10 @@
 /**
  * Creates a new explosion instance.
  * @param spriteName The name of the sprite resource.
+ * @param position The explosion center.
  * @param slowdown The animation slowdown to adjust the effect speed.
  */
-Explosion::Explosion(string spriteName, int slowdown)
+Explosion::Explosion(string spriteName, Position position, int slowdown)
 {
 	// required dragonfly managers
 	LogManager &logManager = LogManager::getInstance();
@@ -23,9 +24,10 @@ Explosion::Explosion(string spriteName, int slowdown)
 
 	setType(TYPE_EXPLOSION);
 	setSolidness(SPECTRAL);
+	setPosition(position);
 	
 	// setup explosion sprite
-	Sprite *p_tempSprite = resourceManager.getSprite("explosion_large");
+	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
 	if (!p_tempSprite)
 	{
 		logManager.writeLog(LOG_ERROR,

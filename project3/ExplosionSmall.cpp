@@ -8,9 +8,10 @@
 
 /**
  * Creates a new small explosion instance.
+ * @param position The explosion center.
  */
-ExplosionSmall::ExplosionSmall(void)
-	: Explosion("explosion_small", 1)
+ExplosionSmall::ExplosionSmall(Position position)
+	: Explosion("explosion_small", position, 1)
 {
 
 }

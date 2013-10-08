@@ -15,6 +15,7 @@
 #include "EventEnemyInvasion.h"
 #include "EventEnemyKilled.h"
 #include "Spawner.h"
+#include "ExplosionBig.h"
 
 /**
  * Creates a new enemy object instance with speed and health set
@@ -72,6 +73,8 @@ Enemy::~Enemy(void)
 	{
 		EventEnemyKilled event(_killCredits);
 		worldManager.onEvent(&event);
+
+		new ExplosionBig(getPosition());
 	}
 }
 

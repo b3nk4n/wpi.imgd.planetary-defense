@@ -45,6 +45,7 @@ Object* Tower::findTarget(void)
 	Spawner* sp = Spawner::Instance(); // TODO: use worldManager::solidObjects/allObjects and filter
 	                                   //       for the enemies (getType() == TYPE_ENEMY) 
 									   //       --> spawner not needed here!
+									   //  WARNING: causes sometimes SEG FAULTS...
 	enemies = sp->getEnemies();
 	ObjectListIterator enemyIt = ObjectListIterator(enemies);
 	enemyIt.first();

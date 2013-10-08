@@ -17,8 +17,9 @@ class ExplosionBig : public Explosion
 public:
 	/**
 	 * Creates a new big explosion instance.
+	 * @param position The explosion center.
 	 */
-	ExplosionBig(void);
+	ExplosionBig(Position position);
 };
 
 #endif
