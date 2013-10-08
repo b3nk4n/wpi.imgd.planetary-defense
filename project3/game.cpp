@@ -9,6 +9,7 @@
 #include "GameManager.h"
 #include "ResourceManager.h"
 #include "WorldManager.h"
+#include "GameStart.h"
 #include "MapObject.h"
 #include "EnemyOrk.h"
 #include "Player.h"
@@ -90,6 +91,8 @@ void loadResources(void)
 	resourceManager.loadSprite("assets/sprites/grenade-spr.txt", "grenade");
 	resourceManager.loadSprite("assets/sprites/explosion-spr.txt", "explosion_small");
 	resourceManager.loadSprite("assets/sprites/explosionbig-spr.txt", "explosion_big");
+	resourceManager.loadSprite("assets/sprites/gamestart-spr.txt", "gamestart");
+ 	resourceManager.loadSprite("assets/sprites/gameover-spr.txt", "gameover");
 
 	// load maps
 	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");
@@ -97,18 +100,18 @@ void loadResources(void)
 
 	// load levels
 	resourceManager.loadLevel("assets/levels/easy-level.txt", "level1");
+
 }
 
 /**
  * Populates the game world.
  */
 void populateWorld(void)
-{
+{	
+	//new GameStart();
 	Player *player = Player::getInstance();
-
 	MapObject* mapObject = MapObject::getInstance();
 	mapObject->loadMap("map2");
 	mapObject->loadLevel("level1");
 	Spawner* sp = Spawner::Instance();
-
 }
