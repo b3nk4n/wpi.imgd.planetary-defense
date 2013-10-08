@@ -4,11 +4,13 @@
  * @description Manages all enemies and their spawn times
  ******************************************************************************/
 
+#include <string>
 #include "ObjectList.h"
 #include "Position.h"
 #include "Enemy.h"
 #include "Spawner.h"
 #include "EnemyOrk.h"
+#include "EnemyGoblin.h"
 #include "EventStep.h"
 #include "EventEnemyKilled.h"
 #include "EventEnemyInvasion.h"
@@ -39,6 +41,7 @@ Spawner::Spawner()
 	_enemyList = new ObjectList;
 	_currentWave = _data->getWave(_waveCounter); 
 	_waves = _data->getWavesCount();
+	_waveType = _currentWave.getType();
 	_enemyCounter = _currentWave.getCount();
 	_delay = _currentWave.getDelay();
 	_coolDown = 10000;
@@ -60,7 +63,17 @@ ObjectList* Spawner::getEnemies(void)
 
 void Spawner::spawnEnemy()
 {	_activeEnemies++;
-	Enemy* yo = new EnemyOrk();
+
+	Enemy* yo;
+	if (_waveType == "ork")
+	{
+		yo = new EnemyOrk();
+	}
+	else if (_waveType == "goblin")
+	{
+		yo = new EnemyGoblin();
+	}
+
 	_enemyList->insert(yo);
 }
 
@@ -89,6 +102,7 @@ int Spawner::eventHandler(Event *p_event)
 				_currentWave = _data->getWave(_waveCounter);
 				_enemyCounter = _currentWave.getCount();
 				_delay = _currentWave.getDelay();
+				_waveType = _currentWave.getType();
 				_coolDown = 10000;
 			}
 		}

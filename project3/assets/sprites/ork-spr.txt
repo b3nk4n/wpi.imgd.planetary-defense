@@ -1,25 +1,21 @@
-frames 5
+frames 4
 width 5
 height 3
 color green
-EEEEE
-EE1EE
-EEEEE
+%(")%
+//H\\
+_/%\_
 end
-EEEEE
-EE2EE
-EEEEE
+%(")%
+\\H%\
+//%\_
 end
-EEEEE
-EE3EE
-EEEEE
+%(")%
+//H\\
+_/%\_
 end
-EEEEE
-EE4EE
-EEEEE
-end
-EEEEE
-EE5EE
-EEEEE
+%(")%
+/%H//
+_/%\\
 end
 eof

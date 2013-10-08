@@ -12,6 +12,7 @@
 #include "LevelData.h"
 #include "WaveData.h"
 #include "Object.h"
+#include <string>
 
 class Spawner : public Object
 {
@@ -29,6 +30,8 @@ private:
 	int _enemyCounter;
 
 	int _waveCounter;
+
+	string _waveType;
 
 	int _delay;
 

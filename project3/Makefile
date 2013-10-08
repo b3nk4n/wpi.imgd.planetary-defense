@@ -44,7 +44,8 @@ GAMESRC = Cell.cpp \
           Spawner.cpp \
           Explosion.cpp \
           ExplosionSmall.cpp \
-          ExplosionBig.cpp
+          ExplosionBig.cpp \
+          EnemyGoblin.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -64,16 +65,20 @@ clean:
 
 depend: 
 	makedepend *.cpp 2> /dev/null
+
 # DO NOT DELETE
 
 Building.o: Building.h EventBuildingChanged.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
+Cannon.o: Cannon.h Projectile.h EventDetonation.h
 Cell.o: Cell.h Building.h
 Enemy.o: Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
 Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h Spawner.h ExplosionBig.h
 Enemy.o: Explosion.h
+EnemyGoblin.o: EnemyGoblin.h Enemy.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
 EventBuildingChanged.o: EventBuildingChanged.h
+EventDetonation.o: EventDetonation.h
 EventEnemyInvasion.o: EventEnemyInvasion.h
 EventEnemyKilled.o: EventEnemyKilled.h
 EventPlayerKilled.o: EventPlayerKilled.h
@@ -97,7 +102,7 @@ Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 Projectile.o: Projectile.h
 SolarBuilding.o: SolarBuilding.h Building.h
-Spawner.o: Enemy.h Spawner.h EnemyOrk.h EventEnemyKilled.h
+Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EventEnemyKilled.h
 Spawner.o: EventEnemyInvasion.h
 Tower.o: Tower.h Building.h Enemy.h Spawner.h
 VirtualCursor.o: VirtualCursor.h
