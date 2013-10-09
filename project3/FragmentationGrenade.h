@@ -22,8 +22,9 @@ public:
 	 * Creates a new frag instance.
 	 * @param origin The origin of the the shot.
 	 * @param target The target where to shot.
+     * @param firePower The fire power.
 	 */
- 	FragmentationGrenade(Position origin, Position target);
+ 	FragmentationGrenade(Position origin, Position target, int firePower);
 
  	/**
      * Is called when a collusion occured.

@@ -12,9 +12,10 @@
  * Creates a new bullet instance.
  * @param origin The origin of the the shot.
  * @param target The target where to shot.
+ * @param firePower The fire power.
  */
-Bullet::Bullet(Position origin, Position target)
-  : Projectile("bullet", origin, target, 3.0f, 5)
+Bullet::Bullet(Position origin, Position target, int firePower)
+  : Projectile("bullet", origin, target, 3.0f, firePower)
 {
 
 }

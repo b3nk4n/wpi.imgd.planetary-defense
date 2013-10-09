@@ -19,8 +19,9 @@ public:
 	 * Creates a new bullet instance.
 	 * @param origin The origin of the the shot.
 	 * @param target The target where to shot.
+     * @param firePower The fire power.
 	 */
- 	Bullet(Position origin, Position target);
+ 	Bullet(Position origin, Position target, int firePower);
 
  	/**
      * Is called when a collusion occured.

@@ -27,8 +27,9 @@ public:
 	 * Creates a new laser instance.
 	 * @param origin The origin of the the shot.
 	 * @param target The target where to shot.
+     * @param firePower The fire power.
 	 */
- 	Laser(Position origin, Position target);
+ 	Laser(Position origin, Position target, int firePower);
 
     /**
      * Handles the laser events.

@@ -13,7 +13,7 @@
 GrenadeTower::GrenadeTower(void)
 	: Tower(TOWER_GRENADE, "grenadetower",
 		INIT_PRICE_GRENADE, -INIT_ENERGY_GRENADE,
-		60, 999999, 20, true) // TODO: firepower is still unused, because defined in the shot!
+		60, 15, 20, true)
 {
 
 }
@@ -24,5 +24,7 @@ GrenadeTower::GrenadeTower(void)
  */
 void GrenadeTower::fire(Object *p_object)
 {
-	new FragmentationGrenade(getPosition(), p_object->getPosition());
+	new FragmentationGrenade(getPosition(),
+		p_object->getPosition(),
+		getFirePower());
 }

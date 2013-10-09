@@ -13,9 +13,10 @@
  * Creates a new laser instance.
  * @param origin The origin of the the shot.
  * @param target The target where to shot.
+ * @param firePower The fire power.
  */
-Laser::Laser(Position origin, Position target)
-    : Projectile("laser", origin, target, 2.0f, 1)
+Laser::Laser(Position origin, Position target, int firePower)
+    : Projectile("laser", origin, target, 2.0f, firePower)
 {
     _timeToLive = LASER_LIFE_TIME;
 }

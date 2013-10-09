@@ -13,7 +13,7 @@
 MachineGunTower::MachineGunTower(void)
 	: Tower(TOWER_MACHINE_GUN, "mgtower",
 		INIT_PRICE_MACHINE_GUN, -INIT_ENERGY_MACHINE_GUN,
-		30, 2, 10, true)
+		30, 5, 10, true)
 {
 
 }
@@ -24,5 +24,7 @@ MachineGunTower::MachineGunTower(void)
  */
 void MachineGunTower::fire(Object *p_object)
 {	
-	new Bullet(getPosition(), p_object->getPosition());
+	new Bullet(getPosition(),
+		p_object->getPosition(),
+		getFirePower());
 }

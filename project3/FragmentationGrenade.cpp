@@ -15,9 +15,10 @@
  * Creates a new frag granate instance.
  * @param origin The origin of the the shot.
  * @param target The target where to shot.
+ * @param firePower The fire power.
  */
-FragmentationGrenade::FragmentationGrenade(Position origin, Position target)
-    : Projectile("grenade", origin, target, 2.0f, 15)
+FragmentationGrenade::FragmentationGrenade(Position origin, Position target, int firePower)
+    : Projectile("grenade", origin, target, 2.0f, firePower)
 {
 
 }

@@ -24,5 +24,7 @@ LaserTower::LaserTower(void)
  */
 void LaserTower::fire(Object *p_object)
 {
-	new Laser(getPosition(), p_object->getPosition());
+	new Laser(getPosition(),
+		p_object->getPosition(),
+		getFirePower());
 }
