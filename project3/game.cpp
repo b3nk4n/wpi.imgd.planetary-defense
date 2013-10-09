@@ -113,11 +113,13 @@ void loadResources(void)
  */
 void populateWorld(void)
 {	
-	//new GameStart();
+	new GameStart();
+	/*
 	Player *player = Player::getInstance();
 	new Sidebar(player);
 	MapObject* mapObject = MapObject::getInstance();
 	mapObject->loadMap("map2");
 	mapObject->loadLevel("level1");
 	Spawner* sp = Spawner::Instance();
+	*/
 }

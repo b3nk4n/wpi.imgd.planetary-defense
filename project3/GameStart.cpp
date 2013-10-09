@@ -12,6 +12,10 @@
 #include "WorldManager.h"
 #include "Box.h"
 #include "EventStep.h"
+#include "Spawner.h"
+#include "MapObject.h"
+#include "Player.h"
+#include "Sidebar.h"
 
 // game includes
 #include "GameStart.h"
@@ -80,7 +84,16 @@ int GameStart::eventHandler(Event *p_e) {
   return 0;
 }
 
-void GameStart::start() {}
+void GameStart::start() {
+  WorldManager &world_manager = WorldManager::getInstance();
+  Player *player = Player::getInstance();
+  new Sidebar(player);
+  MapObject* mapObject = MapObject::getInstance();
+  mapObject->loadMap("map2");
+  mapObject->loadLevel("level1");
+  Spawner* sp = Spawner::Instance();
+  world_manager.markForDelete(this);
+}
 
 // override default draw so as not to display "value"
 void GameStart::draw() {
