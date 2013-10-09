@@ -21,6 +21,7 @@
 #include "GrenadeTower.h"
 #include "LaserTower.h"
 #include "TeslaTower.h"
+#include "PopupText.h"
 
 // Static pointer used to ensure a single instance of the class.
 MapObject* MapObject::_p_instance = NULL;
@@ -118,7 +119,11 @@ int MapObject::eventHandler(Event *p_event)
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_SOLAR)
 			{
-				p_cell->setBuilding(new SolarBuilding());
+				Building *p_building = new SolarBuilding();
+				p_cell->setBuilding(p_building);
+
+				// display popup text
+				new PopupText(p_building->getPosition(), -p_building->getCost());
 			}
 			break;
 
@@ -128,7 +133,11 @@ int MapObject::eventHandler(Event *p_event)
 				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN &&
 				p_player->getEnergy() >= (INIT_ENERGY_MACHINE_GUN * -1))
 			{
-				p_cell->setBuilding(new MachineGunTower());
+				Building *p_building = new MachineGunTower();
+				p_cell->setBuilding(p_building);
+
+				// display popup text
+				new PopupText(p_building->getPosition(), -p_building->getCost());
 			}
 			break;
 
@@ -138,7 +147,11 @@ int MapObject::eventHandler(Event *p_event)
 				p_player->getCredits() >= INIT_PRICE_GRENADE &&
 				p_player->getEnergy() >= (INIT_ENERGY_GRENADE * -1))
 			{
-				p_cell->setBuilding(new GrenadeTower());
+				Building *p_building = new GrenadeTower();
+				p_cell->setBuilding(p_building);
+
+				// display popup text
+				new PopupText(p_building->getPosition(), -p_building->getCost());
 			}
 			break;
 
@@ -148,7 +161,11 @@ int MapObject::eventHandler(Event *p_event)
 				p_player->getCredits() >= INIT_PRICE_LASER &&
 				p_player->getEnergy() >= (INIT_ENERGY_LASER * -1))
 			{
-				p_cell->setBuilding(new LaserTower());
+				Building *p_building = new LaserTower();
+				p_cell->setBuilding(p_building);
+
+				// display popup text
+				new PopupText(p_building->getPosition(), -p_building->getCost());
 			}
 			break;
 
@@ -158,7 +175,11 @@ int MapObject::eventHandler(Event *p_event)
 				p_player->getCredits() >= INIT_PRICE_TESLA &&
 				p_player->getEnergy() >= (INIT_ENERGY_TESLA * -1))
 			{
-				p_cell->setBuilding(new TeslaTower());
+				Building *p_building = new TeslaTower();
+				p_cell->setBuilding(p_building);
+
+				// display popup text
+				new PopupText(p_building->getPosition(), -p_building->getCost());
 			}
 			break;
 
@@ -176,6 +197,9 @@ int MapObject::eventHandler(Event *p_event)
 
 				p_cell->clear();
 				worldManager.markForDelete(p_building);
+
+				// display popup text
+				new PopupText(p_building->getPosition(), p_building->getSellingPrice());
 			}
 			break;
 
