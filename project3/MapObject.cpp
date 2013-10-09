@@ -13,6 +13,7 @@
 #include "WorldManager.h"
 #include "EventKeyboard.h"
 #include "EventInfo.h"
+#include "EventEnemyKilled.h"
 #include "Player.h"
 #include "SolarBuilding.h"
 #include "Building.h"
@@ -40,6 +41,7 @@ MapObject::MapObject(void)
 
 	// register for interest:
 	registerInterest(KEYBOARD_EVENT);
+	registerInterest(ENEMY_KILLED_EVENT);
 }
 
 /**
@@ -214,6 +216,13 @@ int MapObject::eventHandler(Event *p_event)
 			infoUpdate();
 
 		return 1;
+	}
+	else if (p_event->getType() == ENEMY_KILLED_EVENT)
+	{
+		EventEnemyKilled *p_eventEnemyKilled = static_cast<EventEnemyKilled *>(p_event);
+
+		// display popup text
+		new PopupText(p_eventEnemyKilled->getPosition(), p_eventEnemyKilled->getCredits());
 	}
 
 	return 0;

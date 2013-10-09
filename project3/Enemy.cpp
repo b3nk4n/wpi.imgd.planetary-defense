@@ -81,7 +81,7 @@ Enemy::~Enemy(void)
 	}
 	else
 	{
-		EventEnemyKilled event(_killCredits);
+		EventEnemyKilled event(getPosition(), _killCredits);
 		worldManager.onEvent(&event);
 
 		new ExplosionSmall(getPosition());

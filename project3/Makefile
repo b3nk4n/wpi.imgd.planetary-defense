@@ -78,7 +78,7 @@ depend:
 
 # DO NOT DELETE
 
-Building.o: Building.h EventBuildingChanged.h PopupText.h
+Building.o: Building.h EventBuildingChanged.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
 Cell.o: Cell.h Building.h
 Enemy.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
@@ -121,8 +121,9 @@ LaserTower.o: LaserTower.h Tower.h Building.h Enemy.h Laser.h Projectile.h
 MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
 MachineGunTower.o: Projectile.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EventInfo.h
-MapObject.o: Player.h SolarBuilding.h Tower.h Enemy.h MachineGunTower.h
-MapObject.o: GrenadeTower.h LaserTower.h TeslaTower.h
+MapObject.o: EventEnemyKilled.h Player.h SolarBuilding.h Tower.h Enemy.h
+MapObject.o: MachineGunTower.h GrenadeTower.h LaserTower.h TeslaTower.h
+MapObject.o: PopupText.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 PopupText.o: PopupText.h

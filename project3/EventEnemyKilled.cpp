@@ -8,12 +8,23 @@
 
 /**
  * Creates a new enemy killed event instance.
+ * @param position The enemy kill position.
  * @param credits The credits the player can gain.
  */
-EventEnemyKilled::EventEnemyKilled(int credits)
+EventEnemyKilled::EventEnemyKilled(Position position, int credits)
 {
 	setType(ENEMY_KILLED_EVENT);
+	_position = position;
 	_credits = credits;
+}
+
+/**
+ * Gets the position the enemy was killed.
+ * @return The enemy kill position.
+ */
+Position EventEnemyKilled::getPosition(void)
+{
+	return _position;
 }
 
 /**

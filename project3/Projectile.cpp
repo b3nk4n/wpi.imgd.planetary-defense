@@ -31,6 +31,7 @@ Projectile::Projectile(string spriteName, Position origin, Position target, floa
     
     setSolidness(SOFT);
     setType(TYPE_PROJECTILE);
+    setAltitude(MAX_ALTITUDE - 1);
 
     setPosition(origin);
     _target = target;
