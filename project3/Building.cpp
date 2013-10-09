@@ -1,8 +1,8 @@
 /*******************************************************************************
-* @file        Building.cpp
-* @author      bsautermeister
-* @description The base class for all buildings, no matter what kind of.
-******************************************************************************/
+ * @file        Building.cpp
+ * @author      bsautermeister
+ * @description The base class for all buildings, no matter what kind of.
+ ******************************************************************************/
 
 #include "Building.h"
 #include "WorldManager.h"

@@ -35,7 +35,7 @@ public:
 	 * Handles the explosions events.
 	 * @param p_event The event.
 	 */
-	int eventHandler(Event *p_event);
+	virtual int eventHandler(Event *p_event);
 };
 
 #endif

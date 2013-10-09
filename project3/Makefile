@@ -54,7 +54,8 @@ GAMESRC = Cell.cpp \
           ExplosionElectro.cpp \
           EnemyGoblin.cpp \
           GameStart.cpp \
-          Sidebar.cpp
+          Sidebar.cpp \
+          PopupText.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -77,7 +78,7 @@ depend:
 
 # DO NOT DELETE
 
-Building.o: Building.h EventBuildingChanged.h
+Building.o: Building.h EventBuildingChanged.h PopupText.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
 Cell.o: Cell.h Building.h
 Enemy.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
@@ -124,6 +125,7 @@ MapObject.o: Player.h SolarBuilding.h Tower.h Enemy.h MachineGunTower.h
 MapObject.o: GrenadeTower.h LaserTower.h TeslaTower.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
+PopupText.o: PopupText.h
 Projectile.o: Projectile.h
 Sidebar.o: Sidebar.h Player.h EventInfo.h SolarBuilding.h Building.h
 Sidebar.o: MachineGunTower.h Tower.h Enemy.h LaserTower.h GrenadeTower.h
