@@ -16,6 +16,7 @@
 #include "GrenadeTower.h"
 #include "TeslaTower.h"
 #include "MapObject.h"
+#include "EventInfo.h"
 
 /**
  * Creates a sidebar object instance.
@@ -36,7 +37,7 @@ Sidebar::Sidebar(Player *p_player)
 	_teslaFrame = loadFrame("teslatower");
 
 	// register for events
-	registerInterest(STEP_EVENT);
+	registerInterest(INFO_EVENT);
 }
 
 /**
@@ -54,9 +55,12 @@ Sidebar::~Sidebar(void)
  */
 int Sidebar::eventHandler(Event *p_event)
 {
-	if (p_event->getType() == STEP_EVENT)
+	if (p_event->getType() == INFO_EVENT)
 	{
-		// TODO: ???
+		EventInfo *p_eventInfo = static_cast<EventInfo *>(p_event);
+		// get a copy of the info.
+		_lastInfo = *p_eventInfo;
+
 		return 1;
 	}
 
@@ -73,13 +77,20 @@ void Sidebar::draw(void)
 		return;
 
 	GraphicsManager &graphcisManager = GraphicsManager::getInstance();
-
 	Position pos = getPosition();
-	graphcisManager.drawStringFormat(pos, "Lifes:   %d", _p_player->getLifes());
+
+	// player info
+	graphcisManager.drawString(pos, "############ PLAYER ############", LEFT_JUSTIFIED);
+	pos.setY(pos.getY() + 2);
+	graphcisManager.drawStringFormat(pos, " Lifes:      %5d", _p_player->getLifes());
 	pos.setY(pos.getY() + 1);
-	graphcisManager.drawStringFormat(pos, "Credits: %d", _p_player->getCredits());
+	graphcisManager.drawStringFormat(pos, " Credits:    %5d", _p_player->getCredits());
 	pos.setY(pos.getY() + 1);
-	graphcisManager.drawStringFormat(pos, "Energy:  %d", _p_player->getEnergy());
+	graphcisManager.drawStringFormat(pos, " Energy:     %5d", _p_player->getEnergy());
+	pos.setY(pos.getY() + 2);
+
+	// building info
+	graphcisManager.drawString(pos, "######## CONSTRUCTIONS  ########", LEFT_JUSTIFIED);
 	pos.setY(pos.getY() + 2);
 	drawBuilding(pos,
 		KEY_SOLAR,
@@ -115,11 +126,49 @@ void Sidebar::draw(void)
 		TOWER_TESLA,
 		INIT_PRICE_TESLA,
 		INIT_ENERGY_TESLA);
-
 	pos.setY(pos.getY() + 4);
-	graphcisManager.drawStringFormat(pos, "[%c] Show enemy info", KEY_INFO);
+
+	// special keys
+	graphcisManager.drawString(pos, "######### SPECIAL KEYS #########", LEFT_JUSTIFIED);
 	pos.setY(pos.getY() + 2);
-	graphcisManager.drawStringFormat(pos, "[%c] Sell building", KEY_SELL);
+	graphcisManager.drawStringFormat(pos, " [%c] Toggle enemy info", KEY_INFO);
+	pos.setY(pos.getY() + 2);
+	graphcisManager.drawStringFormat(pos, " [%c] Sell building", KEY_SELL);
+	pos.setY(pos.getY() + 2);
+
+	// cursor selection info
+	graphcisManager.drawString(pos, "############# INFO #############", LEFT_JUSTIFIED);
+	pos.setY(pos.getY() + 2);
+	if (_lastInfo.getInfoType() != NONE)
+	{
+		graphcisManager.drawStringFormat(pos, " Name:       %s", _lastInfo.getName().c_str());
+		pos.setY(pos.getY() + 1);
+		graphcisManager.drawStringFormat(pos, " Sell price: %5d", _lastInfo.getSellingPrice());
+		pos.setY(pos.getY() + 1);
+		graphcisManager.drawStringFormat(pos, " Energy:     %5d", _lastInfo.getEnergy());
+		pos.setY(pos.getY() + 1);
+
+		// additional tower data
+		if (_lastInfo.getInfoType() == TOWER)
+		{
+			graphcisManager.drawStringFormat(pos, " Fire rate:  %5d", _lastInfo.getFireRate());
+			pos.setY(pos.getY() + 1);
+			graphcisManager.drawStringFormat(pos, " Fire power: %5d", _lastInfo.getFirePower());
+			pos.setY(pos.getY() + 1);
+			graphcisManager.drawStringFormat(pos, " Fire range: %5d", _lastInfo.getFireRange());
+			pos.setY(pos.getY() + 2);
+		}
+		else
+		{
+			pos.setY(pos.getY() + 4);
+		}
+	}
+	else
+	{
+		pos.setY(pos.getY() + 7);
+	}
+
+	graphcisManager.drawString(pos, "################################", LEFT_JUSTIFIED);
 }
 
 /**
@@ -136,8 +185,11 @@ void Sidebar::drawBuilding(Position position, char key,
 {
 	GraphicsManager &graphcisManager = GraphicsManager::getInstance();
 
+	position.setY(position.getY() + 1);
+	position.setX(position.getX() + 1);
 	graphcisManager.drawStringFormat(position, "[%c]", key);
 	position.setX(position.getX() + 4);
+	position.setY(position.getY() - 1);
 
 	graphcisManager.drawFrame(position,
 		frame,
@@ -148,7 +200,7 @@ void Sidebar::drawBuilding(Position position, char key,
 	graphcisManager.drawStringFormat(position, "Name:   %s",
 		name.c_str());
 	position.setY(position.getY() + 1);
-	graphcisManager.drawStringFormat(position, "Cost:   %d", credits);
+	graphcisManager.drawStringFormat(position, "Price:   %d", credits);
 	position.setY(position.getY() + 1);
 	graphcisManager.drawStringFormat(position, "Energy: %d", energy);
 }

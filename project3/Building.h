@@ -64,6 +64,12 @@ using std::string;
  	int getCost(void);
 
  	/**
+	 * Gets the building selling price.
+	 * @return The building selling price.
+	 */
+	int getSellingPrice(void);
+
+ 	/**
  	 * Gets the buildings energy requirement or value.
  	 * @return The energy requirement or value.
  	 */

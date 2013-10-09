@@ -120,13 +120,14 @@ LaserTower.o: LaserTower.h Tower.h Building.h Enemy.h Laser.h Projectile.h
 MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
 MachineGunTower.o: Projectile.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EventInfo.h
-MapObject.o: Player.h SolarBuilding.h MachineGunTower.h Tower.h Enemy.h
+MapObject.o: Player.h SolarBuilding.h Tower.h Enemy.h MachineGunTower.h
 MapObject.o: GrenadeTower.h LaserTower.h TeslaTower.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 Projectile.o: Projectile.h
 Sidebar.o: Sidebar.h Player.h SolarBuilding.h Building.h MachineGunTower.h
 Sidebar.o: Tower.h Enemy.h LaserTower.h GrenadeTower.h TeslaTower.h
+Sidebar.o: MapObject.h VirtualCursor.h Grid.h Cell.h EventInfo.h
 SolarBuilding.o: SolarBuilding.h Building.h
 Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EventEnemyKilled.h
 Spawner.o: EventEnemyInvasion.h

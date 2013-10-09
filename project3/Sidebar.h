@@ -10,6 +10,7 @@
 
 #include "ViewObject.h"
 #include "Player.h"
+#include "EventInfo.h"
 
 using std::string;
 
@@ -50,6 +51,11 @@ private:
 	 * The frame for a tesla tower.
 	 */
 	Frame _teslaFrame;
+
+	/**
+	 * The copy of the last info event.
+	 */
+	EventInfo _lastInfo;
 
 	/**
 	 * Loads the first frame.

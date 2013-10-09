@@ -16,6 +16,7 @@
 #include "Player.h"
 #include "SolarBuilding.h"
 #include "Building.h"
+#include "Tower.h"
 #include "MachineGunTower.h"
 #include "GrenadeTower.h"
 #include "LaserTower.h"
@@ -92,7 +93,9 @@ int MapObject::eventHandler(Event *p_event)
 		WorldManager &worldManager = WorldManager::getInstance();
 		LogManager &logManager = LogManager::getInstance();
 
-		switch(p_eventKeyboard->getKey())
+		int input = p_eventKeyboard->getKey();
+
+		switch(input)
 		{
 		case LEFT_KEY:
 			moveCursor(-1, 0);
@@ -112,11 +115,6 @@ int MapObject::eventHandler(Event *p_event)
 
 		case KEY_SOLAR:
 			p_cell = _grid.getCell(_selectedCell);
-			logManager.writeLog(LOG_DEBUG,
-				"MapObject::eventHandler()",
-				"Build solar at: %d, %d\n",
-				_selectedCell.getX(),
-				_selectedCell.getY());
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_SOLAR)
 			{
@@ -186,6 +184,10 @@ int MapObject::eventHandler(Event *p_event)
 			Enemy::setShowInfo(!currentShowInfo);
 			break;
 		}
+
+		// update sidebar for changes by firing an info event
+		if (input != KEY_INFO)
+			infoUpdate();
 
 		return 1;
 	}
@@ -286,6 +288,10 @@ void MapObject::setSelectedCell(Position position)
 
 	if (x < 0 || x > _grid.getWidth() - 1 ||
 		y < 0 || y > _grid.getHeight() - 1)
+		return;
+
+	// verify cursor position has changes
+	if (position == _selectedCell)
 		return;
 
 	_selectedCell = position;
@@ -415,4 +421,47 @@ int MapObject::getPathPositionsCount()
 		return -1;
 
 	return _p_currentMapData->getPathPositionsCount();
+}
+
+/**
+ * Fires an appropriate info event.
+ */
+void MapObject::infoUpdate(void)
+{
+	Cell *p_currentCell = _grid.getCell(_selectedCell);
+	if (p_currentCell != NULL)
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		Building *p_building  = p_currentCell->getBuilding();
+
+		if (p_building == NULL)
+		{
+			EventInfo eventInfo;
+			worldManager.onEvent(&eventInfo);
+		}
+		else
+		{
+			// try check if it is an tower
+			Tower *p_tower = dynamic_cast<Tower *>(p_building);
+
+			// if it is a tower
+			if (p_tower != NULL) 
+			{
+				EventInfo eventInfo(p_tower->getName(),
+					p_tower->getEnergy(),
+					p_tower->getSellingPrice(),
+					p_tower->getFireRate(),
+					p_tower->getFirePower(),
+					p_tower->getFireRange());
+				worldManager.onEvent(&eventInfo);
+			}
+			else // else it is just a building
+			{
+				EventInfo eventInfo(p_building->getName(),
+					p_building->getEnergy(),
+					p_building->getSellingPrice());
+				worldManager.onEvent(&eventInfo);
+			}
+		}
+	}
 }

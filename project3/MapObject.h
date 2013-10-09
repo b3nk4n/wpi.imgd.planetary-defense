@@ -77,6 +77,11 @@ private:
 	 */
 	MapObject& operator=(MapObject const&);
 
+	/**
+	 * Fires an appropriate info event.
+	 */
+	void infoUpdate(void);
+
 public:
 
 	/**

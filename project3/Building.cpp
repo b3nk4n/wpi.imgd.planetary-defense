@@ -51,7 +51,7 @@ Building::Building(string name, string spriteName, int cost, int energy)
 Building::~Building(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
-	EventBuildingChanged event(_cost * SELL_FACTOR, -_energy);
+	EventBuildingChanged event(getSellingPrice(), -_energy);
 	worldManager.onEvent(&event);
 }
 
@@ -71,6 +71,15 @@ string Building::getName(void)
 int Building::getCost(void)
 {
 	return _cost;
+}
+
+/**
+ * Gets the building selling price.
+ * @return The building selling price.
+ */
+int Building::getSellingPrice(void)
+{
+	return _cost * SELL_FACTOR;
 }
 
 /**
