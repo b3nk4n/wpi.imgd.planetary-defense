@@ -25,6 +25,8 @@ Bullet::Bullet(Position origin, Position target)
  */
 void Bullet::onHit(EventCollision *p_collisionEvent)
 {
+    WorldManager &worldManager = WorldManager::getInstance();
+
   // verify that the collision was with an enemy.
   if (p_collisionEvent->getObject1()->getType() != TYPE_ENEMY &&
     p_collisionEvent->getObject2()->getType() != TYPE_ENEMY)
@@ -42,8 +44,6 @@ void Bullet::onHit(EventCollision *p_collisionEvent)
   }
   p_enemy->addDamage(getDamage());
   
-  // delete bullet
-  WorldManager &worldManager = WorldManager::getInstance();
   worldManager.markForDelete(this);
 }
 
@@ -53,5 +53,6 @@ void Bullet::onHit(EventCollision *p_collisionEvent)
  */
 void Bullet::onTargetReached(void)
 {
-  // do nothing
+  WorldManager &worldManager = WorldManager::getInstance();
+  worldManager.markForDelete(this);
 }

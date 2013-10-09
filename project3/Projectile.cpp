@@ -89,11 +89,10 @@ int Projectile::eventHandler(Event *p_event)
         if (getPosition() == getTarget() ||
             newDistanceSquared > _oldDistanceSquared)
         {
-            worldManager.markForDelete(this);
             onTargetReached();
         }
         _oldDistanceSquared = newDistanceSquared;
-        return 1;
+        return 0; // forwared event
     }
 
     if (p_event->getType() == OUT_EVENT)

@@ -1,0 +1,9 @@
+frames 2
+width 1
+height 1
+color red
+o
+end
+O
+end
+eof

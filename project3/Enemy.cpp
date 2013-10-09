@@ -4,6 +4,7 @@
  * @description Enemy base class Functions
  ******************************************************************************/
 
+#include <stdlib.h>
 #include "EventStep.h"
 #include "EventView.h"
 #include "GraphicsManager.h"
@@ -35,11 +36,13 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
   	ResourceManager &resourceManager = ResourceManager::getInstance();
 
   	setType(TYPE_ENEMY);
+  	_id = abs(random());
   	_health = health;
   	_initHealth = health;
   	_speed = speed;
   	_killCredits = killCredits;
   	_targetReached = false;
+  	setSolidness(SOFT);
 
   	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
   	if (!p_tempSprite)
@@ -272,4 +275,13 @@ void Enemy::killSelf(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
 	worldManager.markForDelete(this);
+}
+
+/**
+ * Gets the id for identification.
+ * @return The enemy id.
+ */
+int Enemy::getId(void)
+{
+	return _id;
 }

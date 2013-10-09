@@ -6,7 +6,6 @@
 
 #include "MachineGunTower.h"
 #include "Bullet.h"
-#include "MapObject.h"
 
 /**
  * Creates a new machine gun tower object.

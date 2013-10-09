@@ -31,7 +31,7 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
 	_fireRange = fireRange;
 	_coolDown = _fireRate;
 
-	_p_currentTarget = NULL;
+	_currentTargetId = INVALID_TARGET_ID;
 
 	// disable sprite animatin because the tower should face to the enemy
 	setSpriteSlowdown(0);
@@ -58,25 +58,29 @@ int Tower::eventHandler(Event *p_event)
 
 	if (p_event->getType() == STEP_EVENT)
 	{	
+		Enemy *p_target = findTargetById(_currentTargetId);
+
 		_coolDown--;
 		if (_coolDown <= 0)
 		{
-			if (!isInRange(_p_currentTarget))
-				_p_currentTarget = findTarget();
-			
-			if (_p_currentTarget != NULL)
+			// find new target if it is gone or out of range
+			if (p_target == NULL || !isInRange(p_target))
 			{
-				logManager.writeLog(
-		            LOG_DEBUG,
-		            "Tower::eventHandler()",
-		            "Tower is fireing to enemy!\n");
-				fire(_p_currentTarget);
+				p_target = findTarget();
+
+				if (p_target != NULL)
+					_currentTargetId = p_target->getId();
+			}
+			
+			if (p_target != NULL)
+			{
+				fire(p_target);
 				_coolDown = _fireRate;
 			}
 		}
 
-		if (_p_currentTarget != NULL)
-			faceTo(_p_currentTarget);
+		if (p_target != NULL)
+			faceTo(p_target);
   		
   		return 1;
 	}
@@ -88,14 +92,13 @@ int Tower::eventHandler(Event *p_event)
  * Finds the closest enemy to the tower, which is in its range
  * @return The closest enemy in its range or NULL, if no enemy found.
  */
-Object* Tower::findTarget(void)
+Enemy* Tower::findTarget(void)
 {	
-	LogManager &logManager = LogManager::getInstance();
 	WorldManager &world_manager = WorldManager::getInstance();
 
 	ObjectList All = world_manager.getAllObjects();
 	ObjectListIterator enemyIt = ObjectListIterator(&All);
-	Object* enemy_best = NULL;
+	Enemy* enemy_best = NULL;
 	for (enemyIt.first();!enemyIt.isDone();enemyIt.next())
 	{	
 		Object* curObj = enemyIt.currentObject();
@@ -103,11 +106,37 @@ Object* Tower::findTarget(void)
 			isInRange(curObj) &&
 			(enemy_best == NULL || distanceTo(curObj) < distanceTo(enemy_best)))
 		{
-			enemy_best = curObj;
+			Enemy *p_enemy = static_cast<Enemy *>(curObj);
+			enemy_best = p_enemy;
 		}
 	}
 
 	return enemy_best;
+}
+
+/**
+ * Finds the enemy with the given ID.
+ * @return The  enemy with the given ID or NULL, if no enemy found.
+ */
+Enemy* Tower::findTargetById(int id)
+{	
+	WorldManager &world_manager = WorldManager::getInstance();
+
+	ObjectList All = world_manager.getAllObjects();
+	ObjectListIterator enemyIt = ObjectListIterator(&All);
+	for (enemyIt.first();!enemyIt.isDone();enemyIt.next())
+	{	
+		Object* curObj = enemyIt.currentObject();
+		if (curObj->getType() == TYPE_ENEMY)
+		{
+			Enemy *p_enemy = static_cast<Enemy *>(curObj);
+			if (p_enemy->getId() == id)
+				return p_enemy;
+		}
+	}
+
+	// not found
+	return NULL;
 }
 
 /**

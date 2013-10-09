@@ -6,7 +6,6 @@
 
 #include "GrenadeTower.h"
 #include "FragmentationGrenade.h"
-#include "MapObject.h"
 
 /**
  * Creates a new granade tower object.

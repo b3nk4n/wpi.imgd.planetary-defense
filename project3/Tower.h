@@ -10,6 +10,8 @@
 #include "Enemy.h"
 #include "Object.h"
 
+#define INVALID_TARGET_ID -1;
+
 /*
 * Represents the base for all tower units.
 */
@@ -40,7 +42,7 @@
  	 * The current enemy target, so the tower can follow that one as
  	 * long as it is in its range.
  	 */
- 	Object *_p_currentTarget;
+ 	int _currentTargetId;
 
  	/**
 	 * Checks whether the enemy is in the towers range.
@@ -86,7 +88,13 @@
 	 * Finds the closest enemy to the tower, which is in its range
 	 * @return The closest enemy in its range or NULL, if no enemy found.
 	 */
-	Object* findTarget(void);
+	Enemy* findTarget(void);
+
+	/**
+	 * Finds the enemy with the given ID.
+	 * @return The  enemy with the given ID or NULL, if no enemy found.
+	 */
+	Enemy* findTargetById(int id);
 
  	/**
  	 * Cleans the tower object.

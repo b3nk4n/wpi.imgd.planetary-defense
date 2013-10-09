@@ -10,6 +10,6 @@
  * Creates a new solar building object.
  */
 SolarBuilding::SolarBuilding(void)
-	: Building(BUILDING_SOLAR, "solar", INIT_PRICE_SOLAR, 5)
+	: Building(BUILDING_SOLAR, "solar", INIT_PRICE_SOLAR, 8)
 {
 }

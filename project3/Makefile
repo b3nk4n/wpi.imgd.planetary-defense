@@ -35,6 +35,7 @@ GAMESRC = Cell.cpp \
           Tower.cpp \
           MachineGunTower.cpp \
           GrenadeTower.cpp \
+          LaserTower.cpp \
           EventEnemyInvasion.cpp \
           EventPlayerKilled.cpp \
           EventEnemyKilled.cpp \
@@ -44,6 +45,7 @@ GAMESRC = Cell.cpp \
           Projectile.cpp \
           Bullet.cpp \
           FragmentationGrenade.cpp \
+          Laser.cpp \
           Spawner.cpp \
           Explosion.cpp \
           ExplosionSmall.cpp \
@@ -96,18 +98,20 @@ game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
 game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
 game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h MapObject.h
-game.o: VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h Enemy.h Player.h
-game.o: Spawner.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
+game.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h
+game.o: Enemy.h Player.h Spawner.h
+GameStart.o: GameStart.h
 GrenadeTower.o: GrenadeTower.h Tower.h Building.h Enemy.h
-GrenadeTower.o: FragmentationGrenade.h Projectile.h MapObject.h
-GrenadeTower.o: VirtualCursor.h Grid.h Cell.h
+GrenadeTower.o: FragmentationGrenade.h Projectile.h
 Grid.o: Grid.h Cell.h Building.h
+Laser.o: Laser.h Enemy.h
+LaserTower.o: LaserTower.h Tower.h Building.h Enemy.h Laser.h
 MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
-MachineGunTower.o: Projectile.h MapObject.h VirtualCursor.h Grid.h Cell.h
+MachineGunTower.o: Projectile.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EventInfo.h
 MapObject.o: Player.h SolarBuilding.h MachineGunTower.h Tower.h Enemy.h
-MapObject.o: GrenadeTower.h
+MapObject.o: GrenadeTower.h LaserTower.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 Projectile.o: Projectile.h

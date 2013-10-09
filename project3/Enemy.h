@@ -18,6 +18,10 @@ class Enemy : public Object
 {
  private:
  	/**
+ 	 * The ID to identify the enemy.
+ 	 */
+ 	int _id;
+ 	/**
  	 * Amount of health the enemy has.
  	 */
  	int _health;
@@ -124,6 +128,12 @@ class Enemy : public Object
 	 * Removes the enemy from spawner and world
 	 */
 	void killSelf(void);
+
+	/**
+	 * Gets the id for identification.
+	 * @return The enemy id.
+	 */
+	int getId(void);
 };
 
 #endif

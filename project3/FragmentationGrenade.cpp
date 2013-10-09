@@ -69,4 +69,6 @@ void FragmentationGrenade::onTargetReached(void)
     worldManager.onEvent(&event);
 
     new ExplosionBig(getPosition());
+
+    worldManager.markForDelete(this);
 }

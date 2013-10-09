@@ -72,7 +72,7 @@ public:
     /**
 	 * Handles the projectile events.
 	 */
-    int eventHandler(Event *p_event);
+    virtual int eventHandler(Event *p_event);
 
     /**
      * Gets the speed of the projectile.
