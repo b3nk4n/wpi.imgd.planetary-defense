@@ -8,7 +8,7 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
-#include "ViewObject.h"
+#include "Object.h"
 
 using std::string;
 
@@ -21,7 +21,7 @@ using std::string;
 /**
  * Represents the player and its attributes.
  */
-class Player : public ViewObject
+class Player : public Object
 {
 private:
 	/**
@@ -82,11 +82,6 @@ public:
 	 * @return Return 0 if ignored, else 1 if event was handled.
 	 */
 	virtual int eventHandler(Event *p_event);
-
-	/**
-	 * Suppresses rendering of the player. (TODO: OR RENDER SIDEBAR ???)
-	 */
-	virtual void draw(void);
 
 	/**
 	 * Indicates whether the player is dead or not.

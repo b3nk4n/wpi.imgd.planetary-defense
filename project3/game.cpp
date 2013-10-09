@@ -14,6 +14,7 @@
 #include "EnemyOrk.h"
 #include "Player.h"
 #include "Spawner.h"
+#include "Sidebar.h"
 
 // prototypes
 void configureGame(void);
@@ -114,6 +115,7 @@ void populateWorld(void)
 {	
 	//new GameStart();
 	Player *player = Player::getInstance();
+	new Sidebar(player);
 	MapObject* mapObject = MapObject::getInstance();
 	mapObject->loadMap("map2");
 	mapObject->loadLevel("level1");
