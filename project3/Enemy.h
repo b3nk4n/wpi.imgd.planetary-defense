@@ -134,6 +134,18 @@ class Enemy : public Object
 	 * @return The enemy id.
 	 */
 	int getId(void);
+
+	/**
+	 * Sets whether the info overlay shoud be displayed.
+	 * @param value If the overlay should be displayed or not.
+	 */
+	static void setShowInfo(bool value);
+
+	/**
+	 * Indicates whether the info overlay shoud be displayed.
+	 * @Return Returns TRUE if the info is desplayed, else FALSE.
+	 */
+	static bool getShowInfo(void);
 };
 
 #endif

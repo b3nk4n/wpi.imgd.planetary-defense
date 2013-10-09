@@ -12,7 +12,7 @@
  */
 MachineGunTower::MachineGunTower(void)
 	: Tower(TOWER_MACHINE_GUN, "mgtower",
-		INIT_PRICE_MACHINE_GUN, -INIT_ENERGY_MACHINE_GUN,
+		INIT_PRICE_MACHINE_GUN, INIT_ENERGY_MACHINE_GUN,
 		30, 5, 10, true)
 {
 

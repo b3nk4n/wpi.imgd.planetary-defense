@@ -9,9 +9,10 @@
 
 #include "Tower.h"
 
-#define TOWER_LASER "laser"
+#define TOWER_LASER "Laser Tower"
+#define KEY_LASER '4'
 #define INIT_PRICE_LASER 300
-#define INIT_ENERGY_LASER 5
+#define INIT_ENERGY_LASER -5
 
 /*
 * Represents a laser tower with splash damage.

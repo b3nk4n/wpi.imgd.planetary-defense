@@ -9,9 +9,10 @@
 
 #include "Tower.h"
 
-#define TOWER_GRENADE "grenade"
+#define TOWER_GRENADE "Grenade Tower"
+#define KEY_GRENADE '3'
 #define INIT_PRICE_GRENADE 250
-#define INIT_ENERGY_GRENADE 4
+#define INIT_ENERGY_GRENADE -4
 
 /*
 * Represents a grenade tower with splash damage.

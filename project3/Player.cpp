@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "WorldManager.h"
 #include "LogManager.h"
-#include "GraphicsManager.h"
 #include "EventEnemyInvasion.h"
 #include "EventEnemyKilled.h"
 #include "EventPlayerKilled.h"

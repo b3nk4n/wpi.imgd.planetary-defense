@@ -26,6 +26,51 @@ private:
 	 */
 	Player *_p_player;
 
+	/**
+	 * The frame for a solar panel.
+	 */
+	Frame _solarFrame;
+
+	/**
+	 * The frame for a machine gun tower.
+	 */
+	Frame _machineGunFrame;
+
+	/**
+	 * The frame for a grenade tower.
+	 */
+	Frame _grenadeFrame;
+
+	/**
+	 * The frame for a laser tower.
+	 */
+	Frame _laserFrame;
+
+	/**
+	 * The frame for a tesla tower.
+	 */
+	Frame _teslaFrame;
+
+	/**
+	 * Loads the first frame.
+	 * @param spriteName The name of the sprite
+	 * @return The loaded frame in case of success,
+	 *         else an empty frame.
+	 */
+	Frame loadFrame(string spriteName);
+
+	/**
+	 * Renders a bulding.
+	 * @param position The top left position.
+	 * @param key The keyboard key char.
+	 * @param frame The frame of the building.
+	 * @param name The display name of the building.
+	 * @param credits The cost of the building.
+	 * @param energy The energy value of the building.
+	 */
+	void drawBuilding(Position position, char key,
+		Frame frame, string name, int credits, int energy);
+
 public:
 	/**
 	 * Creates a sidebar object instance.

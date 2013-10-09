@@ -33,7 +33,6 @@ MapObject::MapObject(void)
 	_p_currentLevelData = NULL;
 	_selectedCell = Position(0, 0);
 	_p_cursor = new VirtualCursor(_selectedCell);
-	_showInfo = false;
 
 	setCentered(false);
 
@@ -111,7 +110,7 @@ int MapObject::eventHandler(Event *p_event)
 			moveCursor(0, 1);
 			break;
 
-		case '1':
+		case KEY_SOLAR:
 			p_cell = _grid.getCell(_selectedCell);
 			logManager.writeLog(LOG_DEBUG,
 				"MapObject::eventHandler()",
@@ -125,7 +124,7 @@ int MapObject::eventHandler(Event *p_event)
 			}
 			break;
 
-		case '2':
+		case KEY_MACHINE_GUN:
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN &&
@@ -135,7 +134,7 @@ int MapObject::eventHandler(Event *p_event)
 			}
 			break;
 
-		case '3':
+		case KEY_GRENADE:
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_GRENADE &&
@@ -145,7 +144,7 @@ int MapObject::eventHandler(Event *p_event)
 			}
 			break;
 
-		case '4':
+		case KEY_LASER:
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_LASER &&
@@ -155,7 +154,7 @@ int MapObject::eventHandler(Event *p_event)
 			}
 			break;
 
-		case '5':
+		case KEY_TESLA:
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_TESLA &&
@@ -165,7 +164,7 @@ int MapObject::eventHandler(Event *p_event)
 			}
 			break;
 
-		case 's':
+		case KEY_SELL:
 			p_cell = _grid.getCell(_selectedCell);
 			p_building = p_cell->getBuilding();
 			
@@ -182,10 +181,9 @@ int MapObject::eventHandler(Event *p_event)
 			}
 			break;
 
-		case 'i':
-			_showInfo = !_showInfo;
-			EventInfo eventInfo(_showInfo);
-			worldManager.onEvent(&eventInfo);
+		case KEY_INFO:
+			bool currentShowInfo = Enemy::getShowInfo();
+			Enemy::setShowInfo(!currentShowInfo);
 			break;
 		}
 

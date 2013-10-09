@@ -9,9 +9,10 @@
 
 #include "Tower.h"
 
-#define TOWER_TESLA "tesla"
+#define TOWER_TESLA "Tesla Tower"
+#define KEY_TESLA '5'
 #define INIT_PRICE_TESLA 450
-#define INIT_ENERGY_TESLA 8
+#define INIT_ENERGY_TESLA -8
 
 /*
 * Represents a tesla tower with splash damage.

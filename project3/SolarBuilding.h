@@ -9,8 +9,10 @@
 
 #include "Building.h"
 
-#define BUILDING_SOLAR "solar"
+#define BUILDING_SOLAR "Solar Panel"
+#define KEY_SOLAR '1'
 #define INIT_PRICE_SOLAR 100
+#define INIT_ENERGY_SOLAR 8
 
 /*
 * Represents a solar panel to get energy.

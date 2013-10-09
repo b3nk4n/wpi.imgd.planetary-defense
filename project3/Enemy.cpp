@@ -65,7 +65,6 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
 	// register for events
 	registerInterest(STEP_EVENT);
 	registerInterest(DETONATION_EVENT);
-	registerInterest(INFO_EVENT);
 }
 
 /**
@@ -128,12 +127,6 @@ int Enemy::eventHandler(Event *p_event)
   		return 1;
 	}
 
-	if (p_event->getType() == INFO_EVENT)
-	{
-		EventInfo *p_eventInfo = static_cast<EventInfo *>(p_event);
-		_showInfo = p_eventInfo->getShowInfo();
-	}
-
 	return 0;
 }
 
@@ -147,7 +140,7 @@ void Enemy::draw(void)
 	if (_showInfo)
 	{
 		Position topCenter(getPosition().getX(),
-			getPosition().getY() - getBox().getVertical() / 2);
+			getPosition().getY() - getBox().getVertical() / 2 - 1);
 
 		GraphicsManager &graphcisManager = GraphicsManager::getInstance();
 		graphcisManager.drawStringFormat(topCenter,
@@ -284,4 +277,22 @@ void Enemy::killSelf(void)
 int Enemy::getId(void)
 {
 	return _id;
+}
+
+/**
+ * Sets whether the info overlay shoud be displayed.
+ * @param value If the overlay should be displayed or not.
+ */
+void Enemy::setShowInfo(bool value)
+{
+	Enemy::_showInfo = value;
+}
+
+/**
+ * Indicates whether the info overlay shoud be displayed.
+ * @Return Returns TRUE if the info is desplayed, else FALSE.
+ */
+bool Enemy::getShowInfo(void)
+{
+	return Enemy::_showInfo;
 }

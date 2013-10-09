@@ -125,7 +125,8 @@ MapObject.o: GrenadeTower.h LaserTower.h TeslaTower.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 Projectile.o: Projectile.h
-Sidebar.o: Sidebar.h
+Sidebar.o: Sidebar.h Player.h SolarBuilding.h Building.h MachineGunTower.h
+Sidebar.o: Tower.h Enemy.h LaserTower.h GrenadeTower.h TeslaTower.h
 SolarBuilding.o: SolarBuilding.h Building.h
 Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EventEnemyKilled.h
 Spawner.o: EventEnemyInvasion.h

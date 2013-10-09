@@ -9,9 +9,10 @@
 
 #include "Tower.h"
 
-#define TOWER_MACHINE_GUN "machine_gun"
+#define TOWER_MACHINE_GUN "MG Tower"
+#define KEY_MACHINE_GUN '2'
 #define INIT_PRICE_MACHINE_GUN 150
-#define INIT_ENERGY_MACHINE_GUN 3
+#define INIT_ENERGY_MACHINE_GUN -3
 
 /*
 * Represents a machine gun tower that fires bullets.

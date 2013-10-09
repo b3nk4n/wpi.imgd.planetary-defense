@@ -20,6 +20,8 @@
 using std::string;
 
 #define TYPE_MAP_OBJECT "map_object"
+#define KEY_INFO 'i'
+#define KEY_SELL 's'
 
 /**
  * Manages 2D maps and allows virtual cursor navigation.
@@ -59,11 +61,6 @@ private:
 	 * The worlds grid.
 	 */
 	Grid _grid;
-
-	/**
- 	 * Indicates whether specific objects display addition information.
- 	 */
- 	bool _showInfo;
 
     /**
 	 * Creates a map object instance.
