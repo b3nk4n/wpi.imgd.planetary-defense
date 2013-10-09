@@ -1,6 +1,6 @@
 /*******************************************************************************
  * @file        Tower.h
- * @author      kcbryant
+ * @author      kcbryant/bsautermeister
  * @description Base class for offensive tower buildings.
  ******************************************************************************/
 #ifndef __TOWER_H__
@@ -45,6 +45,11 @@
  	int _currentTargetId;
 
  	/**
+ 	 * Indicates whether the enemy faces to the target.
+ 	 */
+ 	bool _isFacingToTarget;
+
+ 	/**
 	 * Checks whether the enemy is in the towers range.
 	 * @param enemy The enemy to check if it is in range.
 	 * @return Returns TRUE, if in range, else FALSE.
@@ -74,9 +79,10 @@
  	 * @param fireRate The fire rate.
  	 * @param firePower The fire power.
  	 * @param fireRange The fire range.
+ 	 * @param isFacingToTarget Whether the tower faces to the enemy
  	 */
  	Tower(string name, string spriteName, int cost, int energy,
- 		int fireRate, int firePower, int fireRange);
+ 		int fireRate, int firePower, int fireRange, bool isFacingToTarget);
 
  	/**
  	 * Fires a projectile at the enemy object.
@@ -125,6 +131,12 @@
  	 * @return The fire range.
  	 */
  	int getFireRange(void);
+
+ 	/**
+ 	 * Gets whether the enemy is facing to the target.
+ 	 * @return Returns TRUE if the tower is facing to the target, else FALSE.
+ 	 */
+ 	bool isFacingToTarget(void);
 };
 
 #endif

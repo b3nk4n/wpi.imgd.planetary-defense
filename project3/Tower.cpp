@@ -1,6 +1,6 @@
 /*******************************************************************************
 * @file        Tower.cpp
-* @author      kcbryant
+* @author      kcbryant/bsautermeister
 * @description Base class for offensive tower buildings.
 ******************************************************************************/
 
@@ -21,20 +21,23 @@
  * @param fireRate The fire rate.
  * @param firePower The fire power.
  * @param fireRange The fire range.
+ * @param facesToEnemy Whether the tower faces to the enemy
  */
 Tower::Tower(string name, string spriteName, int cost, int energy,
-	int fireRate, int firePower, int fireRange)
+	int fireRate, int firePower, int fireRange, bool isFacingToTarget)
 	: Building(name, spriteName, cost, energy)
 {
 	_fireRate = fireRate;
 	_firePower = firePower;
 	_fireRange = fireRange;
 	_coolDown = _fireRate;
+	_isFacingToTarget = isFacingToTarget;
 
 	_currentTargetId = INVALID_TARGET_ID;
 
-	// disable sprite animatin because the tower should face to the enemy
-	setSpriteSlowdown(0);
+	// disable sprite animatin when the tower should face to the enemy
+	if (_isFacingToTarget)
+		setSpriteSlowdown(0);
 
 	// register events
 	registerInterest(STEP_EVENT);
@@ -79,7 +82,8 @@ int Tower::eventHandler(Event *p_event)
 			}
 		}
 
-		if (p_target != NULL)
+		if (isFacingToTarget() &&
+			p_target != NULL)
 			faceTo(p_target);
   		
   		return 1;
@@ -209,4 +213,13 @@ int Tower::getFirePower(void)
 int Tower::getFireRange(void)
 {
 	return _fireRange;
+}
+
+/**
+ * Gets whether the enemy is facing to the target.
+ * @return Returns TRUE if the tower is facing to the target, else FALSE.
+ */
+bool Tower::isFacingToTarget(void)
+{
+	return _isFacingToTarget;
 }
