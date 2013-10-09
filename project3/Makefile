@@ -110,7 +110,7 @@ game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
 game.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h
-game.o: Enemy.h Player.h Spawner.h Sidebar.h
+game.o: Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h
 GameStart.o: GameStart.h
 GrenadeTower.o: GrenadeTower.h Tower.h Building.h Enemy.h
 GrenadeTower.o: FragmentationGrenade.h Projectile.h
@@ -125,9 +125,9 @@ MapObject.o: GrenadeTower.h LaserTower.h TeslaTower.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 Projectile.o: Projectile.h
-Sidebar.o: Sidebar.h Player.h SolarBuilding.h Building.h MachineGunTower.h
-Sidebar.o: Tower.h Enemy.h LaserTower.h GrenadeTower.h TeslaTower.h
-Sidebar.o: MapObject.h VirtualCursor.h Grid.h Cell.h EventInfo.h
+Sidebar.o: Sidebar.h Player.h EventInfo.h SolarBuilding.h Building.h
+Sidebar.o: MachineGunTower.h Tower.h Enemy.h LaserTower.h GrenadeTower.h
+Sidebar.o: TeslaTower.h MapObject.h VirtualCursor.h Grid.h Cell.h
 SolarBuilding.o: SolarBuilding.h Building.h
 Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EventEnemyKilled.h
 Spawner.o: EventEnemyInvasion.h

@@ -84,9 +84,9 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 2);
 	graphcisManager.drawStringFormat(pos, " Lifes:      %5d", _p_player->getLifes());
 	pos.setY(pos.getY() + 1);
-	graphcisManager.drawStringFormat(pos, " Credits:    %5d", _p_player->getCredits());
+	graphcisManager.drawStringFormat(pos, " Credits:    %5d $", _p_player->getCredits());
 	pos.setY(pos.getY() + 1);
-	graphcisManager.drawStringFormat(pos, " Energy:     %5d", _p_player->getEnergy());
+	graphcisManager.drawStringFormat(pos, " Energy:     %5d Volt", _p_player->getEnergy());
 	pos.setY(pos.getY() + 2);
 
 	// building info
@@ -143,19 +143,19 @@ void Sidebar::draw(void)
 	{
 		graphcisManager.drawStringFormat(pos, " Name:       %s", _lastInfo.getName().c_str());
 		pos.setY(pos.getY() + 1);
-		graphcisManager.drawStringFormat(pos, " Sell price: %5d", _lastInfo.getSellingPrice());
+		graphcisManager.drawStringFormat(pos, " Sell price: %5d $", _lastInfo.getSellingPrice());
 		pos.setY(pos.getY() + 1);
-		graphcisManager.drawStringFormat(pos, " Energy:     %5d", _lastInfo.getEnergy());
+		graphcisManager.drawStringFormat(pos, " Energy:     %5d Volt", _lastInfo.getEnergy());
 		pos.setY(pos.getY() + 1);
 
 		// additional tower data
 		if (_lastInfo.getInfoType() == TOWER)
 		{
-			graphcisManager.drawStringFormat(pos, " Fire rate:  %5d", _lastInfo.getFireRate());
+			graphcisManager.drawStringFormat(pos, " Fire rate:   %1.2f /sec", 30.0 / _lastInfo.getFireRate());
 			pos.setY(pos.getY() + 1);
 			graphcisManager.drawStringFormat(pos, " Fire power: %5d", _lastInfo.getFirePower());
 			pos.setY(pos.getY() + 1);
-			graphcisManager.drawStringFormat(pos, " Fire range: %5d", _lastInfo.getFireRange());
+			graphcisManager.drawStringFormat(pos, " Fire range: %5d miles", _lastInfo.getFireRange());
 			pos.setY(pos.getY() + 2);
 		}
 		else
@@ -200,9 +200,9 @@ void Sidebar::drawBuilding(Position position, char key,
 	graphcisManager.drawStringFormat(position, "Name:   %s",
 		name.c_str());
 	position.setY(position.getY() + 1);
-	graphcisManager.drawStringFormat(position, "Price:   %d", credits);
+	graphcisManager.drawStringFormat(position, "Price:  %5d $", credits);
 	position.setY(position.getY() + 1);
-	graphcisManager.drawStringFormat(position, "Energy: %d", energy);
+	graphcisManager.drawStringFormat(position, "Energy: %5d Volt", energy);
 }
 
 /**
