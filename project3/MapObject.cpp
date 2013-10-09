@@ -128,7 +128,7 @@ int MapObject::eventHandler(Event *p_event)
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_MACHINE_GUN &&
-				p_player->getEnergy() >= INIT_ENERGY_MACHINE_GUN)
+				p_player->getEnergy() >= (INIT_ENERGY_MACHINE_GUN * -1))
 			{
 				p_cell->setBuilding(new MachineGunTower());
 			}
@@ -138,7 +138,7 @@ int MapObject::eventHandler(Event *p_event)
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_GRENADE &&
-				p_player->getEnergy() >= INIT_ENERGY_GRENADE)
+				p_player->getEnergy() >= (INIT_ENERGY_GRENADE * -1))
 			{
 				p_cell->setBuilding(new GrenadeTower());
 			}
@@ -148,7 +148,7 @@ int MapObject::eventHandler(Event *p_event)
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_LASER &&
-				p_player->getEnergy() >= INIT_ENERGY_LASER)
+				p_player->getEnergy() >= (INIT_ENERGY_LASER * -1))
 			{
 				p_cell->setBuilding(new LaserTower());
 			}
@@ -158,7 +158,7 @@ int MapObject::eventHandler(Event *p_event)
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&
 				p_player->getCredits() >= INIT_PRICE_TESLA &&
-				p_player->getEnergy() >= INIT_ENERGY_TESLA)
+				p_player->getEnergy() >= (INIT_ENERGY_TESLA * -1))
 			{
 				p_cell->setBuilding(new TeslaTower());
 			}
