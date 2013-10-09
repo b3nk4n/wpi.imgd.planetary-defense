@@ -13,7 +13,7 @@
 GrenadeTower::GrenadeTower(void)
 	: Tower(TOWER_GRENADE, "grenadetower",
 		INIT_PRICE_GRENADE, -INIT_ENERGY_GRENADE,
-		60, 1, 20, true)
+		60, 999999, 20, true) // TODO: firepower is still unused, because defined in the shot!
 {
 
 }

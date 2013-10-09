@@ -86,7 +86,7 @@ int Projectile::eventHandler(Event *p_event)
     {
         float newDistanceSquared = distanceSquared(getPosition(), getTarget());
 
-        if (getPosition() == getTarget() ||
+        if (distance(getPosition(), getTarget()) <= 1 ||
             newDistanceSquared > _oldDistanceSquared)
         {
             onTargetReached();

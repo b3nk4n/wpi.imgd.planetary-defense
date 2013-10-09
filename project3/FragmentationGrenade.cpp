@@ -17,7 +17,7 @@
  * @param target The target where to shot.
  */
 FragmentationGrenade::FragmentationGrenade(Position origin, Position target)
-    : Projectile("grenade", origin, target, 2.0f, 5)
+    : Projectile("grenade", origin, target, 2.0f, 15)
 {
 
 }
@@ -28,33 +28,7 @@ FragmentationGrenade::FragmentationGrenade(Position origin, Position target)
  */
 void FragmentationGrenade::onHit(EventCollision *p_collisionEvent)
 {
-    WorldManager &worldManager = WorldManager::getInstance();
-
-    // verify that the collision was with an enemy.
-    if (p_collisionEvent->getObject1()->getType() != TYPE_ENEMY &&
-        p_collisionEvent->getObject2()->getType() != TYPE_ENEMY)
-        return;
-
-    // add damage to enemy
-    Enemy *p_enemy;
-    if (p_collisionEvent->getObject1()->getType() == TYPE_ENEMY)
-    {
-        p_enemy = static_cast<Enemy *>(p_collisionEvent->getObject1());
-    }
-    else
-    {
-        p_enemy = static_cast<Enemy *>(p_collisionEvent->getObject2());
-    }
-    p_enemy->addDamage(getDamage());
-
-    new ExplosionBig(getPosition());
-
-    // splash damage
-    EventDetonation event(Circle(getPosition(), DETONATION_RADIUS), DETONATION_DAMAGE);
-    worldManager.onEvent(&event);
-
-    // delete cannon projectile
-    worldManager.markForDelete(this);
+    // do nothing
 }
 
 /**
@@ -65,7 +39,7 @@ void FragmentationGrenade::onTargetReached(void)
 {
     WorldManager &worldManager = WorldManager::getInstance();
     EventDetonation event(Circle(getPosition(), DETONATION_RADIUS),
-        DETONATION_DAMAGE);
+        getDamage());
     worldManager.onEvent(&event);
 
     new ExplosionBig(getPosition());

@@ -10,7 +10,6 @@
 
 #include "Projectile.h"
 
-#define DETONATION_DAMAGE 15
 #define DETONATION_RADIUS 10.0f
 
 /**
