@@ -12,7 +12,12 @@ private:
 	/**
   	 * Planet choice of player
   	 */
-  	int _choice;
+  	int _choiceMap;
+
+  	/**
+  	 * Difficulty choice of player
+  	 */
+  	int _choiceLevel;
 
 protected:
 	/**

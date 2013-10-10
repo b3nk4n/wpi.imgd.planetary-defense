@@ -23,24 +23,34 @@
 #include "WorldManager.h"
 #include "EventPlayerKilled.h"
 
-Spawner* Spawner::s_Instance = NULL;  // Global static pointer used to ensure a single instance of the class.
-
-
-Spawner* Spawner::Instance()
-{
-   if (!s_Instance)   // Only allow one instance of class to be generated.
-      s_Instance = new Spawner;
-
-   return s_Instance;
-}
-
 /**
  * Creates a new instance of the spawner object
  */
 Spawner::Spawner()
 {
-	ResourceManager &resourceManager = ResourceManager::getInstance();
-	_data = resourceManager.getLevel("level1");
+	_activeEnemies = 0;
+	_waveCounter = 0;
+	_waves = 0;
+	_waveType = ENEMY_TYPE_UNKNOWN;
+	_enemyCounter = 0;
+	_delay = 0;
+	_coolDown = 0;
+
+	// register events
+	registerInterest(STEP_EVENT);
+	registerInterest(ENEMY_KILLED_EVENT);
+	registerInterest(ENEMY_INVASION_EVENT);
+	registerInterest(PLAYER_KILLED_EVENT);
+}
+
+/**
+ * Starts spawing with the given level data.
+ * @param level The level data.
+ */
+void Spawner::start(LevelData *level)
+{
+	_data = level;
+
 	_activeEnemies = 0;
 	_waveCounter = 0;
 	_currentWave = _data->getWave(_waveCounter); 
@@ -49,10 +59,6 @@ Spawner::Spawner()
 	_enemyCounter = _currentWave.getCount();
 	_delay = _currentWave.getDelay();
 	_coolDown = _delay * 10;
-	registerInterest(STEP_EVENT);
-	registerInterest(ENEMY_KILLED_EVENT);
-	registerInterest(ENEMY_INVASION_EVENT);
-	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**

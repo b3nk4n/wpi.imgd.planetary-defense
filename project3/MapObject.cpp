@@ -34,7 +34,7 @@ MapObject* MapObject::_p_instance = NULL;
 MapObject::MapObject(void)
 {
 	_p_currentMapData = NULL;
-	_p_currentLevelData = NULL;
+	_p_spawner = new Spawner();
 	_selectedCell = Position(0, 0);
 	_p_cursor = new VirtualCursor(_selectedCell);
 
@@ -67,6 +67,9 @@ MapObject::~MapObject(void)
 {
 	if (_p_cursor != NULL)
 		delete _p_cursor;
+
+	if (_p_spawner != NULL)
+		delete _p_spawner;
 }
 
 /**
@@ -303,7 +306,7 @@ int MapObject::loadLevel(string levelLabel)
 		return -1;
 	}
 
-	_p_currentLevelData = p_tempLevel;
+	_p_spawner->start(p_tempLevel);
 	return 0;
 }
 

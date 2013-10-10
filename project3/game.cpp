@@ -115,7 +115,8 @@ void loadResources(void)
 
 	// load levels
 	resourceManager.loadLevel("assets/levels/easy-level.txt", "level1");
-
+	resourceManager.loadLevel("assets/levels/medium-level.txt", "level2");
+	resourceManager.loadLevel("assets/levels/hard-level.txt", "level3");
 }
 
 /**

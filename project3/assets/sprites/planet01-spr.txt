@@ -148,12 +148,12 @@ __________________________________________________________
 |                                                                ,,,,,,              |
 |                                                           o#'9MMHb':'-,o,          |
 |                                                        .oH":HH$' "' ' -*R&o,       |
-|         Use left and right arrow keys                 dMMM*""'`'      .oM"HM?.     |
-|        to select a planet and space to              ,MMM'          "HLbd< ?&H\     |
-|                 enter game                         .:MH ."\          ` MM  MM&b    |
-|                                                   . "*H    -        &MMMMMMMMMH:   |
-|                                                   .    dboo        MMMMMMMMMMMM.   |
-|                                                   .   dMMMMMMb      *MMMMMMMMMP.   |
+|         Use [LEFT] and [RIGHT] arrow keys             dMMM*""'`'      .oM"HM?.     |
+|                to select the planet,                ,MMM'          "HLbd< ?&H\     |
+|             [UP] and [DOWN] arrow keys             .:MH ."\          ` MM  MM&b    |
+|              to select the difficulty             . "*H    -        &MMMMMMMMMH:   |
+|                 or press [SPACE]                  .    dboo        MMMMMMMMMMMM.   |
+|                to START the game!                 .   dMMMMMMb      *MMMMMMMMMP.   |
 |                                                   .    MMMMMMMP        *MMMMMP .   |
 |                                                        `#MMMMM           MM6P ,    |
 |                                                    '    `MMMP"           HM*` ,    |

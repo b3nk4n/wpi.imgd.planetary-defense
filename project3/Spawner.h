@@ -18,18 +18,6 @@ class Spawner : public Object
 {
 
 private:
-	/**
-	 * Creates a new instance of spawner
-	 */
-	Spawner(void);  // Private so that it can  not be called
-
-	/**
-	 * Singleton Reqs.
-	 */
-    Spawner(Spawner const&){};             // copy constructor is private
-    Spawner& operator=(Spawner const&){};  // assignment operator is private
-    static Spawner* s_Instance;
-
     /**
      * Number of active enemies
      */
@@ -77,7 +65,16 @@ private:
 
 public:
 
-	static Spawner* Instance(); //create a singleton instance of the WorldManager
+	/**
+	 * Creates a new instance of spawner
+	 */
+	Spawner(void);  // Private so that it can  not be called
+
+	/**
+	 * Starts spawing with the given level data.
+	 * @param level The level data.
+	 */
+	void start(LevelData *level);
 
 	/**
 	 * Spawns an enemy

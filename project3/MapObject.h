@@ -16,6 +16,7 @@
 #include "Object.h"
 #include "VirtualCursor.h"
 #include "Grid.h"
+#include "Spawner.h"
 
 using std::string;
 
@@ -43,11 +44,6 @@ private:
 	MapData *_p_currentMapData;
 
 	/**
-	 * The level data.
-	 */
-	LevelData *_p_currentLevelData;
-
-	/**
 	 * The virtual cursor on the map
 	 */
 	VirtualCursor *_p_cursor;
@@ -61,6 +57,11 @@ private:
 	 * The worlds grid.
 	 */
 	Grid _grid;
+
+	/**
+	 * The enemy spawner;
+	 */
+	Spawner *_p_spawner;
 
     /**
 	 * Creates a map object instance.

@@ -1,0 +1,122 @@
+waves-count 30
+type goblin
+count 10
+delay 25
+end
+type ork
+count 5
+delay 35
+end
+type goblin
+count 11
+delay 22
+end
+type ork
+count 8
+delay 33
+end
+type goblin
+count 12
+delay 19
+end
+type ork
+count 10
+delay 30
+end
+type goblin
+count 14
+delay 17
+end
+type ork
+count 15
+delay 27
+end
+type goblin
+count 16
+delay 15
+end
+type boss
+count 1
+delay 0
+end
+type ork
+count 10
+delay 35
+end
+type goblin
+count 12
+delay 25
+end
+type ork
+count 12
+delay 33
+end
+type goblin
+count 14
+delay 20
+end
+type ork
+count 14
+delay 31
+end
+type goblin
+count 15
+delay 15
+end
+type ork
+count 16
+delay 29
+end
+type goblin
+count 20
+delay 12
+end
+type ork
+count 18
+delay 25
+end
+type boss
+count 1
+delay 0
+end
+type goblin
+count 12
+delay 20
+end
+type ork
+count 10
+delay 30
+end
+type goblin
+count 14
+delay 18
+end
+type ork
+count 15
+delay 27
+end
+type goblin
+count 16
+delay 16
+end
+type ork
+count 18
+delay 26
+end
+type goblin
+count 18
+delay 15
+end
+type ork
+count 20
+delay 24
+end
+type goblin
+count 20
+delay 12
+end
+type boss
+count 1
+delay 0
+end
+eof
