@@ -1,0 +1,69 @@
+cells-horizontal 14
+cells-vertical 15
+cell-width 5
+cell-height 3
+color yellow
+path 4,0;4,13;10,13;10,4;13,4
+OOOOXOOOOOOOOO
+OOOOXOOOOOOOOO
+OXOOXOOOOOOOOO
+OOOOXOOOOOOOOO
+OOOOXOOOOOXXXX
+OOOOXOOOOOXOOO
+OOOOXOOOOOXOOO
+OOOOXOOXOOXOOO
+OOOOXOOOOOXOOO
+OOOOXOOOOOXOOO
+OOOOXOOOOOXOOO
+OOOOXOOOOOXOOO
+OOOOXOOOOOXOOO
+OOOOXXXXXXXOOO
+OOOOOOOOOOOOOO
+end
+.                   | V |                                         .   
+                    |   |                                             
+                    |   |           .                        .        
+                    |   |                        .                    
+                    |   |                                             
+      .             |   |        .                               .    
+       |            |   |                                             
+     --o--          |   |                       .                     
+       |            |   |                                    .        
+                    |   |                                             
+                    |   |                                             
+               .    |   |                .                            
+   .                |   |                         |-------------------
+                    |   |         .               |                  >
+                    |   |                         |   ----------------
+                    |   |                         |   |               
+   .                |   |                .        |   |               
+            .       |   |                         |   |               
+                    |   |                         |   |      .        
+                    |   |                         |   |               
+                    |   |                         |   |            .  
+                    |   |            |            |   |               
+                    |   |          --o--  .       |   |               
+   .                |   |     .      |            |   |            .  
+                    |   |                         |   |   .           
+                    |   |                         |   |               
+         .          |   |                         |   |               
+                    |   |                         |   |               
+                    |   |                 .       |   |               
+                    |   |                         |   |   .           
+                    |   |                         |   |           .   
+  .                 |   |                         |   |               
+                    |   |                         |   |     .         
+                    |   |     .                   |   |               
+                    |   |                .        |   |               
+               .    |   |                         |   |               
+                    |   |                         |   |               
+                    |   |      .                  |   |          .    
+     .              |   |                         |   |               
+                    |   ---------------------------   |               
+               .    |                                 |               
+   .                |---------------------------------|               
+                                                             .        
+                .                      .                              
+.                                                                     
+end
+eof

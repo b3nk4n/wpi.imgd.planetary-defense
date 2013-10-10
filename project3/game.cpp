@@ -109,8 +109,9 @@ void loadResources(void)
  	resourceManager.loadSprite("assets/sprites/planet01-spr.txt", "planet1");
 
 	// load maps
-	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");
-	resourceManager.loadMap("assets/maps/big-map.txt", "map2");
+	resourceManager.loadMap("assets/maps/easy-map.txt", "map1");
+	resourceManager.loadMap("assets/maps/medium-map.txt", "map2");
+	resourceManager.loadMap("assets/maps/hard-map.txt", "map3");
 
 	// load levels
 	resourceManager.loadLevel("assets/levels/easy-level.txt", "level1");
@@ -123,12 +124,4 @@ void loadResources(void)
 void populateWorld(void)
 {	
 	new GameStart();
-	/*
-	Player *player = Player::getInstance();
-	new Sidebar(player);
-	MapObject* mapObject = MapObject::getInstance();
-	mapObject->loadMap("map2");
-	mapObject->loadLevel("level1");
-	Spawner* sp = Spawner::Instance();
-	*/
 }

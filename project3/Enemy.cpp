@@ -185,13 +185,13 @@ void Enemy::draw(void)
 int Enemy::nextTarget(void)
 {
 	MapObject* mapObject = MapObject::getInstance();
+	LogManager &logManager = LogManager::getInstance();
 
 	++_pathIndex;
 	
 	// verify target reached
 	if (_pathIndex >= mapObject->getPathPositionsCount())
 	{
-		LogManager &logManager = LogManager::getInstance();
 		logManager.writeLog(LOG_DEBUG,
 			"Enemy::nextTarget()",
 			"Final target reached.\n");
@@ -208,6 +208,12 @@ int Enemy::nextTarget(void)
 
 	_currentTarget = mapObject->getPathPosition(_pathIndex);
 
+	logManager.writeLog(LOG_DEBUG,
+			"Enemy::nextTarget()",
+			"Next target id x=%d, y=%d.\n",
+			_currentTarget.getX(),
+			_currentTarget.getY());
+
 	// adjust velocity/direction
 	int currentX = getPosition().getX();
 	int currentY = getPosition().getY();
@@ -216,23 +222,31 @@ int Enemy::nextTarget(void)
 
 	if (nextY > currentY)
 	{
-		setVelocityY(_speed);
 		setVelocityX(0);
+		setVelocityY(_speed);
 	}
 	else if (nextY < currentY)
 	{
-		setVelocityY(-_speed);
 		setVelocityX(0);
+		setVelocityY(-_speed);
 	}
 	else if (nextX > currentX)
 	{
 		setVelocityX(_speed);
 		setVelocityY(0);
 	}
-	else
+	else if (nextX < currentX)
 	{
 		setVelocityX(-_speed);
+		setVelocityY(0);
+	}
+	else
+	{
 		setVelocityX(0);
+		setVelocityY(0);
+		logManager.writeLog(LOG_DEBUG,
+			"Enemy::nextTarget()",
+			"Next target unknown.\n");
 	}
 
 	return 0;

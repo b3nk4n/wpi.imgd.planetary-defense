@@ -100,16 +100,6 @@ void GameStart::start() {
   WorldManager &world_manager = WorldManager::getInstance();
   new PlanetMenu();
   world_manager.markForDelete(this);
-  /*
-  WorldManager &world_manager = WorldManager::getInstance();
-  Player *player = Player::getInstance();
-  new Sidebar(player);
-  MapObject* mapObject = MapObject::getInstance();
-  mapObject->loadMap("map2");
-  mapObject->loadLevel("level1");
-  Spawner* sp = Spawner::Instance();
-  world_manager.markForDelete(this);
-  */
 }
 
 // override default draw so as not to display "value"

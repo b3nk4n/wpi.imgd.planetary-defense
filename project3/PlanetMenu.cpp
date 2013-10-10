@@ -98,11 +98,18 @@ int PlanetMenu::eventHandler(Event *p_event) {
         WorldManager &world_manager = WorldManager::getInstance();
         Player *player = Player::getInstance();
         new Sidebar(player);
-        MapObject* mapObject = MapObject::getInstance();
-        mapObject->loadMap("map2");
-        mapObject->loadLevel("level1");
-        Spawner* sp = Spawner::Instance();
+        Spawner* sp = Spawner::Instance(); // TODO: check if neccessary??? --> inside mapobj!
         world_manager.markForDelete(this);
+
+        MapObject* mapObject = MapObject::getInstance();
+        if (_choice == 0)
+          mapObject->loadMap("map1");
+        else if (_choice == 1)
+          mapObject->loadMap("map2");
+        else
+          mapObject->loadMap("map3");
+
+        mapObject->loadLevel("level1");
       }
       break;
     }
