@@ -92,6 +92,7 @@ Enemy.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Enemy.h
 Enemy.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
 Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h EventDetonation.h
 Enemy.o: EventInfo.h Spawner.h ExplosionSmall.h Explosion.h
+EnemyBoss.o: EnemyBoss.h Enemy.h
 EnemyGoblin.o: EnemyGoblin.h Enemy.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
 EventBuildingChanged.o: EventBuildingChanged.h
@@ -114,7 +115,8 @@ game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
 game.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h
 game.o: Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h
-GameStart.o: GameStart.h
+GameStart.o: Spawner.h Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h
+GameStart.o: Building.h Player.h Sidebar.h EventInfo.h GameStart.h
 GrenadeTower.o: GrenadeTower.h Tower.h Building.h Enemy.h
 GrenadeTower.o: FragmentationGrenade.h Projectile.h
 Grid.o: Grid.h Cell.h Building.h
@@ -134,8 +136,8 @@ Sidebar.o: Sidebar.h Player.h EventInfo.h SolarBuilding.h Building.h
 Sidebar.o: MachineGunTower.h Tower.h Enemy.h LaserTower.h GrenadeTower.h
 Sidebar.o: TeslaTower.h MapObject.h VirtualCursor.h Grid.h Cell.h
 SolarBuilding.o: SolarBuilding.h Building.h
-Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EventEnemyKilled.h
-Spawner.o: EventEnemyInvasion.h
+Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EnemyBoss.h
+Spawner.o: EventEnemyKilled.h EventEnemyInvasion.h
 TeslaTower.o: TeslaTower.h Tower.h Building.h Enemy.h EventDetonation.h
 TeslaTower.o: ExplosionElectro.h Explosion.h
 Tower.o: /usr/include/math.h /usr/include/sys/reent.h /usr/include/_ansi.h
