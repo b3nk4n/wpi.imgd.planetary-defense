@@ -34,7 +34,7 @@ PlanetMenu::PlanetMenu() {
   setSprite(p_temp_sprite);
   setSpriteSlowdown(0);		  
 
-  _choice = 4;
+  _choice = 3;
   // put in center of screen
   WorldManager &world_manager = WorldManager::getInstance();
   Box view = world_manager.getViewBoundary();
@@ -88,17 +88,23 @@ int PlanetMenu::eventHandler(Event *p_event) {
         _choice = 0;
       }
       break;
-    case ' ':
+    case SPACE_KEY:
+      if (_choice == 3)
       {
-          WorldManager &world_manager = WorldManager::getInstance();
-          Player *player = Player::getInstance();
-          new Sidebar(player);
-          MapObject* mapObject = MapObject::getInstance();
-          mapObject->loadMap("map2");
-          mapObject->loadLevel("level1");
-          Spawner* sp = Spawner::Instance();
-          world_manager.markForDelete(this);
+        _choice = 0;
       }
+      else
+      {
+        WorldManager &world_manager = WorldManager::getInstance();
+        Player *player = Player::getInstance();
+        new Sidebar(player);
+        MapObject* mapObject = MapObject::getInstance();
+        mapObject->loadMap("map2");
+        mapObject->loadLevel("level1");
+        Spawner* sp = Spawner::Instance();
+        world_manager.markForDelete(this);
+      }
+      break;
     }
   }
    

@@ -54,7 +54,7 @@ GameStart::GameStart() {
  * @return int, return 0 if ignored, else 1
  */
 int GameStart::eventHandler(Event *p_e) {
-   GameManager &game_manager = GameManager::getInstance();
+   GameManager &gameManager = GameManager::getInstance();
 
   if (p_e->getType() == STEP_EVENT)
   {
@@ -70,18 +70,17 @@ int GameStart::eventHandler(Event *p_e) {
       }
 
       ++_counter;
-      
   }
 
   // keyboard
   if (p_e->getType() == KEYBOARD_EVENT) {
     EventKeyboard *p_keyboard_event = (EventKeyboard *) p_e;
     switch (p_keyboard_event->getKey()) {
-    case 'p': 			// play
+    case 'p': 		// play
       start();
       break;
     case 'q':			// quit
-      //game_manager.setGameOver();
+      gameManager.setGameOver(true);
       break;
     default:
       break;

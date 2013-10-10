@@ -46,7 +46,7 @@ int Manager::registerInterest(Object *p_object, string eventType)
 		return -1;
 
 	// check if this event is already registerd
-	for (int i = 0; i < _eventListCount; ++i)
+	for (int i = _eventListCount - 1; i >= 0; --i)
 	{
 		if (_events[i] == eventType)
 			return _objectLists[i].insert(p_object);
@@ -81,8 +81,11 @@ int Manager::unregisterInterest(Object *p_object, string eventType)
 	if (!isValid(eventType))
 		return -1;
 
+	// copy the list count value
+	int eventCount = _eventListCount;
+
 	// check for events
-	for (int i = 0; i < _eventListCount; ++i)
+	for (int i = 0; i < eventCount; ++i)
 	{
 		if (_events[i] == eventType)
 		{
@@ -119,7 +122,7 @@ int Manager::unregisterInterest(Object *p_object, string eventType)
  */
 void Manager::onEvent(Event *p_event)
 {
-	for (int i = 0; i < _eventListCount; ++i)
+	for (int i = _eventListCount - 1; i >= 0; --i)
 	{
 		if (_events[i] == p_event->getType())
 		{
