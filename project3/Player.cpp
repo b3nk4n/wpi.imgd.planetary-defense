@@ -85,7 +85,9 @@ int Player::eventHandler(Event *p_event)
 	{
 		WorldManager &worldManager = WorldManager::getInstance();
 		new GameOver(1);
-		worldManager.markForDelete(this);
+		_lifes = INIT_LIFES;
+		_credits = INIT_CREDITS;
+		_energy = INIT_ENERGY;
 	}
 	
 	if (p_event->getType() == ENEMY_INVASION_EVENT)

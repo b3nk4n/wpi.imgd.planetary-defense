@@ -87,8 +87,6 @@ int Spawner::eventHandler(Event *p_event)
 {
 	if (p_event->getType() == PLAYER_KILLED_EVENT)
 	{
-		WorldManager &world_manager = WorldManager::getInstance();
-		world_manager.markForDelete(this);
 	}
 	if (p_event->getType() == STEP_EVENT)
 	{	
