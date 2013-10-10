@@ -1,0 +1,70 @@
+/*******************************************************************************
+ * @file        GameOver.cpp
+ * @author      kcbryant
+ * @description Lose Screen
+ ******************************************************************************/
+
+// engine includes
+#include "EventKeyboard.h"
+#include "EventStep.h"
+#include "GameManager.h"
+#include "GraphicsManager.h"	// for COLOR_YELLOW
+#include "LogManager.h"
+#include "ResourceManager.h"
+#include "WorldManager.h"
+#include "Box.h"
+#include "EventStep.h"
+#include "Spawner.h"
+#include "MapObject.h"
+#include "Player.h"
+#include "Sidebar.h"
+#include "PlanetMenu.h"
+
+
+#include "GameOver.h"
+/**
+ * Create a new GameStart
+ */
+GameOver::GameOver(int planet) {
+  setType("GameOver");
+
+  // link to "message" sprite
+  if (planet == 1)
+  {
+    ResourceManager &resourceManager = ResourceManager::getInstance();
+    Sprite *p_temp_sprite = resourceManager.getSprite("gameover");
+    setSprite(p_temp_sprite);
+    setSpriteSlowdown(10);		  
+  }
+
+
+  // put in center of screen
+  WorldManager &world_manager = WorldManager::getInstance();
+  Box view = world_manager.getViewBoundary();
+  Position position(view.getHorizontal() / 2 , view.getVertical() / 2);
+  setPosition(position);
+  registerInterest(STEP_EVENT);
+}
+
+  /**
+   * Handle events
+   * @param Event, Event being passed to the handler
+   * @return int, return 0 if ignored, else 1
+   */
+int GameOver::eventHandler(Event *p_event)
+{
+  if (p_event->getType() == STEP_EVENT)
+  {
+    if (getSpriteIndex() == 8)
+    {
+      WorldManager &world_manager = WorldManager::getInstance();
+      new PlanetMenu();
+      world_manager.markForDelete(this);
+    }
+  }
+}
+
+// override default draw so as not to display "value"
+void GameOver::draw() {
+  Object::draw();
+}

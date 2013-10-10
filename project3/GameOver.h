@@ -1,39 +1,29 @@
 /*******************************************************************************
- * @file        GameStart.h
+ * @file        GameOver.h
  * @author      kcbryant
- * @description Game start screen
+ * @description Game Over Screen
  ******************************************************************************/
 
-#ifndef __GAME_START_H__
-#define __GAME_START_H__
+#ifndef __GAME_OVER_H__
+#define __GAME_OVER_H__
 
 #include "ViewObject.h"
 
-class GameStart : public ViewObject {
-
-protected:
-	/**
-  	 * Starts up the world screen
-  	 */
-  	void start();
-
-  	/**
-  	 * Counter for menu screen
-  	 */
-  	int _counter;
+class GameOver : public ViewObject {
 
  public:
  	/**
- 	 * Create a new GameStart()
+ 	 * Create a new Game Over 
+ 	 * @param int, Planet that is being destroyed
  	 */
-	GameStart();
+	GameOver(int planet);
 
 	/**
 	 * Handle events
 	 * @param Event, Event being passed to the handler
 	 * @return int, return 0 if ignored, else 1
 	 */
-	int eventHandler(Event *e);
+	int eventHandler(Event *p_event);
 
 	/**
 	 * Draw to screen
@@ -41,4 +31,4 @@ protected:
 	void draw();
 };
 
-#endif // __GAME_START_H__
+#endif // __GAME_OVER_H__

@@ -13,6 +13,7 @@
 #include "EventPlayerKilled.h"
 #include "EventBuildingChanged.h"
 #include "PlanetMenu.h"
+#include "GameOver.h"
 
 // Static pointer used to ensure a single instance of the class.
 Player* Player::_p_instance = NULL;
@@ -83,7 +84,7 @@ int Player::eventHandler(Event *p_event)
 	if (p_event->getType() == PLAYER_KILLED_EVENT)
 	{
 		WorldManager &worldManager = WorldManager::getInstance();
-		new PlanetMenu();
+		new GameOver(1);
 		worldManager.markForDelete(this);
 	}
 	
