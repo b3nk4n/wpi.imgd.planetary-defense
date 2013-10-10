@@ -1,6 +1,8 @@
-//
-// GameStart.cpp
-//
+/*******************************************************************************
+ * @file        GameStart.cpp
+ * @author      kcbryant
+ * @description Game start screen
+ ******************************************************************************/
 
 // engine includes
 #include "EventKeyboard.h"
@@ -16,6 +18,7 @@
 #include "MapObject.h"
 #include "Player.h"
 #include "Sidebar.h"
+#include "PlanetMenu.h"
 
 // game includes
 #include "GameStart.h"
@@ -94,6 +97,11 @@ int GameStart::eventHandler(Event *p_e) {
  * Starts up the world screen
  */
 void GameStart::start() {
+  
+  WorldManager &world_manager = WorldManager::getInstance();
+  new PlanetMenu();
+  world_manager.markForDelete(this);
+  /*
   WorldManager &world_manager = WorldManager::getInstance();
   Player *player = Player::getInstance();
   new Sidebar(player);
@@ -102,6 +110,7 @@ void GameStart::start() {
   mapObject->loadLevel("level1");
   Spawner* sp = Spawner::Instance();
   world_manager.markForDelete(this);
+  */
 }
 
 // override default draw so as not to display "value"
