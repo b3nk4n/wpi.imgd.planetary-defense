@@ -83,19 +83,25 @@ void loadResources(void)
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 
 	// load sprite sheets
+		// Enemies
 	resourceManager.loadSprite("assets/sprites/goblin-spr.txt", "goblin");
 	resourceManager.loadSprite("assets/sprites/ork-spr.txt", "ork");
+	resourceManager.loadSprite("assets/sprites/boss-spr.txt", "boss");
+		//Towers
 	resourceManager.loadSprite("assets/sprites/solar-spr.txt", "solar");
 	resourceManager.loadSprite("assets/sprites/machinegun-spr.txt", "mgtower");
 	resourceManager.loadSprite("assets/sprites/grenadetower-spr.txt", "grenadetower");
 	resourceManager.loadSprite("assets/sprites/lasertower-spr.txt", "lasertower");
 	resourceManager.loadSprite("assets/sprites/teslatower-spr.txt", "teslatower");
+		//Bullets
 	resourceManager.loadSprite("assets/sprites/bullet-spr.txt", "bullet");
 	resourceManager.loadSprite("assets/sprites/laser-spr.txt", "laser");
 	resourceManager.loadSprite("assets/sprites/grenade-spr.txt", "grenade");
+		//Explosions
 	resourceManager.loadSprite("assets/sprites/explosion-spr.txt", "explosion_small");
 	resourceManager.loadSprite("assets/sprites/explosionbig-spr.txt", "explosion_big");
 	resourceManager.loadSprite("assets/sprites/explosionelectro-spr.txt", "explosion_electro");
+		//Screens
 	resourceManager.loadSprite("assets/sprites/gamestart-spr.txt", "gamestart");
  	resourceManager.loadSprite("assets/sprites/gameover-spr.txt", "gameover");
 

@@ -1,0 +1,21 @@
+frames 4
+width 5
+height 3
+color cyan
+n|.|n
+|| ||
+//_\\
+end
+n|*|.
+|| |\
+//_\\
+end
+n|.|n
+|| ||
+//_\\
+end
+.|*|n
+/| ||
+//_\\
+end
+eof

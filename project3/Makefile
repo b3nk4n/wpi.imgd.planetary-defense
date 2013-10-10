@@ -55,7 +55,8 @@ GAMESRC = Cell.cpp \
           EnemyGoblin.cpp \
           GameStart.cpp \
           Sidebar.cpp \
-          PopupText.cpp
+          PopupText.cpp \
+          EnemyBoss.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)

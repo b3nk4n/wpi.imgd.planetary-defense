@@ -18,39 +18,77 @@ class Spawner : public Object
 {
 
 private:
+	/**
+	 * Creates a new instance of spawner
+	 */
 	Spawner(void);  // Private so that it can  not be called
+
+	/**
+	 * Singleton Reqs.
+	 */
     Spawner(Spawner const&){};             // copy constructor is private
     Spawner& operator=(Spawner const&){};  // assignment operator is private
     static Spawner* s_Instance;
 
+    /**
+     * Number of active enemies
+     */
 	int _activeEnemies;
 
+	/**
+	 * Number of waves this level
+	 */
 	int _waves;
 
+	/**
+	 * Number of enemies this wave
+	 */
 	int _enemyCounter;
 
+	/**
+	 * Counter for number of waves in a level
+	 */
 	int _waveCounter;
 
+	/**
+	 * Type of wave
+	 */
 	string _waveType;
 
+	/**
+	 * Amount of time between enemy spawns
+	 */
 	int _delay;
 
+	/**
+	 * Counter for pause between waves
+	 */
 	int _coolDown;
 
-	Position *_position;
-
+	/**
+	 * Information about the current level
+	 */
 	LevelData *_data;
 
+	/**
+	 * Information about the current wave
+	 */
 	WaveData _currentWave;
 
 public:
+
 	static Spawner* Instance(); //create a singleton instance of the WorldManager
 
+	/**
+	 * Spawns an enemy
+	 */
 	void spawnEnemy();
 
-	//void startWave(Wavedata data);
-
-	//Handle enemy killed event -> activecounter-- --> EventWaveOver-> captured by mapObject();
+	/**
+	 * Handles events
+	 * @param Event, event type
+	 * @return Returns 1 if event was handled, else 0.
+	 */
 	int eventHandler(Event *p_event);
 
 

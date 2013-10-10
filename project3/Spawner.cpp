@@ -11,6 +11,7 @@
 #include "Spawner.h"
 #include "EnemyOrk.h"
 #include "EnemyGoblin.h"
+#include "EnemyBoss.h"
 #include "EventStep.h"
 #include "EventEnemyKilled.h"
 #include "EventEnemyInvasion.h"
@@ -32,6 +33,9 @@ Spawner* Spawner::Instance()
    return s_Instance;
 }
 
+/**
+ * Creates a new instance of the spawner object
+ */
 Spawner::Spawner()
 {
 	ResourceManager &resourceManager = ResourceManager::getInstance();
@@ -47,10 +51,11 @@ Spawner::Spawner()
 	registerInterest(STEP_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
 	registerInterest(ENEMY_INVASION_EVENT);
-	//spawnEnemy();
 }
 
-
+/**
+ * Spawns a new enemy
+ */
 void Spawner::spawnEnemy()
 {	_activeEnemies++;
 
@@ -64,6 +69,10 @@ void Spawner::spawnEnemy()
 	{
 		yo = new EnemyGoblin();
 		
+	}
+	else if (_waveType == "boss")
+	{
+		yo = new EnemyBoss();
 	}
 }
 
