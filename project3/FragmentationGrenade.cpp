@@ -21,7 +21,7 @@
 FragmentationGrenade::FragmentationGrenade(Position origin, Position target, int firePower)
     : Projectile("grenade", origin, target, 2.0f, firePower)
 {
-
+    
 }
 
 /**

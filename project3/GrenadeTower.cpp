@@ -6,6 +6,10 @@
 
 #include "GrenadeTower.h"
 #include "FragmentationGrenade.h"
+#include "WorldManager.h"
+#include "ExplosionBig.h"
+#include "Circle.h"
+#include "EventDetonation.h"
 
 /**
  * Creates a new granade tower object.
@@ -27,4 +31,13 @@ void GrenadeTower::fire(Object *p_object)
 	new FragmentationGrenade(getPosition(),
 		p_object->getPosition(),
 		getFirePower());
+
+	/*WorldManager &worldManager = WorldManager::getInstance();
+    EventDetonation event(Circle(p_object->getPosition(), DETONATION_RADIUS),
+        getFirePower());
+    
+    worldManager.onEvent(&event);
+ 
+
+    new ExplosionBig(p_object->getPosition());*/
 }

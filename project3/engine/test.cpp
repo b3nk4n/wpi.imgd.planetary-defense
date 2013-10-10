@@ -70,7 +70,7 @@ bool testInputManager_stepEventIsNotValid(void);
 bool testResourceManager_verifyIsStarted(void);
 bool testResourceManager_loadCorrectSpriteReturnsSuccess(void);
 bool testResourceManager_loadErrorMistakeSpriteReturnsError(void);
-bool testResourceManager_loadErrorColorSpriteReturnsError(void);
+bool testResourceManager_loadErrorColorSpriteReturnsNoError(void);
 bool testResourceManager_loadErrorLessFramesSpriteReturnsError(void);
 bool testResourceManager_loadErrorMoreFramesSpriteReturnsError(void);
 bool testResourceManager_loadErrorLessHeightSpriteReturnsError(void);
@@ -284,7 +284,7 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testResourceManager_verifyIsStarted", &testResourceManager_verifyIsStarted);
 	unitTestManager.registerTestFunction("testResourceManager_loadCorrectSpriteReturnsSuccess", &testResourceManager_loadCorrectSpriteReturnsSuccess);
 	unitTestManager.registerTestFunction("testResourceManager_loadErrorMistakeSpriteReturnsError", &testResourceManager_loadErrorMistakeSpriteReturnsError);
-	unitTestManager.registerTestFunction("testResourceManager_loadErrorColorSpriteReturnsError", &testResourceManager_loadErrorColorSpriteReturnsError);
+	unitTestManager.registerTestFunction("testResourceManager_loadErrorColorSpriteReturnsNoError", &testResourceManager_loadErrorColorSpriteReturnsNoError);
 	unitTestManager.registerTestFunction("testResourceManager_loadErrorLessFramesSpriteReturnsError", &testResourceManager_loadErrorLessFramesSpriteReturnsError);
 	unitTestManager.registerTestFunction("testResourceManager_loadErrorMoreFramesSpriteReturnsError", &testResourceManager_loadErrorMoreFramesSpriteReturnsError);
 	unitTestManager.registerTestFunction("testResourceManager_loadErrorLessHeightSpriteReturnsError", &testResourceManager_loadErrorLessHeightSpriteReturnsError);
@@ -787,7 +787,7 @@ bool testLogManager_writeLogNoParam(void)
 		"Written: %d bytes\n",
 		written);
 
-	return written == 67;
+	return written == 70;
 }
 
 bool testLogManager_writeLogMixedParam(void)
@@ -804,7 +804,7 @@ bool testLogManager_writeLogMixedParam(void)
 		"Written: %d bytes\n",
 		written);
 
-	return written == 87;
+	return written == 90;
 }
 
 bool testInputManager_verifyIsStarted(void)
@@ -863,13 +863,13 @@ bool testResourceManager_loadErrorMistakeSpriteReturnsError(void)
 	return res == -1;
 }
 
-bool testResourceManager_loadErrorColorSpriteReturnsError(void)
+bool testResourceManager_loadErrorColorSpriteReturnsNoError(void)
 {
 	ResourceManager &resourceManager = ResourceManager::getInstance();
 	string label = "ship3";
 	int res = resourceManager.loadSprite("sprites/test-spr-error-color.txt", label);
 
-	return res == -1;
+	return res == 0;
 }
 
 bool testResourceManager_loadErrorLessFramesSpriteReturnsError(void)
