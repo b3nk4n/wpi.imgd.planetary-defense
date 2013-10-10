@@ -17,6 +17,8 @@
 #include "TeslaTower.h"
 #include "MapObject.h"
 #include "EventInfo.h"
+#include "EventPlayerKilled.h"
+#include "WorldManager.h"
 
 /**
  * Creates a sidebar object instance.
@@ -38,6 +40,7 @@ Sidebar::Sidebar(Player *p_player)
 
 	// register for events
 	registerInterest(INFO_EVENT);
+	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**
@@ -55,6 +58,13 @@ Sidebar::~Sidebar(void)
  */
 int Sidebar::eventHandler(Event *p_event)
 {
+
+	if(p_event->getType() == PLAYER_KILLED_EVENT)
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
+	}
+	
 	if (p_event->getType() == INFO_EVENT)
 	{
 		EventInfo *p_eventInfo = static_cast<EventInfo *>(p_event);

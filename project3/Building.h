@@ -8,6 +8,7 @@
 
 #include <string>
 #include "Object.h"
+#include "Event.h"
 
 using std::string;
 
@@ -74,6 +75,13 @@ using std::string;
  	 * @return The energy requirement or value.
  	 */
  	int getEnergy(void);
+
+	/**
+	 * Handle events
+	 * @param p_event The event.
+	 * @return Returns 1 if event was handled, else 0.
+	 */
+	virtual int eventHandler(Event *p_event);
 };
 
 #endif

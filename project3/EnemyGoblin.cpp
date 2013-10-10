@@ -10,7 +10,7 @@
  * Creates a new ork enemy object instance.
  */
 EnemyGoblin::EnemyGoblin(void)
-	: Enemy("goblin", 15, 0.35f, 15)
+	: Enemy("goblin", 15, 0.95f, 15)
 {
 
 }

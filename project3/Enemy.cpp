@@ -17,6 +17,7 @@
 #include "EventEnemyKilled.h"
 #include "EventDetonation.h"
 #include "EventInfo.h"
+#include "EventPlayerKilled.h"
 #include "Spawner.h"
 #include "ExplosionSmall.h"
 
@@ -65,6 +66,7 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
 	// register for events
 	registerInterest(STEP_EVENT);
 	registerInterest(DETONATION_EVENT);
+	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**
@@ -105,6 +107,12 @@ int Enemy::eventHandler(Event *p_event)
 		}
 
   		return 1;
+	}
+
+	if (p_event->getType() == PLAYER_KILLED_EVENT)
+	{
+		WorldManager &world_manager = WorldManager::getInstance();
+		world_manager.markForDelete(this);
 	}
 
 	if (p_event->getType() == DETONATION_EVENT)
