@@ -1,19 +1,19 @@
 waves-count 5
+type goblin
+count 15
+delay 30
+end
+type goblin
+count 15
+delay 20
+end
 type ork
 count 10
 delay 30
 end
 type goblin
-count 10
-delay 40
-end
-type ork
-count 10
-delay 30
-end
-type goblin
-count 10
-delay 40
+count 25
+delay 10
 end
 type boss
 count 1

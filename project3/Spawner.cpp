@@ -83,7 +83,7 @@ int Spawner::eventHandler(Event *p_event)
 			_coolDown = _delay;
 
 		}
-		else if (_enemyCounter <= 0)
+		else if (_enemyCounter <= 0 && _coolDown < -100)
 		{				
 
 			if (_waveCounter < _waves)
