@@ -15,6 +15,7 @@
 #include "Player.h"
 #include "Spawner.h"
 #include "Sidebar.h"
+#include "GameOver.h"
 
 // prototypes
 void configureGame(void);
@@ -103,7 +104,7 @@ void loadResources(void)
 	resourceManager.loadSprite("assets/sprites/explosionelectro-spr.txt", "explosion_electro");
 		//Screens
 	resourceManager.loadSprite("assets/sprites/gamestart-spr.txt", "gamestart");
- 	resourceManager.loadSprite("assets/sprites/gameover-spr.txt", "gameover");
+ 	resourceManager.loadSprite("assets/sprites/plan1death-spr.txt", "gameover");
  		//Planets
  	resourceManager.loadSprite("assets/sprites/planet01-spr.txt", "planet1");
 

@@ -12,6 +12,8 @@
 #include "EventEnemyKilled.h"
 #include "EventPlayerKilled.h"
 #include "EventBuildingChanged.h"
+#include "PlanetMenu.h"
+#include "GameOver.h"
 
 // Static pointer used to ensure a single instance of the class.
 Player* Player::_p_instance = NULL;
@@ -33,6 +35,7 @@ Player::Player(void)
 	registerInterest(ENEMY_INVASION_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
 	registerInterest(BUILDING_CHANGED_EVENT);
+	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**
@@ -77,13 +80,22 @@ Player* Player::getInstance(void)
 int Player::eventHandler(Event *p_event)
 {
 	LogManager &logManager = LogManager::getInstance();
+
+	if (p_event->getType() == PLAYER_KILLED_EVENT)
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		new GameOver(1);
+		_lifes = INIT_LIFES;
+		_credits = INIT_CREDITS;
+		_energy = INIT_ENERGY;
+	}
 	
 	if (p_event->getType() == ENEMY_INVASION_EVENT)
 	{
 		if (_lifes > 0)
 			--_lifes;
 
-		if (_lifes)
+		if (_lifes <= 0)
 		{
 			WorldManager &worldManager = WorldManager::getInstance();
 			EventPlayerKilled eventKilled;

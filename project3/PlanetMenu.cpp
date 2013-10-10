@@ -68,7 +68,7 @@ int PlanetMenu::eventHandler(Event *p_event) {
     switch(input)
     {
     case LEFT_KEY:
-      if (_choice > -1)
+      if (_choice > 0)
       {
         _choice--;
       }

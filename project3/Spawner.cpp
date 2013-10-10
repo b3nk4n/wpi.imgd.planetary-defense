@@ -21,6 +21,7 @@
 #include "WaveData.h"
 #include "ResourceManager.h"
 #include "WorldManager.h"
+#include "EventPlayerKilled.h"
 
 Spawner* Spawner::s_Instance = NULL;  // Global static pointer used to ensure a single instance of the class.
 
@@ -51,6 +52,7 @@ Spawner::Spawner()
 	registerInterest(STEP_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
 	registerInterest(ENEMY_INVASION_EVENT);
+	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**
@@ -83,6 +85,9 @@ void Spawner::spawnEnemy()
  */
 int Spawner::eventHandler(Event *p_event)
 {
+	if (p_event->getType() == PLAYER_KILLED_EVENT)
+	{
+	}
 	if (p_event->getType() == STEP_EVENT)
 	{	
 		if (_coolDown < 0 && _enemyCounter > 0)

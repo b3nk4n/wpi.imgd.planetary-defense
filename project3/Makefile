@@ -57,7 +57,8 @@ GAMESRC = Cell.cpp \
           Sidebar.cpp \
           PopupText.cpp \
           EnemyBoss.cpp \
-          PlanetMenu.cpp
+          PlanetMenu.cpp \
+          GameOver.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -77,10 +78,9 @@ clean:
 
 depend: 
 	makedepend *.cpp 2> /dev/null
-
 # DO NOT DELETE
 
-Building.o: Building.h EventBuildingChanged.h
+Building.o: Building.h EventBuildingChanged.h EventPlayerKilled.h
 Bullet.o: Bullet.h Projectile.h Enemy.h
 Cell.o: Cell.h Building.h
 Enemy.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
@@ -91,7 +91,8 @@ Enemy.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 Enemy.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Enemy.h
 Enemy.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h
 Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h EventDetonation.h
-Enemy.o: EventInfo.h Spawner.h ExplosionSmall.h Explosion.h
+Enemy.o: EventInfo.h EventPlayerKilled.h Spawner.h ExplosionSmall.h
+Enemy.o: Explosion.h
 EnemyBoss.o: EnemyBoss.h Enemy.h
 EnemyGoblin.o: EnemyGoblin.h Enemy.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
@@ -114,7 +115,9 @@ game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
 game.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h
-game.o: Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h
+game.o: Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h GameOver.h
+GameOver.o: Spawner.h Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h
+GameOver.o: Building.h Player.h Sidebar.h EventInfo.h PlanetMenu.h GameOver.h
 GameStart.o: Spawner.h Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h
 GameStart.o: Building.h Player.h Sidebar.h EventInfo.h PlanetMenu.h
 GameStart.o: GameStart.h
@@ -129,19 +132,20 @@ MachineGunTower.o: Projectile.h
 MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EventInfo.h
 MapObject.o: EventEnemyKilled.h Player.h SolarBuilding.h Tower.h Enemy.h
 MapObject.o: MachineGunTower.h GrenadeTower.h LaserTower.h TeslaTower.h
-MapObject.o: PopupText.h
+MapObject.o: PopupText.h EventPlayerKilled.h
 PlanetMenu.o: Spawner.h Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h
 PlanetMenu.o: Building.h Player.h Sidebar.h EventInfo.h PlanetMenu.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
-Player.o: EventPlayerKilled.h EventBuildingChanged.h
+Player.o: EventPlayerKilled.h EventBuildingChanged.h PlanetMenu.h GameOver.h
 PopupText.o: PopupText.h
 Projectile.o: Projectile.h
 Sidebar.o: Sidebar.h Player.h EventInfo.h SolarBuilding.h Building.h
 Sidebar.o: MachineGunTower.h Tower.h Enemy.h LaserTower.h GrenadeTower.h
 Sidebar.o: TeslaTower.h MapObject.h VirtualCursor.h Grid.h Cell.h
+Sidebar.o: EventPlayerKilled.h
 SolarBuilding.o: SolarBuilding.h Building.h
 Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EnemyBoss.h
-Spawner.o: EventEnemyKilled.h EventEnemyInvasion.h
+Spawner.o: EventEnemyKilled.h EventEnemyInvasion.h EventPlayerKilled.h
 TeslaTower.o: TeslaTower.h Tower.h Building.h Enemy.h EventDetonation.h
 TeslaTower.o: ExplosionElectro.h Explosion.h
 Tower.o: /usr/include/math.h /usr/include/sys/reent.h /usr/include/_ansi.h
@@ -149,5 +153,5 @@ Tower.o: /usr/include/newlib.h /usr/include/sys/config.h
 Tower.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
 Tower.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 Tower.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-Tower.o: Tower.h Building.h Enemy.h Spawner.h
+Tower.o: Tower.h Building.h Enemy.h Spawner.h EventPlayerKilled.h
 VirtualCursor.o: VirtualCursor.h

@@ -8,7 +8,9 @@
 #include "WorldManager.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
+#include "Event.h"
 #include "EventBuildingChanged.h"
+#include "EventPlayerKilled.h"
 
 /**
  * Creates a new building object and notifies the player.
@@ -43,6 +45,8 @@ Building::Building(string name, string spriteName, int cost, int energy)
 	WorldManager &worldManager = WorldManager::getInstance();
 	EventBuildingChanged event(-_cost, _energy);
 	worldManager.onEvent(&event);
+
+	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**
@@ -89,4 +93,21 @@ int Building::getSellingPrice(void)
 int Building::getEnergy(void)
 {
 	return _energy;
+}
+
+/**
+ * Handle events
+ * @param p_event The event.
+ * @return Returns 1 if event was handled, else 0.
+ */
+int Building::eventHandler(Event *p_event)
+{
+	if (p_event->getType() == PLAYER_KILLED_EVENT)
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
+		return 1;
+	}
+
+	return 0;
 }

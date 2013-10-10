@@ -23,6 +23,7 @@
 #include "LaserTower.h"
 #include "TeslaTower.h"
 #include "PopupText.h"
+#include "EventPlayerKilled.h"
 
 // Static pointer used to ensure a single instance of the class.
 MapObject* MapObject::_p_instance = NULL;
@@ -42,6 +43,7 @@ MapObject::MapObject(void)
 	// register for interest:
 	registerInterest(KEYBOARD_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
+	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**
@@ -86,7 +88,12 @@ MapObject* MapObject::getInstance(void)
  * @return Return 0 if ignored, else 1 if event was handled.
  */
 int MapObject::eventHandler(Event *p_event)
-{
+{	
+	if (p_event->getType() == PLAYER_KILLED_EVENT)
+	{
+		WorldManager &worldManager = WorldManager::getInstance();
+		worldManager.markForDelete(this);
+	}
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		Cell *p_cell;
