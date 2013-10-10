@@ -34,7 +34,7 @@ GameOver::GameOver(int planet) {
     ResourceManager &resourceManager = ResourceManager::getInstance();
     Sprite *p_temp_sprite = resourceManager.getSprite("gameover");
     setSprite(p_temp_sprite);
-    setSpriteSlowdown(10);		  
+    setSpriteSlowdown(15);		  
   }
 
   // put in center of screen

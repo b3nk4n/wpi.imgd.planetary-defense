@@ -18,7 +18,6 @@
 #include "GameOver.h"
 
 // prototypes
-void configureGame(void);
 void loadResources(void);
 void populateWorld(void);
 
@@ -48,7 +47,6 @@ int main(int argc, char *argv[])
 	
 	splash();
 
-	configureGame();
 	loadResources();
 	populateWorld();
 
@@ -64,16 +62,6 @@ int main(int argc, char *argv[])
 	gameManager.shutDown();
 
 	return 0;
-}
-
-/**
- * Configures the game.
- */
-void configureGame(void)
-{
-	WorldManager &worldManager = WorldManager::getInstance();
-	Box world = Box(Position(0, 0), 240, 48);
-	worldManager.setWorldBoundary(world);
 }
 
 /**

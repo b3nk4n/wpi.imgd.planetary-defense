@@ -21,6 +21,9 @@
 using std::string;
 using std::vector;
 
+#define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
+#define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
+
 /**
  * Gets the current time as a string.
  * @return The current time string.

@@ -100,6 +100,18 @@ public:
 	 * Renders the visual sidebar.
 	 */
 	virtual void draw(void);
+
+	/**
+	 * Gets the width.
+	 * @return The width.
+	 */
+	int getHorizontal(void);
+
+	/**
+	 * Gets the height.
+	 * @return The height.
+	 */
+	int getVertical(void);
 };
 
 #endif

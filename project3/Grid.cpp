@@ -128,3 +128,21 @@ bool Grid::isValidCellPosition(Position position)
 	return position.getX() >= 0 && position.getX() < _width ||
 		position.getY() >= 0 && position.getY() < _height;
 }
+
+/**
+ * Gets the width.
+ * @return The width.
+ */
+int Grid::getHorizontal(void)
+{
+	return _width * _cellWidth;
+}
+
+/**
+ * Gets the height.
+ * @return The height.
+ */
+int Grid::getVertical(void)
+{
+	return _height * _cellHeight;
+}

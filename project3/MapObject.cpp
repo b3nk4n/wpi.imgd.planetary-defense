@@ -26,6 +26,7 @@
 #include "EventPlayerKilled.h"
 #include "GameOver.h"
 #include "Player.h"
+#include "utility.h"
 
 // Static pointer used to ensure a single instance of the class.
 MapObject* MapObject::_p_instance = NULL;
@@ -121,7 +122,7 @@ void MapObject::reset(void)
 
 	setVisibility(true);
 
-	// TODO: reset grid
+	// TODO: reset grid?
 }
 
 /**
@@ -324,6 +325,26 @@ int MapObject::loadMap(string mapLabel)
 			"Map background sprite could not be received.\n");
 		return -1;
 	}
+
+	// set map and sidebar position
+	WorldManager &worldManager = WorldManager::getInstance();
+	int screenX = worldManager.getViewBoundary().getHorizontal();
+	int screenY = worldManager.getViewBoundary().getVertical();
+	int gridX = _grid.getHorizontal() + 2;
+	int gridY = _grid.getVertical();
+	int sidebarX = _p_sidebar->getHorizontal();
+	int sidebarY = _p_sidebar->getVertical();
+	int gameX = gridX + sidebarX;
+	int gameY = MAX(gridY, sidebarY);
+
+	Position mapPosition(screenX / 2 - gameX / 2,
+		screenY / 2 - gameY / 2);
+	Position sidebarPosition(mapPosition.getX() + gridX,
+		mapPosition.getY());
+
+	setPosition(mapPosition);
+	_p_sidebar->setPosition(sidebarPosition);
+	_p_cursor->setPosition(getPosition());
 
 	return 0;
 }

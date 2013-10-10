@@ -29,8 +29,6 @@ Sidebar::Sidebar(Player *p_player)
 	setType(TYPE_PLAYER);
 	_p_player = p_player;
 
-	setPosition(Position(72, 1));
-
 	// load building frames
   	_solarFrame = loadFrame("solar");
 	_machineGunFrame = loadFrame("mgtower");
@@ -239,4 +237,24 @@ Frame Sidebar::loadFrame(string spriteName)
   	}
 
   	return p_tempSprite->getFrame(0);
+}
+
+/**
+ * Gets the width.
+ * @return The width.
+ */
+int Sidebar::getHorizontal(void)
+{
+	// hard coded
+	return 22;
+}
+
+/**
+ * Gets the height.
+ * @return The height.
+ */
+int Sidebar::getVertical(void)
+{
+	// hard coded
+	return 46;
 }

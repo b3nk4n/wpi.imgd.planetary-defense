@@ -104,6 +104,18 @@ public:
 	 * @return Returns TRUE if the index position is inside the grid.
 	 */
 	bool isValidCellPosition(Position position);
+
+	/**
+	 * Gets the width.
+	 * @return The width.
+	 */
+	int getHorizontal(void);
+
+	/**
+	 * Gets the height.
+	 * @return The height.
+	 */
+	int getVertical(void);
 };
 
 #endif
