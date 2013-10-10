@@ -20,6 +20,9 @@
 // game includes
 #include "GameStart.h"
 
+/**
+ * Create a new GameStart
+ */
 GameStart::GameStart() {
   setType("GameStart");
 
@@ -42,8 +45,11 @@ GameStart::GameStart() {
   registerInterest(STEP_EVENT);
 }
 
-// handle event
-// return 0 if ignored, else 1
+/**
+ * Handle events
+ * @param Event, Event being passed to the handler
+ * @return int, return 0 if ignored, else 1
+ */
 int GameStart::eventHandler(Event *p_e) {
    GameManager &game_manager = GameManager::getInstance();
 
@@ -84,6 +90,9 @@ int GameStart::eventHandler(Event *p_e) {
   return 0;
 }
 
+/**
+ * Starts up the world screen
+ */
 void GameStart::start() {
   WorldManager &world_manager = WorldManager::getInstance();
   Player *player = Player::getInstance();

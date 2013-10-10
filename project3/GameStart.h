@@ -1,22 +1,41 @@
-//
-// GameStart.h
-//
+/*******************************************************************************
+ * @file        GameStart.h
+ * @author      kcbryant
+ * @description Game start screen
+ ******************************************************************************/
 
-#define MENU_LEVEL 1
-#define PLAY_LEVEL 2
 
 #include "ViewObject.h"
 
 class GameStart : public ViewObject {
 
- protected:
-  void step();
-  void start();
-  int _counter;
+protected:
+	/**
+  	 * Starts up the world screen
+  	 */
+  	void start();
+
+  	/**
+  	 * Counter for menu screen
+  	 */
+  	int _counter;
 
  public:
-  GameStart();
-  int eventHandler(Event *e);
-  void draw();
+ 	/**
+ 	 * Create a new GameStart()
+ 	 */
+	GameStart();
+
+	/**
+	 * Handle events
+	 * @param Event, Event being passed to the handler
+	 * @return int, return 0 if ignored, else 1
+	 */
+	int eventHandler(Event *e);
+
+	/**
+	 * Draw to screen
+	 */
+	void draw();
 };
 

@@ -104,6 +104,8 @@ void loadResources(void)
 		//Screens
 	resourceManager.loadSprite("assets/sprites/gamestart-spr.txt", "gamestart");
  	resourceManager.loadSprite("assets/sprites/gameover-spr.txt", "gameover");
+ 		//Planets
+ 	resourceManager.loadSprite("assets/sprites/planet01-spr.txt", "planet1");
 
 	// load maps
 	resourceManager.loadMap("assets/maps/simple-map.txt", "map1");
