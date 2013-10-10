@@ -28,8 +28,8 @@
 
 ### 1.1 Platform
 
-Planetary Defense, a tower defense game for project 3 was developed using Cygwin on
-Windows 8, Debian KDE 12.04 Linux and GIT. The engine will not run on a MacOS
+Planetary Defense, a tower defense game for project 3 was developed using Cygwin 
+on Windows 8, Debian KDE 12.04 Linux and GIT. The engine will not run on a MacOS
 machine, because of the different time-API, which is not implemented because
 it couldn't be tested without owning a MacOS system.
 
@@ -38,7 +38,8 @@ it couldn't be tested without owning a MacOS system.
 2. Build/Compile
 ################################################################################
 
-There are two makefiles that must be compiled to run the project. One is the engine MAKEFILE, the other is a MAKEFILE for the game.
+There are two makefiles that must be compiled to run the project. One is the 
+engine MAKEFILE, the other is a MAKEFILE for the game.
 path:
 
 	./project3/engine/MAKEFILE
@@ -78,7 +79,7 @@ To run "Planetary Defense" simply type the below command into the terminal windo
 			- 3 Enemy Types and a Enemy Spawner
 			- 5 Towers (purchased with # keys)
 			- Map and Cursor (arrow keys to move)
-			- Volts (like population in age of empires, need solar panels to increase)
+			- Volts (need solar panels to increase)
 			- Money (gained by killing enemies)
 			- Game Over Screen 
 	- Quit
