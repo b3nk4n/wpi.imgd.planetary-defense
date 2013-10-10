@@ -77,6 +77,11 @@ public:
 	static Player* getInstance(void);
 
 	/**
+	 * Resets the player data.
+	 */
+	void reset(void);
+
+	/**
 	 * Handles all events.
 	 * @param p_event Points to the current event to handle.
 	 * @return Return 0 if ignored, else 1 if event was handled.

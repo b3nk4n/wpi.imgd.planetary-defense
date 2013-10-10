@@ -43,6 +43,8 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
   	_speed = speed;
   	_killCredits = killCredits;
   	_targetReached = false;
+  	_killByGameOver = false;
+
   	setSolidness(SOFT);
 
   	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
@@ -81,12 +83,22 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
  */
 Enemy::~Enemy(void)
 {
+	if (_killByGameOver)
+		return;
+
 	WorldManager &worldManager = WorldManager::getInstance();
 	
 	if (_targetReached)
 	{
+		LogManager &logManager = LogManager::getInstance();
+		logManager.writeLog(LOG_DEBUG,
+				"Enemy::~Enemy()",
+				"FIRE INVASION\n");
 		EventEnemyInvasion eventInvasion;
 		worldManager.onEvent(&eventInvasion);
+		logManager.writeLog(LOG_DEBUG,
+				"Enemy::~Enemy()",
+				"FIRE INVASION END\n");
 	}
 	else
 	{
@@ -122,6 +134,7 @@ int Enemy::eventHandler(Event *p_event)
 	{
 		WorldManager &world_manager = WorldManager::getInstance();
 		world_manager.markForDelete(this);
+		_killByGameOver = true;
 	}
 
 	if (p_event->getType() == DETONATION_EVENT)
@@ -195,8 +208,6 @@ int Enemy::nextTarget(void)
 		logManager.writeLog(LOG_DEBUG,
 			"Enemy::nextTarget()",
 			"Final target reached.\n");
-
-
 
 		_targetReached = true;
 
@@ -307,14 +318,8 @@ int Enemy::getKillCredits(void)
  */
 void Enemy::killSelf(void)
 {
-	LogManager &logManager = LogManager::getInstance();
-	logManager.writeLog(LOG_DEBUG,
-		"Enemy::killSelf()",
-		"Enemy with id=%d gets killed.\n",
-		_id);
-
 	WorldManager &worldManager = WorldManager::getInstance();
-	worldManager.markForDelete(this);                    // TODO: check why this delete causes error for grenade kills
+	worldManager.markForDelete(this);  // TODO: check why this delete causes error for grenade kills
 }
 
 /**

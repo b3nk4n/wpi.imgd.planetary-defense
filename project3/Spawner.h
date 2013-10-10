@@ -63,6 +63,11 @@ private:
 	 */
 	WaveData _currentWave;
 
+	/**
+	 * Indicates whether the spawner is allowed to spawn.
+	 */
+	bool _isStopped;
+
 public:
 
 	/**
@@ -75,6 +80,11 @@ public:
 	 * @param level The level data.
 	 */
 	void start(LevelData *level);
+
+	/**
+	 * Stops spawning.
+	 */
+	void stop(void);
 
 	/**
 	 * Spawns an enemy

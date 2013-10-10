@@ -24,6 +24,8 @@
 #include "TeslaTower.h"
 #include "PopupText.h"
 #include "EventPlayerKilled.h"
+#include "GameOver.h"
+#include "Player.h"
 
 // Static pointer used to ensure a single instance of the class.
 MapObject* MapObject::_p_instance = NULL;
@@ -34,9 +36,11 @@ MapObject* MapObject::_p_instance = NULL;
 MapObject::MapObject(void)
 {
 	_p_currentMapData = NULL;
-	_p_spawner = new Spawner();
+	_p_spawner = NULL;
 	_selectedCell = Position(0, 0);
-	_p_cursor = new VirtualCursor(_selectedCell);
+	_p_cursor = NULL;
+	_p_sidebar = NULL;
+	_p_player = NULL;
 
 	setCentered(false);
 
@@ -70,6 +74,12 @@ MapObject::~MapObject(void)
 
 	if (_p_spawner != NULL)
 		delete _p_spawner;
+
+	if (_p_sidebar != NULL)
+		delete _p_sidebar;
+
+	if (_p_player != NULL)
+		delete _p_player;
 }
 
 /**
@@ -86,6 +96,35 @@ MapObject* MapObject::getInstance(void)
 }
 
 /**
+ * Resets the dower defense game.
+ */
+void MapObject::reset(void)
+{
+	if (_p_cursor != NULL)
+		delete _p_cursor;
+
+	if (_p_spawner != NULL)
+		delete _p_spawner;
+
+	if (_p_sidebar != NULL)
+		delete _p_sidebar;
+
+	if (_p_player != NULL)
+		delete _p_player;
+
+	_p_spawner = new Spawner();
+	_selectedCell = Position(0, 0);
+	_p_cursor = new VirtualCursor(_selectedCell);
+	_p_player = Player::getInstance();
+	_p_player->reset();
+	_p_sidebar = new Sidebar(_p_player);
+
+	setVisibility(true);
+
+	// TODO: reset grid
+}
+
+/**
  * Handles all events.
  * @param p_event Points to the current event to handle.
  * @return Return 0 if ignored, else 1 if event was handled.
@@ -94,8 +133,13 @@ int MapObject::eventHandler(Event *p_event)
 {	
 	if (p_event->getType() == PLAYER_KILLED_EVENT)
 	{
-		WorldManager &worldManager = WorldManager::getInstance();
-		worldManager.markForDelete(this);
+		this->setVisibility(false);
+		_p_sidebar->setVisibility(false);
+		_p_cursor->setVisibility(false);
+		_p_spawner->stop();
+
+		// show game over screen
+		new GameOver(1);
 	}
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{

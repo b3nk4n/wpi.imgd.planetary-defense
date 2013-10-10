@@ -35,12 +35,12 @@ Spawner::Spawner()
 	_enemyCounter = 0;
 	_delay = 0;
 	_coolDown = 0;
+	_isStopped = false;
 
 	// register events
 	registerInterest(STEP_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
 	registerInterest(ENEMY_INVASION_EVENT);
-	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**
@@ -59,13 +59,26 @@ void Spawner::start(LevelData *level)
 	_enemyCounter = _currentWave.getCount();
 	_delay = _currentWave.getDelay();
 	_coolDown = _delay * 10;
+	_isStopped = false;
+}
+
+/**
+ * Stops spawning.
+ */
+void Spawner::stop(void)
+{
+	_isStopped = true;
 }
 
 /**
  * Spawns a new enemy
  */
 void Spawner::spawnEnemy()
-{	_activeEnemies++;
+{	
+	if (_isStopped)
+		return;
+
+	_activeEnemies++;
 
 	Enemy* yo;
 	if (_waveType == "ork")
@@ -91,9 +104,6 @@ void Spawner::spawnEnemy()
  */
 int Spawner::eventHandler(Event *p_event)
 {
-	if (p_event->getType() == PLAYER_KILLED_EVENT)
-	{
-	}
 	if (p_event->getType() == STEP_EVENT)
 	{	
 		if (_coolDown < 0 && _enemyCounter > 0)

@@ -61,6 +61,11 @@ class Enemy : public Object
  	 */
  	static bool _showInfo;
 
+ 	/**
+ 	 * Indicates whether the kill was by a game over.
+ 	 */
+ 	bool _killByGameOver;
+
  public:
 	/**
 	 * Creates a new enemy object instance with speed and health set

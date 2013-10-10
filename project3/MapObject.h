@@ -17,6 +17,7 @@
 #include "VirtualCursor.h"
 #include "Grid.h"
 #include "Spawner.h"
+#include "Sidebar.h"
 
 using std::string;
 
@@ -63,6 +64,16 @@ private:
 	 */
 	Spawner *_p_spawner;
 
+	/**
+	 * The map sidebar.
+	 */
+	Sidebar *_p_sidebar;
+
+	/**
+	 * The player.
+	 */
+	Player *_p_player;
+
     /**
 	 * Creates a map object instance.
 	 */
@@ -97,6 +108,11 @@ public:
 	 * @return The singleton map object instance.
 	 */
 	static MapObject* getInstance(void);
+
+	/**
+	 * Resets the dower defense game.
+	 */
+	void reset(void);
 
 	/**
 	 * Handles all events.

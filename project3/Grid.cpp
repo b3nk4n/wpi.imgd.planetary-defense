@@ -36,6 +36,10 @@ void Grid::setup(MapData *p_mapData)
 	_height = p_mapData->getCellsVertical();
 	_cellWidth = p_mapData->getCellWidth();
 	_cellHeight = p_mapData->getCellHeight();
+
+	if (_p_cells != NULL)
+		delete[] _p_cells;
+	
 	_p_cells = new Cell[_width * _height];
 
 	// setup passable

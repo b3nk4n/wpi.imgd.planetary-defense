@@ -17,7 +17,6 @@
 #include "Spawner.h"
 #include "MapObject.h"
 #include "Player.h"
-#include "Sidebar.h"
 
 // game includes
 #include "PlanetMenu.h"
@@ -59,6 +58,7 @@ int PlanetMenu::eventHandler(Event *p_event) {
   if (p_event->getType() == STEP_EVENT)
   {
     setSpriteIndex(_choiceMap);
+    return 1;
   }
 
   if (p_event->getType() == KEYBOARD_EVENT)
@@ -119,40 +119,43 @@ int PlanetMenu::eventHandler(Event *p_event) {
       }
       else
       {
-        WorldManager &world_manager = WorldManager::getInstance();
-        Player *player = Player::getInstance();
-        new Sidebar(player);
-        //Spawner* sp = Spawner::Instance();
-        world_manager.markForDelete(this);
-
-        MapObject* mapObject = MapObject::getInstance();
-
-        // select map
-        if (_choiceMap == 0)
-          mapObject->loadMap("map1");
-        else if (_choiceMap == 1)
-          mapObject->loadMap("map2");
-        else
-          mapObject->loadMap("map3");
-
-        //select level
-        if (_choiceLevel == 0)
-          mapObject->loadLevel("level1");
-        else if (_choiceLevel == 1)
-          mapObject->loadLevel("level2");
-        else
-          mapObject->loadLevel("level3");
+        start();
       }
       break;
     }
+    return 1;
   }
-   
+
+  return 0;
 }
 
 /**
  * Starts up the world screen
  */
-void PlanetMenu::start() {}
+void PlanetMenu::start()
+{
+  WorldManager &world_manager = WorldManager::getInstance();
+  world_manager.markForDelete(this);
+
+  MapObject* mapObject = MapObject::getInstance();
+  mapObject->reset();
+
+  // select map
+  if (_choiceMap == 0)
+    mapObject->loadMap("map1");
+  else if (_choiceMap == 1)
+    mapObject->loadMap("map2");
+  else
+    mapObject->loadMap("map3");
+
+  //select level
+  if (_choiceLevel == 0)
+    mapObject->loadLevel("level1");
+  else if (_choiceLevel == 1)
+    mapObject->loadLevel("level2");
+  else
+    mapObject->loadLevel("level3");
+}
 
 // override default draw so as not to display "value"
 void PlanetMenu::draw() {

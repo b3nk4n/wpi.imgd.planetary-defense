@@ -18,7 +18,7 @@
 #include "MapObject.h"
 #include "Player.h"
 #include "Sidebar.h"
-#include "PlanetMenu.h"
+#include "GameStart.h"
 
 
 #include "GameOver.h"
@@ -36,7 +36,6 @@ GameOver::GameOver(int planet) {
     setSprite(p_temp_sprite);
     setSpriteSlowdown(10);		  
   }
-
 
   // put in center of screen
   WorldManager &world_manager = WorldManager::getInstance();
@@ -57,9 +56,8 @@ int GameOver::eventHandler(Event *p_event)
   {
     if (getSpriteIndex() == 8)
     {
-      WorldManager &world_manager = WorldManager::getInstance();
-      new PlanetMenu();
-      world_manager.markForDelete(this);
+      GameManager &gameManager = GameManager::getInstance();
+      gameManager.setGameOver(true);
     }
   }
 }
