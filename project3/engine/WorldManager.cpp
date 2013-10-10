@@ -143,6 +143,8 @@ void WorldManager::clearAllObjects(void)
  */
 int WorldManager::markForDelete(Object *p_object)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	// verify object
 	if (p_object == NULL)
 		return -1;
@@ -152,16 +154,29 @@ int WorldManager::markForDelete(Object *p_object)
 	for (it.first(); !it.isDone(); it.next())
 	{
 		if (p_object == it.currentObject())
+		{
+			logManager.writeLog(LOG_INFO,
+				"WorldManager::markForDelete()",
+				"Object (type=%s) is already marked for delete\n",
+				p_object->getType().c_str());
 			return 0;
+		}
 	}
 
 	// insert to delitions/marked list
-	_deletions.insert(p_object);
+	if (_deletions.insert(p_object))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"WorldManager::markForDelete()",
+			"Marking of object (type=%s) failed\n",
+			p_object->getType().c_str());
+		return -1;
+	}
 
-	LogManager &logManager = LogManager::getInstance();
 	logManager.writeLog(LOG_DEBUG,
 		"WorldManager::markForDelete()",
-		"One object marked for delete\n");
+		"One object (type=%s) marked for delete\n",
+		p_object->getType().c_str());
 
 	return 0;
 }

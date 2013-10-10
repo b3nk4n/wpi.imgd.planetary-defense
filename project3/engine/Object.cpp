@@ -556,8 +556,9 @@ void Object::setSpriteIndex(int index)
 		LogManager &logManager = LogManager::getInstance();
 		logManager.writeLog(LOG_WARNING,
 			"Object::setSpriteIndex()",
-			"Requested index %d is out of bound. Value was clipped.\n",
-			index);
+			"Requested index %d of type= %s is out of bound. Value was clipped.\n",
+			index,
+			getType().c_str());
 		if (index < 0)
 			index = 0;
 		else

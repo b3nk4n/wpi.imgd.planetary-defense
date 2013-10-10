@@ -13,7 +13,7 @@
 LaserTower::LaserTower(void)
 	: Tower(TOWER_LASER, "lasertower",
 		INIT_PRICE_LASER, INIT_ENERGY_LASER,
-		45, 1, 15, true)
+		45, 2, 15, true)
 {
 
 }

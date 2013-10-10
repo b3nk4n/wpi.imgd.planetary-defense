@@ -16,7 +16,7 @@
 TeslaTower::TeslaTower(void)
 	: Tower(TOWER_TESLA, "teslatower",
 		INIT_PRICE_TESLA, INIT_ENERGY_TESLA,
-		30, 15, 10, false)
+		30, 20, 15, false)
 {
 
 }

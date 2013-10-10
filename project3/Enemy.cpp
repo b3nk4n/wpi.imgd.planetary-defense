@@ -59,8 +59,15 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
 
 	_pathIndex = 0;
 	MapObject* mapObject = MapObject::getInstance();
-	_currentTarget = mapObject->getPathPosition(_pathIndex);
-	setPosition(_currentTarget);
+	if (mapObject->getPathPositionsCount() != 0)
+	{
+		_currentTarget = mapObject->getPathPosition(_pathIndex);
+		setPosition(_currentTarget);
+	}
+	else
+	{
+		_currentTarget = Position(0, 0);
+	}
 
 	// register for events
 	registerInterest(STEP_EVENT);
@@ -96,6 +103,8 @@ Enemy::~Enemy(void)
  */
 int Enemy::eventHandler(Event *p_event)
 {
+	LogManager &logManager = LogManager::getInstance();
+
 	if (p_event->getType() == STEP_EVENT)
 	{
   		// check target reached
@@ -121,7 +130,17 @@ int Enemy::eventHandler(Event *p_event)
 
 			// add linear decreasing splash damage
 			float rangeDamage = p_eventDetonation->getDamage() / dist;
+
+			logManager.writeLog(LOG_DEBUG,
+				"Enemy::eventHandler()",
+				"rangeDamage=%f.\n",
+				rangeDamage);
+
 			addDamage(rangeDamage);
+
+			logManager.writeLog(LOG_DEBUG,
+				"Enemy::eventHandler()",
+				"After add damage.\n");
 		}
 
   		return 1;
@@ -162,7 +181,7 @@ int Enemy::nextTarget(void)
 	++_pathIndex;
 	
 	// verify target reached
-	if (_pathIndex == mapObject->getPathPositionsCount())
+	if (_pathIndex >= mapObject->getPathPositionsCount())
 	{
 		LogManager &logManager = LogManager::getInstance();
 		logManager.writeLog(LOG_DEBUG,
@@ -266,8 +285,14 @@ int Enemy::getKillCredits(void)
  */
 void Enemy::killSelf(void)
 {
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"Enemy::killSelf()",
+		"Enemy with id=%d gets killed.\n",
+		_id);
+
 	WorldManager &worldManager = WorldManager::getInstance();
-	worldManager.markForDelete(this);
+	worldManager.markForDelete(this);                    // TODO: check why this delete causes error for grenade kills
 }
 
 /**

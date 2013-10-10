@@ -107,16 +107,9 @@ ExplosionElectro.o: ExplosionElectro.h Explosion.h
 ExplosionSmall.o: ExplosionSmall.h Explosion.h
 FragmentationGrenade.o: FragmentationGrenade.h Projectile.h EventDetonation.h
 FragmentationGrenade.o: Enemy.h ExplosionBig.h Explosion.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
-game.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h
-game.o: Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h
 GameStart.o: Spawner.h Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h
-GameStart.o: Building.h Player.h Sidebar.h EventInfo.h GameStart.h
+GameStart.o: Building.h Player.h Sidebar.h EventInfo.h PlanetMenu.h
+GameStart.o: GameStart.h
 GrenadeTower.o: GrenadeTower.h Tower.h Building.h Enemy.h
 GrenadeTower.o: FragmentationGrenade.h Projectile.h
 Grid.o: Grid.h Cell.h Building.h
@@ -128,6 +121,8 @@ MapObject.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EventInfo.h
 MapObject.o: EventEnemyKilled.h Player.h SolarBuilding.h Tower.h Enemy.h
 MapObject.o: MachineGunTower.h GrenadeTower.h LaserTower.h TeslaTower.h
 MapObject.o: PopupText.h
+PlanetMenu.o: Spawner.h Enemy.h MapObject.h VirtualCursor.h Grid.h Cell.h
+PlanetMenu.o: Building.h Player.h Sidebar.h EventInfo.h PlanetMenu.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h
 PopupText.o: PopupText.h
@@ -147,3 +142,11 @@ Tower.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 Tower.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 Tower.o: Tower.h Building.h Enemy.h Spawner.h
 VirtualCursor.o: VirtualCursor.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
+game.o: MapObject.h VirtualCursor.h Grid.h Cell.h Building.h EnemyOrk.h
+game.o: Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h

@@ -435,5 +435,5 @@ int GraphicsManager::getColorByString(string color)
 	else if (color == "white")
 		return COLOR_WHITE;
 	else
-		return -1;
+		return COLOR_DEFAULT;
 }

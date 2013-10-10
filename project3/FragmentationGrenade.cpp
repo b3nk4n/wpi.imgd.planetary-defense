@@ -7,6 +7,7 @@
 
 #include "FragmentationGrenade.h"
 #include "EventDetonation.h"
+#include "LogManager.h"
 #include "WorldManager.h"
 #include "Enemy.h"
 #include "ExplosionBig.h"
@@ -38,10 +39,17 @@ void FragmentationGrenade::onHit(EventCollision *p_collisionEvent)
  */
 void FragmentationGrenade::onTargetReached(void)
 {
+	LogManager &logManager = LogManager::getInstance();
     WorldManager &worldManager = WorldManager::getInstance();
     EventDetonation event(Circle(getPosition(), DETONATION_RADIUS),
         getDamage());
+    logManager.writeLog(LOG_DEBUG,
+			"FragmentationGrenade::onTargetReached()",
+			"Before onEvent.\n");
     worldManager.onEvent(&event);
+    logManager.writeLog(LOG_DEBUG,
+			"FragmentationGrenade::onTargetReached()",
+			"After onEvent.\n");
 
     new ExplosionBig(getPosition());
 

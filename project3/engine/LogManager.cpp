@@ -117,7 +117,8 @@ int LogManager::writeLog(int verbosity, const char *source, const char *format, 
 
 	// write log header
 	bytesWritten += fprintf(p_file,
-		"[%s - %s] : ",
+		"(%d)[%s - %s] : ",
+		verbosity,
 		getTimeString(),
 		source);
 
