@@ -101,6 +101,7 @@ int SplashDragonfly::eventHandler(Event *p_event)
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		worldManager.markForDelete(this);
+		setVisibility(false);
 		return 1;
 	}
 

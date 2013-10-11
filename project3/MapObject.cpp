@@ -345,6 +345,7 @@ int MapObject::loadMap(string mapLabel)
 	setPosition(mapPosition);
 	_p_sidebar->setPosition(sidebarPosition);
 	_p_cursor->setPosition(getPosition());
+	_grid.setCorner(getPosition());
 
 	return 0;
 }

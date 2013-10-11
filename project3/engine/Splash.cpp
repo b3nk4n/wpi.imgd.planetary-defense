@@ -103,6 +103,7 @@ int Splash::eventHandler(Event *p_event)
 	{
 		gameManager.setGameOver(true);
 		worldManager.markForDelete(this);
+		setVisibility(false);
 		return 1;
 	}
 

@@ -42,6 +42,11 @@ private:
 	 */
 	int _cellHeight;
 
+	/**
+	 * The top left base position of the grid.
+	 */
+	Position _corner;
+
 public:
 	/**
 	 * Creates a new empty grid instance.
@@ -116,6 +121,12 @@ public:
 	 * @return The height.
 	 */
 	int getVertical(void);
+
+	/**
+	 * Sets the base position of the grid.
+	 * @param position The position of the grid.
+	 */
+	void setCorner(Position position);
 };
 
 #endif

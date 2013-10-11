@@ -50,8 +50,8 @@ void Grid::setup(MapData *p_mapData)
 			Cell *cell = getCell(x, y);
 			bool isPassable = p_mapData->isPassable(Position(x,y));
 			cell->setPassable(isPassable);
-			Position centerCell(x * _cellWidth + _cellWidth / 2,
-				y * _cellHeight + _cellHeight / 2);
+			Position centerCell(x * _cellWidth + _cellWidth / 2 + _corner.getX(),
+				y * _cellHeight + _cellHeight / 2 + _corner.getY());
 			cell->setCenter(centerCell);
 		}
 	}
@@ -145,4 +145,28 @@ int Grid::getHorizontal(void)
 int Grid::getVertical(void)
 {
 	return _height * _cellHeight;
+}
+
+/**
+ * Sets the base position of the grid.
+ * @param position The position of the grid.
+ */
+void Grid::setCorner(Position position)
+{
+	if (position == _corner)
+		return;
+
+	_corner = position;
+
+	// update cell positions
+	for (int x = 0; x < _width; ++x)
+	{
+		for (int y = 0; y < _height; ++y)
+		{
+			Cell *cell = getCell(x, y);
+			Position centerCell(x * _cellWidth + _cellWidth / 2 + _corner.getX(),
+				y * _cellHeight + _cellHeight / 2 + _corner.getY());
+			cell->setCenter(centerCell);
+		}
+	}
 }
