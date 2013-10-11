@@ -13,12 +13,13 @@
 ################################################################################
 
 1. Intro
-1.1 Platform
+ 1.1 Platform
 2. Build/Compile
 3. Execution
-3.1 Running the Game
-3.2 Game Contents
-3.3 Known Issues
+ 3.1 Running the Game
+ 3.2 Game Contents
+ 3.3 Additional Featurs
+ 3.4 Known Issues
 4. File and Code Structure
 5. Repository
 
@@ -42,7 +43,7 @@ There are two makefiles that must be compiled to run the project. One is the
 engine MAKEFILE, the other is a MAKEFILE for the game.
 path:
 
-	./project3/engine/MAKEFILE
+	./project3/engine/MAKEFILE    # this one first to create the library!
 	./project3/MAKEFILE
 
 Because the CCC server is a Linux x64 machine, the MAKEFILE runs without
@@ -75,21 +76,31 @@ To run "Planetary Defense" simply type the below command into the terminal windo
 
 - Main Menu
 	- Planet Menu
-		- Map One
-			- 3 Enemy Types and a Enemy Spawner
-			- 5 Towers (purchased with # keys)
+		- Tower Defens Game
+			- 3 Maps
+			- 3 Levels (EASY = 10 Waves, MEDIUM = 20 Waves, HARD = 30 Waves)
+			- 3 Enemy Types (Goblin, Ork Boss)
+			- 5 Towers (purchased with # keys [e.g. Key '1' for Solar Panel])
 			- Map and Cursor (arrow keys to move)
 			- Volts (need solar panels to increase)
-			- Money (gained by killing enemies)
-			- Game Over Screen 
+			- Credits (gained by killing enemies)
 	- Quit
 
-### 3.3 Known Issues
+### 3.3 Additional Featurs
 
-- Game may seg fault randomly when playing
-- After lose screen, player cannot select a new planet without a seg fault
-- Balancing is way off at the moment. May seem quite hard.
-- 
+The game engines resource manager was extended to load maps and level information
+specific for tower defens games. So it is possible for the user to modify or add
+additional maps or levels.
+
+
+### 3.4 Known Issues
+
+- When a Grenade Tower or a Tesla Tower was built, the game could crash with
+  an SEG FAULT. We could narrow down the problem that the SEG FAULT occured
+  inside Manager::onEvent(), but we weren't able to fix it before we submitted
+  or game for the ALPHA release. The problem might be caused anywhere in the 
+  optionally implemented SceneGraph...
+- Balancing is way off at the moment, but is not a requirement for the ALPHA.
 
 ################################################################################
 4. File and Code Structure
@@ -117,5 +128,5 @@ The project folder should be look like the following:
 5. Repository
 ################################################################################
 
-bitbucket.org was used as a git repository for this project. 
+In this project, we used 'bitbucket.org' as a GIT repository for collaboration. 
 

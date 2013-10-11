@@ -22,6 +22,7 @@
 #include "ResourceManager.h"
 #include "WorldManager.h"
 #include "EventPlayerKilled.h"
+#include "EventPlayerWin.h"
 
 /**
  * Creates a new instance of the spawner object
@@ -128,6 +129,15 @@ int Spawner::eventHandler(Event *p_event)
 		}
 
 		--_coolDown;
+
+		// check for win
+		if (_activeEnemies == 0 && _waveCounter == _waves)
+		{
+			WorldManager &worldManager = WorldManager::getInstance();
+			EventPlayerWin eventWin;
+			worldManager.onEvent(&eventWin);
+		}
+
 		return 1;
 	}
 	if (p_event->getType() == ENEMY_KILLED_EVENT || p_event->getType() == ENEMY_INVASION_EVENT)

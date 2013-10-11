@@ -17,19 +17,21 @@
 
 #include "GameOver.h"
 /**
- * Create a new GameStart
+ * Create a new Game over
  */
-GameOver::GameOver(int planet) {
+GameOver::GameOver(bool success) {
   setType("GameOver");
 
-  // link to "message" sprite
-  if (planet == 1)
-  {
-    ResourceManager &resourceManager = ResourceManager::getInstance();
-    Sprite *p_temp_sprite = resourceManager.getSprite("gameover");
-    setSprite(p_temp_sprite);
-    setSpriteSlowdown(15);		  
-  }
+  ResourceManager &resourceManager = ResourceManager::getInstance();
+  Sprite *p_temp_sprite;
+  
+  if (success)
+    p_temp_sprite = resourceManager.getSprite("gamewin");
+  else
+    p_temp_sprite = resourceManager.getSprite("gameover");
+
+  setSprite(p_temp_sprite);
+  setSpriteSlowdown(15);  
 
   // put in center of screen
   WorldManager &world_manager = WorldManager::getInstance();

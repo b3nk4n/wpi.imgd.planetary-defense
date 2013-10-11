@@ -14,9 +14,8 @@ class GameOver : public ViewObject {
  public:
  	/**
  	 * Create a new Game Over 
- 	 * @param int, Planet that is being destroyed
  	 */
-	GameOver(int planet);
+	GameOver(bool success);
 
 	/**
 	 * Handle events

@@ -24,6 +24,7 @@
 #include "TeslaTower.h"
 #include "PopupText.h"
 #include "EventPlayerKilled.h"
+#include "EventPlayerWin.h"
 #include "GameOver.h"
 #include "Player.h"
 #include "utility.h"
@@ -49,6 +50,7 @@ TowerDefenseController::TowerDefenseController(void)
 	registerInterest(KEYBOARD_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
 	registerInterest(PLAYER_KILLED_EVENT);
+	registerInterest(PLAYER_WIN_EVENT);
 }
 
 /**
@@ -140,9 +142,19 @@ int TowerDefenseController::eventHandler(Event *p_event)
 		_p_spawner->stop();
 
 		// show game over screen
-		new GameOver(1);
+		new GameOver(false);
 	}
-	if (p_event->getType() == KEYBOARD_EVENT)
+	else if (p_event->getType() == PLAYER_WIN_EVENT)
+	{
+		this->setVisibility(false);
+		_p_sidebar->setVisibility(false);
+		_p_cursor->setVisibility(false);
+		_p_spawner->stop();
+
+		// show game over screen
+		new GameOver(true);
+	} 
+	else if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		Cell *p_cell;
 		Building *p_building;
@@ -313,7 +325,7 @@ void TowerDefenseController::draw(void)
 		{
 			graphicsManager.drawChar(Position(x,y),
 				'#',
-				COLOR_DEFAULT);
+				COLOR_CYAN);
 		}
 	}
 
@@ -324,7 +336,7 @@ void TowerDefenseController::draw(void)
 		{
 			graphicsManager.drawChar(Position(x,y),
 				'#',
-				COLOR_DEFAULT);
+				COLOR_CYAN);
 		}
 	}
 
@@ -335,7 +347,7 @@ void TowerDefenseController::draw(void)
 		{
 			graphicsManager.drawChar(Position(x,y),
 				'#',
-				COLOR_DEFAULT);
+				COLOR_CYAN);
 		}
 	}
 
@@ -346,7 +358,7 @@ void TowerDefenseController::draw(void)
 		{
 			graphicsManager.drawChar(Position(x,y),
 				'#',
-				COLOR_DEFAULT);
+				COLOR_CYAN);
 		}
 	}
 
@@ -360,7 +372,7 @@ void TowerDefenseController::draw(void)
 					x,
 					y),
 				'#',
-				COLOR_DEFAULT);
+				COLOR_CYAN);
 		}
 	}
 
