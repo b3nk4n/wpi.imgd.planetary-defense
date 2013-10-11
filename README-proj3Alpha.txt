@@ -17,9 +17,10 @@
 2. Build/Compile
 3. Execution
  3.1 Running the Game
- 3.2 Game Contents
- 3.3 Additional Featurs
- 3.4 Known Issues
+ 3.2 Game Controls
+ 3.3 Game Contents
+ 3.4 Additional Featurs
+ 3.5 Known Issues
 4. File and Code Structure
 5. Repository
 
@@ -72,7 +73,21 @@ To run "Planetary Defense" simply type the below command into the terminal windo
 
 	$ ./game
 
-### 3.2 Game Contents
+### 3.2 Game Controls
+
+- After starting the game, press P to start
+- In the planet screen, select the map/planet and the difficulty
+    - LEFT/RIGHT --> change planet
+    - UP/DOWN    --> chane difficulty
+    - SPACE      --> SELECT
+- In game controls
+	- ARROW KEYS  --> move virtual cursor
+	- Number Keys --> place builing (1 = solor, 2 = mgtower,... [see sidebar])
+	- 'i'         --> toggle enemy info
+	- 's'         --> sell building
+	- 'q'         --> quit game
+
+### 3.3 Game Contents
 
 - Main Menu
 	- Planet Menu
@@ -80,20 +95,20 @@ To run "Planetary Defense" simply type the below command into the terminal windo
 			- 3 Maps
 			- 3 Levels (EASY = 10 Waves, MEDIUM = 20 Waves, HARD = 30 Waves)
 			- 3 Enemy Types (Goblin, Ork Boss)
-			- 5 Towers (purchased with # keys [e.g. Key '1' for Solar Panel])
-			- Map and Cursor (arrow keys to move)
+			- 5 Towers
+			- Map and virtual Cursor 
 			- Volts (need solar panels to increase)
 			- Credits (gained by killing enemies)
 	- Quit
 
-### 3.3 Additional Featurs
+### 3.4 Additional Featurs
 
 The game engines resource manager was extended to load maps and level information
 specific for tower defens games. So it is possible for the user to modify or add
 additional maps or levels.
 
 
-### 3.4 Known Issues
+### 3.5 Known Issues
 
 - When a Grenade Tower or a Tesla Tower was built, the game could crash with
   an SEG FAULT. We could narrow down the problem that the SEG FAULT occured

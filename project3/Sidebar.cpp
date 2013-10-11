@@ -149,6 +149,8 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 2);
 	graphcisManager.drawStringFormat(pos, " [%c] Sell building", KEY_SELL);
 	pos.setY(pos.getY() + 2);
+	graphcisManager.drawStringFormat(pos, " [%c] Quit game", KEY_QUITGAME);
+	pos.setY(pos.getY() + 2);
 
 	// cursor selection info
 	graphcisManager.drawString(pos, "############# INFO #############",
@@ -262,5 +264,5 @@ int Sidebar::getHorizontal(void)
 int Sidebar::getVertical(void)
 {
 	// hard coded
-	return 46;
+	return 48;
 }

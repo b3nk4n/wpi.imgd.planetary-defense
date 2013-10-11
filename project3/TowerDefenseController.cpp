@@ -273,8 +273,17 @@ int TowerDefenseController::eventHandler(Event *p_event)
 			break;
 
 		case KEY_INFO:
-			bool currentShowInfo = Enemy::getShowInfo();
-			Enemy::setShowInfo(!currentShowInfo);
+			Enemy::setShowInfo(!Enemy::getShowInfo());
+			break;
+
+		case KEY_QUITGAME:
+			this->setVisibility(false);
+			_p_sidebar->setVisibility(false);
+			_p_cursor->setVisibility(false);
+			_p_spawner->stop();
+
+			// show game over screen
+			new GameOver(false);
 			break;
 		}
 
