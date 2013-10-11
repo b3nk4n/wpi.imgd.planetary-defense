@@ -73,6 +73,8 @@ To run "Planetary Defense" simply type the below command into the terminal windo
 
 	$ ./game
 
+NOTE: Please start the game in FULL SCREEN TERMINAL !!! =)
+
 ### 3.2 Game Controls
 
 - After starting the game, press P to start
