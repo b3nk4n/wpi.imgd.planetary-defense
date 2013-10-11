@@ -12,7 +12,7 @@
 #include "ResourceManager.h"
 #include "WorldManager.h"
 #include "Enemy.h"
-#include "MapObject.h"
+#include "TowerDefenseController.h"
 #include "EventEnemyInvasion.h"
 #include "EventEnemyKilled.h"
 #include "EventDetonation.h"
@@ -61,10 +61,10 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
   	}
 
 	_pathIndex = 0;
-	MapObject* mapObject = MapObject::getInstance();
-	if (mapObject->getPathPositionsCount() != 0)
+	TowerDefenseController* towerDefenseController = TowerDefenseController::getInstance();
+	if (towerDefenseController->getPathPositionsCount() != 0)
 	{
-		_currentTarget = mapObject->getPathPosition(_pathIndex);
+		_currentTarget = towerDefenseController->getPathPosition(_pathIndex);
 		setPosition(_currentTarget);
 	}
 	else
@@ -197,13 +197,13 @@ void Enemy::draw(void)
  */
 int Enemy::nextTarget(void)
 {
-	MapObject* mapObject = MapObject::getInstance();
+	TowerDefenseController* towerDefenseController = TowerDefenseController::getInstance();
 	LogManager &logManager = LogManager::getInstance();
 
 	++_pathIndex;
 	
 	// verify target reached
-	if (_pathIndex >= mapObject->getPathPositionsCount())
+	if (_pathIndex >= towerDefenseController->getPathPositionsCount())
 	{
 		logManager.writeLog(LOG_DEBUG,
 			"Enemy::nextTarget()",
@@ -217,7 +217,7 @@ int Enemy::nextTarget(void)
 		return -1;
 	}
 
-	_currentTarget = mapObject->getPathPosition(_pathIndex);
+	_currentTarget = towerDefenseController->getPathPosition(_pathIndex);
 
 	logManager.writeLog(LOG_DEBUG,
 			"Enemy::nextTarget()",

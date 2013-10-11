@@ -15,7 +15,7 @@
 #include "LaserTower.h"
 #include "GrenadeTower.h"
 #include "TeslaTower.h"
-#include "MapObject.h"
+#include "TowerDefenseController.h"
 #include "EventInfo.h"
 #include "EventPlayerKilled.h"
 #include "WorldManager.h"

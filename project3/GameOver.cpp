@@ -14,12 +14,6 @@
 #include "WorldManager.h"
 #include "Box.h"
 #include "EventStep.h"
-#include "Spawner.h"
-#include "MapObject.h"
-#include "Player.h"
-#include "Sidebar.h"
-#include "GameStart.h"
-
 
 #include "GameOver.h"
 /**

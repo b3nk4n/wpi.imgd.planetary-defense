@@ -10,7 +10,6 @@
 #include "ResourceManager.h"
 #include "WorldManager.h"
 #include "GameStart.h"
-#include "MapObject.h"
 #include "EnemyOrk.h"
 #include "Player.h"
 #include "Spawner.h"

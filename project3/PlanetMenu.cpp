@@ -15,7 +15,7 @@
 #include "Box.h"
 #include "EventStep.h"
 #include "Spawner.h"
-#include "MapObject.h"
+#include "TowerDefenseController.h"
 #include "Player.h"
 
 // game includes
@@ -137,24 +137,24 @@ void PlanetMenu::start()
   WorldManager &world_manager = WorldManager::getInstance();
   world_manager.markForDelete(this);
 
-  MapObject* mapObject = MapObject::getInstance();
-  mapObject->reset();
+  TowerDefenseController* tdController = TowerDefenseController::getInstance();
+  tdController->reset();
 
   // select map
   if (_choiceMap == 0)
-    mapObject->loadMap("map1");
+    tdController->loadMap("map1");
   else if (_choiceMap == 1)
-    mapObject->loadMap("map2");
+    tdController->loadMap("map2");
   else
-    mapObject->loadMap("map3");
+    tdController->loadMap("map3");
 
   //select level
   if (_choiceLevel == 0)
-    mapObject->loadLevel("level1");
+    tdController->loadLevel("level1");
   else if (_choiceLevel == 1)
-    mapObject->loadLevel("level2");
+    tdController->loadLevel("level2");
   else
-    mapObject->loadLevel("level3");
+    tdController->loadLevel("level3");
 }
 
 // override default draw so as not to display "value"

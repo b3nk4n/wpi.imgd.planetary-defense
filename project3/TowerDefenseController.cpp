@@ -1,12 +1,12 @@
 /*******************************************************************************
- * @file        MapObject.cpp
+ * @file        TowerDefenseController.cpp
  * @author      bsautermeister
  * @description Manages the map and the cursor. Also, it is implemented as a
  *              singleton, so e.g. enemies can get map information using this
  *              manager class.
  ******************************************************************************/
 
-#include "MapObject.h"
+#include "TowerDefenseController.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
 #include "GraphicsManager.h"
@@ -29,12 +29,12 @@
 #include "utility.h"
 
 // Static pointer used to ensure a single instance of the class.
-MapObject* MapObject::_p_instance = NULL;
+TowerDefenseController* TowerDefenseController::_p_instance = NULL;
 
 /**
  * Creates a map object instance.
  */
-MapObject::MapObject(void)
+TowerDefenseController::TowerDefenseController(void)
 {
 	_p_currentMapData = NULL;
 	_p_spawner = NULL;
@@ -54,21 +54,21 @@ MapObject::MapObject(void)
 /**
  * Hides copy constrctor.
  */
-MapObject::MapObject(MapObject const &mo)
+TowerDefenseController::TowerDefenseController(TowerDefenseController const &mo)
 {
 }
 
 /**
  * Hides assignment operator.
  */
-MapObject& MapObject::operator=(MapObject const &mo)
+TowerDefenseController& TowerDefenseController::operator=(TowerDefenseController const &mo)
 {
 }
 
 /**
  * Cleans up the map manager allocated resources.
  */
-MapObject::~MapObject(void)
+TowerDefenseController::~TowerDefenseController(void)
 {
 	if (_p_cursor != NULL)
 		delete _p_cursor;
@@ -89,17 +89,17 @@ MapObject::~MapObject(void)
  *       access to the map object properties.
  * @return The singleton map object instance.
  */
-MapObject* MapObject::getInstance(void)
+TowerDefenseController* TowerDefenseController::getInstance(void)
 {
 	if (!_p_instance)
-		_p_instance = new MapObject();
+		_p_instance = new TowerDefenseController();
 	return _p_instance;
 }
 
 /**
  * Resets the dower defense game.
  */
-void MapObject::reset(void)
+void TowerDefenseController::reset(void)
 {
 	if (_p_cursor != NULL)
 		delete _p_cursor;
@@ -130,7 +130,7 @@ void MapObject::reset(void)
  * @param p_event Points to the current event to handle.
  * @return Return 0 if ignored, else 1 if event was handled.
  */
-int MapObject::eventHandler(Event *p_event)
+int TowerDefenseController::eventHandler(Event *p_event)
 {	
 	if (p_event->getType() == PLAYER_KILLED_EVENT)
 	{
@@ -289,7 +289,7 @@ int MapObject::eventHandler(Event *p_event)
  * @param mapLabel The label name of the map to load.
  * @return Returns 0 if ok, else -1.
  */
-int MapObject::loadMap(string mapLabel)
+int TowerDefenseController::loadMap(string mapLabel)
 {
 	LogManager &logManager = LogManager::getInstance();
 	ResourceManager &resourceManager = ResourceManager::getInstance();
@@ -299,7 +299,7 @@ int MapObject::loadMap(string mapLabel)
 	if (!p_tempMap)
 	{
 		logManager.writeLog(LOG_WARNING,
-			"MapObject::loadMap()",
+			"TowerDefenseController::loadMap()",
 			"Map with label '%s' not found.\n",
 			mapLabel.c_str());
 		return -1;
@@ -321,7 +321,7 @@ int MapObject::loadMap(string mapLabel)
 	else
 	{
 		logManager.writeLog(LOG_WARNING,
-			"MapObject::loadMap()",
+			"TowerDefenseController::loadMap()",
 			"Map background sprite could not be received.\n");
 		return -1;
 	}
@@ -356,7 +356,7 @@ int MapObject::loadMap(string mapLabel)
  * @param levelLabel The label name of the level to load.
  * @return Returns 0 if ok, else -1.
  */
-int MapObject::loadLevel(string levelLabel)
+int TowerDefenseController::loadLevel(string levelLabel)
 {
 	LogManager &logManager = LogManager::getInstance();
 	ResourceManager &resourceManager = ResourceManager::getInstance();
@@ -366,7 +366,7 @@ int MapObject::loadLevel(string levelLabel)
 	if (!p_tempLevel)
 	{
 		logManager.writeLog(LOG_WARNING,
-			"MapObject::loadLevel()",
+			"TowerDefenseController::loadLevel()",
 			"Level with label '%s' not found.\n",
 			levelLabel.c_str());
 		return -1;
@@ -380,7 +380,7 @@ int MapObject::loadLevel(string levelLabel)
  * Gets the selected relative cell index position.
  * @return The selected cell index position.
  */
-Position MapObject::getSelectedCell(void)
+Position TowerDefenseController::getSelectedCell(void)
 {
 	return _selectedCell;
 }
@@ -390,7 +390,7 @@ Position MapObject::getSelectedCell(void)
  * with the cursor.
  * @param position The selected cell index position. 
  */
-void MapObject::setSelectedCell(Position position)
+void TowerDefenseController::setSelectedCell(Position position)
 {
 	int x = position.getX();
 	int y = position.getY();
@@ -416,7 +416,7 @@ void MapObject::setSelectedCell(Position position)
 	 * @param deltaX The delta x to move in cells.
 	 * @param deltaY The delta y to move in cells.
 	 */
-void MapObject::moveCursor(int deltaX, int deltaY)
+void TowerDefenseController::moveCursor(int deltaX, int deltaY)
 {
 	Position tempSelected = getSelectedCell();
 	tempSelected.setX(tempSelected.getX() + deltaX);
@@ -429,7 +429,7 @@ void MapObject::moveCursor(int deltaX, int deltaY)
  * Gets the maps width in cells.
  * @return The maps width in cells.
  */
-int MapObject::getCellsHorizontal(void)
+int TowerDefenseController::getCellsHorizontal(void)
 {
 	return _grid.getWidth();
 }
@@ -438,7 +438,7 @@ int MapObject::getCellsHorizontal(void)
  * Gets the maps height in cells.
  * @return The maps height in cells.
  */
-int MapObject::getCellsVertical(void)
+int TowerDefenseController::getCellsVertical(void)
 {
 	return _grid.getWidth();
 }
@@ -447,7 +447,7 @@ int MapObject::getCellsVertical(void)
  * Gets the maps cell width.
  * @return The maps cell width.
  */
-int MapObject::getCellWidth(void)
+int TowerDefenseController::getCellWidth(void)
 {
 	return _grid.getCellWidth();
 }
@@ -456,7 +456,7 @@ int MapObject::getCellWidth(void)
  * Gets the maps cell height.
  * @return The maps cell height.
  */
-int MapObject::getCellHeight(void)
+int TowerDefenseController::getCellHeight(void)
 {
 	return _grid.getHeight();
 }
@@ -465,7 +465,7 @@ int MapObject::getCellHeight(void)
  * Gets the maps background.
  * @return The maps background.
  */
-Sprite *MapObject::getBackground(void)
+Sprite *TowerDefenseController::getBackground(void)
 {
 	// verify map has been loaded
 	if (_p_currentMapData == NULL)
@@ -479,7 +479,7 @@ Sprite *MapObject::getBackground(void)
  * @param cellPosition The cell position.
  * @return Returns TRUE if passable, else FALSE.
  */
-bool MapObject::isPassable(Position cellPosition)
+bool TowerDefenseController::isPassable(Position cellPosition)
 {
 	// verify cell position
 	if (!_grid.isValidCellPosition(cellPosition))
@@ -493,7 +493,7 @@ bool MapObject::isPassable(Position cellPosition)
  * @param index The index of the path.
  * @return The index position of the enemy path of the map, or (-1, -1) if out of bounds.
  */
-Position MapObject::getPathCellPosition(int index)
+Position TowerDefenseController::getPathCellPosition(int index)
 {
 	// verify map has been loaded
 	if (_p_currentMapData == NULL)
@@ -507,7 +507,7 @@ Position MapObject::getPathCellPosition(int index)
  * @param index The index of the path.
  * @return The world position of the enemy path of the map, or (-1, -1) if out of bounds.
  */
-Position MapObject::getPathPosition(int index)
+Position TowerDefenseController::getPathPosition(int index)
 {
 	if (_p_currentMapData == NULL)
 		return Position(-1, -1);
@@ -523,7 +523,7 @@ Position MapObject::getPathPosition(int index)
  * Gets the number of enemy's path positions.
  * @return The amount path positions of the enemy path, or -1 if error.
  */
-int MapObject::getPathPositionsCount()
+int TowerDefenseController::getPathPositionsCount()
 {
 	// verify map has been loaded
 	if (_p_currentMapData == NULL)
@@ -535,7 +535,7 @@ int MapObject::getPathPositionsCount()
 /**
  * Fires an appropriate info event.
  */
-void MapObject::infoUpdate(void)
+void TowerDefenseController::infoUpdate(void)
 {
 	Cell *p_currentCell = _grid.getCell(_selectedCell);
 	if (p_currentCell != NULL)

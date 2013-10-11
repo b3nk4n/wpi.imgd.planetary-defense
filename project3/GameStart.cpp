@@ -15,7 +15,6 @@
 #include "Box.h"
 #include "EventStep.h"
 #include "Spawner.h"
-#include "MapObject.h"
 #include "Player.h"
 #include "Sidebar.h"
 #include "PlanetMenu.h"

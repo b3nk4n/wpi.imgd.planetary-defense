@@ -1,5 +1,5 @@
 /*******************************************************************************
- * @file        MapObject.h
+ * @file        TowerDefenseController.h
  * @author      bsautermeister
  * @description Manages the map and the cursor. Also, it is implemented as a
  *              singleton, so e.g. enemies can get map information using this
@@ -28,7 +28,7 @@ using std::string;
 /**
  * Manages 2D maps and allows virtual cursor navigation.
  */
-class MapObject : public Object
+class TowerDefenseController : public Object
 {
 private:
 
@@ -37,7 +37,7 @@ private:
 	 * instance variable instead of a local static variable, because 
 	 * each object must be created with 'new'.
 	 */
-	static MapObject *_p_instance;
+	static TowerDefenseController *_p_instance;
 
 	/**
 	 * The map data.
@@ -77,17 +77,17 @@ private:
     /**
 	 * Creates a map object instance.
 	 */
-	MapObject(void);
+	TowerDefenseController(void);
 
 	/**
 	 * Hides copy constrctor.
 	 */
-	MapObject(MapObject const&);
+	TowerDefenseController(TowerDefenseController const&);
 
 	/**
 	 * Hides assignment operator.
 	 */
-	MapObject& operator=(MapObject const&);
+	TowerDefenseController& operator=(TowerDefenseController const&);
 
 	/**
 	 * Fires an appropriate info event.
@@ -99,7 +99,7 @@ public:
 	/**
 	 * Cleans up the map manager allocated resources.
 	 */
-	virtual ~MapObject(void);
+	virtual ~TowerDefenseController(void);
 
 	/**
 	 * Gets the singleton map object instance.
@@ -107,7 +107,7 @@ public:
 	 *       access to the map object properties.
 	 * @return The singleton map object instance.
 	 */
-	static MapObject* getInstance(void);
+	static TowerDefenseController* getInstance(void);
 
 	/**
 	 * Resets the dower defense game.
