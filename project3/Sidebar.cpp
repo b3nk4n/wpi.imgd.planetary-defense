@@ -88,7 +88,9 @@ void Sidebar::draw(void)
 	Position pos = getPosition();
 
 	// player info
-	graphcisManager.drawString(pos, "############ PLAYER ############", LEFT_JUSTIFIED);
+	graphcisManager.drawString(pos, "############ PLAYER ############",
+		LEFT_JUSTIFIED,
+		COLOR_CYAN);
 	pos.setY(pos.getY() + 2);
 	graphcisManager.drawStringFormat(pos, " Lifes:      %5d", _p_player->getLifes());
 	pos.setY(pos.getY() + 1);
@@ -98,7 +100,9 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 2);
 
 	// building info
-	graphcisManager.drawString(pos, "######## CONSTRUCTIONS  ########", LEFT_JUSTIFIED);
+	graphcisManager.drawString(pos, "######## CONSTRUCTIONS  ########",
+		LEFT_JUSTIFIED,
+		COLOR_CYAN);
 	pos.setY(pos.getY() + 2);
 	drawBuilding(pos,
 		KEY_SOLAR,
@@ -137,7 +141,9 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 4);
 
 	// special keys
-	graphcisManager.drawString(pos, "######### SPECIAL KEYS #########", LEFT_JUSTIFIED);
+	graphcisManager.drawString(pos, "######### SPECIAL KEYS #########",
+		LEFT_JUSTIFIED,
+		COLOR_CYAN);
 	pos.setY(pos.getY() + 2);
 	graphcisManager.drawStringFormat(pos, " [%c] Toggle enemy info", KEY_INFO);
 	pos.setY(pos.getY() + 2);
@@ -145,7 +151,9 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 2);
 
 	// cursor selection info
-	graphcisManager.drawString(pos, "############# INFO #############", LEFT_JUSTIFIED);
+	graphcisManager.drawString(pos, "############# INFO #############",
+		LEFT_JUSTIFIED,
+		COLOR_CYAN);
 	pos.setY(pos.getY() + 2);
 	if (_lastInfo.getInfoType() != NONE)
 	{
@@ -175,8 +183,6 @@ void Sidebar::draw(void)
 	{
 		pos.setY(pos.getY() + 7);
 	}
-
-	graphcisManager.drawString(pos, "################################", LEFT_JUSTIFIED);
 }
 
 /**
@@ -246,7 +252,7 @@ Frame Sidebar::loadFrame(string spriteName)
 int Sidebar::getHorizontal(void)
 {
 	// hard coded
-	return 22;
+	return 32;
 }
 
 /**

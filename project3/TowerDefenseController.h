@@ -25,6 +25,8 @@ using std::string;
 #define KEY_INFO 'i'
 #define KEY_SELL 's'
 
+#define MAP_SIDEBAR_BORDER 4
+
 /**
  * Manages 2D maps and allows virtual cursor navigation.
  */
@@ -120,6 +122,11 @@ public:
 	 * @return Return 0 if ignored, else 1 if event was handled.
 	 */
 	virtual int eventHandler(Event *p_event);
+
+	/**
+	 * Renders the map with a filled background screen.
+	 */
+	virtual void draw(void);
 
 	/**
 	 * Loads a new map from the resource manager.

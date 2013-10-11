@@ -284,6 +284,90 @@ int TowerDefenseController::eventHandler(Event *p_event)
 }
 
 /**
+ * Renders the map with a filled background screen.
+ */
+void TowerDefenseController::draw(void)
+{
+	// fill background:
+	WorldManager &worldManager = WorldManager::getInstance();
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+
+	int screenX = worldManager.getViewBoundary().getHorizontal();
+	int screenY = worldManager.getViewBoundary().getVertical();
+	int gridX = _grid.getHorizontal() + MAP_SIDEBAR_BORDER;
+	int gridY = _grid.getVertical();
+	int sidebarX = _p_sidebar->getHorizontal();
+	int sidebarY = _p_sidebar->getVertical();
+	int gameX = gridX + sidebarX;
+	int gameY = MAX(gridY, sidebarY);
+
+	Position topLeft(screenX / 2 - gameX / 2,
+		screenY / 2 - gameY / 2);
+	Position bottomRight(topLeft.getX() + gridX + sidebarX,
+		gameY);
+	
+	// top
+	for (int x = 0; x < worldManager.getViewBoundary().getHorizontal(); ++x)
+	{
+		for (int y = 0; y < topLeft.getY() - 1; ++y)
+		{
+			graphicsManager.drawChar(Position(x,y),
+				'#',
+				COLOR_DEFAULT);
+		}
+	}
+
+	// bottom
+	for (int x = 0; x < worldManager.getViewBoundary().getHorizontal(); ++x)
+	{
+		for (int y = bottomRight.getY() + 4; y < worldManager.getViewBoundary().getVertical(); ++y)
+		{
+			graphicsManager.drawChar(Position(x,y),
+				'#',
+				COLOR_DEFAULT);
+		}
+	}
+
+	// left
+	for (int x = 0; x < topLeft.getX() - 1; ++x)
+	{
+		for (int y = topLeft.getY() - 1; y <= bottomRight.getY() + 4; ++y)
+		{
+			graphicsManager.drawChar(Position(x,y),
+				'#',
+				COLOR_DEFAULT);
+		}
+	}
+
+	// right
+	for (int x = bottomRight.getX() + 1; x < worldManager.getViewBoundary().getHorizontal(); ++x)
+	{
+		for (int y = topLeft.getY() - 1; y < bottomRight.getY() + 4; ++y)
+		{
+			graphicsManager.drawChar(Position(x,y),
+				'#',
+				COLOR_DEFAULT);
+		}
+	}
+
+	// seperator
+	for (int x = topLeft.getX() + gridX - 3; x <= topLeft.getX() + gridX - 2; ++x)
+	{
+		for (int y = topLeft.getY() - 1; y <= bottomRight.getY() + 4; ++y)
+		{
+			graphicsManager.drawChar(
+				Position(
+					x,
+					y),
+				'#',
+				COLOR_DEFAULT);
+		}
+	}
+
+	Object::draw();
+}
+
+/**
  * Loads a new map from the resource manager.
  * @note The map must be loaded in resource manager previously.
  * @param mapLabel The label name of the map to load.
@@ -330,7 +414,7 @@ int TowerDefenseController::loadMap(string mapLabel)
 	WorldManager &worldManager = WorldManager::getInstance();
 	int screenX = worldManager.getViewBoundary().getHorizontal();
 	int screenY = worldManager.getViewBoundary().getVertical();
-	int gridX = _grid.getHorizontal() + 2;
+	int gridX = _grid.getHorizontal() + MAP_SIDEBAR_BORDER;
 	int gridY = _grid.getVertical();
 	int sidebarX = _p_sidebar->getHorizontal();
 	int sidebarY = _p_sidebar->getVertical();
