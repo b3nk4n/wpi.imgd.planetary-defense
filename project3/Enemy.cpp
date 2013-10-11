@@ -157,7 +157,7 @@ int Enemy::eventHandler(Event *p_event)
 				"rangeDamage=%f.\n",
 				rangeDamage);
 
-			addDamage(rangeDamage);
+			addDamage((int)rangeDamage);
 
 			logManager.writeLog(LOG_DEBUG,
 				"Enemy::eventHandler()",

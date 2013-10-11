@@ -83,7 +83,7 @@ int Building::getCost(void)
  */
 int Building::getSellingPrice(void)
 {
-	return _cost * SELL_FACTOR;
+	return (int)(_cost * SELL_FACTOR);
 }
 
 /**

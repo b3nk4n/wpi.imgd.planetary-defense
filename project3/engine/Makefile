@@ -91,116 +91,137 @@ clean:
 
 depend: 
 	makedepend *.cpp 2> /dev/null
+
 # DO NOT DELETE
 
-Clock.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
-Clock.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-Clock.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-Clock.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-Clock.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-Clock.o: /usr/include/sys/types.h /usr/include/machine/types.h
-Clock.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-Clock.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-GameManager.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-GameManager.o: /usr/include/_ansi.h /usr/include/newlib.h
-GameManager.o: /usr/include/sys/config.h /usr/include/sys/features.h
-GameManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-GameManager.o: /usr/include/machine/_types.h
-GameManager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-GameManager.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-GameManager.o: /usr/include/stdio.h /usr/include/sys/types.h
-GameManager.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-GameManager.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-GameManager.o: /usr/include/bits/wordsize.h /usr/include/signal.h
-GameManager.o: /usr/include/sys/signal.h
-Manager.o: /usr/include/stdio.h /usr/include/_ansi.h /usr/include/newlib.h
-Manager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-Manager.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-Manager.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-Manager.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-Manager.o: /usr/include/sys/types.h /usr/include/machine/types.h
-Manager.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-Manager.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-Object.o: /usr/include/math.h /usr/include/sys/reent.h /usr/include/_ansi.h
-Object.o: /usr/include/newlib.h /usr/include/sys/config.h
-Object.o: /usr/include/machine/ieeefp.h /usr/include/sys/features.h
-Object.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-Object.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-ObjectList.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-ObjectList.o: /usr/include/_ansi.h /usr/include/newlib.h
-ObjectList.o: /usr/include/sys/config.h /usr/include/sys/features.h
-ObjectList.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-ObjectList.o: /usr/include/machine/_types.h
-ObjectList.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-ObjectList.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-ObjectList.o: /usr/include/stdio.h /usr/include/sys/types.h
-ObjectList.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-ObjectList.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-ObjectList.o: /usr/include/bits/wordsize.h /usr/include/string.h
-ObjectList.o: /usr/include/sys/string.h
-ResourceManager.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-ResourceManager.o: /usr/include/_ansi.h /usr/include/newlib.h
-ResourceManager.o: /usr/include/sys/config.h /usr/include/sys/features.h
-ResourceManager.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-ResourceManager.o: /usr/include/machine/_types.h
-ResourceManager.o: /usr/include/machine/_default_types.h
-ResourceManager.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
-ResourceManager.o: /usr/include/alloca.h /usr/include/string.h
-ResourceManager.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-ResourceManager.o: /usr/include/bits/wordsize.h /usr/include/sys/string.h
-Sprite.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-Sprite.o: /usr/include/_ansi.h /usr/include/newlib.h
-Sprite.o: /usr/include/sys/config.h /usr/include/sys/features.h
-Sprite.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-Sprite.o: /usr/include/machine/_types.h /usr/include/machine/_default_types.h
-Sprite.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
+Clock.o: /usr/include/stdio.h /usr/include/features.h
+Clock.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+Clock.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+Clock.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+Clock.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+Clock.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+Clock.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+game.o: /usr/include/stdlib.h /usr/include/features.h
+game.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+game.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+game.o: /usr/include/sys/types.h /usr/include/bits/types.h
+game.o: /usr/include/bits/typesizes.h /usr/include/time.h
+game.o: /usr/include/endian.h /usr/include/bits/endian.h
+game.o: /usr/include/sys/select.h /usr/include/bits/select.h
+game.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+game.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+game.o: /usr/include/alloca.h
+GameManager.o: /usr/include/stdlib.h /usr/include/features.h
+GameManager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+GameManager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+GameManager.o: /usr/include/sys/types.h /usr/include/bits/types.h
+GameManager.o: /usr/include/bits/typesizes.h /usr/include/time.h
+GameManager.o: /usr/include/endian.h /usr/include/bits/endian.h
+GameManager.o: /usr/include/sys/select.h /usr/include/bits/select.h
+GameManager.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+GameManager.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+GameManager.o: /usr/include/alloca.h /usr/include/stdio.h
+GameManager.o: /usr/include/libio.h /usr/include/_G_config.h
+GameManager.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+GameManager.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+GameManager.o: /usr/include/bits/sys_errlist.h /usr/include/signal.h
+GameManager.o: /usr/include/bits/signum.h /usr/include/bits/siginfo.h
+GameManager.o: /usr/include/bits/sigaction.h /usr/include/bits/sigcontext.h
+GameManager.o: /usr/include/bits/sigstack.h /usr/include/bits/sigthread.h
+Manager.o: /usr/include/stdio.h /usr/include/features.h
+Manager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+Manager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+Manager.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+Manager.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+Manager.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+Manager.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+Object.o: /usr/include/math.h /usr/include/features.h
+Object.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+Object.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+Object.o: /usr/include/bits/huge_val.h /usr/include/bits/mathdef.h
+Object.o: /usr/include/bits/mathcalls.h
+ObjectList.o: /usr/include/stdlib.h /usr/include/features.h
+ObjectList.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+ObjectList.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+ObjectList.o: /usr/include/sys/types.h /usr/include/bits/types.h
+ObjectList.o: /usr/include/bits/typesizes.h /usr/include/time.h
+ObjectList.o: /usr/include/endian.h /usr/include/bits/endian.h
+ObjectList.o: /usr/include/sys/select.h /usr/include/bits/select.h
+ObjectList.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+ObjectList.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+ObjectList.o: /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h
+ObjectList.o: /usr/include/_G_config.h /usr/include/wchar.h
+ObjectList.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+ObjectList.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+ObjectList.o: /usr/include/string.h
+ResourceManager.o: /usr/include/stdlib.h /usr/include/features.h
+ResourceManager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+ResourceManager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+ResourceManager.o: /usr/include/sys/types.h /usr/include/bits/types.h
+ResourceManager.o: /usr/include/bits/typesizes.h /usr/include/time.h
+ResourceManager.o: /usr/include/endian.h /usr/include/bits/endian.h
+ResourceManager.o: /usr/include/sys/select.h /usr/include/bits/select.h
+ResourceManager.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+ResourceManager.o: /usr/include/sys/sysmacros.h
+ResourceManager.o: /usr/include/bits/pthreadtypes.h /usr/include/alloca.h
+ResourceManager.o: /usr/include/string.h
+Sprite.o: /usr/include/stdlib.h /usr/include/features.h
+Sprite.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+Sprite.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+Sprite.o: /usr/include/sys/types.h /usr/include/bits/types.h
+Sprite.o: /usr/include/bits/typesizes.h /usr/include/time.h
+Sprite.o: /usr/include/endian.h /usr/include/bits/endian.h
+Sprite.o: /usr/include/sys/select.h /usr/include/bits/select.h
+Sprite.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+Sprite.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
 Sprite.o: /usr/include/alloca.h
-TestCollidableObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-TestCollidableObject.o: /usr/include/_ansi.h /usr/include/newlib.h
-TestCollidableObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
-TestCollidableObject.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-TestCollidableObject.o: /usr/include/machine/_types.h
-TestCollidableObject.o: /usr/include/machine/_default_types.h
-TestCollidableObject.o: /usr/include/sys/lock.h /usr/include/machine/stdlib.h
+TestCollidableObject.o: /usr/include/stdlib.h /usr/include/features.h
+TestCollidableObject.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+TestCollidableObject.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+TestCollidableObject.o: /usr/include/sys/types.h /usr/include/bits/types.h
+TestCollidableObject.o: /usr/include/bits/typesizes.h /usr/include/time.h
+TestCollidableObject.o: /usr/include/endian.h /usr/include/bits/endian.h
+TestCollidableObject.o: /usr/include/sys/select.h /usr/include/bits/select.h
+TestCollidableObject.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+TestCollidableObject.o: /usr/include/sys/sysmacros.h
+TestCollidableObject.o: /usr/include/bits/pthreadtypes.h
 TestCollidableObject.o: /usr/include/alloca.h
-TestObject.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-TestObject.o: /usr/include/_ansi.h /usr/include/newlib.h
-TestObject.o: /usr/include/sys/config.h /usr/include/sys/features.h
-TestObject.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
-TestObject.o: /usr/include/machine/_types.h
-TestObject.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-TestObject.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-UnitTestManager.o: /usr/include/unistd.h /usr/include/sys/unistd.h
-UnitTestManager.o: /usr/include/_ansi.h /usr/include/newlib.h
-UnitTestManager.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-UnitTestManager.o: /usr/include/sys/features.h /usr/include/sys/types.h
-UnitTestManager.o: /usr/include/machine/_types.h
-UnitTestManager.o: /usr/include/machine/_default_types.h
-UnitTestManager.o: /usr/include/sys/_types.h /usr/include/sys/lock.h
-UnitTestManager.o: /usr/include/machine/types.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-test.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-test.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-test.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-test.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-test.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
-test.o: /usr/include/stdio.h /usr/include/sys/types.h
-test.o: /usr/include/machine/types.h /usr/include/sys/stdio.h
-test.o: /usr/include/sys/cdefs.h /usr/include/stdint.h
-test.o: /usr/include/bits/wordsize.h
-utility.o: /usr/include/time.h /usr/include/_ansi.h /usr/include/newlib.h
-utility.o: /usr/include/sys/config.h /usr/include/machine/ieeefp.h
-utility.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-utility.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-utility.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-utility.o: /usr/include/machine/time.h /usr/include/sys/types.h
-utility.o: /usr/include/machine/types.h /usr/include/stdio.h
-utility.o: /usr/include/sys/stdio.h /usr/include/sys/cdefs.h
-utility.o: /usr/include/stdint.h /usr/include/bits/wordsize.h
-utility.o: /usr/include/math.h
+test.o: /usr/include/stdlib.h /usr/include/features.h
+test.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+test.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+test.o: /usr/include/sys/types.h /usr/include/bits/types.h
+test.o: /usr/include/bits/typesizes.h /usr/include/time.h
+test.o: /usr/include/endian.h /usr/include/bits/endian.h
+test.o: /usr/include/sys/select.h /usr/include/bits/select.h
+test.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+test.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+test.o: /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h
+test.o: /usr/include/_G_config.h /usr/include/wchar.h
+test.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+test.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+TestObject.o: /usr/include/stdlib.h /usr/include/features.h
+TestObject.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+TestObject.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+TestObject.o: /usr/include/sys/types.h /usr/include/bits/types.h
+TestObject.o: /usr/include/bits/typesizes.h /usr/include/time.h
+TestObject.o: /usr/include/endian.h /usr/include/bits/endian.h
+TestObject.o: /usr/include/sys/select.h /usr/include/bits/select.h
+TestObject.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+TestObject.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+TestObject.o: /usr/include/alloca.h
+UnitTestManager.o: /usr/include/unistd.h /usr/include/features.h
+UnitTestManager.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+UnitTestManager.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+UnitTestManager.o: /usr/include/bits/posix_opt.h /usr/include/bits/types.h
+UnitTestManager.o: /usr/include/bits/typesizes.h /usr/include/bits/confname.h
+UnitTestManager.o: /usr/include/getopt.h
+utility.o: /usr/include/time.h /usr/include/bits/types.h
+utility.o: /usr/include/features.h /usr/include/sys/cdefs.h
+utility.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+utility.o: /usr/include/gnu/stubs-64.h /usr/include/bits/typesizes.h
+utility.o: /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h
+utility.o: /usr/include/wchar.h /usr/include/bits/wchar.h
+utility.o: /usr/include/gconv.h /usr/include/bits/stdio_lim.h
+utility.o: /usr/include/bits/sys_errlist.h /usr/include/math.h
+utility.o: /usr/include/bits/huge_val.h /usr/include/bits/mathdef.h
+utility.o: /usr/include/bits/mathcalls.h

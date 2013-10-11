@@ -7,7 +7,7 @@
 #include <math.h>
 #include "Tower.h"
 #include "LogManager.h"
-#include "worldManager.h"
+#include "WorldManager.h"
 #include "EventStep.h"
 #include "Spawner.h"
 #include "Object.h"
