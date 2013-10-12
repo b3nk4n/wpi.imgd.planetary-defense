@@ -11,6 +11,7 @@
 #include "ViewObject.h"
 #include "Player.h"
 #include "EventInfo.h"
+#include "EventWaveInfo.h"
 
 using std::string;
 
@@ -56,6 +57,16 @@ private:
 	 * The copy of the last info event.
 	 */
 	EventInfo _lastInfo;
+
+	/**
+	 * The copy of the last wave info event.
+	 */
+	EventWaveInfo _lastWaveInfo;
+
+	/**
+	 * Indicates whether a wave info is available to render.
+	 */
+	bool _lastWaveInfoAvailable;
 
 	/**
 	 * Loads the first frame.

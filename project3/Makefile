@@ -44,6 +44,7 @@ GAMESRC = Cell.cpp \
           EventBuildingChanged.cpp \
           EventDetonation.cpp \
           EventInfo.cpp \
+          EventWaveInfo.cpp \
           Projectile.cpp \
           Bullet.cpp \
           FragmentationGrenade.cpp \
@@ -91,9 +92,9 @@ Enemy.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 Enemy.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 Enemy.o: /usr/include/machine/stdlib.h /usr/include/alloca.h Enemy.h
 Enemy.o: TowerDefenseController.h VirtualCursor.h Grid.h Cell.h Building.h
-Enemy.o: Spawner.h Sidebar.h Player.h EventInfo.h EventEnemyInvasion.h
-Enemy.o: EventEnemyKilled.h EventDetonation.h EventPlayerKilled.h
-Enemy.o: ExplosionSmall.h Explosion.h
+Enemy.o: Spawner.h Sidebar.h Player.h EventInfo.h EventWaveInfo.h
+Enemy.o: EventEnemyInvasion.h EventEnemyKilled.h EventDetonation.h
+Enemy.o: EventPlayerKilled.h ExplosionSmall.h Explosion.h
 EnemyBoss.o: EnemyBoss.h Enemy.h
 EnemyGoblin.o: EnemyGoblin.h Enemy.h
 EnemyOrk.o: EnemyOrk.h Enemy.h
@@ -104,15 +105,31 @@ EventEnemyKilled.o: EventEnemyKilled.h
 EventInfo.o: EventInfo.h
 EventPlayerKilled.o: EventPlayerKilled.h
 EventPlayerWin.o: EventPlayerWin.h
+EventWaveInfo.o: EventWaveInfo.h
 Explosion.o: Explosion.h
 ExplosionBig.o: ExplosionBig.h Explosion.h
 ExplosionElectro.o: ExplosionElectro.h Explosion.h
 ExplosionSmall.o: ExplosionSmall.h Explosion.h
 FragmentationGrenade.o: FragmentationGrenade.h Projectile.h EventDetonation.h
 FragmentationGrenade.o: Enemy.h ExplosionBig.h Explosion.h
+game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
+game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
+game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
+game.o: EnemyOrk.h Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h
+game.o: EventWaveInfo.h GameOver.h
 GameOver.o: GameOver.h
-GameStart.o: Spawner.h Enemy.h Player.h Sidebar.h EventInfo.h PlanetMenu.h
-GameStart.o: GameStart.h
+GameStart.o: Spawner.h Enemy.h Player.h Sidebar.h EventInfo.h EventWaveInfo.h
+GameStart.o: PlanetMenu.h GameStart.h
+GrenadeTower.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
+GrenadeTower.o: /usr/include/_ansi.h /usr/include/newlib.h
+GrenadeTower.o: /usr/include/sys/config.h /usr/include/sys/features.h
+GrenadeTower.o: /usr/include/sys/reent.h /usr/include/sys/_types.h
+GrenadeTower.o: /usr/include/machine/_types.h
+GrenadeTower.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
+GrenadeTower.o: /usr/include/machine/stdlib.h /usr/include/alloca.h
 GrenadeTower.o: GrenadeTower.h Tower.h Building.h Enemy.h
 GrenadeTower.o: FragmentationGrenade.h Projectile.h ExplosionBig.h
 GrenadeTower.o: Explosion.h EventDetonation.h
@@ -123,19 +140,19 @@ MachineGunTower.o: MachineGunTower.h Tower.h Building.h Enemy.h Bullet.h
 MachineGunTower.o: Projectile.h
 PlanetMenu.o: Spawner.h Enemy.h TowerDefenseController.h VirtualCursor.h
 PlanetMenu.o: Grid.h Cell.h Building.h Sidebar.h Player.h EventInfo.h
-PlanetMenu.o: PlanetMenu.h
+PlanetMenu.o: EventWaveInfo.h PlanetMenu.h
 Player.o: Player.h EventEnemyInvasion.h EventEnemyKilled.h
 Player.o: EventPlayerKilled.h EventBuildingChanged.h PlanetMenu.h
 PopupText.o: PopupText.h
 Projectile.o: Projectile.h
-Sidebar.o: Sidebar.h Player.h EventInfo.h SolarBuilding.h Building.h
-Sidebar.o: MachineGunTower.h Tower.h Enemy.h LaserTower.h GrenadeTower.h
-Sidebar.o: TeslaTower.h TowerDefenseController.h VirtualCursor.h Grid.h
-Sidebar.o: Cell.h Spawner.h EventPlayerKilled.h
+Sidebar.o: Sidebar.h Player.h EventInfo.h EventWaveInfo.h SolarBuilding.h
+Sidebar.o: Building.h MachineGunTower.h Tower.h Enemy.h LaserTower.h
+Sidebar.o: GrenadeTower.h TeslaTower.h TowerDefenseController.h
+Sidebar.o: VirtualCursor.h Grid.h Cell.h Spawner.h EventPlayerKilled.h
 SolarBuilding.o: SolarBuilding.h Building.h
 Spawner.o: Enemy.h Spawner.h EnemyOrk.h EnemyGoblin.h EnemyBoss.h
 Spawner.o: EventEnemyKilled.h EventEnemyInvasion.h EventPlayerKilled.h
-Spawner.o: EventPlayerWin.h
+Spawner.o: EventPlayerWin.h EventWaveInfo.h
 TeslaTower.o: TeslaTower.h Tower.h Building.h Enemy.h EventDetonation.h
 TeslaTower.o: ExplosionElectro.h Explosion.h
 Tower.o: /usr/include/math.h /usr/include/sys/reent.h /usr/include/_ansi.h
@@ -146,17 +163,9 @@ Tower.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 Tower.o: Tower.h Building.h Enemy.h Spawner.h EventPlayerKilled.h
 TowerDefenseController.o: TowerDefenseController.h VirtualCursor.h Grid.h
 TowerDefenseController.o: Cell.h Building.h Spawner.h Enemy.h Sidebar.h
-TowerDefenseController.o: Player.h EventInfo.h EventEnemyKilled.h
-TowerDefenseController.o: SolarBuilding.h Tower.h MachineGunTower.h
-TowerDefenseController.o: GrenadeTower.h LaserTower.h TeslaTower.h
-TowerDefenseController.o: PopupText.h EventPlayerKilled.h EventPlayerWin.h
-TowerDefenseController.o: GameOver.h
+TowerDefenseController.o: Player.h EventInfo.h EventWaveInfo.h
+TowerDefenseController.o: EventEnemyKilled.h SolarBuilding.h Tower.h
+TowerDefenseController.o: MachineGunTower.h GrenadeTower.h LaserTower.h
+TowerDefenseController.o: TeslaTower.h PopupText.h EventPlayerKilled.h
+TowerDefenseController.o: EventPlayerWin.h GameOver.h
 VirtualCursor.o: VirtualCursor.h
-game.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
-game.o: /usr/include/_ansi.h /usr/include/newlib.h /usr/include/sys/config.h
-game.o: /usr/include/sys/features.h /usr/include/sys/reent.h
-game.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
-game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
-game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
-game.o: EnemyOrk.h Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h
-game.o: GameOver.h

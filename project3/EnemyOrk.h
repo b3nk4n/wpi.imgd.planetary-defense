@@ -8,6 +8,8 @@
 
 #include "Enemy.h"
 
+#define ENEMY_NAME_ORK "Space Ork"
+
 /*
 * Represents an ork enemy.
 */

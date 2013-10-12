@@ -87,6 +87,12 @@ public:
 	void stop(void);
 
 	/**
+	 * Spawns a new wave.
+	 * @param delayFactor the wait delay factor.
+	 */
+	void spawnWave(int delayFactor);
+
+	/**
 	 * Spawns an enemy
 	 */
 	void spawnEnemy();

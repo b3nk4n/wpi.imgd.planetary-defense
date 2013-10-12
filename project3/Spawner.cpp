@@ -5,6 +5,7 @@
  ******************************************************************************/
 
 #include <string>
+#include "LogManager.h"
 #include "ObjectList.h"
 #include "Position.h"
 #include "Enemy.h"
@@ -23,6 +24,7 @@
 #include "WorldManager.h"
 #include "EventPlayerKilled.h"
 #include "EventPlayerWin.h"
+#include "EventWaveInfo.h"
 
 /**
  * Creates a new instance of the spawner object
@@ -51,16 +53,12 @@ Spawner::Spawner()
 void Spawner::start(LevelData *level)
 {
 	_data = level;
-
+	_waves = _data->getWavesCount();
+	_isStopped = false;
 	_activeEnemies = 0;
 	_waveCounter = 0;
-	_currentWave = _data->getWave(_waveCounter); 
-	_waves = _data->getWavesCount();
-	_waveType = _currentWave.getType();
-	_enemyCounter = _currentWave.getCount();
-	_delay = _currentWave.getDelay();
-	_coolDown = _delay * 10;
-	_isStopped = false;
+
+	spawnWave(12);
 }
 
 /**
@@ -69,6 +67,37 @@ void Spawner::start(LevelData *level)
 void Spawner::stop(void)
 {
 	_isStopped = true;
+}
+
+/**
+ * Spawns a new wave.
+ * @param delayFactor the wait delay factor.
+ */
+void Spawner::spawnWave(int delayFactor)
+{
+	_currentWave = _data->getWave(_waveCounter);
+	_enemyCounter = _currentWave.getCount();
+	_delay = _currentWave.getDelay();
+	_waveType = _currentWave.getType();
+	_coolDown = _delay * delayFactor;
+
+	// notify sidebar
+	string enemyName;
+
+	if (_waveType == "ork")
+		enemyName = ENEMY_NAME_ORK;
+	else if (_waveType == "goblin")
+		enemyName = ENEMY_NAME_GOBLIN;
+	else
+		enemyName = ENEMY_NAME_BOSS;
+
+	WorldManager &worldManager = WorldManager::getInstance();
+
+	EventWaveInfo waveEvent(_waves,
+		_waveCounter + 1,
+		_enemyCounter,
+		enemyName);
+	worldManager.onEvent(&waveEvent);
 }
 
 /**
@@ -120,11 +149,7 @@ int Spawner::eventHandler(Event *p_event)
 			if (_waveCounter < _waves)
 			{
 				++_waveCounter;
-				_currentWave = _data->getWave(_waveCounter);
-				_enemyCounter = _currentWave.getCount();
-				_delay = _currentWave.getDelay();
-				_waveType = _currentWave.getType();
-				_coolDown = _delay * 4;
+				spawnWave(5);
 			}
 		}
 

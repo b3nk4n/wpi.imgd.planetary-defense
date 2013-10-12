@@ -8,6 +8,8 @@
 
 #include "Enemy.h"
 
+#define ENEMY_NAME_BOSS "Space Boss"
+
 /*
 * Represents a Boss enemy.
 */

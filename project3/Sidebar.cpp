@@ -36,9 +36,12 @@ Sidebar::Sidebar(Player *p_player)
 	_laserFrame = loadFrame("lasertower");
 	_teslaFrame = loadFrame("teslatower");
 
+	_lastWaveInfoAvailable = false;
+
 	// register for events
 	registerInterest(INFO_EVENT);
 	registerInterest(PLAYER_KILLED_EVENT);
+	registerInterest(WAVE_INFO_EVENT);
 }
 
 /**
@@ -68,6 +71,17 @@ int Sidebar::eventHandler(Event *p_event)
 		EventInfo *p_eventInfo = static_cast<EventInfo *>(p_event);
 		// get a copy of the info.
 		_lastInfo = *p_eventInfo;
+
+		return 1;
+	}
+
+	if (p_event->getType() == WAVE_INFO_EVENT)
+	{
+		EventWaveInfo *p_eventWaveInfo = static_cast<EventWaveInfo *>(p_event);
+		// get a copy of the wave info.
+		_lastWaveInfo = *p_eventWaveInfo;
+
+		_lastWaveInfoAvailable = true;
 
 		return 1;
 	}
@@ -157,6 +171,19 @@ void Sidebar::draw(void)
 		LEFT_JUSTIFIED,
 		COLOR_CYAN);
 	pos.setY(pos.getY() + 2);
+
+	if (_lastWaveInfoAvailable)
+	{
+		graphcisManager.drawStringFormat(pos, " Wave:       %d/%d",
+			_lastWaveInfo.getCurrentWave(),
+			_lastWaveInfo.getTotalWaves());
+		pos.setY(pos.getY() + 1);
+		graphcisManager.drawStringFormat(pos, " Name:       %s", _lastWaveInfo.getName().c_str());
+		pos.setY(pos.getY() + 1);
+		graphcisManager.drawStringFormat(pos, " Count:      %d", _lastWaveInfo.getCount());
+		pos.setY(pos.getY() + 2);
+	}
+
 	if (_lastInfo.getInfoType() != NONE)
 	{
 		graphcisManager.drawStringFormat(pos, " Name:       %s", _lastInfo.getName().c_str());
@@ -264,5 +291,5 @@ int Sidebar::getHorizontal(void)
 int Sidebar::getVertical(void)
 {
 	// hard coded
-	return 48;
+	return 52;
 }

@@ -8,6 +8,8 @@
 
 #include "Enemy.h"
 
+#define ENEMY_NAME_GOBLIN "Space Goblin"
+
 /*
 * Represents an ork enemy.
 */
