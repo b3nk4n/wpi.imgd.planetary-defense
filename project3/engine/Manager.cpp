@@ -14,7 +14,6 @@
 Manager::Manager(void)
 {
 	_isStarted = false;
-	_eventListCount = 0;
 }
 /**
  * Cleans up the manager.
@@ -41,9 +40,12 @@ Manager::~Manager(void)
  */
 int Manager::registerInterest(Object *p_object, string eventType)
 {
+
 	// validate if the event type is allowed
 	if (!isValid(eventType))
+	{
 		return -1;
+	}
 
 	// check if this event is already registerd
 	for (int i = _eventListCount - 1; i >= 0; --i)
@@ -61,8 +63,11 @@ int Manager::registerInterest(Object *p_object, string eventType)
 
 	// try to insert to the list
 	if (_objectLists[_eventListCount].insert(p_object))
+	{
+		perror("Managers register interest insert failed.");
 		return -1;
-	
+	}
+
 	_events[_eventListCount] = eventType;
 	++_eventListCount;
 	return 0;
@@ -79,19 +84,19 @@ int Manager::unregisterInterest(Object *p_object, string eventType)
 {
 	// validate if the event type is allowed
 	if (!isValid(eventType))
+	{
 		return -1;
-
-	// copy the list count value
-	int eventCount = _eventListCount;
+	}
 
 	// check for events
-	for (int i = 0; i < eventCount; ++i)
+	for (int i = _eventListCount - 1; i >= 0; --i)
 	{
 		if (_events[i] == eventType)
 		{
 			// remove object and check if object was found
 			if (_objectLists[i].remove(p_object))
 			{
+				perror("Managers unregister remove failed.");
 				return -1;
 			}
 
@@ -112,6 +117,7 @@ int Manager::unregisterInterest(Object *p_object, string eventType)
 		}
 	}
 
+	perror("Managers unregister failed. Unknown type.");
 	// unknow event type
 	return -1;
 }
@@ -127,7 +133,9 @@ void Manager::onEvent(Event *p_event)
 		if (_events[i] == p_event->getType())
 		{
 			// notify all interested objects
-			ObjectListIterator it(&_objectLists[i]);
+			ObjectList objectsCopy = _objectLists[i];
+
+			ObjectListIterator it(&objectsCopy);
 			for (it.first(); !it.isDone(); it.next())
 			{
 				it.currentObject()->eventHandler(p_event);

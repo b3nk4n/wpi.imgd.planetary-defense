@@ -22,6 +22,13 @@ Laser::Laser(Position origin, Position target, int firePower)
 }
 
 /**
+ * Destructos the laser.
+ */
+Laser::~Laser(void)
+{
+}
+
+/**
  * Handles the laser events.
  */
 int Laser::eventHandler(Event *p_event)

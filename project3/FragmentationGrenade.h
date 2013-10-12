@@ -26,6 +26,11 @@ public:
 	 */
  	FragmentationGrenade(Position origin, Position target, int firePower);
 
+    /**
+     * Destructos the grenade.
+     */
+    virtual ~FragmentationGrenade(void);
+
  	/**
      * Is called when a collusion occured.
      * @param p_collisionEvent The collision event.

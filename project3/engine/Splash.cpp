@@ -81,10 +81,6 @@ Splash::Splash(void)
  */
 Splash::~Splash(void)
 {
-	// unregister events
-	unregisterInterest(STEP_EVENT);
-	unregisterInterest(KEYBOARD_EVENT);
-
 	// delete sprite manually since not managed by the resource manager
 	delete getSprite();
 }
@@ -102,8 +98,8 @@ int Splash::eventHandler(Event *p_event)
 	if (p_event->getType() == KEYBOARD_EVENT)
 	{
 		gameManager.setGameOver(true);
-		worldManager.markForDelete(this);
 		setVisibility(false);
+		worldManager.markForDelete(this);
 		return 1;
 	}
 

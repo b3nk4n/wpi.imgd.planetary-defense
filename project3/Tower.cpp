@@ -42,7 +42,6 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
 
 	// register events
 	registerInterest(STEP_EVENT);
-	registerInterest(PLAYER_KILLED_EVENT);
 }
 
 /**
@@ -60,12 +59,6 @@ Tower::~Tower(void)
 int Tower::eventHandler(Event *p_event)
 {
 	LogManager &logManager = LogManager::getInstance();
-
-	if (p_event->getType() == PLAYER_KILLED_EVENT)
-	{
-		WorldManager &worldManager = WorldManager::getInstance();
-		worldManager.markForDelete(this);
-	}
 
 	if (p_event->getType() == STEP_EVENT)
 	{	

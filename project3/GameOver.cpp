@@ -38,6 +38,7 @@ GameOver::GameOver(bool success) {
   Box view = world_manager.getViewBoundary();
   Position position(view.getHorizontal() / 2 , view.getVertical() / 2);
   setPosition(position);
+  
   registerInterest(STEP_EVENT);
 }
 

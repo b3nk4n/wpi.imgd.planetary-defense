@@ -4,6 +4,7 @@
  * @description The grenade tower, which fires some splash damage grenades.
  ******************************************************************************/
 
+#include <stdlib.h>
 #include "GrenadeTower.h"
 #include "FragmentationGrenade.h"
 #include "WorldManager.h"
@@ -28,16 +29,25 @@ GrenadeTower::GrenadeTower(void)
  */
 void GrenadeTower::fire(Object *p_object)
 {
-	new FragmentationGrenade(getPosition(),
+	/**
+	 * More elegant solution, but causes radomly SEG FAULTs. Reason unknown :(
+	 */
+	/*new FragmentationGrenade(getPosition(),
 		p_object->getPosition(),
-		getFirePower());
+		getFirePower());*/
 
-	/*WorldManager &worldManager = WorldManager::getInstance();
-    EventDetonation event(Circle(p_object->getPosition(), DETONATION_RADIUS),
+
+	// random variance
+	Position detonationPos = p_object->getPosition();
+	detonationPos.setX(detonationPos.getX() - 3 + random() % 7);
+	detonationPos.setY(detonationPos.getY() - 2 + random() % 5);
+
+	WorldManager &worldManager = WorldManager::getInstance();
+    EventDetonation event(Circle(detonationPos, DETONATION_RADIUS),
         getFirePower());
     
     worldManager.onEvent(&event);
  
 
-    new ExplosionBig(p_object->getPosition());*/
+    new ExplosionBig(detonationPos);
 }

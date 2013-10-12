@@ -21,6 +21,13 @@ Bullet::Bullet(Position origin, Position target, int firePower)
 }
 
 /**
+ * Destructos the bullet.
+ */
+Bullet::~Bullet(void)
+{
+}
+
+/**
  * Is called when a collusion occured.
  * @param p_collisionEvent The collision event.
  */

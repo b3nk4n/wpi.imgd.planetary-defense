@@ -74,14 +74,20 @@ Object::~Object(void)
 		{
 			logManager.writeLog(LOG_ERROR,
 				"Object::~Object()",
-				"Uregister of event %s failed\n",
+				"Unregister of event %s failed\n",
 				eventToUnregister.c_str());
 		}
 	}
 
 	// remove itself from the world manager
 	WorldManager &worldManager = WorldManager::getInstance();
-	worldManager.removeObject(this);
+	if (worldManager.removeObject(this))
+	{
+		logManager.writeLog(LOG_ERROR,
+			"Object::~Object()",
+			"Object of type %s couldn't remove itself from the game world\n",
+			_type.c_str());
+	}
 }
 
 /**
@@ -167,7 +173,7 @@ int Object::unregisterInterest(string eventType)
 	LogManager &logManager = LogManager::getInstance();
 
 	// find the registerd event
-	for (int i = 0; i < _eventCount; ++i)
+	for (int i = _eventCount - 1; i >= 0; --i)
 	{
 		if (_eventTypes[i] == eventType)
 		{
@@ -691,8 +697,14 @@ int Object::setVisibility(bool visible)
 	// update scene graph
 	WorldManager &worldManager = WorldManager::getInstance();
 	SceneGraph &sceneGraph = worldManager.getSceneGraph();
+	LogManager &logManager = LogManager::getInstance();
+
 	if (sceneGraph.updateVisibility(this, visible))
 	{
+		
+		logManager.writeLog(LOG_WARNING,
+			"Object::setVisibility()",
+			"Set visibility failed.\n");
 		return -1;
 	}
 

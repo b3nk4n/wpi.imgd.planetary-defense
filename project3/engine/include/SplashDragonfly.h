@@ -33,7 +33,7 @@ public:
 	/**
 	 * Cleans up the splash screens resources.
 	 */
-	~SplashDragonfly(void);
+	virtual ~SplashDragonfly(void);
 
 	/**
 	 * Handles the splash screen events.

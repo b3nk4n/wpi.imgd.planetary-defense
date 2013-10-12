@@ -28,7 +28,7 @@ public:
 	/**
 	 * Cleans up the splash screens resources.
 	 */
-	~Splash(void);
+	virtual ~Splash(void);
 
 	/**
 	 * Handles the splash screen events.

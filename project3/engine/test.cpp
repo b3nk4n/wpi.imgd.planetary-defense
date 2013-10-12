@@ -158,6 +158,9 @@ bool testObjectList_operatorPlusEmptyListPlusEmptyListIsZero(void);
 bool testObjectList_operatorPlusEmptyListPlusFilledListIsFilled(void);
 bool testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList(void);
 bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void);
+bool testObjectList_operatorEqualsCreatesACopy(void);
+bool testObjectList_operatorEqualsCreatesACopyDataCheck(void);
+bool testObjectList_operatorEqualsCreatesACopyDataCheckListOverflow(void);
 bool testSceneGraph_createDefault(void);
 bool testSceneGraph_insertAndRemoveOneSolidObject(void);
 bool testSceneGraph_insertAndRemoveOneNonSolidObject(void);
@@ -352,6 +355,9 @@ int main(int argc, char *argv[])
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusEmptyListPlusFilledListIsFilled", &testObjectList_operatorPlusEmptyListPlusFilledListIsFilled);
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList", &testObjectList_operatorPlusFilledListPlusFilledListIsDoubledList);
 	unitTestManager.registerTestFunction("testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc", &testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc);
+	unitTestManager.registerTestFunction("testObjectList_operatorEqualsCreatesACopy", &testObjectList_operatorEqualsCreatesACopy);
+	unitTestManager.registerTestFunction("testObjectList_operatorEqualsCreatesACopyDataCheck", &testObjectList_operatorEqualsCreatesACopyDataCheck);
+	unitTestManager.registerTestFunction("testObjectList_operatorEqualsCreatesACopyDataCheckListOverflow", &testObjectList_operatorEqualsCreatesACopyDataCheckListOverflow);
 
 	unitTestManager.registerTestFunction("testObject_setAndGetPosition", &testObject_setAndGetPosition);
 	unitTestManager.registerTestFunction("testObject_setAndGetType", &testObject_setAndGetType);
@@ -1997,6 +2003,82 @@ bool testObjectList_operatorPlusTwoFullListsEqualsDoubledListWithRealloc(void)
 	return addedList.getCount() == 2 * fullSize &&
 		firstList.getCount() == INIT_LIST_SIZE &&
 		secondList.getCount() == INIT_LIST_SIZE;
+}
+
+bool testObjectList_operatorEqualsCreatesACopy(void)
+{
+	ObjectList firstList;
+	ObjectList secondList;
+	int count = 10;
+	Object *p_object = new Object();
+
+	objectListFillWithObject(&firstList, count);
+	firstList.insert(p_object);
+	secondList = firstList;
+	firstList.remove(p_object);
+
+	return firstList.getCount() == count && secondList.getCount() == count + 1;
+}
+
+bool testObjectList_operatorEqualsCreatesACopyDataCheck(void)
+{
+	ObjectList firstList;
+	ObjectList secondList;
+	int count = 10;
+	Object *p_object = new Object();
+	p_object->setPosition(Position(count,count));
+
+	objectListFillWithObject(&firstList, count);
+	firstList.insert(p_object);
+	secondList = firstList;
+	firstList.remove(p_object);
+
+	bool ok = true;
+
+	ObjectListIterator it(&secondList);
+	int i = 0;
+	for (it.first(); !it.isDone(); it.next())
+	{
+		Position current = it.currentObject()->getPosition();
+
+		if (current.getX() != i || current.getY() != i)
+		{
+			ok = false;
+		}
+
+		i++;
+	}
+
+	return ok;
+}
+
+bool testObjectList_operatorEqualsCreatesACopyDataCheckListOverflow(void)
+{
+	ObjectList firstList;
+	ObjectList secondList;
+	int count = INIT_LIST_SIZE;
+	Object *p_object = new Object();
+	p_object->setPosition(Position(count,count));
+
+	objectListFillWithObject(&firstList, count);
+	firstList.insert(p_object);
+	secondList = firstList;
+	firstList.remove(p_object);
+
+	bool ok = true;
+
+	ObjectListIterator it(&secondList);
+	int i = 0;
+	for (it.first(); !it.isDone(); it.next())
+	{
+		Position current = it.currentObject()->getPosition();
+		if (current.getX() != i || current.getY() != i)
+			ok = false;
+
+		i++;
+	}
+
+	return ok;
 }
 
 bool testSceneGraph_createDefault(void)

@@ -49,7 +49,7 @@ ObjectList::ObjectList(const ObjectList &otherList)
 	}
 
 	// copy over the data
-	memcpy(_pp_data, otherList._pp_data, sizeof(Object *) * otherList._count);
+	memcpy(_pp_data, otherList._pp_data, sizeof(Object *) * otherList._capacity);
 
 	// adjust size and capacity
 	_capacity = otherList._capacity;
@@ -118,7 +118,7 @@ int ObjectList::remove(Object *p_object)
 	if (p_object == NULL)
 		return -1;
 
-	for (int i = 0; i < _count; ++i)
+	for (int i = _count - 1; i >= 0; --i)
 	{
 		// check if referenced object was found
 		if (_pp_data[i] == p_object)

@@ -32,6 +32,11 @@ public:
  	Laser(Position origin, Position target, int firePower);
 
     /**
+     * Destructos the laser.
+     */
+    virtual ~Laser(void);
+
+    /**
      * Handles the laser events.
      */
     virtual int eventHandler(Event *p_event);

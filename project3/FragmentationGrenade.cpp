@@ -21,7 +21,14 @@
 FragmentationGrenade::FragmentationGrenade(Position origin, Position target, int firePower)
     : Projectile("grenade", origin, target, 2.0f, firePower)
 {
-    
+
+}
+
+/**
+ * Destructos the grenade.
+ */
+FragmentationGrenade::~FragmentationGrenade(void)
+{
 }
 
 /**
@@ -43,15 +50,19 @@ void FragmentationGrenade::onTargetReached(void)
     WorldManager &worldManager = WorldManager::getInstance();
     EventDetonation event(Circle(getPosition(), DETONATION_RADIUS),
         getDamage());
+
     logManager.writeLog(LOG_DEBUG,
-			"FragmentationGrenade::onTargetReached()",
-			"Before onEvent.\n");
-    worldManager.onEvent(&event);
+        "FragmentationGrenade::onTargetReached()",
+        "Before onEvent\n");
+
+    worldManager.onEvent(&event); // FIXME: SEG FAULT here under specific conditions
+                                  //        (if markForDelete() is uncommented)
+
     logManager.writeLog(LOG_DEBUG,
-			"FragmentationGrenade::onTargetReached()",
-			"After onEvent.\n");
+        "FragmentationGrenade::onTargetReached()",
+        "After onEvent\n");
 
     new ExplosionBig(getPosition());
 
-    worldManager.markForDelete(this);
+    worldManager.markForDelete(this); // <--- ?!?!?!
 }

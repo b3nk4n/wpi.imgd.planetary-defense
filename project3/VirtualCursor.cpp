@@ -55,5 +55,6 @@ VirtualCursor::VirtualCursor(Position position)
  */
 VirtualCursor::~VirtualCursor(void)
 {
-
+	if (getSprite())
+		delete getSprite();
 }

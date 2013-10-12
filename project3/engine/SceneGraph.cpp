@@ -62,9 +62,9 @@ int SceneGraph::insertObject(Object *p_object)
 			p_object->getAltitude());
 		return -1;
 	}
-	if(p_object->isVisible())
+	if (p_object->isVisible())
 	{
-		if(_visibleObjects[_level][p_object->getAltitude()].insert(p_object))
+		if (_visibleObjects[_level][p_object->getAltitude()].insert(p_object))
 		{
 			logManager.writeLog(LOG_ERROR,
 				"SceneGraph::insertObject()",
@@ -105,22 +105,25 @@ int SceneGraph::removeObject(Object *p_object)
 		}
 	}
 
-	// verify altitude
-	if (!valueInRange(p_object->getAltitude(), MIN_ALTITUDE, MAX_ALTITUDE))
+	if (p_object->isVisible())
 	{
-		logManager.writeLog(LOG_ERROR,
-			"SceneGraph::removeObject()",
-			"Altitude %d is out of range.\n",
-			p_object->getAltitude());
-		return -1;
-	}
-	// try delete, if object was visible
-	if (_visibleObjects[_level][p_object->getAltitude()].remove(p_object))
-	{
-		logManager.writeLog(LOG_ERROR,
-			"SceneGraph::removeObject()",
-			"Removing of visible object failed.\n");
-		return -1;
+		// verify altitude
+		if (!valueInRange(p_object->getAltitude(), MIN_ALTITUDE, MAX_ALTITUDE))
+		{
+			logManager.writeLog(LOG_ERROR,
+				"SceneGraph::removeObject()",
+				"Altitude %d is out of range.\n",
+				p_object->getAltitude());
+			return -1;
+		}
+		// try delete, if object was visible
+		if (_visibleObjects[_level][p_object->getAltitude()].remove(p_object))
+		{
+			logManager.writeLog(LOG_ERROR,
+				"SceneGraph::removeObject()",
+				"Removing of visible object failed.\n");
+			return -1;
+		}
 	}
 
 	return 0;
@@ -190,7 +193,7 @@ ObjectList SceneGraph::visibleObjects(int altitude)
 		ObjectList empty;
 		return empty;
 	}
-	return _visibleObjects[_level][altitude] + _objects[0];
+	return _visibleObjects[_level][altitude] + _visibleObjects[0][altitude];
 }
 
 /**

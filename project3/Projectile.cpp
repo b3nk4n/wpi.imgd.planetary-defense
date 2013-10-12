@@ -35,6 +35,7 @@ Projectile::Projectile(string spriteName, Position origin, Position target, floa
 
     setPosition(origin);
     _target = target;
+    _targetReached = false;
     _speed = speed;
     _damage = damage;
     _oldDistanceSquared = 99999;
@@ -60,6 +61,14 @@ Projectile::Projectile(string spriteName, Position origin, Position target, floa
     // register for events
     registerInterest(STEP_EVENT);
     registerInterest(COLLISION_EVENT);
+    registerInterest(OUT_EVENT);
+}
+
+/**
+ * Destructos the projectile.
+ */
+Projectile::~Projectile(void)
+{
 }
 
 /**
@@ -82,14 +91,17 @@ void Projectile::flyTo(Position target)
 int Projectile::eventHandler(Event *p_event)
 {
     WorldManager &worldManager = WorldManager::getInstance();
+    LogManager &logManager = LogManager::getInstance();
 
     if (p_event->getType() == STEP_EVENT)
     {
         float newDistanceSquared = distanceSquared(getPosition(), getTarget());
 
-        if (distance(getPosition(), getTarget()) <= 1 ||
-            newDistanceSquared > _oldDistanceSquared)
+        if (!_targetReached &&
+            (distance(getPosition(), getTarget()) <= 1 ||
+            newDistanceSquared > _oldDistanceSquared))
         {
+            _targetReached = true;
             onTargetReached();
         }
         _oldDistanceSquared = newDistanceSquared;

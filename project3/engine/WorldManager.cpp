@@ -27,6 +27,8 @@ WorldManager::WorldManager(void)
 	_viewBoundary.setHorizontal(0);
 	_viewBoundary.setVertical(0);
 
+	_p_viewFollowing = NULL;
+
 	_nextLevel = 0;
 }
 
@@ -209,9 +211,15 @@ void WorldManager::update(float delta)
 	}
 
 	// delete all marked objects
-	ObjectListIterator itDelete(&_deletions);
+	ObjectList deletionsCopy = _deletions;
+	ObjectListIterator itDelete(&deletionsCopy);
 	for (itDelete.first(); !itDelete.isDone(); itDelete.next())
 	{
+		logManager.writeLog(LOG_INFO,
+				"WorldManager::update()",
+				"Object (type=%s) is going to be deleted\n",
+				itDelete.currentObject()->getType().c_str());
+
 		// NOTE: game object removes itself from the _updates list
 		//       via removeObject() in its desctructor
 		delete itDelete.currentObject();

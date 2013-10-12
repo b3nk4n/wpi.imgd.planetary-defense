@@ -36,6 +36,11 @@ private:
 	Position _target;
 
     /**
+     * Indicates whether the target was already reached.
+     */
+    bool _targetReached;
+
+    /**
      * Old squared distance to detect passing by the target.
      */
     float _oldDistanceSquared;
@@ -68,6 +73,11 @@ public:
 	 * @param damage The hit damage of the shot.
 	 */
     Projectile(string spriteName, Position origin, Position target, float speed, int damage);
+
+    /**
+     * Destructos the projectile.
+     */
+    virtual ~Projectile(void);
 
     /**
 	 * Handles the projectile events.
