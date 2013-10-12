@@ -160,9 +160,9 @@ void Sidebar::draw(void)
 		COLOR_CYAN);
 	pos.setY(pos.getY() + 2);
 	graphcisManager.drawStringFormat(pos, " [%c] Toggle enemy info", KEY_INFO);
-	pos.setY(pos.getY() + 2);
+	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [%c] Sell building", KEY_SELL);
-	pos.setY(pos.getY() + 2);
+	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [%c] Quit game", KEY_QUITGAME);
 	pos.setY(pos.getY() + 2);
 
@@ -291,5 +291,5 @@ int Sidebar::getHorizontal(void)
 int Sidebar::getVertical(void)
 {
 	// hard coded
-	return 52;
+	return 48;
 }

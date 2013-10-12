@@ -91,6 +91,16 @@ void Spawner::spawnWave(int delayFactor)
 	else
 		enemyName = ENEMY_NAME_BOSS;
 
+	LogManager &logManager = LogManager::getInstance();
+	logManager.writeLog(LOG_DEBUG,
+		"Spawner::spawnWave()",
+		"New wave. type=%s, count=%d, health=%d, speed=%f, credits=%d\n",
+		enemyName.c_str(),
+		_currentWave.getCount(),
+		_currentWave.getHealth(),
+		_currentWave.getSpeed(),
+		_currentWave.getCredits());
+
 	WorldManager &worldManager = WorldManager::getInstance();
 
 	EventWaveInfo waveEvent(_waves,
@@ -110,20 +120,25 @@ void Spawner::spawnEnemy()
 
 	_activeEnemies++;
 
-	Enemy* yo;
 	if (_waveType == "ork")
 	{
-		yo = new EnemyOrk();
+		 new EnemyOrk(_currentWave.getHealth(),
+		 	_currentWave.getSpeed(),
+		 	_currentWave.getCredits());
 		
 	}
 	else if (_waveType == "goblin")
 	{
-		yo = new EnemyGoblin();
+		new EnemyGoblin(_currentWave.getHealth(),
+		 	_currentWave.getSpeed(),
+		 	_currentWave.getCredits());
 		
 	}
 	else if (_waveType == "boss")
 	{
-		yo = new EnemyBoss();
+		new EnemyBoss(_currentWave.getHealth(),
+		 	_currentWave.getSpeed(),
+		 	_currentWave.getCredits());
 	}
 }
 
@@ -156,7 +171,7 @@ int Spawner::eventHandler(Event *p_event)
 		--_coolDown;
 
 		// check for win
-		if (_activeEnemies == 0 && _waveCounter == _waves)
+		if (_activeEnemies == 0 && _waveCounter >= _waves)
 		{
 			WorldManager &worldManager = WorldManager::getInstance();
 			EventPlayerWin eventWin;

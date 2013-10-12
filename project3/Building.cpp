@@ -106,7 +106,7 @@ int Building::eventHandler(Event *p_event)
 	{
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
-		return 1;
+		return 0; // forward to subclass
 	}
 
 	return 0;

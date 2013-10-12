@@ -17,9 +17,12 @@ class EnemyOrk : public Enemy
 {
 public:
 	/**
-	 * Creates a new ork enemy object instance.
+	 * Creates a new enemy object instance with speed and health set
+	 * @param health The enemies initial health.
+	 * @param speed The enemies speed.
+	 * @param killCredits The value the player gains for killing this enemy.
 	 */
-	EnemyOrk(void);
+	EnemyOrk(int health, float speed, int killCredits);
 };
 
 #endif

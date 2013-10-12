@@ -16,7 +16,7 @@
 TeslaTower::TeslaTower(void)
 	: Tower(TOWER_TESLA, "teslatower",
 		INIT_PRICE_TESLA, INIT_ENERGY_TESLA,
-		30, 20, 15, false)
+		INIT_FIRE_RATE_TESLA, INIT_FIRE_POWER_TESLA, INIT_FIRE_RANGE_TESLA, false)
 {
 
 }

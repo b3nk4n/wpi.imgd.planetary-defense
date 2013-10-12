@@ -11,8 +11,11 @@
 
 #define TOWER_GRENADE "Grenade Tower"
 #define KEY_GRENADE '3'
-#define INIT_PRICE_GRENADE 250
+#define INIT_PRICE_GRENADE 400
 #define INIT_ENERGY_GRENADE -4
+#define INIT_FIRE_RATE_GRENADE 60
+#define INIT_FIRE_POWER_GRENADE 15
+#define INIT_FIRE_RANGE_GRENADE 20
 
 /*
 * Represents a grenade tower with splash damage.

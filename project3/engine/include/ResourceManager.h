@@ -38,6 +38,9 @@ using std::string;
 #define ENEMY_TYPE_TOKEN "type"
 #define ENEMY_COUNT_TOKEN "count"
 #define ENEMY_DELAY_TOKEN "delay"
+#define ENEMY_HEALTH_TOKEN "health"
+#define ENEMY_SPEED_TOKEN "speed"
+#define ENEMY_CREDITS_TOKEN "credits"
 
 /**
  * Represents the manager for the game resources.

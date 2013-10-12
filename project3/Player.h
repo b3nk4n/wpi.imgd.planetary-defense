@@ -15,8 +15,8 @@ using std::string;
 #define TYPE_PLAYER "player"
 
 #define INIT_LIFES 10
-#define INIT_CREDITS 9999//1250
-#define INIT_ENERGY 9999//10
+#define INIT_CREDITS 1500
+#define INIT_ENERGY 10
 
 /**
  * Represents the player and its attributes.

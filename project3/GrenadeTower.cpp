@@ -18,7 +18,7 @@
 GrenadeTower::GrenadeTower(void)
 	: Tower(TOWER_GRENADE, "grenadetower",
 		INIT_PRICE_GRENADE, INIT_ENERGY_GRENADE,
-		60, 15, 20, true)
+		INIT_FIRE_RATE_GRENADE, INIT_FIRE_POWER_GRENADE, INIT_FIRE_RANGE_GRENADE, true)
 {
 
 }

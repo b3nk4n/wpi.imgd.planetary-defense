@@ -17,6 +17,7 @@ using std::vector;
 
 // prototypes
 int readLineInt(ifstream *p_file, int *p_lineNumber, const char *tag);
+float readLineFloat(ifstream *p_file, int *p_lineNumber, const char *tag);
 string readLineString(ifstream *p_file, int* p_lineNumber, const char *tag);
 Frame readFrame(ifstream *p_file, int *p_lineNumber, int width, int height);
 WaveData readWave(ifstream *p_file, int *p_lineNumber);
@@ -692,7 +693,7 @@ int readLineInt(ifstream *p_file, int *p_lineNumber, const char *tag)
 	catch(ifstream::failure e)
 	{
 		logManager.writeLog(LOG_ERROR,
-			"ResouceManager.readLineString()",
+			"ResouceManager.readLineInt()",
 			"Error line %d: Reading line failed with error: %s\n",
 			(*p_lineNumber),
 			e.what());
@@ -712,6 +713,65 @@ int readLineInt(ifstream *p_file, int *p_lineNumber, const char *tag)
 
 	// try to get the value
 	int number = atoi(line.substr(strlen(tag) + 1).c_str());
+
+	++(*p_lineNumber);
+
+	return number;
+}
+
+/**
+ * Reads a single line in the format 'tag number'.
+ * @param p_file the input stream.
+ * @param p_lineNumber Points to the line number.
+ * @param tag The sprites tag name.
+ * @return The read 'number' of the specified tag.
+ */
+float readLineFloat(ifstream *p_file, int *p_lineNumber, const char *tag)
+{
+	LogManager &logManager = LogManager::getInstance();
+	p_file->exceptions(ifstream::failbit|ifstream::badbit);
+
+	// verify reading from file is possible
+	if (!p_file->good())
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager.readLineFloat()",
+			"Error line %d: Reading an float line is not possible\n",
+			(*p_lineNumber));
+		return -1;
+	}
+
+	string line;
+
+	// read the line
+	try
+	{
+		getline(*p_file, line);
+		discardCR(line);
+	}
+	catch(ifstream::failure e)
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager.readLineFloat()",
+			"Error line %d: Reading line failed with error: %s\n",
+			(*p_lineNumber),
+			e.what());
+		return -1;
+	}
+
+	// verify the expacted tag
+	if (!line.compare(0, strlen(tag), tag) == 0)
+	{
+		logManager.writeLog(LOG_ERROR,
+			"ResouceManager.readLineFloat()",
+			"Error line %d: Expacted tag '%s' could not be found\n",
+			(*p_lineNumber),
+			tag);
+		return -1;	
+	}
+
+	// try to get the value
+	float number = (float)atof(line.substr(strlen(tag) + 1).c_str());
 
 	++(*p_lineNumber);
 
@@ -912,9 +972,12 @@ WaveData readWave(ifstream *p_file, int *p_lineNumber)
 	string type = readLineString(p_file, p_lineNumber, ENEMY_TYPE_TOKEN);
 	int count = readLineInt(p_file, p_lineNumber, ENEMY_COUNT_TOKEN);
 	int delay = readLineInt(p_file, p_lineNumber, ENEMY_DELAY_TOKEN);
+	int health = readLineInt(p_file, p_lineNumber, ENEMY_HEALTH_TOKEN);
+	float speed = readLineFloat(p_file, p_lineNumber, ENEMY_SPEED_TOKEN);
+	int credits = readLineInt(p_file, p_lineNumber, ENEMY_CREDITS_TOKEN);
 
 	// verify header parsing was successful
-	if (count == -1 || count == -1 || delay == -1)
+	if (count == -1 || count == -1 || delay == -1 || health == -1 || speed == -1 || credits == -1)
 	{
 		logManager.writeLog(LOG_ERROR,
 			"ResouceManager.readWave()",
@@ -971,7 +1034,13 @@ WaveData readWave(ifstream *p_file, int *p_lineNumber)
 	}
 
 	// create and return frame
-	WaveData wave(type, count, delay);
+	WaveData wave(type,
+		count,
+		delay,
+		health,
+		speed,
+		credits);
+	
 	return wave;
 }
 

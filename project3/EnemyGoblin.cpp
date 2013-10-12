@@ -7,10 +7,13 @@
 #include "EnemyGoblin.h"
 
 /**
- * Creates a new ork enemy object instance.
+ * Creates a new enemy object instance with speed and health set
+ * @param health The enemies initial health.
+ * @param speed The enemies speed.
+ * @param killCredits The value the player gains for killing this enemy.
  */
-EnemyGoblin::EnemyGoblin(void)
-	: Enemy("goblin", 15, 0.35f, 15)
+EnemyGoblin::EnemyGoblin(int health, float speed, int killCredits)
+	: Enemy("goblin", health, speed, killCredits)
 {
 
 }

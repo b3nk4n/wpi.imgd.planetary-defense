@@ -7,10 +7,13 @@
 #include "EnemyOrk.h"
 
 /**
- * Creates a new ork enemy object instance.
+ * Creates a new enemy object instance with speed and health set
+ * @param health The enemies initial health.
+ * @param speed The enemies speed.
+ * @param killCredits The value the player gains for killing this enemy.
  */
-EnemyOrk::EnemyOrk(void)
-	: Enemy("ork", 50, 0.20f, 40)
+EnemyOrk::EnemyOrk(int health, float speed, int killCredits)
+	: Enemy("ork", health, speed, killCredits)
 {
 
 }

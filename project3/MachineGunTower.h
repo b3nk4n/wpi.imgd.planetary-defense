@@ -11,8 +11,11 @@
 
 #define TOWER_MACHINE_GUN "MG Tower"
 #define KEY_MACHINE_GUN '2'
-#define INIT_PRICE_MACHINE_GUN 150
+#define INIT_PRICE_MACHINE_GUN 250
 #define INIT_ENERGY_MACHINE_GUN -3
+#define INIT_FIRE_RATE_MACHINE_GUN 30
+#define INIT_FIRE_POWER_MACHINE_GUN 5
+#define INIT_FIRE_RANGE_MACHINE_GUN 10
 
 /*
 * Represents a machine gun tower that fires bullets.

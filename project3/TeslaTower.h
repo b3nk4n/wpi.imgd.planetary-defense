@@ -11,8 +11,11 @@
 
 #define TOWER_TESLA "Tesla Tower"
 #define KEY_TESLA '5'
-#define INIT_PRICE_TESLA 450
+#define INIT_PRICE_TESLA 750
 #define INIT_ENERGY_TESLA -8
+#define INIT_FIRE_RATE_TESLA 75
+#define INIT_FIRE_POWER_TESLA 40
+#define INIT_FIRE_RANGE_TESLA 15
 
 /*
 * Represents a tesla tower with splash damage.

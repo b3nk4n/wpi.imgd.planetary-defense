@@ -58,6 +58,9 @@ Tower::~Tower(void)
 */
 int Tower::eventHandler(Event *p_event)
 {
+	if (Building::eventHandler(p_event))
+		return 1;
+
 	LogManager &logManager = LogManager::getInstance();
 
 	if (p_event->getType() == STEP_EVENT)

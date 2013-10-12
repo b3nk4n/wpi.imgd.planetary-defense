@@ -2,81 +2,141 @@ waves-count 20
 type goblin
 count 10
 delay 25
+health 20
+speed 0.3
+credits 10
 end
 type ork
 count 5
 delay 35
+health 45
+speed 0.22
+credits 30
 end
 type goblin
 count 11
 delay 22
+health 25
+speed 0.3
+credits 15
 end
 type ork
 count 8
 delay 33
+health 45
+speed 0.22
+credits 35
 end
 type goblin
 count 12
 delay 19
+health 30
+speed 0.3
+credits 20
 end
 type ork
 count 10
 delay 30
+health 45
+speed 0.25
+credits 40
 end
 type goblin
 count 14
 delay 17
+health 30
+speed 0.3
+credits 20
 end
 type ork
 count 15
 delay 27
+health 50
+speed 0.25
+credits 45
 end
 type goblin
 count 16
 delay 15
+health 35
+speed 0.3
+credits 25
 end
 type boss
 count 1
 delay 0
+health 500
+speed 0.1
+credits 500
 end
 type ork
 count 10
 delay 35
+health 55
+speed 0.25
+credits 45
 end
 type goblin
 count 12
 delay 25
+health 35
+speed 0.33
+credits 30
 end
 type ork
 count 12
 delay 33
+health 55
+speed 0.27
+credits 50
 end
 type goblin
 count 14
 delay 20
+health 35
+speed 0.33
+credits 35
 end
 type ork
 count 14
 delay 31
+health 55
+speed 0.3
+credits 50
 end
 type goblin
 count 15
 delay 15
+health 35
+speed 0.35
+credits 35
 end
 type ork
 count 16
 delay 29
+health 60
+speed 0.3
+credits 50
 end
 type goblin
 count 20
 delay 12
+health 35
+speed 0.37
+credits 35
 end
 type ork
 count 18
 delay 25
+health 65
+speed 0.3
+credits 55
 end
 type boss
 count 1
 delay 0
+health 1000
+speed 0.09
+credits 750
 end
 eof
