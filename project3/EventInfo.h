@@ -39,14 +39,24 @@ private:
 	string _name;
 
 	/**
-	 * The energy value of the selected bulding.
+	 * The selling energy value of the selected bulding.
 	 */
-	int _energy;
+	int _sellingEnergy;
+
+	/**
+	 * The upgrade energy value of the selected bulding.
+	 */
+	int _upgradeEnergy;
 
 	/**
 	 * The selling price of the selected bulding.
 	 */
 	int _sellingPrice;
+
+	/**
+	 * The upgrade price of the selected bulding.
+	 */
+	int _upgradePrice;
 
 	/**
 	 * The level.
@@ -80,7 +90,7 @@ public:
 	 * @param energy The buildings energy value.
 	 * @param sellingPrice The buildings selling price.
 	 */
-	EventInfo(string name, int energy, int sellingPrice);
+	EventInfo(string name, int sellingEnergy, int sellingPrice);
 
 	/**
 	 * Creates a new info event instance with building data.
@@ -92,7 +102,7 @@ public:
 	 * @param firePower The buildings fire power.
 	 * @param fireRange The buildings fire range.
 	 */
-	EventInfo(string name, int energy, int sellingPrice,
+	EventInfo(string name, int sellingEnergy, int upgradeEnergy, int sellingPrice, int upgradePrice,
 		int level, int fireRate, int firePower, int fireRange);
 
 	/**
@@ -111,13 +121,25 @@ public:
 	 * Gets the energy.
 	 * @return The energy.
 	 */
-	int getEnergy(void);
+	int getSellingEnergy(void);
+
+	/**
+	 * Gets the upgrade energy.
+	 * @return The upgrade energy.
+	 */
+	int getUpgradeEnergy(void);
 
 	/**
 	 * Gets the selling price.
 	 * @return The selling price.
 	 */
 	int getSellingPrice(void);
+
+	/**
+	 * Gets the upgrade price.
+	 * @return The upgrade price.
+	 */
+	int getUpgradePrice(void);
 
 	/**
 	 * Gets the level.

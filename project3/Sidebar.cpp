@@ -192,13 +192,15 @@ void Sidebar::draw(void)
 		pos.setY(pos.getY() + 1);
 		graphcisManager.drawStringFormat(pos, " Sell price: %5d $", _lastInfo.getSellingPrice());
 		pos.setY(pos.getY() + 1);
-		graphcisManager.drawStringFormat(pos, " Energy:     %5d Volt", _lastInfo.getEnergy());
+		graphcisManager.drawStringFormat(pos, " Energy:     %5d Volt", _lastInfo.getSellingEnergy());
 		pos.setY(pos.getY() + 1);
 
 		// additional tower data
 		if (_lastInfo.getInfoType() == TOWER)
 		{
-			graphcisManager.drawStringFormat(pos, " Level:      %5f", _lastInfo.getLevel());
+			graphcisManager.drawStringFormat(pos, " Level:      %5d", _lastInfo.getLevel());
+			pos.setY(pos.getY() + 1);
+			graphcisManager.drawStringFormat(pos, " Upgrade:    %5d $, %d Volt", _lastInfo.getUpgradePrice(), _lastInfo.getUpgradeEnergy());
 			pos.setY(pos.getY() + 1);
 			graphcisManager.drawStringFormat(pos, " Fire rate:   %1.2f /sec", 30.0 / _lastInfo.getFireRate());
 			pos.setY(pos.getY() + 1);
