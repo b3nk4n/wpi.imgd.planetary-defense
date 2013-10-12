@@ -198,7 +198,7 @@ void Tower::faceTo(Object *p_object)
 */
 int Tower::getFireRate(void)
 {
-	return _fireRate;
+	return _fireRate - (getLevel() - 1);
 }
 
 /**
@@ -207,7 +207,7 @@ int Tower::getFireRate(void)
  */
 int Tower::getFirePower(void)
 {
-	return _firePower;
+	return _firePower * getLevel();
 }
 
 /**
@@ -216,7 +216,7 @@ int Tower::getFirePower(void)
  */
 int Tower::getFireRange(void)
 {
-	return _fireRange;
+	return _fireRange + (getLevel() - 1);
 }
 
 /**

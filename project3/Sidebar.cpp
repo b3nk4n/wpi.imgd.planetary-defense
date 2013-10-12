@@ -161,6 +161,8 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 2);
 	graphcisManager.drawStringFormat(pos, " [%c] Toggle enemy info", KEY_INFO);
 	pos.setY(pos.getY() + 1);
+	graphcisManager.drawStringFormat(pos, " [%c] Upgrade tower", KEY_UPGRADE);
+	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [%c] Sell building", KEY_SELL);
 	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [%c] Quit game", KEY_QUITGAME);
@@ -196,6 +198,8 @@ void Sidebar::draw(void)
 		// additional tower data
 		if (_lastInfo.getInfoType() == TOWER)
 		{
+			graphcisManager.drawStringFormat(pos, " Level:      %5f", _lastInfo.getLevel());
+			pos.setY(pos.getY() + 1);
 			graphcisManager.drawStringFormat(pos, " Fire rate:   %1.2f /sec", 30.0 / _lastInfo.getFireRate());
 			pos.setY(pos.getY() + 1);
 			graphcisManager.drawStringFormat(pos, " Fire power: %5d", _lastInfo.getFirePower());

@@ -24,6 +24,7 @@ using std::string;
 #define TYPE_MAP_OBJECT "map_object"
 #define KEY_INFO 'i'
 #define KEY_SELL 's'
+#define KEY_UPGRADE 'u'
 #define KEY_QUITGAME 'q'
 
 #define MAP_SIDEBAR_BORDER 4

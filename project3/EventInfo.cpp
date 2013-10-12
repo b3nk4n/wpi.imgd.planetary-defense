@@ -17,6 +17,7 @@ EventInfo::EventInfo(void)
 	_name = "";
 	_energy = 0;
 	_sellingPrice = 0;
+	_level = 1;
 	_fireRate = 0;
 	_firePower = 0;
 	_fireRange = 0;
@@ -35,6 +36,7 @@ EventInfo::EventInfo(string name, int energy, int sellingPrice)
 	_name = name;
 	_energy = energy;
 	_sellingPrice = sellingPrice;
+	_level = 1;
 	_fireRate = 0;
 	_firePower = 0;
 	_fireRange = 0;
@@ -45,18 +47,20 @@ EventInfo::EventInfo(string name, int energy, int sellingPrice)
  * @param name The buildings name.
  * @param energy The buildings energy value.
  * @param sellingPrice The buildings selling price.
+ * @param level The level.
  * @param fireRate The buildings fire rate.
  * @param firePower The buildings fire power.
  * @param fireRange The buildings fire range.
  */
 EventInfo::EventInfo(string name, int energy, int sellingPrice,
-	int fireRate, int firePower, int fireRange)
+	int level, int fireRate, int firePower, int fireRange)
 {
 	setType(INFO_EVENT);
 	_infoType = TOWER;
 	_name = name;
 	_energy = energy;
 	_sellingPrice = sellingPrice;
+	_level = level;
 	_fireRate = fireRate;
 	_firePower = firePower;
 	_fireRange = fireRange;
@@ -96,6 +100,15 @@ int EventInfo::getEnergy()
 int EventInfo::getSellingPrice()
 {
 	return _sellingPrice;
+}
+
+/**
+ * Gets the level.
+ * @return The level.
+ */
+int EventInfo::getLevel(void)
+{
+	return _level;
 }
 
 /**

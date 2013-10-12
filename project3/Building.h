@@ -37,6 +37,11 @@ using std::string;
  	 */
  	int _energy;
 
+ 	/**
+ 	 * The upgrade level of the building.
+ 	 */
+ 	int _level;
+
  public:
  	/**
  	 * Creates a new building object and notifies the player.
@@ -51,6 +56,13 @@ using std::string;
  	 * Cleans the building object and nodifies the player.
  	 */
  	virtual ~Building(void);
+
+ 	/**
+	 * Handle events
+	 * @param p_event The event.
+	 * @return Returns 1 if event was handled, else 0.
+	 */
+	virtual int eventHandler(Event *p_event);
 
  	/**
  	 * Gets the buildings name.
@@ -76,12 +88,25 @@ using std::string;
  	 */
  	int getEnergy(void);
 
-	/**
-	 * Handle events
-	 * @param p_event The event.
-	 * @return Returns 1 if event was handled, else 0.
-	 */
-	virtual int eventHandler(Event *p_event);
+ 	/**
+ 	 * Indicates whether the building is able to upgrade.
+ 	 * @note Default is FALSE.
+ 	 * @param credits The players credits.
+ 	 * @param energy The players energy.
+ 	 * @return Returns if the building is able to upgrade.
+ 	 */
+ 	bool canUpgrade(int credits, int energy);
+
+ 	/**
+ 	 * Upgrades the building.
+ 	 */
+ 	void upgrade(void);
+
+ 	/**
+ 	 * Gets the upgrade level of the building.
+ 	 * @return The upgrade level.
+ 	 */
+ 	int getLevel(void);
 };
 
 #endif

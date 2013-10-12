@@ -49,6 +49,11 @@ private:
 	int _sellingPrice;
 
 	/**
+	 * The level.
+	 */
+	int _level;
+
+	/**
 	 * The fire rate.
 	 */
 	int _fireRate;
@@ -82,12 +87,13 @@ public:
 	 * @param name The buildings name.
 	 * @param energy The buildings energy value.
 	 * @param sellingPrice The buildings selling price.
+	 * @param level The level.
 	 * @param fireRate The buildings fire rate.
 	 * @param firePower The buildings fire power.
 	 * @param fireRange The buildings fire range.
 	 */
 	EventInfo(string name, int energy, int sellingPrice,
-		int fireRate, int firePower, int fireRange);
+		int level, int fireRate, int firePower, int fireRange);
 
 	/**
 	 * Gets whether additional info are available.
@@ -99,37 +105,43 @@ public:
 	 * Gets the name.
 	 * @return The name.
 	 */
-	string getName();
+	string getName(void);
 
 	/**
 	 * Gets the energy.
 	 * @return The energy.
 	 */
-	int getEnergy();
+	int getEnergy(void);
 
 	/**
 	 * Gets the selling price.
 	 * @return The selling price.
 	 */
-	int getSellingPrice();
+	int getSellingPrice(void);
+
+	/**
+	 * Gets the level.
+	 * @return The level.
+	 */
+	int getLevel(void);
 
 	/**
 	 * Gets the fire rate.
 	 * @return The fire rate.
 	 */
-	int getFireRate();
+	int getFireRate(void);
 
 	/**
 	 * Gets the fire power.
 	 * @return The fire power.
 	 */
-	int getFirePower();
+	int getFirePower(void);
 
 	/**
 	 * Gets the fire range.
 	 * @return The fire range.
 	 */
-	int getFireRange();
+	int getFireRange(void);
 };
 
 #endif

@@ -272,6 +272,24 @@ int TowerDefenseController::eventHandler(Event *p_event)
 			}
 			break;
 
+		case KEY_UPGRADE:
+			p_cell = _grid.getCell(_selectedCell);
+			p_building = p_cell->getBuilding();
+			
+			// if there is a building on this cell,
+			if (p_building != NULL)
+			{
+				// check if it is solar, and player has sufficient energy
+				if (!p_building->canUpgrade(p_player->getCredits(), p_player->getEnergy()))
+					break;
+
+				p_building->upgrade();
+
+				// display popup text
+				new PopupText(p_building->getPosition(), p_building->getSellingPrice());
+			}
+			break;
+
 		case KEY_INFO:
 			Enemy::setShowInfo(!Enemy::getShowInfo());
 			break;
@@ -664,6 +682,7 @@ void TowerDefenseController::infoUpdate(void)
 				EventInfo eventInfo(p_tower->getName(),
 					p_tower->getEnergy(),
 					p_tower->getSellingPrice(),
+					p_tower->getLevel(),
 					p_tower->getFireRate(),
 					p_tower->getFirePower(),
 					p_tower->getFireRange());

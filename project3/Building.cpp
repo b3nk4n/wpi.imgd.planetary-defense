@@ -28,6 +28,7 @@ Building::Building(string name, string spriteName, int cost, int energy)
 	_name = name;
 	_cost = cost;
 	_energy = energy;
+	_level = 1;
 
 	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
   	if (!p_tempSprite)
@@ -43,7 +44,7 @@ Building::Building(string name, string spriteName, int cost, int energy)
   	}
 
 	WorldManager &worldManager = WorldManager::getInstance();
-	EventBuildingChanged event(-_cost, _energy);
+	EventBuildingChanged event(-getCost(), getEnergy());
 	worldManager.onEvent(&event);
 
 	registerInterest(PLAYER_KILLED_EVENT);
@@ -57,42 +58,6 @@ Building::~Building(void)
 	WorldManager &worldManager = WorldManager::getInstance();
 	EventBuildingChanged event(getSellingPrice(), -_energy);
 	worldManager.onEvent(&event);
-}
-
-/**
- * Gets the buildings name.
- * @return The building name.
- */
-string Building::getName(void)
-{
-	return _name;
-}
-
-/**
- * Gets the building cost.
- * @return The building cost.
- */
-int Building::getCost(void)
-{
-	return _cost;
-}
-
-/**
- * Gets the building selling price.
- * @return The building selling price.
- */
-int Building::getSellingPrice(void)
-{
-	return (int)(_cost * SELL_FACTOR);
-}
-
-/**
- * Gets the buildings energy requirement or value.
- * @return The energy requirement or value.
- */
-int Building::getEnergy(void)
-{
-	return _energy;
 }
 
 /**
@@ -110,4 +75,74 @@ int Building::eventHandler(Event *p_event)
 	}
 
 	return 0;
+}
+
+/**
+ * Gets the buildings name.
+ * @return The building name.
+ */
+string Building::getName(void)
+{
+	return _name;
+}
+
+/**
+ * Gets the building cost.
+ * @return The building cost.
+ */
+int Building::getCost(void)
+{
+	return _cost * getLevel();
+}
+
+/**
+ * Gets the building selling price.
+ * @return The building selling price.
+ */
+int Building::getSellingPrice(void)
+{
+	return (int)(_cost * SELL_FACTOR * getLevel());
+}
+
+/**
+ * Gets the buildings energy requirement or value.
+ * @return The energy requirement or value.
+ */
+int Building::getEnergy(void)
+{
+	return _energy * getLevel();
+}
+
+/**
+ * Indicates whether the building is able to upgrade.
+ * @note Default is FALSE.
+ * @param credits The players credits.
+ * @param energy The players energy.
+ * @return Returns if the building is able to upgrade.
+ */
+bool Building::canUpgrade(int credits, int energy)
+{
+	return getCost() <= credits && getEnergy() <= energy; // TODO: get cost / energy of NEXT level, not this one!!!
+}
+
+/**
+ * Upgrades the building.
+ */
+void Building::upgrade(void)
+{
+	_level++;
+
+	// notify player
+	WorldManager &worldManager = WorldManager::getInstance();
+	EventBuildingChanged event(-getCost(), getEnergy());
+	worldManager.onEvent(&event);
+}
+
+/**
+ * Gets the upgrade level of the building.
+ * @return The upgrade level.
+ */
+int Building::getLevel(void)
+{
+	return _level;
 }
