@@ -15,8 +15,10 @@ EventInfo::EventInfo(void)
 	setType(INFO_EVENT);
 	_infoType = NONE;
 	_name = "";
-	_energy = 0;
+	_sellingEnergy = 0;
+	_upgradeEnergy = 0;
 	_sellingPrice = 0;
+	_upgradePrice = 0;
 	_level = 1;
 	_fireRate = 0;
 	_firePower = 0;
@@ -29,13 +31,15 @@ EventInfo::EventInfo(void)
  * @param energy The buildings energy value.
  * @param sellingPrice The buildings selling price.
  */
-EventInfo::EventInfo(string name, int energy, int sellingPrice)
+EventInfo::EventInfo(string name, int sellingEnergy, int sellingPrice)
 {
 	setType(INFO_EVENT);
 	_infoType = BUILDING;
 	_name = name;
-	_energy = energy;
+	_sellingEnergy = sellingEnergy;
+	_upgradeEnergy = 0;
 	_sellingPrice = sellingPrice;
+	_upgradePrice = 0;
 	_level = 1;
 	_fireRate = 0;
 	_firePower = 0;
@@ -52,14 +56,16 @@ EventInfo::EventInfo(string name, int energy, int sellingPrice)
  * @param firePower The buildings fire power.
  * @param fireRange The buildings fire range.
  */
-EventInfo::EventInfo(string name, int energy, int sellingPrice,
-	int level, int fireRate, int firePower, int fireRange)
+EventInfo::EventInfo(string name, int sellingEnergy, int upgradeEnergy, int sellingPrice, int upgradePrice,
+		int level, int fireRate, int firePower, int fireRange)
 {
 	setType(INFO_EVENT);
 	_infoType = TOWER;
 	_name = name;
-	_energy = energy;
+	_sellingEnergy = sellingEnergy;
+	_upgradeEnergy = upgradeEnergy;
 	_sellingPrice = sellingPrice;
+	_upgradePrice = upgradePrice;
 	_level = level;
 	_fireRate = fireRate;
 	_firePower = firePower;
@@ -88,18 +94,36 @@ string EventInfo::getName()
  * Gets the energy.
  * @return The energy.
  */
-int EventInfo::getEnergy()
+int EventInfo::getSellingEnergy(void)
 {
-	return _energy;
+	return _sellingEnergy;
+}
+
+/**
+ * Gets the upgrade energy.
+ * @return The upgrade energy.
+ */
+int EventInfo::getUpgradeEnergy(void)
+{
+	return _upgradeEnergy;
 }
 
 /**
  * Gets the selling price.
  * @return The selling price.
  */
-int EventInfo::getSellingPrice()
+int EventInfo::getSellingPrice(void)
 {
 	return _sellingPrice;
+}
+
+/**
+ * Gets the upgrade price.
+ * @return The upgrade price.
+ */
+int EventInfo::getUpgradePrice(void)
+{
+	return _upgradePrice;
 }
 
 /**

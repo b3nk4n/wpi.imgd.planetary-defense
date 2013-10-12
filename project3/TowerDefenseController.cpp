@@ -192,7 +192,7 @@ int TowerDefenseController::eventHandler(Event *p_event)
 				p_cell->setBuilding(p_building);
 
 				// display popup text
-				new PopupText(p_building->getPosition(), -p_building->getCost());
+				new PopupText(p_building->getPosition(), -p_building->getPrice());
 			}
 			break;
 
@@ -206,7 +206,7 @@ int TowerDefenseController::eventHandler(Event *p_event)
 				p_cell->setBuilding(p_building);
 
 				// display popup text
-				new PopupText(p_building->getPosition(), -p_building->getCost());
+				new PopupText(p_building->getPosition(), -p_building->getPrice());
 			}
 			break;
 
@@ -220,7 +220,7 @@ int TowerDefenseController::eventHandler(Event *p_event)
 				p_cell->setBuilding(p_building);
 
 				// display popup text
-				new PopupText(p_building->getPosition(), -p_building->getCost());
+				new PopupText(p_building->getPosition(), -p_building->getPrice());
 			}
 			break;
 
@@ -234,7 +234,7 @@ int TowerDefenseController::eventHandler(Event *p_event)
 				p_cell->setBuilding(p_building);
 
 				// display popup text
-				new PopupText(p_building->getPosition(), -p_building->getCost());
+				new PopupText(p_building->getPosition(), -p_building->getPrice());
 			}
 			break;
 
@@ -248,7 +248,7 @@ int TowerDefenseController::eventHandler(Event *p_event)
 				p_cell->setBuilding(p_building);
 
 				// display popup text
-				new PopupText(p_building->getPosition(), -p_building->getCost());
+				new PopupText(p_building->getPosition(), -p_building->getPrice());
 			}
 			break;
 
@@ -283,10 +283,10 @@ int TowerDefenseController::eventHandler(Event *p_event)
 				if (!p_building->canUpgrade(p_player->getCredits(), p_player->getEnergy()))
 					break;
 
-				p_building->upgrade();
-
 				// display popup text
-				new PopupText(p_building->getPosition(), p_building->getSellingPrice());
+				new PopupText(p_building->getPosition(), p_building->getUpgradePrice());
+
+				p_building->upgrade();
 			}
 			break;
 
@@ -680,8 +680,10 @@ void TowerDefenseController::infoUpdate(void)
 			if (p_tower != NULL) 
 			{
 				EventInfo eventInfo(p_tower->getName(),
-					p_tower->getEnergy(),
+					p_tower->getSellingEnergy(),
+					p_tower->getUpgradeEnergy(),
 					p_tower->getSellingPrice(),
+					p_tower->getUpgradePrice(),
 					p_tower->getLevel(),
 					p_tower->getFireRate(),
 					p_tower->getFirePower(),
@@ -691,7 +693,7 @@ void TowerDefenseController::infoUpdate(void)
 			else // else it is just a building
 			{
 				EventInfo eventInfo(p_building->getName(),
-					p_building->getEnergy(),
+					p_building->getSellingEnergy(),
 					p_building->getSellingPrice());
 				worldManager.onEvent(&eventInfo);
 			}

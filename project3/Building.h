@@ -27,9 +27,9 @@ using std::string;
  	string _name;
 
  	/**
- 	 * The always positive cost of the building.
+ 	 * The always positive price of the building.
  	 */
- 	int _cost;
+ 	int _price;
 
  	/**
  	 * The energy requirement or value of the building.
@@ -47,10 +47,10 @@ using std::string;
  	 * Creates a new building object and notifies the player.
  	 * @param name The name.
  	 * @param spriteName The name of the sprite.
- 	 * @param cost The cost.
- 	 * @param energy The energy cost or value.
+ 	 * @param price The price.
+ 	 * @param energy The energy price or value.
  	 */
- 	Building(string name, string spriteName, int cost, int energy);
+ 	Building(string name, string spriteName, int price, int energy);
 
  	/**
  	 * Cleans the building object and nodifies the player.
@@ -71,10 +71,10 @@ using std::string;
  	string getName(void);
 
  	/**
- 	 * Gets the building cost.
- 	 * @return The building cost.
+ 	 * Gets the building price.
+ 	 * @return The building price.
  	 */
- 	int getCost(void);
+ 	int getPrice(void);
 
  	/**
 	 * Gets the building selling price.
@@ -82,11 +82,29 @@ using std::string;
 	 */
 	int getSellingPrice(void);
 
+	/**
+ 	 * Gets the building upgrade  price.
+ 	 * @return The building upgrade price.
+ 	 */
+ 	int getUpgradePrice(void);
+
  	/**
  	 * Gets the buildings energy requirement or value.
  	 * @return The energy requirement or value.
  	 */
  	int getEnergy(void);
+
+ 	/**
+ 	 * Gets the buildings energy for selling.
+ 	 * @return The energy for selling.
+ 	 */
+ 	int getSellingEnergy(void);
+
+ 	/**
+ 	 * Gets the buildings upgrade energy requirement or value.
+ 	 * @return The energy for upgrading.
+ 	 */
+ 	int getUpgradeEnergy(void);
 
  	/**
  	 * Indicates whether the building is able to upgrade.
