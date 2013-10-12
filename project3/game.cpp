@@ -92,6 +92,7 @@ void loadResources(void)
 		//Screens
 	resourceManager.loadSprite("assets/sprites/gamestart-spr.txt", "gamestart");
  	resourceManager.loadSprite("assets/sprites/plan1death-spr.txt", "gameover");
+ 	resourceManager.loadSprite("assets/sprites/gamecontrols-spr.txt", "gamecontrol");
  	resourceManager.loadSprite("assets/sprites/plan1win-spr.txt", "gamewin");
  		//Planets
  	resourceManager.loadSprite("assets/sprites/planet01-spr.txt", "planet1");

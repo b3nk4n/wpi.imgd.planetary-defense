@@ -14,8 +14,9 @@ class GameStart : public ViewObject {
 protected:
 	/**
   	 * Starts up the world screen
+  	 * @param int, choice of next menu
   	 */
-  	void start();
+  	void start(int choice);
 
   	/**
   	 * Counter for menu screen
@@ -26,7 +27,7 @@ protected:
  	/**
  	 * Create a new GameStart()
  	 */
-	GameStart();
+	GameStart(void);
 
 	/**
 	 * Handle events

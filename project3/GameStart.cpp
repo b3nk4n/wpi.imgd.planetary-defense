@@ -17,6 +17,7 @@
 #include "Spawner.h"
 #include "Player.h"
 #include "Sidebar.h"
+#include "GameControls.h"
 #include "PlanetMenu.h"
 
 // game includes
@@ -76,10 +77,13 @@ int GameStart::eventHandler(Event *p_e) {
     EventKeyboard *p_keyboard_event = (EventKeyboard *) p_e;
     switch (p_keyboard_event->getKey()) {
     case 'p': 		// play
-      start();
+      start(1);
       break;
     case 'q':			// quit
       gameManager.setGameOver(true);
+      break;
+    case 'c':
+      start(2);
       break;
     default:
       break;
@@ -92,12 +96,17 @@ int GameStart::eventHandler(Event *p_e) {
 }
 
 /**
- * Starts up the world screen
+ * Starts up the world or instruction screen
  */
-void GameStart::start() {
+void GameStart::start(int choice) {
   
   WorldManager &world_manager = WorldManager::getInstance();
-  new PlanetMenu();
+  if (choice == 1){
+    new PlanetMenu();
+  }
+  else if (choice == 2){
+    new GameControls();
+  }
   world_manager.markForDelete(this);
 }
 

@@ -1,0 +1,85 @@
+frames 2
+width 86
+height 39
+color cyan
+__________________________________________________________                            
+|   _______     ______    _______        __        __     \___                        
+|     |   __ "\  /    " \  |"      "\     /""\      |" \   \  \                       
+|     (. |__) :)// ____  \ (.  ___  :)   /    \     ||  |   \  \___                   
+|     |:  ____//  /    ) :)|: \   ) ||  /' /\  \    |:  |    \  \  \                  
+|     (|  /   (: (____/ // (| (___\ || //  __'  \   |.  |     \  \  \                 
+|    /|__/ \   \        /  |:       :)/   /  \\  \  /\  |\     \  \  \                
+|    (_______)   \"_____/   (________/(___/    \___)(__\_|_)    \  \  \               
+|    *PLANETARY ORBITAL DEFENSE ARTIFICIAL INTELLIGENCE          \  \  \              
+|_________________________________________________________________\__\__\_____________
+|                _.u[V/;:,.         .odMMMMMM                                        |
+|             .o888UU|[[/;:-.  .o@P^    MMM^                                         |
+|            oN88888U|[[[/;::-.        dP^                                           |
+|           dNMMNN888|U[[[/;:--.   .o@P^                                             |
+|          ,MMMMMMN88^UU[[/;::-. o@^                                  _              |
+|          888MMMMMMMMUUU[[;::-.                                 ,d88b,)             |
+|          888888888UV[[[/o@^-..                                 88888%              |
+|         oI8888UU[[[oo@P^:--..      INSTRUCTION #1              >?8jY'              |
+|      .@^  YUU[[[/o@;;::---..                                   '-"'                |
+|    oMP     ^/o@P^;:::---..                                                         |
+| .dMMM    .o@^ ^;::---...         /_SELECTOR_\                                      |
+|dMMMMMMM@^`       `^^^^                                                             |
+|MMMUP^                                                                              |
+|                                                                ,,,,,,              |
+|                                                           o#'9MMHb':'-,o,          |
+|                                                        .oH":HH$' "' ' -*R&o,       |
+|         Use [LEFT], [RIGHT], [UP]                     dMMM*""'`'      .oM"HM?.     |
+|           and [DOWN] arrow keys to                  ,MMM'          "HLbd< ?&H\     |
+|          move your selector.                       .:MH ."\          ` MM  MM&b    |
+|                                                   . "*H    -        &MMMMMMMMMH:   |
+|               /    \      -                       .    dboo        MMMMMMMMMMMM.   |
+|                         |   |                     .   dMMMMMMb      *MMMMMMMMMP.   |
+|               \    /      -                       .    MMMMMMMP        *MMMMMP .   |
+|                                                        `#MMMMM           MM6P ,    |
+|                                                    '    `MMMP"           HM*` ,    |
+|                                                      '    :MM             .- ,     |
+|                                                       '.   `#?..  .       ..'      |
+| Use [LEFT] and [RIGHT] for more instructions, [C] for main menu -.   .             |
+|____________________________________________________________________________________|
+end
+__________________________________________________________                            
+|   _______     ______    _______        __        __     \___                        
+|     |   __ "\  /    " \  |"      "\     /""\      |" \   \  \                       
+|     (. |__) :)// ____  \ (.  ___  :)   /    \     ||  |   \  \___                   
+|     |:  ____//  /    ) :)|: \   ) ||  /' /\  \    |:  |    \  \  \                  
+|     (|  /   (: (____/ // (| (___\ || //  __'  \   |.  |     \  \  \                 
+|    /|__/ \   \        /  |:       :)/   /  \\  \  /\  |\     \  \  \                
+|    (_______)   \"_____/   (________/(___/    \___)(__\_|_)    \  \  \               
+|    *PLANETARY ORBITAL DEFENSE ARTIFICIAL INTELLIGENCE          \  \  \              
+|_________________________________________________________________\__\__\_____________
+|                _.u[V/;:,.         .odMMMMMM                                        |
+|             .o888UU|[[/;:-.  .o@P^    MMM^                                         |
+|            oN88888U|[[[/;::-.        dP^                                           |
+|           dNMMNN888|U[[[/;:--.   .o@P^                                             |
+|          ,MMMMMMN88^UU[[/;::-. o@^                                  _              |
+|          888MMMMMMMMUUU[[;::-.                                 ,d88b,)             |
+|          888888888UV[[[/o@^-..                                 88888%              |
+|         oI8888UU[[[oo@P^:--..      INSTRUCTION #2              >?8jY'              |
+|      .@^  YUU[[[/o@;;::---..                                   '-"'                |
+|    oMP     ^/o@P^;:::---..                                                         |
+| .dMMM    .o@^ ^;::---...         /_TOWERS_\                                        |
+|dMMMMMMM@^`       `^^^^                                                             |
+|MMMUP^                                                                              |
+|                                                                ,,,,,,              |
+|                                                           o#'9MMHb':'-,o,          |
+|                                                        .oH":HH$' "' ' -*R&o,       |
+|         Use the NUMBER keys to build towers           dMMM*""'`'      .oM"HM?.     |
+|           and [DOWN] arrow keys to                  ,MMM'          "HLbd< ?&H\     |
+|                                                    .:MH ."\          ` MM  MM&b    |
+|                                                   . "*H    -        &MMMMMMMMMH:   |
+|               /    \      -                       .    dboo        MMMMMMMMMMMM.   |
+|                         |   |                     .   dMMMMMMb      *MMMMMMMMMP.   |
+|               \    /      -                       .    MMMMMMMP        *MMMMMP .   |
+|                                                        `#MMMMM           MM6P ,    |
+|                                                    '    `MMMP"           HM*` ,    |
+|                                                      '    :MM             .- ,     |
+|                                                       '.   `#?..  .       ..'      |
+| Use [LEFT] and [RIGHT] for more instructions, [C] for main menu -.   .             |
+|____________________________________________________________________________________|
+end
+eof
