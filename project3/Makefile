@@ -60,8 +60,9 @@ GAMESRC = Cell.cpp \
           PopupText.cpp \
           EnemyBoss.cpp \
           PlanetMenu.cpp \
-          GameOver.cpp\
-          GameControls.cpp 
+          GameOver.cpp \
+          GameControls.cpp \
+          Star.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
@@ -121,9 +122,10 @@ game.o: /usr/include/machine/_default_types.h /usr/include/sys/lock.h
 game.o: /usr/include/machine/stdlib.h /usr/include/alloca.h GameStart.h
 game.o: EnemyOrk.h Enemy.h Player.h Spawner.h Sidebar.h EventInfo.h
 game.o: EventWaveInfo.h GameOver.h
+GameControls.o: GameStart.h GameControls.h
 GameOver.o: GameOver.h
 GameStart.o: Spawner.h Enemy.h Player.h Sidebar.h EventInfo.h EventWaveInfo.h
-GameStart.o: PlanetMenu.h GameStart.h
+GameStart.o: GameControls.h PlanetMenu.h GameStart.h
 GrenadeTower.o: /usr/include/stdlib.h /usr/include/machine/ieeefp.h
 GrenadeTower.o: /usr/include/_ansi.h /usr/include/newlib.h
 GrenadeTower.o: /usr/include/sys/config.h /usr/include/sys/features.h

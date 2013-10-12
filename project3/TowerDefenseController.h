@@ -18,6 +18,7 @@
 #include "Grid.h"
 #include "Spawner.h"
 #include "Sidebar.h"
+#include "Star.h"
 
 using std::string;
 
@@ -28,6 +29,8 @@ using std::string;
 #define KEY_QUITGAME 'q'
 
 #define MAP_SIDEBAR_BORDER 4
+
+#define STARS_COUNT 30
 
 /**
  * Manages 2D maps and allows virtual cursor navigation.
@@ -77,6 +80,11 @@ private:
 	 * The player.
 	 */
 	Player *_p_player;
+
+	/**
+	 * The background stars.
+	 */
+	Star _stars[STARS_COUNT];
 
     /**
 	 * Creates a map object instance.

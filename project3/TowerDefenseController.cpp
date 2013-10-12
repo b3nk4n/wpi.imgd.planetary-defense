@@ -141,6 +141,11 @@ int TowerDefenseController::eventHandler(Event *p_event)
 		_p_cursor->setVisibility(false);
 		_p_spawner->stop();
 
+		for (int i = 0; i < STARS_COUNT; ++i)
+		{
+			_stars[i].setVisibility(false);
+		}
+
 		// show game over screen
 		new GameOver(false);
 	}
@@ -150,6 +155,11 @@ int TowerDefenseController::eventHandler(Event *p_event)
 		_p_sidebar->setVisibility(false);
 		_p_cursor->setVisibility(false);
 		_p_spawner->stop();
+
+		for (int i = 0; i < STARS_COUNT; ++i)
+		{
+			_stars[i].setVisibility(false);
+		}
 
 		// show game over screen
 		new GameOver(true);
@@ -295,13 +305,8 @@ int TowerDefenseController::eventHandler(Event *p_event)
 			break;
 
 		case KEY_QUITGAME:
-			this->setVisibility(false);
-			_p_sidebar->setVisibility(false);
-			_p_cursor->setVisibility(false);
-			_p_spawner->stop();
-
-			// show game over screen
-			new GameOver(false);
+			EventPlayerKilled killedEvent;
+			worldManager.onEvent(&killedEvent);
 			break;
 		}
 
@@ -439,7 +444,7 @@ int TowerDefenseController::loadMap(string mapLabel)
 		setSpriteSlowdown(0);
 		setType(TYPE_MAP_OBJECT);
 		setSolidness(SPECTRAL);
-		setAltitude(MIN_ALTITUDE);
+		setAltitude(MIN_ALTITUDE + 1);
 	}
 	else
 	{
@@ -469,6 +474,13 @@ int TowerDefenseController::loadMap(string mapLabel)
 	_p_sidebar->setPosition(sidebarPosition);
 	_p_cursor->setPosition(getPosition());
 	_grid.setCorner(getPosition());
+
+	// init stars
+	for (int i = 0; i < STARS_COUNT; ++i)
+	{
+		Box mapBounds(mapPosition, _grid.getHorizontal(), _grid.getVertical());
+		_stars[i].setBounds(mapBounds);
+	}
 
 	return 0;
 }
