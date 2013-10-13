@@ -1,7 +1,7 @@
 frames 4
 width 5
 height 3
-color cyan
+color red
 n|.|n
 || ||
 //_\\

@@ -8,10 +8,10 @@
 #include "Tower.h"
 #include "LogManager.h"
 #include "WorldManager.h"
-#include "EventStep.h"
 #include "Spawner.h"
 #include "Object.h"
 #include "EventPlayerKilled.h"
+#include "EventStep.h"
 
 /**
  * Creates a new tower object.
@@ -39,9 +39,6 @@ Tower::Tower(string name, string spriteName, int cost, int energy,
 	// disable sprite animatin when the tower should face to the enemy
 	if (_isFacingToTarget)
 		setSpriteSlowdown(0);
-
-	// register events
-	registerInterest(STEP_EVENT);
 }
 
 /**

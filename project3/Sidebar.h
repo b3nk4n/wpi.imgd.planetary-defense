@@ -89,9 +89,10 @@ private:
 	 * @param name The display name of the building.
 	 * @param credits The cost of the building.
 	 * @param energy The energy value of the building.
+	 * @param color The color.
 	 */
 	void drawBuilding(Position position, char key,
-		Frame frame, string name, int credits, int energy);
+		Frame frame, string name, int credits, int energy, int color);
 
 public:
 	/**

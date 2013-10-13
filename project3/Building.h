@@ -14,6 +14,8 @@ using std::string;
 
 #define TYPE_BUILDING "building"
 #define SELL_FACTOR 0.5f
+#define MAX_UPGRADE_LEVEL 5
+#define LEVEL_BLINK_INTERVALL 30
 
 /*
 * Represents a general building.
@@ -42,6 +44,21 @@ using std::string;
  	 */
  	int _level;
 
+ 	/**
+ 	 * The total payed price with upgrades.
+ 	 */
+ 	int _totalPrice;
+
+ 	/**
+ 	 * The total energy value with upgrades.
+ 	 */
+ 	int _totalEnergy;
+
+ 	/**
+ 	 * For blinking level info.
+ 	 */
+ 	int _levelBlinkCounter;
+
  public:
  	/**
  	 * Creates a new building object and notifies the player.
@@ -63,6 +80,11 @@ using std::string;
 	 * @return Returns 1 if event was handled, else 0.
 	 */
 	virtual int eventHandler(Event *p_event);
+
+	/**
+	 * Renders additional upgrade information.
+	 */
+	virtual void draw(void);
 
  	/**
  	 * Gets the buildings name.

@@ -164,35 +164,40 @@ void Sidebar::draw(void)
 		_solarFrame,
 		BUILDING_SOLAR,
 		INIT_PRICE_SOLAR,
-		INIT_ENERGY_SOLAR);
+		INIT_ENERGY_SOLAR,
+		COLOR_BLUE);
 	pos.setY(pos.getY() + 4);
 	drawBuilding(pos,
 		KEY_MACHINE_GUN,
 		_machineGunFrame,
 		TOWER_MACHINE_GUN,
 		INIT_PRICE_MACHINE_GUN,
-		INIT_ENERGY_MACHINE_GUN);
+		INIT_ENERGY_MACHINE_GUN,
+		COLOR_GREEN);
 	pos.setY(pos.getY() + 4);
 	drawBuilding(pos,
 		KEY_GRENADE,
 		_grenadeFrame,
 		TOWER_GRENADE,
 		INIT_PRICE_GRENADE,
-		INIT_ENERGY_GRENADE);
+		INIT_ENERGY_GRENADE,
+		COLOR_CYAN);
 	pos.setY(pos.getY() + 4);
 	drawBuilding(pos,
 		KEY_LASER,
 		_laserFrame,
 		TOWER_LASER,
 		INIT_PRICE_LASER,
-		INIT_ENERGY_LASER);
+		INIT_ENERGY_LASER,
+		COLOR_MAGENTA);
 	pos.setY(pos.getY() + 4);
 	drawBuilding(pos,
 		KEY_TESLA,
 		_teslaFrame,
 		TOWER_TESLA,
 		INIT_PRICE_TESLA,
-		INIT_ENERGY_TESLA);
+		INIT_ENERGY_TESLA,
+		COLOR_RED);
 	pos.setY(pos.getY() + 4);
 
 	// special keys
@@ -288,9 +293,10 @@ void Sidebar::draw(void)
  * @param name The display name of the building.
  * @param credits The cost of the building.
  * @param energy The energy value of the building.
+ * @param color The color.
  */
 void Sidebar::drawBuilding(Position position, char key,
-	Frame frame, string name, int credits, int energy)
+	Frame frame, string name, int credits, int energy, int color)
 {
 	GraphicsManager &graphcisManager = GraphicsManager::getInstance();
 
@@ -303,7 +309,7 @@ void Sidebar::drawBuilding(Position position, char key,
 	graphcisManager.drawFrame(position,
 		frame,
 		false,
-		COLOR_DEFAULT);
+		color);
 
 	position.setX(position.getX() + frame.getWidth() + 1);
 	graphcisManager.drawStringFormat(position, "Name:   %s",

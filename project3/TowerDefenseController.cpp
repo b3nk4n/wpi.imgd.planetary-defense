@@ -272,7 +272,7 @@ int TowerDefenseController::eventHandler(Event *p_event)
 			{
 				// check if it is solar, and player has sufficient energy
 				if (p_building->getName() == BUILDING_SOLAR &&
-					p_player->getEnergy() < p_building->getEnergy())
+					p_player->getEnergy() < p_building->getSellingEnergy())
 					break;
 
 				p_cell->clear();

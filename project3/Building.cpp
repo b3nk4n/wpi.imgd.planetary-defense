@@ -11,6 +11,8 @@
 #include "Event.h"
 #include "EventBuildingChanged.h"
 #include "EventPlayerKilled.h"
+#include "GraphicsManager.h"
+#include "EventStep.h"
 
 /**
  * Creates a new building object and notifies the player.
@@ -29,6 +31,10 @@ Building::Building(string name, string spriteName, int price, int energy)
 	_price = price;
 	_energy = energy;
 	_level = 1;
+	_levelBlinkCounter = LEVEL_BLINK_INTERVALL;
+
+	_totalPrice = _price;
+	_totalEnergy = _energy;
 
 	Sprite *p_tempSprite = resourceManager.getSprite(spriteName);
   	if (!p_tempSprite)
@@ -48,6 +54,7 @@ Building::Building(string name, string spriteName, int price, int energy)
 	worldManager.onEvent(&event);
 
 	registerInterest(PLAYER_KILLED_EVENT);
+	registerInterest(STEP_EVENT);
 }
 
 /**
@@ -74,7 +81,32 @@ int Building::eventHandler(Event *p_event)
 		return 0; // forward to subclass
 	}
 
+	if (p_event->getType() == STEP_EVENT)
+	{
+		--_levelBlinkCounter;
+
+		if (_levelBlinkCounter < - 2 * LEVEL_BLINK_INTERVALL)
+			_levelBlinkCounter = LEVEL_BLINK_INTERVALL;
+
+		return 0; // forward to subclass
+	}
+
 	return 0;
+}
+
+/**
+ * Renders additional upgrade information.
+ */
+void Building::draw(void)
+{
+	Object::draw();
+
+	GraphicsManager &graphicsManager = GraphicsManager::getInstance();
+
+	if(getLevel() > 1 && _levelBlinkCounter > 0)
+	{
+		graphicsManager.drawStringFormat(getPosition(), "%d", getLevel());
+	}
 }
 
 /**
@@ -101,7 +133,7 @@ int Building::getPrice(void)
  */
 int Building::getSellingPrice(void)
 {
-	return (int)((_price + getUpgradePrice()) * SELL_FACTOR);
+	return (int)(_totalPrice * SELL_FACTOR);
 }
 
 /**
@@ -128,7 +160,7 @@ int Building::getEnergy(void)
  */
 int Building::getSellingEnergy(void)
 {
-	return _energy + getUpgradeEnergy() * (getLevel() - 1);
+	return _totalEnergy;
 }
 
 /**
@@ -149,7 +181,7 @@ int Building::getUpgradeEnergy(void)
  */
 bool Building::canUpgrade(int credits, int energy)
 {
-	return getUpgradePrice() <= credits && getUpgradeEnergy() <= energy;
+	return getLevel() < MAX_UPGRADE_LEVEL && getUpgradePrice() <= credits && getUpgradeEnergy() <= energy;
 }
 
 /**
@@ -157,6 +189,9 @@ bool Building::canUpgrade(int credits, int energy)
  */
 void Building::upgrade(void)
 {
+	_totalPrice += getUpgradePrice();
+	_totalEnergy += getUpgradeEnergy();
+
 	// notify player
 	WorldManager &worldManager = WorldManager::getInstance();
 	EventBuildingChanged event(-getUpgradePrice(), getUpgradeEnergy());

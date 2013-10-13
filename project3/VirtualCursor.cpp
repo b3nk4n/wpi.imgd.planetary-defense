@@ -20,12 +20,12 @@ VirtualCursor::VirtualCursor(Position position)
 	Sprite *p_tempSprite = new Sprite(frames);
 	p_tempSprite->setWidth(width);
 	p_tempSprite->setHeight(height);
-	p_tempSprite->setColor(COLOR_GREEN);
+	p_tempSprite->setColor(COLOR_DEFAULT);
 
 	// frame 1
 	string frameData1;
 	frameData1 += "/%%%\\";
-	frameData1 += "%%%%%";
+	frameData1 += "%%O%%";
 	frameData1 += "\\%%%/";
 	Frame frame1(width, height, frameData1);
 	p_tempSprite->addFrame(frame1);
@@ -33,7 +33,7 @@ VirtualCursor::VirtualCursor(Position position)
 	// frame 2
 	string frameData2;
 	frameData2 += "%%-%%";
-	frameData2 += "|%%%|";
+	frameData2 += "|%o%|";
 	frameData2 += "%%-%%";
 	Frame frame2(width, height, frameData2);
 	p_tempSprite->addFrame(frame2);
