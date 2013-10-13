@@ -63,10 +63,16 @@ int GameControls::eventHandler(Event *p_e) {
       start();
       break;
     case RIGHT_KEY:
-      _counter++;
+      if (_counter < 7)
+      {
+        _counter++;
+      }
       break;
     case LEFT_KEY:
-      _counter--;
+      if (_counter > 0)
+      {
+        _counter--;
+      }
       break;
     }
     return 1;
