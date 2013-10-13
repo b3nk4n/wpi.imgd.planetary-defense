@@ -1,7 +1,7 @@
-frames 2
+frames 5
 width 86
 height 39
-color cyan
+color yellow
 __________________________________________________________                            
 |   _______     ______    _______        __        __     \___                        
 |     |   __ "\  /    " \  |"      "\     /""\      |" \   \  \                       
@@ -69,13 +69,173 @@ __________________________________________________________
 |                                                           o#'9MMHb':'-,o,          |
 |                                                        .oH":HH$' "' ' -*R&o,       |
 |         Use the NUMBER keys to build towers           dMMM*""'`'      .oM"HM?.     |
-|           and [DOWN] arrow keys to                  ,MMM'          "HLbd< ?&H\     |
-|                                                    .:MH ."\          ` MM  MM&b    |
-|                                                   . "*H    -        &MMMMMMMMMH:   |
-|               /    \      -                       .    dboo        MMMMMMMMMMMM.   |
-|                         |   |                     .   dMMMMMMb      *MMMMMMMMMP.   |
-|               \    /      -                       .    MMMMMMMP        *MMMMMP .   |
+|           [1], [2], [3], [4], and [5]               ,MMM'          "HLbd< ?&H\     |
+|         You can UPGRADE towers with [U]            .:MH ."\          ` MM  MM&b    |
+|              and SELL towers with [S]             . "*H    -        &MMMMMMMMMH:   |
+|                                                   .    dboo        MMMMMMMMMMMM.   |
+|                                                   .   dMMMMMMb      *MMMMMMMMMP.   |
+|                                                   .    MMMMMMMP        *MMMMMP .   |
 |                                                        `#MMMMM           MM6P ,    |
+|                                                    '    `MMMP"           HM*` ,    |
+|                                                      '    :MM             .- ,     |
+|                                                       '.   `#?..  .       ..'      |
+| Use [LEFT] and [RIGHT] for more instructions, [C] for main menu -.   .             |
+|____________________________________________________________________________________|
+end
+__________________________________________________________                            
+|   _______     ______    _______        __        __     \___                        
+|     |   __ "\  /    " \  |"      "\     /""\      |" \   \  \                       
+|     (. |__) :)// ____  \ (.  ___  :)   /    \     ||  |   \  \___                   
+|     |:  ____//  /    ) :)|: \   ) ||  /' /\  \    |:  |    \  \  \                  
+|     (|  /   (: (____/ // (| (___\ || //  __'  \   |.  |     \  \  \                 
+|    /|__/ \   \        /  |:       :)/   /  \\  \  /\  |\     \  \  \                
+|    (_______)   \"_____/   (________/(___/    \___)(__\_|_)    \  \  \               
+|    *PLANETARY ORBITAL DEFENSE ARTIFICIAL INTELLIGENCE          \  \  \              
+|_________________________________________________________________\__\__\_____________
+|                _.u[V/;:,.         .odMMMMMM                                        |
+|             .o888UU|[[/;:-.  .o@P^    MMM^                                         |
+|            oN88888U|[[[/;::-.        dP^                                           |
+|           dNMMNN888|U[[[/;:--.   .o@P^                                             |
+|          ,MMMMMMN88^UU[[/;::-. o@^                                  _              |
+|          888MMMMMMMMUUU[[;::-.                                 ,d88b,)             |
+|          888888888UV[[[/o@^-..                                 88888%              |
+|         oI8888UU[[[oo@P^:--..      INSTRUCTION #3              >?8jY'              |
+|      .@^  YUU[[[/o@;;::---..                                   '-"'                |
+|    oMP     ^/o@P^;:::---..                                                         |
+| .dMMM    .o@^ ^;::---...         /_[1] Solar Panel_\                               |
+|dMMMMMMM@^`       `^^^^                                                             |
+|MMMUP^                                                                              |
+|                                                                ,,,,,,              |
+|                                                           o#'9MMHb':'-,o,          |
+|                                                        .oH":HH$' "' ' -*R&o,       |
+|         Build a Solar Panel with key [1]              dMMM*""'`'      .oM"HM?.     |
+|          - Increases Volts by 10                    ,MMM'          "HLbd< ?&H\     |
+|          - TIP: Best to build away from the path   .:MH ."\          ` MM  MM&b    |
+|                  to make room for attack towers   . "*H    -        &MMMMMMMMMH:   |
+|                                                   .    dboo        MMMMMMMMMMMM.   |
+|            /-|-\       /~|~\                      .   dMMMMMMb      *MMMMMMMMMP.   |
+|            -|-|-       -|-|~                      .    MMMMMMMP        *MMMMMP .   |
+|            | | |       | | |                           `#MMMMM           MM6P ,    |
+|                                                    '    `MMMP"           HM*` ,    |
+|                                                      '    :MM             .- ,     |
+|                                                       '.   `#?..  .       ..'      |
+| Use [LEFT] and [RIGHT] for more instructions, [C] for main menu -.   .             |
+|____________________________________________________________________________________|
+end
+__________________________________________________________                            
+|   _______     ______    _______        __        __     \___                        
+|     |   __ "\  /    " \  |"      "\     /""\      |" \   \  \                       
+|     (. |__) :)// ____  \ (.  ___  :)   /    \     ||  |   \  \___                   
+|     |:  ____//  /    ) :)|: \   ) ||  /' /\  \    |:  |    \  \  \                  
+|     (|  /   (: (____/ // (| (___\ || //  __'  \   |.  |     \  \  \                 
+|    /|__/ \   \        /  |:       :)/   /  \\  \  /\  |\     \  \  \                
+|    (_______)   \"_____/   (________/(___/    \___)(__\_|_)    \  \  \               
+|    *PLANETARY ORBITAL DEFENSE ARTIFICIAL INTELLIGENCE          \  \  \              
+|_________________________________________________________________\__\__\_____________
+|                _.u[V/;:,.         .odMMMMMM                                        |
+|             .o888UU|[[/;:-.  .o@P^    MMM^                                         |
+|            oN88888U|[[[/;::-.        dP^                                           |
+|           dNMMNN888|U[[[/;:--.   .o@P^                                             |
+|          ,MMMMMMN88^UU[[/;::-. o@^                                  _              |
+|          888MMMMMMMMUUU[[;::-.                                 ,d88b,)             |
+|          888888888UV[[[/o@^-..                                 88888%              |
+|         oI8888UU[[[oo@P^:--..      INSTRUCTION #4              >?8jY'              |
+|      .@^  YUU[[[/o@;;::---..                                   '-"'                |
+|    oMP     ^/o@P^;:::---..                                                         |
+| .dMMM    .o@^ ^;::---...         /_[2] Machine Gun_\                               |
+|dMMMMMMM@^`       `^^^^                                                             |
+|MMMUP^                                                                              |
+|                                                                ,,,,,,              |
+|                                                           o#'9MMHb':'-,o,          |
+|                                                        .oH":HH$' "' ' -*R&o,       |
+|         Build a Machine Gun with key [2]              dMMM*""'`'      .oM"HM?.     |
+|          - Costs 3 Volts to build                   ,MMM'          "HLbd< ?&H\     |
+|          - Costs $250 to build                     .:MH ."\          ` MM  MM&b    |
+|          - Fires quick, one shot bullets          . "*H    -        &MMMMMMMMMH:   |
+|                                                   .    dboo        MMMMMMMMMMMM.   |
+|             ___        o__                        .   dMMMMMMb      *MMMMMMMMMP.   |
+|            /__-o      /___\                       .    MMMMMMMP        *MMMMMP .   |
+|            / | \      / | \                            `#MMMMM           MM6P ,    |
+|                                                    '    `MMMP"           HM*` ,    |
+|                                                      '    :MM             .- ,     |
+|                                                       '.   `#?..  .       ..'      |
+| Use [LEFT] and [RIGHT] for more instructions, [C] for main menu -.   .             |
+|____________________________________________________________________________________|
+end
+__________________________________________________________                            
+|   _______     ______    _______        __        __     \___                        
+|     |   __ "\  /    " \  |"      "\     /""\      |" \   \  \                       
+|     (. |__) :)// ____  \ (.  ___  :)   /    \     ||  |   \  \___                   
+|     |:  ____//  /    ) :)|: \   ) ||  /' /\  \    |:  |    \  \  \                  
+|     (|  /   (: (____/ // (| (___\ || //  __'  \   |.  |     \  \  \                 
+|    /|__/ \   \        /  |:       :)/   /  \\  \  /\  |\     \  \  \                
+|    (_______)   \"_____/   (________/(___/    \___)(__\_|_)    \  \  \               
+|    *PLANETARY ORBITAL DEFENSE ARTIFICIAL INTELLIGENCE          \  \  \              
+|_________________________________________________________________\__\__\_____________
+|                _.u[V/;:,.         .odMMMMMM                                        |
+|             .o888UU|[[/;:-.  .o@P^    MMM^                                         |
+|            oN88888U|[[[/;::-.        dP^                                           |
+|           dNMMNN888|U[[[/;:--.   .o@P^                                             |
+|          ,MMMMMMN88^UU[[/;::-. o@^                                  _              |
+|          888MMMMMMMMUUU[[;::-.                                 ,d88b,)             |
+|          888888888UV[[[/o@^-..                                 88888%              |
+|         oI8888UU[[[oo@P^:--..      INSTRUCTION #5              >?8jY'              |
+|      .@^  YUU[[[/o@;;::---..                                   '-"'                |
+|    oMP     ^/o@P^;:::---..                                                         |
+| .dMMM    .o@^ ^;::---...         /_[3] Grenade Tower_\                             |
+|dMMMMMMM@^`       `^^^^                                                             |
+|MMMUP^                                                                              |
+|                                                                ,,,,,,              |
+|                                                           o#'9MMHb':'-,o,          |
+|                                                        .oH":HH$' "' ' -*R&o,       |
+|         Build a Grenade Tower with key [3]            dMMM*""'`'      .oM"HM?.     |
+|          - Costs 4 Volts to build                   ,MMM'          "HLbd< ?&H\     |
+|          - Costs $400 to build                     .:MH ."\          ` MM  MM&b    |
+|          - Fires an explosive grenade at enemies  . "*H    -        &MMMMMMMMMH:   |
+|                                                   .    dboo        MMMMMMMMMMMM.   |
+|           /---\      /---\                        .   dMMMMMMb      *MMMMMMMMMP.   |
+|           | O--      --O |                        .    MMMMMMMP        *MMMMMP .   |
+|           \---/      \---/                             `#MMMMM           MM6P ,    |
+|                                                    '    `MMMP"           HM*` ,    |
+|                                                      '    :MM             .- ,     |
+|                                                       '.   `#?..  .       ..'      |
+| Use [LEFT] and [RIGHT] for more instructions, [C] for main menu -.   .             |
+|____________________________________________________________________________________|
+end
+__________________________________________________________                            
+|   _______     ______    _______        __        __     \___                        
+|     |   __ "\  /    " \  |"      "\     /""\      |" \   \  \                       
+|     (. |__) :)// ____  \ (.  ___  :)   /    \     ||  |   \  \___                   
+|     |:  ____//  /    ) :)|: \   ) ||  /' /\  \    |:  |    \  \  \                  
+|     (|  /   (: (____/ // (| (___\ || //  __'  \   |.  |     \  \  \                 
+|    /|__/ \   \        /  |:       :)/   /  \\  \  /\  |\     \  \  \                
+|    (_______)   \"_____/   (________/(___/    \___)(__\_|_)    \  \  \               
+|    *PLANETARY ORBITAL DEFENSE ARTIFICIAL INTELLIGENCE          \  \  \              
+|_________________________________________________________________\__\__\_____________
+|                _.u[V/;:,.         .odMMMMMM                                        |
+|             .o888UU|[[/;:-.  .o@P^    MMM^                                         |
+|            oN88888U|[[[/;::-.        dP^                                           |
+|           dNMMNN888|U[[[/;:--.   .o@P^                                             |
+|          ,MMMMMMN88^UU[[/;::-. o@^                                  _              |
+|          888MMMMMMMMUUU[[;::-.                                 ,d88b,)             |
+|          888888888UV[[[/o@^-..                                 88888%              |
+|         oI8888UU[[[oo@P^:--..      INSTRUCTION #5              >?8jY'              |
+|      .@^  YUU[[[/o@;;::---..                                   '-"'                |
+|    oMP     ^/o@P^;:::---..                                                         |
+| .dMMM    .o@^ ^;::---...         /_[3] Grenade Tower_\                             |
+|dMMMMMMM@^`       `^^^^                                                             |
+|MMMUP^                                                                              |
+|                                                                ,,,,,,              |
+|                                                           o#'9MMHb':'-,o,          |
+|                                                        .oH":HH$' "' ' -*R&o,       |
+|         Build a Grenade Tower with key [3]            dMMM*""'`'      .oM"HM?.     |
+|          - Costs 4 Volts to build                   ,MMM'          "HLbd< ?&H\     |
+|          - Costs $400 to build                     .:MH ."\          ` MM  MM&b    |
+|          - Fires an explosive grenade at enemies  . "*H    -        &MMMMMMMMMH:   |
+|                                                   .    dboo        MMMMMMMMMMMM.   |
+|           /---\      /---\                        .   dMMMMMMb      *MMMMMMMMMP.   |
+|           | O--      --O |                        .    MMMMMMMP        *MMMMMP .   |
+|           \---/      \---/                             `#MMMMM           MM6P ,    |
 |                                                    '    `MMMP"           HM*` ,    |
 |                                                      '    :MM             .- ,     |
 |                                                       '.   `#?..  .       ..'      |
