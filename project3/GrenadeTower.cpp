@@ -32,13 +32,13 @@ void GrenadeTower::fire(Object *p_object)
 	/**
 	 * More elegant solution, but causes radomly SEG FAULTs. Reason unknown :(
 	 */
-	/*new FragmentationGrenade(getPosition(),
+	new FragmentationGrenade(getPosition(),
 		p_object->getPosition(),
-		getFirePower());*/
+		getFirePower());
 
 
 	// random variance
-	Position detonationPos = p_object->getPosition();
+	/*Position detonationPos = p_object->getPosition();
 	detonationPos.setX(detonationPos.getX() - 3 + random() % 7);
 	detonationPos.setY(detonationPos.getY() - 2 + random() % 5);
 
@@ -49,5 +49,5 @@ void GrenadeTower::fire(Object *p_object)
     worldManager.onEvent(&event);
  
 
-    new ExplosionBig(detonationPos);
+    new ExplosionBig(detonationPos);*/
 }

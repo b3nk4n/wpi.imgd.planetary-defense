@@ -101,7 +101,7 @@ int Manager::unregisterInterest(Object *p_object, string eventType)
 			}
 
 			// check if list is now empty
-			if (_objectLists[i].isEmpty())
+			/*if (_objectLists[i].isEmpty())
 			{
 				// scoot over both list
 				for (int j = i; j < _eventListCount - 1; ++j)
@@ -111,7 +111,7 @@ int Manager::unregisterInterest(Object *p_object, string eventType)
 				}
 
 				--_eventListCount;
-			}
+			}*/
 
 			return 0;
 		}

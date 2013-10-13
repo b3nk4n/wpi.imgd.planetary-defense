@@ -61,6 +61,11 @@ class Enemy : public Object
  	 */
  	static bool _showInfo;
 
+ 	/**
+ 	 * To prevent mulitple kill events.
+ 	 */
+ 	bool _hasEndEventSent;
+
  public:
 	/**
 	 * Creates a new enemy object instance with speed and health set

@@ -135,6 +135,8 @@ void TowerDefenseController::reset(void)
  */
 int TowerDefenseController::eventHandler(Event *p_event)
 {	
+	WorldManager &worldManager = WorldManager::getInstance();
+
 	if (p_event->getType() == PLAYER_KILLED_EVENT)
 	{
 		this->setVisibility(false);
@@ -162,6 +164,18 @@ int TowerDefenseController::eventHandler(Event *p_event)
 			_stars[i].setVisibility(false);
 		}
 
+		for (int x = 0; x < _grid.getWidth(); ++x)
+		{
+			for (int y = 0; y < _grid.getHeight(); ++y)
+			{
+				Object *o = _grid.getCell(Position(x,y))->getBuilding();
+				if (o)
+				{
+					o->setVisibility(false);
+				}
+			}
+		}
+
 		// show game over screen
 		new GameOver(true);
 	} 
@@ -171,7 +185,6 @@ int TowerDefenseController::eventHandler(Event *p_event)
 		Building *p_building;
 		EventKeyboard *p_eventKeyboard = static_cast<EventKeyboard *>(p_event);
 		Player *p_player = Player::getInstance();
-		WorldManager &worldManager = WorldManager::getInstance();
 		LogManager &logManager = LogManager::getInstance();
 
 		int input = p_eventKeyboard->getKey();

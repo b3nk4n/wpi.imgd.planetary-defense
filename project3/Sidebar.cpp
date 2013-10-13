@@ -263,10 +263,25 @@ void Sidebar::draw(void)
 		// additional tower data
 		if (_lastInfo.getInfoType() == TOWER)
 		{
-			graphcisManager.drawStringFormat(pos, " Level:      %5d", _lastInfo.getLevel());
-			pos.setY(pos.getY() + 1);
-			graphcisManager.drawStringFormat(pos, " Upgrade:    %5d $, %d Volt", _lastInfo.getUpgradePrice(), _lastInfo.getUpgradeEnergy());
-			pos.setY(pos.getY() + 1);
+			if (_lastInfo.getLevel() < MAX_UPGRADE_LEVEL)
+			{
+				graphcisManager.drawStringFormat(pos, " Level:      %5d", _lastInfo.getLevel());
+				pos.setY(pos.getY() + 1);
+
+				int upgradeColor = COLOR_GREEN;
+
+				if (_lastInfo.getUpgradePrice() > _p_player->getCredits() ||
+					_lastInfo.getUpgradeEnergy() > _p_player->getEnergy())
+					upgradeColor = COLOR_RED;
+
+				graphcisManager.drawStringFormat(pos, LEFT_JUSTIFIED, upgradeColor, " Upgrade:    %5d $, %d Volt", _lastInfo.getUpgradePrice(), _lastInfo.getUpgradeEnergy());
+				pos.setY(pos.getY() + 1);
+			}
+			else
+			{
+				graphcisManager.drawStringFormat(pos, LEFT_JUSTIFIED, COLOR_GREEN, " Level:        MAX");
+				pos.setY(pos.getY() + 2);
+			}
 			graphcisManager.drawStringFormat(pos, " Fire rate:   %1.2f /sec", 30.0 / _lastInfo.getFireRate());
 			pos.setY(pos.getY() + 1);
 			graphcisManager.drawStringFormat(pos, " Fire power: %5d", _lastInfo.getFirePower());

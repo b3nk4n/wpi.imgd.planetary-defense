@@ -169,7 +169,7 @@ int Building::getSellingEnergy(void)
  */
 int Building::getUpgradeEnergy(void)
 {
-	return _energy + (_energy * getLevel() / 2);
+	return (_energy * getLevel()) / 2;
 }
 
 /**

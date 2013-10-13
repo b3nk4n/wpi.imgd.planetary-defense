@@ -163,10 +163,10 @@ int Spawner::eventHandler(Event *p_event)
 		}
 		else if (_enemyCounter <= 0 && _coolDown < -30)
 		{				
-
+			++_waveCounter;
+			
 			if (_waveCounter < _waves)
 			{
-				++_waveCounter;
 				if (_waveType == "boss") // longer timer after bosses
 					spawnWave(TIME_AFTER_BOSS);
 				else
@@ -175,6 +175,12 @@ int Spawner::eventHandler(Event *p_event)
 		}
 
 		--_coolDown;
+
+		LogManager &logManager = LogManager::getInstance();
+		logManager.writeLog(LOG_DEBUG,
+			"Spawner::eventHandler()",
+			"_activeEnemies = %d, _waveCounter = %d, Waves = %d\n",
+			_activeEnemies, _waveCounter, _waves);
 
 		// check for win
 		if (_activeEnemies == 0 && _waveCounter >= _waves)

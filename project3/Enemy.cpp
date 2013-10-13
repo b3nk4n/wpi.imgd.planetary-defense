@@ -43,6 +43,7 @@ Enemy::Enemy(string spriteName, int health, float speed, int killCredits)
   	_speed = speed;
   	_killCredits = killCredits;
   	_targetReached = false;
+  	_hasEndEventSent = false;
 
   	setSolidness(SOFT);
 
@@ -295,21 +296,25 @@ void Enemy::killSelf(void)
 {
 	WorldManager &worldManager = WorldManager::getInstance();
 	
-	if (_targetReached)
+	if (!_hasEndEventSent)
 	{
-		EventEnemyInvasion eventInvasion;
-		worldManager.onEvent(&eventInvasion);
-	}
-	else
-	{
-		EventEnemyKilled event(getPosition(), _killCredits);
-		worldManager.onEvent(&event);
+		if (_targetReached)
+		{
+			EventEnemyInvasion eventInvasion;
+			worldManager.onEvent(&eventInvasion);
+		}
+		else 
+		{
+			EventEnemyKilled event(getPosition(), _killCredits);
+			worldManager.onEvent(&event);
 
-		new ExplosionSmall(getPosition());
-	}
+			new ExplosionSmall(getPosition());
+		}
 
-	// remove itself
-	worldManager.markForDelete(this);
+		// remove itself
+		worldManager.markForDelete(this);
+		_hasEndEventSent = true;
+	}
 }
 
 /**
