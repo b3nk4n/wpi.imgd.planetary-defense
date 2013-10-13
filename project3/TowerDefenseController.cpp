@@ -358,12 +358,12 @@ void TowerDefenseController::draw(void)
 	Position topLeft(screenX / 2 - gameX / 2,
 		screenY / 2 - gameY / 2);
 	Position bottomRight(topLeft.getX() + gridX + sidebarX,
-		gameY);
+		topLeft.getY() + gameY);
 	
 	// top
 	for (int x = 0; x < worldManager.getViewBoundary().getHorizontal(); ++x)
 	{
-		for (int y = 0; y < topLeft.getY() - 1; ++y)
+		for (int y = 0; y < topLeft.getY(); ++y)
 		{
 			graphicsManager.drawChar(Position(x,y),
 				'#',
@@ -374,7 +374,7 @@ void TowerDefenseController::draw(void)
 	// bottom
 	for (int x = 0; x < worldManager.getViewBoundary().getHorizontal(); ++x)
 	{
-		for (int y = bottomRight.getY() + 4; y < worldManager.getViewBoundary().getVertical(); ++y)
+		for (int y = bottomRight.getY(); y < worldManager.getViewBoundary().getVertical(); ++y)
 		{
 			graphicsManager.drawChar(Position(x,y),
 				'#',
@@ -474,11 +474,19 @@ int TowerDefenseController::loadMap(string mapLabel)
 	int sidebarY = _p_sidebar->getVertical();
 	int gameX = gridX + sidebarX;
 	int gameY = MAX(gridY, sidebarY);
+	int mapSidebarDiffY = gridY - sidebarY;
+	int mapOffset = 0;
+	int sidebarOffset = 0;
+
+	if (mapSidebarDiffY > 0)
+		sidebarOffset = mapSidebarDiffY / 2;
+	else
+		mapOffset = -mapSidebarDiffY / 2;
 
 	Position mapPosition(screenX / 2 - gameX / 2,
-		screenY / 2 - gameY / 2);
+		screenY / 2 - gameY / 2 + mapOffset);
 	Position sidebarPosition(mapPosition.getX() + gridX,
-		mapPosition.getY());
+		screenY / 2 - gameY / 2 + sidebarOffset);
 
 	setPosition(mapPosition);
 	_p_sidebar->setPosition(sidebarPosition);

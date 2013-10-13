@@ -235,7 +235,7 @@ int GraphicsManager::drawStringFormat(Position worldPosition, const char *format
 	// setup argmument stack
 	va_start(args, format);
 	// write formatted log content including given arguments
-	int res = drawStringFormat(worldPosition,
+	int res = drawStringFormatIntern(worldPosition,
 		LEFT_JUSTIFIED,
 		COLOR_DEFAULT,
 		format, args);
@@ -263,7 +263,7 @@ int GraphicsManager::drawStringFormat(Position worldPosition, Justification just
 	// setup argmument stack
 	va_start(args, format);
 	// write formatted log content including given arguments
-	int res = drawStringFormat(worldPosition,
+	int res = drawStringFormatIntern(worldPosition,
 		justification,
 		COLOR_DEFAULT,
 		format, args);
@@ -292,7 +292,7 @@ int GraphicsManager::drawStringFormat(Position worldPosition, Justification just
 	// setup argmument stack
 	va_start(args, format);
 	// write formatted log content including given arguments
-	int res = drawStringFormat(worldPosition,
+	int res = drawStringFormatIntern(worldPosition,
 		justification,
 		color,
 		format, args);
@@ -311,7 +311,7 @@ int GraphicsManager::drawStringFormat(Position worldPosition, Justification just
  * @param args The variable number of parameter for the format string.
  * @return Returns 0 if ok, else -1.
  */
-int GraphicsManager::drawStringFormat(Position worldPosition, Justification justification,
+int GraphicsManager::drawStringFormatIntern(Position worldPosition, Justification justification,
 	int color, const char *format, va_list args)
 {
 	char buffer[256];

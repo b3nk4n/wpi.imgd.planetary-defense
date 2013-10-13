@@ -69,7 +69,7 @@ private:
 	 * @param args The variable number of parameter for the format string.
 	 * @return Returns 0 if ok, else -1.
 	 */
-	int drawStringFormat(Position worldPosition, Justification justification,
+	int drawStringFormatIntern(Position worldPosition, Justification justification,
 		int color, const char *format, va_list args);
 
 public:

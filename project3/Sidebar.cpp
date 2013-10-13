@@ -123,11 +123,35 @@ void Sidebar::draw(void)
 		LEFT_JUSTIFIED,
 		COLOR_CYAN);
 	pos.setY(pos.getY() + 2);
-	graphcisManager.drawStringFormat(pos, " Lifes:      %5d", _p_player->getLifes());
+
+	int lifeColor = COLOR_DEFAULT;
+
+	if (_p_player->getLifes() < 4)
+		lifeColor = COLOR_YELLOW;
+	if (_p_player->getLifes() < 2)
+		lifeColor = COLOR_RED;
+
+	graphcisManager.drawStringFormat(pos, LEFT_JUSTIFIED, lifeColor, " Lifes:      %5d", _p_player->getLifes());
 	pos.setY(pos.getY() + 1);
-	graphcisManager.drawStringFormat(pos, " Credits:    %5d $", _p_player->getCredits());
+
+	int creditsColor = COLOR_DEFAULT;
+
+	if (_p_player->getCredits() < 200)
+		lifeColor = COLOR_YELLOW;
+	if (_p_player->getCredits() < 100)
+		lifeColor = COLOR_RED;
+
+	graphcisManager.drawStringFormat(pos, LEFT_JUSTIFIED, lifeColor, " Credits:    %5d $", _p_player->getCredits());
 	pos.setY(pos.getY() + 1);
-	graphcisManager.drawStringFormat(pos, " Energy:     %5d Volt", _p_player->getEnergy());
+
+	int energyColor = COLOR_DEFAULT;
+
+	if (_p_player->getEnergy() < 5)
+		energyColor = COLOR_YELLOW;
+	if (_p_player->getEnergy() < 3)
+		energyColor = COLOR_RED;
+
+	graphcisManager.drawStringFormat(pos, LEFT_JUSTIFIED, energyColor, " Energy:     %5d Volt", _p_player->getEnergy());
 	pos.setY(pos.getY() + 2);
 
 	// building info
@@ -201,12 +225,19 @@ void Sidebar::draw(void)
 		pos.setY(pos.getY() + 1);
 		if (_nextWaveTimer > 0)
 		{
-			graphcisManager.drawStringFormat(pos, " Arrival:    %d sec",
+			int arrivalColor = COLOR_DEFAULT;
+
+			if (_nextWaveTimer < 150)
+				arrivalColor = COLOR_YELLOW;
+			if (_nextWaveTimer < 90)
+				arrivalColor = COLOR_RED;
+
+			graphcisManager.drawStringFormat(pos, LEFT_JUSTIFIED, arrivalColor, " Arrival:    %d sec",
 			_nextWaveTimer / 30 + 1);
 		}
 		else
 		{
-			graphcisManager.drawStringFormat(pos, " Arrival:    %s", "INCOMING!");
+			graphcisManager.drawStringFormat(pos, LEFT_JUSTIFIED, COLOR_RED, " Arrival:    %s", "INCOMING!");
 		}
 		pos.setY(pos.getY() + 1);
 		graphcisManager.drawStringFormat(pos, " Name:       %s", _lastWaveInfo.getName().c_str());
@@ -326,5 +357,5 @@ int Sidebar::getHorizontal(void)
 int Sidebar::getVertical(void)
 {
 	// hard coded
-	return 48;
+	return 52;
 }
