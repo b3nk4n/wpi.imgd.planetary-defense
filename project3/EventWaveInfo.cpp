@@ -16,6 +16,7 @@ EventWaveInfo::EventWaveInfo(void)
 	_currentWave = 0;
 	_count = 0;
 	_name = "";
+	_cooldown = 0;
 }
 
 /**
@@ -24,14 +25,16 @@ EventWaveInfo::EventWaveInfo(void)
  * @param current The current wave number.
  * @param count The number of enemies.
  * @param name The enemy type.
+ * @param cooldown The cooldown time.
  */
-EventWaveInfo::EventWaveInfo(int total, int current, int count, string name)
+EventWaveInfo::EventWaveInfo(int total, int current, int count, string name, int cooldown)
 {
 	setType(WAVE_INFO_EVENT);
 	_totalWaves = total;
 	_currentWave = current;
 	_count = count;
 	_name = name;
+	_cooldown = cooldown;
 }
 
 /**
@@ -68,5 +71,14 @@ int EventWaveInfo::getCount(void)
 string EventWaveInfo::getName()
 {
 	return _name;
+}
+
+/**
+ * Gets the cooldown time.
+ * @return The cooldown time.
+ */
+int EventWaveInfo::getCooldown(void)
+{
+	return _cooldown;
 }
 

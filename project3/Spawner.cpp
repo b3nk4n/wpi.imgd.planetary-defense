@@ -25,6 +25,7 @@
 #include "EventPlayerKilled.h"
 #include "EventPlayerWin.h"
 #include "EventWaveInfo.h"
+#include "EventSkipTime.h"
 
 /**
  * Creates a new instance of the spawner object
@@ -44,6 +45,7 @@ Spawner::Spawner()
 	registerInterest(STEP_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
 	registerInterest(ENEMY_INVASION_EVENT);
+	registerInterest(SKIP_TIME_EVENT);
 }
 
 /**
@@ -58,7 +60,7 @@ void Spawner::start(LevelData *level)
 	_activeEnemies = 0;
 	_waveCounter = 0;
 
-	spawnWave(12);
+	spawnWave(TIME_START_WAVES);
 }
 
 /**
@@ -71,15 +73,15 @@ void Spawner::stop(void)
 
 /**
  * Spawns a new wave.
- * @param delayFactor the wait delay factor.
+ * @param cooldown the wait delay factor.
  */
-void Spawner::spawnWave(int delayFactor)
+void Spawner::spawnWave(int cooldown)
 {
 	_currentWave = _data->getWave(_waveCounter);
 	_enemyCounter = _currentWave.getCount();
 	_delay = _currentWave.getDelay();
 	_waveType = _currentWave.getType();
-	_coolDown = _delay * delayFactor;
+	_coolDown = cooldown;
 
 	// notify sidebar
 	string enemyName;
@@ -106,7 +108,8 @@ void Spawner::spawnWave(int delayFactor)
 	EventWaveInfo waveEvent(_waves,
 		_waveCounter + 1,
 		_enemyCounter,
-		enemyName);
+		enemyName,
+		_coolDown);
 	worldManager.onEvent(&waveEvent);
 }
 
@@ -158,13 +161,16 @@ int Spawner::eventHandler(Event *p_event)
 			_coolDown = _delay;
 
 		}
-		else if (_enemyCounter <= 0 && _coolDown < -100)
+		else if (_enemyCounter <= 0 && _coolDown < -30)
 		{				
 
 			if (_waveCounter < _waves)
 			{
 				++_waveCounter;
-				spawnWave(5);
+				if (_waveType == "boss") // longer timer after bosses
+					spawnWave(TIME_AFTER_BOSS);
+				else
+					spawnWave(TIME_BETWEEN_WAVES);
 			}
 		}
 
@@ -180,9 +186,15 @@ int Spawner::eventHandler(Event *p_event)
 
 		return 1;
 	}
-	if (p_event->getType() == ENEMY_KILLED_EVENT || p_event->getType() == ENEMY_INVASION_EVENT)
+	else if (p_event->getType() == ENEMY_KILLED_EVENT || p_event->getType() == ENEMY_INVASION_EVENT)
 	{
   		--_activeEnemies;
+  		return 1;
+	}
+	else if (p_event->getType() == SKIP_TIME_EVENT)
+	{
+  		if (_coolDown > 90)
+  			_coolDown = 90;
   		return 1;
 	}
 

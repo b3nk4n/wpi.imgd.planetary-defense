@@ -25,6 +25,7 @@
 #include "PopupText.h"
 #include "EventPlayerKilled.h"
 #include "EventPlayerWin.h"
+#include "EventSkipTime.h"
 #include "GameOver.h"
 #include "Player.h"
 #include "utility.h"
@@ -305,8 +306,17 @@ int TowerDefenseController::eventHandler(Event *p_event)
 			break;
 
 		case KEY_QUITGAME:
-			EventPlayerKilled killedEvent;
-			worldManager.onEvent(&killedEvent);
+			{
+				EventPlayerKilled killedEvent;
+				worldManager.onEvent(&killedEvent);
+			}
+			break;
+
+		case KEY_SKIPTIME:
+			{
+				EventSkipTime skipTimeEvent;
+				worldManager.onEvent(&skipTimeEvent);
+			}
 			break;
 		}
 

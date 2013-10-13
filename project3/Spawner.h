@@ -14,6 +14,10 @@
 #include "Object.h"
 #include <string>
 
+#define TIME_START_WAVES 900
+#define TIME_BETWEEN_WAVES 600
+#define TIME_AFTER_BOSS 750
+
 class Spawner : public Object
 {
 

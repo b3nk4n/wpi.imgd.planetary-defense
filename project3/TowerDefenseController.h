@@ -27,6 +27,7 @@ using std::string;
 #define KEY_SELL 's'
 #define KEY_UPGRADE 'u'
 #define KEY_QUITGAME 'q'
+#define KEY_SKIPTIME 't'
 
 #define MAP_SIDEBAR_BORDER 4
 

@@ -19,6 +19,8 @@
 #include "EventInfo.h"
 #include "EventPlayerKilled.h"
 #include "WorldManager.h"
+#include "EventStep.h"
+#include "EventSkipTime.h"
 
 /**
  * Creates a sidebar object instance.
@@ -37,11 +39,14 @@ Sidebar::Sidebar(Player *p_player)
 	_teslaFrame = loadFrame("teslatower");
 
 	_lastWaveInfoAvailable = false;
+	_nextWaveTimer = 0;
 
 	// register for events
+	registerInterest(STEP_EVENT);
 	registerInterest(INFO_EVENT);
 	registerInterest(PLAYER_KILLED_EVENT);
 	registerInterest(WAVE_INFO_EVENT);
+	registerInterest(SKIP_TIME_EVENT);
 }
 
 /**
@@ -60,13 +65,19 @@ Sidebar::~Sidebar(void)
 int Sidebar::eventHandler(Event *p_event)
 {
 
-	if(p_event->getType() == PLAYER_KILLED_EVENT)
+	if (p_event->getType() == STEP_EVENT)
+	{
+		if (_nextWaveTimer > 0)
+			--_nextWaveTimer;
+		return 1;
+	} 
+	else if (p_event->getType() == PLAYER_KILLED_EVENT)
 	{
 		WorldManager &worldManager = WorldManager::getInstance();
 		worldManager.markForDelete(this);
-	}
-	
-	if (p_event->getType() == INFO_EVENT)
+		return 1;
+	} 
+	else if (p_event->getType() == INFO_EVENT)
 	{
 		EventInfo *p_eventInfo = static_cast<EventInfo *>(p_event);
 		// get a copy of the info.
@@ -74,16 +85,22 @@ int Sidebar::eventHandler(Event *p_event)
 
 		return 1;
 	}
-
-	if (p_event->getType() == WAVE_INFO_EVENT)
+	else if (p_event->getType() == WAVE_INFO_EVENT)
 	{
 		EventWaveInfo *p_eventWaveInfo = static_cast<EventWaveInfo *>(p_event);
 		// get a copy of the wave info.
 		_lastWaveInfo = *p_eventWaveInfo;
 
 		_lastWaveInfoAvailable = true;
+		_nextWaveTimer = _lastWaveInfo.getCooldown();
 
 		return 1;
+	}
+	else if (p_event->getType() == SKIP_TIME_EVENT)
+	{
+  		if (_nextWaveTimer > 90)
+  			_nextWaveTimer = 90;
+  		return 1;
 	}
 
 	return 0;
@@ -165,6 +182,8 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [%c] Sell building", KEY_SELL);
 	pos.setY(pos.getY() + 1);
+	graphcisManager.drawStringFormat(pos, " [%c] Skip wave waiting time", KEY_SKIPTIME);
+	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [%c] Quit game", KEY_QUITGAME);
 	pos.setY(pos.getY() + 2);
 
@@ -179,6 +198,16 @@ void Sidebar::draw(void)
 		graphcisManager.drawStringFormat(pos, " Wave:       %d/%d",
 			_lastWaveInfo.getCurrentWave(),
 			_lastWaveInfo.getTotalWaves());
+		pos.setY(pos.getY() + 1);
+		if (_nextWaveTimer > 0)
+		{
+			graphcisManager.drawStringFormat(pos, " Arrival:    %d sec",
+			_nextWaveTimer / 30 + 1);
+		}
+		else
+		{
+			graphcisManager.drawStringFormat(pos, " Arrival:    %s", "INCOMING!");
+		}
 		pos.setY(pos.getY() + 1);
 		graphcisManager.drawStringFormat(pos, " Name:       %s", _lastWaveInfo.getName().c_str());
 		pos.setY(pos.getY() + 1);

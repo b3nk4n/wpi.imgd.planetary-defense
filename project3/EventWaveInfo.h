@@ -40,6 +40,11 @@ private:
 	 */
 	string _name;
 
+	/**
+	 * The cool down time to start the wave.
+	 */
+	int _cooldown;
+
 public:
 	/**
 	 * Creates a new wave info event instance withd default data.
@@ -52,8 +57,9 @@ public:
 	 * @param current The current wave number.
 	 * @param count The number of enemies.
 	 * @param name The enemy type.
+	 * @param cooldown The cool down time to start the wave.
 	 */
-	EventWaveInfo(int total, int current, int count, string name);
+	EventWaveInfo(int total, int current, int count, string name, int cooldown);
 
 	/**
 	 * Gets the total waves.
@@ -77,7 +83,13 @@ public:
 	 * Gets the enemy type name.
 	 * @return The enemy name.
 	 */
-	string getName();
+	string getName(void);
+
+	/**
+	 * Gets the cooldown time.
+	 * @return The cooldown time.
+	 */
+	int getCooldown(void);
 };
 
 #endif

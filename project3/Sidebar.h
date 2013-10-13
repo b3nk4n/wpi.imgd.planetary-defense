@@ -64,6 +64,11 @@ private:
 	EventWaveInfo _lastWaveInfo;
 
 	/**
+	 * The time for the next wave.
+	 */
+	int _nextWaveTimer;
+
+	/**
 	 * Indicates whether a wave info is available to render.
 	 */
 	bool _lastWaveInfoAvailable;

@@ -51,7 +51,7 @@ int GameOver::eventHandler(Event *p_event)
 {
   if (p_event->getType() == STEP_EVENT)
   {
-    if (getSpriteIndex() == 8)
+    if (getSpriteIndex() == getSprite()->getFrameCount() - 1)
     {
       GameManager &gameManager = GameManager::getInstance();
       gameManager.setGameOver(true);
