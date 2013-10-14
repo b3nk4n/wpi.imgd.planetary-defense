@@ -218,14 +218,10 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [%c] Quit game", KEY_QUITGAME);
 	pos.setY(pos.getY() + 2);
-	graphcisManager.drawStringFormat(pos, " ");
-	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [SPACE] Pause the Game");
 	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, "You can build and sell in pause");
-	pos.setY(pos.getY() + 1);
-	graphcisManager.drawStringFormat(pos, " ");
-	pos.setY(pos.getY() + 1);
+	pos.setY(pos.getY() + 2);
 
 	// cursor selection info
 	graphcisManager.drawString(pos, "############# INFO #############",
@@ -389,5 +385,5 @@ int Sidebar::getHorizontal(void)
 int Sidebar::getVertical(void)
 {
 	// hard coded
-	return 52;
+	return 55;
 }

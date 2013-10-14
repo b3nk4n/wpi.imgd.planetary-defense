@@ -100,6 +100,11 @@ int Enemy::eventHandler(Event *p_event)
 	{	
 		Player *p_player = Player::getInstance();
 		if (p_player->getPause() == false){
+			
+			if (getSpriteSlowdown() == 0)
+			{
+				setSpriteSlowdown(4);
+			}
 	  		// check target reached
 			if (getPosition() == _currentTarget)
 			{
@@ -119,7 +124,8 @@ int Enemy::eventHandler(Event *p_event)
   		}
 
 	  	else
-	  	{
+	  	{	
+	  		setSpriteSlowdown(0);
 	  		setVelocityX(0);
 	  		setVelocityY(0);
 	  	}
