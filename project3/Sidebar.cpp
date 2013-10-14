@@ -66,10 +66,13 @@ int Sidebar::eventHandler(Event *p_event)
 {
 
 	if (p_event->getType() == STEP_EVENT)
-	{
-		if (_nextWaveTimer > 0)
-			--_nextWaveTimer;
-		return 1;
+	{	
+		Player *p_player = Player::getInstance();
+		if (p_player->getPause() == false){
+			if (_nextWaveTimer > 0)
+				--_nextWaveTimer;
+			return 1;
+		}
 	} 
 	else if (p_event->getType() == PLAYER_KILLED_EVENT)
 	{
@@ -215,6 +218,14 @@ void Sidebar::draw(void)
 	pos.setY(pos.getY() + 1);
 	graphcisManager.drawStringFormat(pos, " [%c] Quit game", KEY_QUITGAME);
 	pos.setY(pos.getY() + 2);
+	graphcisManager.drawStringFormat(pos, " ");
+	pos.setY(pos.getY() + 1);
+	graphcisManager.drawStringFormat(pos, " [SPACE] Pause the Game");
+	pos.setY(pos.getY() + 1);
+	graphcisManager.drawStringFormat(pos, "You can build and sell in pause");
+	pos.setY(pos.getY() + 1);
+	graphcisManager.drawStringFormat(pos, " ");
+	pos.setY(pos.getY() + 1);
 
 	// cursor selection info
 	graphcisManager.drawString(pos, "############# INFO #############",

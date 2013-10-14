@@ -29,6 +29,8 @@ Player::Player(void)
 
 	setVisibility(false);
 
+	_pause = false;
+
 	// register for events
 	registerInterest(ENEMY_INVASION_EVENT);
 	registerInterest(ENEMY_KILLED_EVENT);
@@ -192,4 +194,27 @@ int Player::getEnergy(void)
 void Player::addCredits(int credits)
 {
 	_credits = _credits + credits;
+}
+
+
+/**
+ * Switch pause on and off
+ */
+void Player::togPause(void)
+{
+	if (_pause == false){
+		_pause = true;
+	}
+	else {
+		_pause = false;
+	}
+}
+
+/**
+ * Get pause value
+ * @return bool, wheether paused or not
+ */
+bool Player::getPause(void)
+{
+	return _pause;
 }

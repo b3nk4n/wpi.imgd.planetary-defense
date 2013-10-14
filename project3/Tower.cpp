@@ -12,6 +12,7 @@
 #include "Object.h"
 #include "EventPlayerKilled.h"
 #include "EventStep.h"
+#include "Player.h"
 
 /**
  * Creates a new tower object.
@@ -62,32 +63,35 @@ int Tower::eventHandler(Event *p_event)
 
 	if (p_event->getType() == STEP_EVENT)
 	{	
-		Enemy *p_target = findTargetById(_currentTargetId);
+		Player *p_player = Player::getInstance();
+		if (p_player->getPause() == false){
+			Enemy *p_target = findTargetById(_currentTargetId);
 
-		_coolDown--;
-		if (_coolDown <= 0)
-		{
-			// find new target if it is gone or out of range
-			if (p_target == NULL || !isInRange(p_target))
+			_coolDown--;
+			if (_coolDown <= 0)
 			{
-				p_target = findTarget();
+				// find new target if it is gone or out of range
+				if (p_target == NULL || !isInRange(p_target))
+				{
+					p_target = findTarget();
 
+					if (p_target != NULL)
+						_currentTargetId = p_target->getId();
+				}
+				
 				if (p_target != NULL)
-					_currentTargetId = p_target->getId();
+				{
+					fire(p_target);
+					_coolDown = _fireRate;
+				}
 			}
-			
-			if (p_target != NULL)
-			{
-				fire(p_target);
-				_coolDown = _fireRate;
-			}
-		}
 
-		if (isFacingToTarget() &&
-			p_target != NULL)
-			faceTo(p_target);
-  		
-  		return 1;
+			if (isFacingToTarget() &&
+				p_target != NULL)
+				faceTo(p_target);
+	  		
+	  		return 1;
+		}
 	}
 
 	return 0;

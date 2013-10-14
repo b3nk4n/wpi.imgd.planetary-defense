@@ -37,6 +37,16 @@ class Enemy : public Object
  	float _speed;
 
  	/**
+ 	 * Last x speed of enemy
+ 	 */
+ 	float _lastX;
+
+ 	/**
+ 	 * Last x speed of enemy
+ 	 */
+ 	float _lastY;
+
+ 	/**
  	 * The value the player gains for killing this enemy.
  	 */
  	int _killCredits;

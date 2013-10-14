@@ -28,6 +28,7 @@ using std::string;
 #define KEY_UPGRADE 'u'
 #define KEY_QUITGAME 'q'
 #define KEY_SKIPTIME 't'
+#define KEY_PAUSE ' '
 
 #define MAP_SIDEBAR_BORDER 4
 

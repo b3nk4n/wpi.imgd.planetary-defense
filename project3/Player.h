@@ -46,6 +46,11 @@ private:
 	 */
 	int _energy;
 
+	/**
+	 * Game pause
+	 */
+	bool _pause;
+
     /**
 	 * Creates a player object instance.
 	 */
@@ -111,6 +116,17 @@ public:
 	 * @return The players energy.
 	 */
 	int getEnergy(void);
+
+	/**
+	 * Switch pause on and off
+	 */
+	void togPause(void);
+
+	/**
+	 * Get pause value
+	 * @return bool, wheether paused or not
+	 */
+	bool getPause(void);
 
 	/**
 	 * Adds specified number of credits

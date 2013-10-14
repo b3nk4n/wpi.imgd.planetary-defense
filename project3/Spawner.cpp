@@ -156,48 +156,52 @@ int Spawner::eventHandler(Event *p_event)
 {
 	if (p_event->getType() == STEP_EVENT)
 	{	
-		if (_coolDown < 0 && _enemyCounter > 0)
-		{
-			spawnEnemy();
-			--_enemyCounter;
-			_coolDown = _delay;
-
-		}
-		else if (_enemyCounter <= 0 && _coolDown < -30)
-		{	
-			WorldManager &worldManager = WorldManager::getInstance();
-			++_waveCounter;
-			EventWaveOver eventWave;
-			worldManager.onEvent(&eventWave);
-			
-
-
-			if (_waveCounter < _waves)
+		Player *p_player = Player::getInstance();
+		if (p_player->getPause() == false){
+			if (_coolDown < 0 && _enemyCounter > 0)
 			{
-				if (_waveType == "boss") // longer timer after bosses
-					spawnWave(TIME_AFTER_BOSS);
-				else
-					spawnWave(TIME_BETWEEN_WAVES);
+				spawnEnemy();
+				--_enemyCounter;
+				_coolDown = _delay;
+
 			}
+			else if (_enemyCounter <= 0 && _coolDown < -30)
+			{	
+				WorldManager &worldManager = WorldManager::getInstance();
+				++_waveCounter;
+				EventWaveOver eventWave;
+				worldManager.onEvent(&eventWave);
+				
+
+
+				if (_waveCounter < _waves)
+				{
+					if (_waveType == "boss") // longer timer after bosses
+						spawnWave(TIME_AFTER_BOSS);
+					else
+						spawnWave(TIME_BETWEEN_WAVES);
+				}
+			}
+
+			--_coolDown;
+
+			LogManager &logManager = LogManager::getInstance();
+			logManager.writeLog(LOG_DEBUG,
+				"Spawner::eventHandler()",
+				"_activeEnemies = %d, _waveCounter = %d, Waves = %d\n",
+				_activeEnemies, _waveCounter, _waves);
+
+			// check for win
+			if (_activeEnemies == 0 && _waveCounter >= _waves)
+			{
+				WorldManager &worldManager = WorldManager::getInstance();
+				EventPlayerWin eventWin;
+				worldManager.onEvent(&eventWin);
+			}
+
+			return 1;
 		}
-
-		--_coolDown;
-
-		LogManager &logManager = LogManager::getInstance();
-		logManager.writeLog(LOG_DEBUG,
-			"Spawner::eventHandler()",
-			"_activeEnemies = %d, _waveCounter = %d, Waves = %d\n",
-			_activeEnemies, _waveCounter, _waves);
-
-		// check for win
-		if (_activeEnemies == 0 && _waveCounter >= _waves)
-		{
-			WorldManager &worldManager = WorldManager::getInstance();
-			EventPlayerWin eventWin;
-			worldManager.onEvent(&eventWin);
-		}
-
-		return 1;
+		return 0;
 	}
 	else if (p_event->getType() == ENEMY_KILLED_EVENT || p_event->getType() == ENEMY_INVASION_EVENT)
 	{

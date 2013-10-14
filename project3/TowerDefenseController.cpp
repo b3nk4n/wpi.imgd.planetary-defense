@@ -206,7 +206,9 @@ int TowerDefenseController::eventHandler(Event *p_event)
 		case DOWN_KEY:
 			moveCursor(0, 1);
 			break;
-
+		case KEY_PAUSE:
+			p_player->togPause();
+			break;
 		case KEY_SOLAR:
 			p_cell = _grid.getCell(_selectedCell);
 			if (p_cell->isConstructionPossible() &&

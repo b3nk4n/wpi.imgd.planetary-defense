@@ -27,6 +27,16 @@ private:
 	 */
 	void reset(void);
 
+	/**
+	 * Last x velocity of star
+	 */
+	float _lastX;
+
+	/**
+	 * Last y velocity of star
+	 */
+	float _lastY;
+
 public:
 	/**
 	 * Creates a new start instance.

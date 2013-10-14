@@ -5,6 +5,7 @@
 #include "WorldManager.h"
 #include "GraphicsManager.h"
 #include "EventStep.h"
+#include "Player.h"
 
 /**
  * Creates a new start instance.
@@ -41,10 +42,29 @@ void Star::draw(void)
 int Star::eventHandler(Event *p_event)
 {
 	if (p_event->getType() == STEP_EVENT)
-	{
-		if (getPosition().getX() < _bounds.getCorner().getX())
-			resetRight();
-		return 1;
+	{	
+		Player *p_player = Player::getInstance();
+		if (p_player->getPause() == false){
+
+
+			if (getPosition().getX() < _bounds.getCorner().getX())
+				resetRight();
+
+			if (getVelocityX() == 0 && getVelocityY() == 0)
+			{
+				setVelocityX(_lastX);
+				setVelocityY(_lastY);
+			}
+
+		 	_lastX = getVelocityX();
+	  		_lastY = getVelocityY();
+			return 1;
+		}
+		else
+		{
+			setVelocityX(0);
+			setVelocityY(0);
+		}
 	}
 
 	return 0;

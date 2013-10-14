@@ -20,6 +20,7 @@
 #include "EventPlayerKilled.h"
 #include "Spawner.h"
 #include "ExplosionSmall.h"
+#include "Player.h"
 
 // initialize the static class variables
 bool Enemy::_showInfo = false;
@@ -96,15 +97,36 @@ int Enemy::eventHandler(Event *p_event)
 	LogManager &logManager = LogManager::getInstance();
 
 	if (p_event->getType() == STEP_EVENT)
-	{
-  		// check target reached
-		if (getPosition() == _currentTarget)
-		{
-			nextTarget();
-		}
+	{	
+		Player *p_player = Player::getInstance();
+		if (p_player->getPause() == false){
+	  		// check target reached
+			if (getPosition() == _currentTarget)
+			{
+				nextTarget();
+			}
 
-  		return 1;
-	}
+			if (getVelocityX() == 0 && getVelocityY() == 0)
+			{
+				setVelocityX(_lastX);
+				setVelocityY(_lastY);
+			}
+
+		 	_lastX = getVelocityX();
+	  		_lastY = getVelocityY();
+
+	  		return 1;
+  		}
+
+	  	else
+	  	{
+	  		setVelocityX(0);
+	  		setVelocityY(0);
+	  	}
+  		return 0;
+
+  	}
+
 
 	if (p_event->getType() == PLAYER_KILLED_EVENT)
 	{
