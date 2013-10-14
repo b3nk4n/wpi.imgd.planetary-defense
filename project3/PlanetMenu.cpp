@@ -122,6 +122,16 @@ int PlanetMenu::eventHandler(Event *p_event) {
         start();
       }
       break;
+    case 'p':
+      if (_choiceMap == 3)
+      {
+        _choiceMap = 0;
+      }
+      else
+      {
+        start();
+      }
+      break;
     }
     return 1;
   }
