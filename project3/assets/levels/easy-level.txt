@@ -4,7 +4,7 @@ count 10
 delay 25
 health 20
 speed 0.3
-credits 10
+credits 20
 end
 type ork
 count 5
@@ -14,57 +14,57 @@ speed 0.2
 credits 30
 end
 type goblin
-count 11
+count 12
 delay 22
 health 25
 speed 0.3
-credits 15
+credits 25
 end
 type ork
 count 8
 delay 33
 health 45
 speed 0.2
-credits 35
+credits 40
 end
 type goblin
-count 12
+count 15
 delay 19
 health 25
 speed 0.33
-credits 20
+credits 30
 end
 type ork
-count 10
+count 12
 delay 30
 health 50
 speed 0.2
 credits 40
 end
 type goblin
-count 14
+count 20
 delay 17
 health 30
 speed 0.35
-credits 25
+credits 35
 end
 type ork
-count 15
+count 17
 delay 27
 health 50
 speed 0.23
-credits 40
+credits 50
 end
 type goblin
-count 16
+count 22
 delay 15
 health 35
 speed 0.35
-credits 30
+credits 40
 end
 type boss
-count 1
-delay 0
+count 4
+delay 15
 health 500
 speed 0.1
 credits 500

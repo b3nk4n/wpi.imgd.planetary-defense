@@ -10,6 +10,7 @@
 #include "LogManager.h"
 #include "EventEnemyInvasion.h"
 #include "EventEnemyKilled.h"
+#include "EventWaveOver.h"
 #include "EventPlayerKilled.h"
 #include "EventBuildingChanged.h"
 #include "PlanetMenu.h"
@@ -76,6 +77,15 @@ Player* Player::getInstance(void)
 int Player::eventHandler(Event *p_event)
 {
 	LogManager &logManager = LogManager::getInstance();
+
+	if (p_event->getType() == WAVE_OVER_EVENT)
+	{
+		_credits = _credits + 100;
+		logManager.writeLog(LOG_DEBUG,
+			"Player::eventHandler()",
+			"Wave over event recieved.",
+			_lifes);
+	}
 	
 	if (p_event->getType() == ENEMY_INVASION_EVENT)
 	{
@@ -173,4 +183,13 @@ int Player::getCredits(void)
 int Player::getEnergy(void)
 {
 	return _energy;
+}
+
+/**
+ * Adds specified number of credits
+ * @param int, number of credits to add
+ */
+void Player::addCredits(int credits)
+{
+	_credits = _credits + credits;
 }

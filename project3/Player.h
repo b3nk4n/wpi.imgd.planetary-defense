@@ -111,6 +111,12 @@ public:
 	 * @return The players energy.
 	 */
 	int getEnergy(void);
+
+	/**
+	 * Adds specified number of credits
+	 * @param int, number of credits to add
+	 */
+	void addCredits(int credits);
 };
 
 #endif

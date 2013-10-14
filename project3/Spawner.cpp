@@ -8,6 +8,7 @@
 #include "LogManager.h"
 #include "ObjectList.h"
 #include "Position.h"
+#include "Player.h"
 #include "Enemy.h"
 #include "Spawner.h"
 #include "EnemyOrk.h"
@@ -26,6 +27,7 @@
 #include "EventPlayerWin.h"
 #include "EventWaveInfo.h"
 #include "EventSkipTime.h"
+#include "EventWaveOver.h"
 
 /**
  * Creates a new instance of the spawner object
@@ -162,9 +164,14 @@ int Spawner::eventHandler(Event *p_event)
 
 		}
 		else if (_enemyCounter <= 0 && _coolDown < -30)
-		{				
+		{	
+			WorldManager &worldManager = WorldManager::getInstance();
 			++_waveCounter;
+			EventWaveOver eventWave;
+			worldManager.onEvent(&eventWave);
 			
+
+
 			if (_waveCounter < _waves)
 			{
 				if (_waveType == "boss") // longer timer after bosses

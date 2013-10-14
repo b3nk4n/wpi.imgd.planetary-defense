@@ -63,7 +63,8 @@ GAMESRC = Cell.cpp \
           PlanetMenu.cpp \
           GameOver.cpp \
           GameControls.cpp \
-          Star.cpp
+          Star.cpp \
+          EventWaveOver.cpp
 GAME = game.cpp
 GAMEBIN = $(GAME:.cpp=)
 OBJECTS = $(GAMESRC:.cpp=.o)
