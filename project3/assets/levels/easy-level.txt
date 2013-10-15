@@ -63,8 +63,8 @@ speed 0.35
 credits 40
 end
 type boss
-count 4
-delay 15
+count 1
+delay 0
 health 500
 speed 0.1
 credits 500

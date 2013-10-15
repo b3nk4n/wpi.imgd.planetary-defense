@@ -337,9 +337,21 @@ void Sidebar::drawBuilding(Position position, char key,
 	graphcisManager.drawStringFormat(position, "Name:   %s",
 		name.c_str());
 	position.setY(position.getY() + 1);
-	graphcisManager.drawStringFormat(position, "Price:  %5d $", credits);
+
+	int priceColor = COLOR_DEFAULT;
+
+	if (_p_player->getCredits() < credits)
+		priceColor = COLOR_RED;
+
+	graphcisManager.drawStringFormat(position, LEFT_JUSTIFIED, priceColor, "Price:  %5d $", credits);
 	position.setY(position.getY() + 1);
-	graphcisManager.drawStringFormat(position, "Energy: %5d Volt", energy);
+
+	int energyColor = COLOR_DEFAULT;
+
+	if (_p_player->getEnergy() < energy)
+		energyColor = COLOR_RED;
+
+	graphcisManager.drawStringFormat(position, LEFT_JUSTIFIED, energyColor, "Energy: %5d Volt", energy);
 }
 
 /**
