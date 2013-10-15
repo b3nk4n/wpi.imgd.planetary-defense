@@ -7,3 +7,4 @@
 *.stackdump
 *.tgz
 libenginex.a
+*.db
