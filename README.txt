@@ -1,9 +1,11 @@
 ################################################################################
-### Name: Benjamin Sautermeister                                             ###
-### Login: bsautermeister                                                    ###
-### Date: 09/28/2013                                                         ###
+###                          PLANETARY DEFENSE                               ###
 ################################################################################
-###              IMGD 3000 - PROJECT 2c (Milestone: Dragonfly)               ###
+### Names: Benjamin Sautermeister, Kyle Bryant                               ###
+### Login: bsautermeister, kcbryant                                          ###
+### Date: 10/14/2013                                                         ###
+################################################################################
+###                      IMGD 3000 - PROJECT 3  (FINAL)                      ###
 ################################################################################
 
 ################################################################################
@@ -11,34 +13,24 @@
 ################################################################################
 
 1. Intro
-1.1 Implementation Details
-1.2 Plattform
+ 1.1 Platform
 2. Build/Compile
-3. Testing
-3.1 Run Tests
-3.2 Unit Tests
-3.3 Test Game
+3. Execution
+ 3.1 Running the Game
+ 3.2 Game Controls
+ 3.3 Game Contents
+ 3.4 Additional Featurs
 4. File and Code Structure
-5. Bibliography
+5. Repository
 
 ################################################################################
 1. Intro
 ################################################################################
 
-### 1.1 Implementation Details
+### 1.1 Platform
 
-In project 2c, all additional features like additional utility functions, the
-scene graph (incl. layers and visibility), signal handling, seeds for random
-number generator and a splash screen were implemented.
-Additionally, following is also implemented:
-- Added an transparency character (%) for sprite files to allow transparent
-  color to remove some weird visual effects
-
-
-### 1.2 Plattform
-
-The final part of the game engine for project 2 was developed using Cygwin on
-Windows 8, Debian KDE 12.04 Linux and GIT. The engine will not run on a MacOS
+Planetary Defense, a tower defense game for project 3 was developed using Cygwin 
+on Windows 8, Debian KDE 12.04 Linux and GIT. The engine will not run on a MacOS
 machine, because of the different time-API, which is not implemented because
 it couldn't be tested without owning a MacOS system.
 
@@ -47,10 +39,12 @@ it couldn't be tested without owning a MacOS system.
 2. Build/Compile
 ################################################################################
 
-The MAKEFILE to build the project is located in the submission package under the
+There are two makefiles that must be compiled to run the project. One is the 
+engine MAKEFILE, the other is a MAKEFILE for the game.
 path:
 
-	./project2/MAKEFILE
+	./project3/engine/MAKEFILE    # this one first to create the library!
+	./project3/MAKEFILE
 
 Because the CCC server is a Linux x64 machine, the MAKEFILE runs without
 configuration on this platform:
@@ -69,46 +63,50 @@ structured. Please see (4. File and code structure) for more details.
 
 
 ################################################################################
-3.Testing
+3. Execution
 ################################################################################
 
-### 3.1 Run Tests
+### 3.1 Running the Game
 
-To run the unit test, just run the program to see the HELP page:
-
-	$ ./test
-
-To run ALL tests, just use the parameter 'all':
-
-	$ ./test all
-
-To run a single test, please use the unit test ID, which is displayed when you
-run all tests. Example:
-
-	$ ./test 5
-
-
-### 3.2 Unit Tests
-
-The implemented ligh-weight unit-testing framework is still used (currently
-with about 180 unit tests), but was refactored a little bit. Most of the output
-is now redirected to a file called 'unittests.log', because sind the use of
-the graphics device manager and its startup dependecies to the input manager
-there were problems with mixing both outputs to the terminal window.
-
-
-### 3.3 Test Game
-
-To test the visual stuff, a test game was implemeted which shows the collisions
-many randomly placed objects, which solidness is HARD(red), SOFT(yellow) or 
-SPECTRAL(green). Objects wich react to collisions are blue.
-To start the game, simply compile the game and run it. It end automaticly after
-about 10-15 seconds seconds.
+To run "Planetary Defense" simply type the below command into the terminal window.
 
 	$ ./game
 
-Also it tests the automated following camera of an object, sprites and the
-splash screen.
+NOTE: Please start the game in FULL SCREEN TERMINAL !!! =)
+
+### 3.2 Game Controls
+
+- After starting the game, press P to start
+- In the planet screen, select the map/planet and the difficulty
+    - LEFT/RIGHT --> change planet
+    - UP/DOWN    --> chane difficulty
+    - SPACE      --> SELECT
+- In game controls
+	- ARROW KEYS  --> move virtual cursor
+	- Number Keys --> place builing (1 = solor, 2 = mgtower,... [see sidebar])
+	- 'i'         --> toggle enemy info
+	- 's'         --> sell building
+	- 'q'         --> quit game
+
+### 3.3 Game Contents
+
+- Main Menu
+	- Planet Menu
+		- Tower Defens Game
+			- 3 Maps
+			- 3 Levels (EASY = 10 Waves, MEDIUM = 20 Waves, HARD = 30 Waves)
+			- 3 Enemy Types (Goblin, Ork Boss)
+			- 5 Towers
+			- Map and virtual Cursor 
+			- Volts (need solar panels to increase)
+			- Credits (gained by killing enemies)
+	- Quit
+
+### 3.4 Additional Featurs
+
+The game engines resource manager was extended to load maps and level information
+specific for tower defens games. So it is possible for the user to modify or add
+additional maps or levels.
 
 
 ################################################################################
@@ -118,23 +116,23 @@ splash screen.
 The project folder should be look like the following:
 
 	./
-	|- README             # this file here :)
-	|- project2/          # contains all project2 specific code and header
-	       |              # including the unit test manager
+	|- README            # this file here :)
+	|- project3/         # contains all project3 specific code and header
+	       |             # including the unit test manager
 	       |- MAKEFILE
-               |- enginex.log # The games log file
-	       |- game.cpp    # the test game
-	       |- test.cpp    # the unit test application
-	       |- Object.cpp
-	       |- Object.h
-	       |- Position.cpp
-	       |- Position.h
-	       |- ...
-
+	       |- game.cpp   # Planetary Defense
+	       |- Tower.cpp
+	       |- Tower.h
+	       |- Player.cpp
+	       |- Player.h
+	       |- engine/
+	            |- MAKEFILE
+	       		|- Object.cpp
+	       		|- Object.h
+	       		|- etc...
 
 ################################################################################
-5. Bibliography
+5. Repository
 ################################################################################
 
-[DFL] Prof. Marc Claypool, Dragonfly - Program a Game Engine from Scratch, 2013
-
+In this project, we used 'bitbucket.org' as a GIT repository for collaboration. 
