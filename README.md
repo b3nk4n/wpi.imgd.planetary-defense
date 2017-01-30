@@ -1,16 +1,15 @@
-################################################################################
-###                          PLANETARY DEFENSE                               ###
-################################################################################
-### Names: Benjamin Sautermeister, Kyle Bryant                               ###
-### Login: bsautermeister, kcbryant                                          ###
-### Date: 10/14/2013                                                         ###
-################################################################################
-###                      IMGD 3000 - PROJECT 3  (FINAL)                      ###
-################################################################################
+<div align="center">
+  <img src="https://github.com/bsautermeister/wpi.imgd.planetary-defense/blob/master/assets/logo.png" alt="Planetary Defense"><br>
+</div>
+---
+# PLANETARY DEFENSE
 
-################################################################################
-0. Index
-################################################################################
+### @authors: Benjamin Sautermeister, Kyle Bryant
+### @version: 10/14/2013
+### @lecture: IMGD 3000 - PROJECT 3  (FINAL)
+---
+
+# Index
 
 1. Intro
  1.1 Platform
@@ -23,9 +22,7 @@
 4. File and Code Structure
 5. Repository
 
-################################################################################
-1. Intro
-################################################################################
+## 1. Intro
 
 ### 1.1 Platform
 
@@ -35,42 +32,48 @@ machine, because of the different time-API, which is not implemented because
 it couldn't be tested without owning a MacOS system.
 
 
-################################################################################
-2. Build/Compile
-################################################################################
+## 2. Build/Compile
 
 There are two makefiles that must be compiled to run the project. One is the 
 engine MAKEFILE, the other is a MAKEFILE for the game.
 path:
 
-	./project3/engine/MAKEFILE    # this one first to create the library!
-	./project3/MAKEFILE
+```
+./project3/engine/MAKEFILE    # this one first to create the library!
+./project3/MAKEFILE
+```
 
 Because the CCC server is a Linux x64 machine, the MAKEFILE runs without
 configuration on this platform:
 
-	$ make
+```
+$ make
+```
 
 To use the MAKEFILE on other platforms, simply add your preferred system as an
 additional parameter:
 
-	$ make system=linux32
-	$ make system=cygwin
-	$ make system=macos
+```
+$ make system=linux32
+$ make system=cygwin
+$ make system=macos
+```
 
 To get the MAKEFILE working, plase check that your Project or correctly
 structured. Please see (4. File and code structure) for more details.
 
 
-################################################################################
-3. Execution
-################################################################################
+
+## 3. Execution
+
 
 ### 3.1 Running the Game
 
 To run "Planetary Defense" simply type the below command into the terminal window.
 
-	$ ./game
+```
+$ ./game
+```
 
 NOTE: Please start the game in FULL SCREEN TERMINAL !!! =)
 
@@ -109,9 +112,7 @@ specific for tower defens games. So it is possible for the user to modify or add
 additional maps or levels.
 
 
-################################################################################
-4. File and Code Structure
-################################################################################
+## 4. File and Code Structure
 
 The project folder should be look like the following:
 
@@ -131,8 +132,7 @@ The project folder should be look like the following:
 	       		|- Object.h
 	       		|- etc...
 
-################################################################################
-5. Repository
-################################################################################
+
+## 5. Repository
 
 In this project, we used 'bitbucket.org' as a GIT repository for collaboration. 
